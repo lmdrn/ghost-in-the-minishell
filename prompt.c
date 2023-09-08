@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/07 16:02:17 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:38:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,39 +42,44 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-//ps -ef | grep 'firefox'
+/* ps -ef | grep "this is a test" */
 
 int	word_count(char *str)
 {
 	int		i;
-	int		flag;
+	int		first;
+	int		scnd;
 	int		wc;
 	char	c;
 
 	i = 0;
-	flag = 0;
+	first = 0;
+	scnd = 0;
 	wc = 0;
 	c = ' ';
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
 			i++;
-		if (str[i] && flag < 2)
+		if (str[i])
 			wc++;
+		first = 0;
+		scnd = 0;
 		while (str[i] && str[i] != c)
 		{
 			if (str[i] == '\"')
-				flag += 1;
-			if (flag == 1)
+			{
+				first = 1;
 				c = '\"';
-			else
+			}
+			if (str[i] == '\"' && first == 1)
+				scnd = 1;
+			if (first == 1 && scnd == 1)
 				c = ' ';
+			else
+				c = '\"';
 			i++;
 		}
-		if (str[i] != '\"')
-			flag = 2;
-		if (flag == 2)
-			flag = 0;
 	}
 	return (wc);
 }
