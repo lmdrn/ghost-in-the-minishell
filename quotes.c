@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 13:10:01 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 13:50:38 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:46:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_double_quotes(char const *str)
 	return (flag);
 }
 
-int	check_quotes(char const *str, char c)
+int	check_quotes(char const *str)
 {
 	int		s_flag;
 	int		d_flag;
@@ -57,5 +57,5 @@ int	check_quotes(char const *str, char c)
 		exit(1);
 	}
 	else
-		return (word_count(str, c));
+		return (word_count(str));
 }
