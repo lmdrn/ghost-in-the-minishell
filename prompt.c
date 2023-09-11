@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/08 14:38:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:38:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	while (1)
 	{
-		printf("welcome to ghost in the minishell !");
-		printf("Please enter a command\n");
-		input = readline("$ ");
+		printf("\x1b[36m Welcome to ghost in the minishell!\n");
+		printf("Please enter a command \e[0m\n");
+		input = readline("\U0001F63B \U0001F449 ");
 		if (input && *input)
 			add_history (input);
 		if (!ft_strncmp(input, "exit", 4))
@@ -36,50 +36,8 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			printf("%s\n", input);
-			printf("%d\n", word_count(input));
+			printf("number of words :%d\n", check_quotes(input));
 		}
 	}
 	return (0);
-}
-
-/* ps -ef | grep "this is a test" */
-
-int	word_count(char *str)
-{
-	int		i;
-	int		first;
-	int		scnd;
-	int		wc;
-	char	c;
-
-	i = 0;
-	first = 0;
-	scnd = 0;
-	wc = 0;
-	c = ' ';
-	while (str[i])
-	{
-		while (str[i] && str[i] == c)
-			i++;
-		if (str[i])
-			wc++;
-		first = 0;
-		scnd = 0;
-		while (str[i] && str[i] != c)
-		{
-			if (str[i] == '\"')
-			{
-				first = 1;
-				c = '\"';
-			}
-			if (str[i] == '\"' && first == 1)
-				scnd = 1;
-			if (first == 1 && scnd == 1)
-				c = ' ';
-			else
-				c = '\"';
-			i++;
-		}
-	}
-	return (wc);
 }
