@@ -6,69 +6,19 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 11:40:29 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:18:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_single_quotes(char *str)
-{
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			flag++;
-		i++;
-	}
-	return (flag);
-}
-
-int	check_double_quotes(char *str)
-{
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			flag++;
-		i++;
-	}
-	return (flag);
-}
-
-int	check_quotes(char *str)
-{
-	int		s_flag;
-	int		d_flag;
-
-	s_flag = check_single_quotes(str);
-	d_flag = check_double_quotes(str);
-	if (s_flag % 2 != 0 || d_flag % 2 != 0)
-	{
-		printf("\033[0;31m Error: Odd number of quotes!\n");
-		exit(1);
-	}
-	else
-		return (word_count(str));
-}
-
-int	word_count(char *str)
+int	word_count(char const *str, char c)
 {
 	int		i;
 	int		wc;
-	char	c;
 
 	i = 0;
 	wc = 0;
-	c = ' ';
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
@@ -83,4 +33,59 @@ int	word_count(char *str)
 		}
 	}
 	return (wc);
+}
+
+void	ft_free(char **tab, int j)
+{
+	if (tab[j] == NULL)
+	{
+		while (j-- > 0)
+			free(tab[j]);
+		free(tab);
+		tab = NULL;
+		return ;
+	}
+}
+
+void	ft_second_floor(char const *s, char c, char **tab, int i)
+{
+	int	j;
+	int	k;
+	int	count;
+
+	j = 0;
+	while (j < (check_quotes(s, c)))
+	{
+		count = 0;
+		while (s[i] == c)
+			i++;
+		while (s[i] != c && s[i] != '\0')
+		{
+			count++;
+			i++;
+		}
+		tab[j] = malloc(sizeof(char) * (count + 1));
+		ft_free(tab, j);
+		i -= count;
+		k = 0;
+		while (s[i] != c && s[i] != '\0')
+			tab[j][k++] = s[i++];
+	tab[j][k] = '\0';
+	j++;
+	}
+	tab[j] = 0;
+}
+
+char	**ft_parsing_split(char const *s, char c)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = malloc(sizeof(char *) * (check_quotes(s, c) + 1));
+	if (tab == NULL)
+		return (NULL);
+	tab[check_quotes(s, c)] = 0;
+	ft_second_floor(s, c, tab, i);
+	return (tab);
 }
