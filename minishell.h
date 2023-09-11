@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 15:46:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:57:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	ft_free(char **tab, int j);
 char	**ft_parsing_split(char const *s, char c);
 int		is_whitespace(char c);
 int		is_quote(char c);
+int		ft_error(char *str);
 
 #endif

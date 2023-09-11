@@ -6,56 +6,47 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 13:10:01 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 15:46:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:00:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_single_quotes(char const *str)
+int	word_count(char const *s)
 {
-	int	i;
-	int	flag;
+	int		i;
+	int		wc;
+	int		quotes;
 
 	i = 0;
-	flag = 0;
-	while (str[i])
+	wc = 0;
+	quotes = 0;
+	while (s[i])
 	{
-		if (str[i] == '\'')
-			flag++;
+		if ((s[i] == '\"' || s[i] == '\'') && (quotes == 0 || quotes == s[i]))
+		{
+			if (quotes == 0)
+				quotes = s[i];
+			else
+				quotes = 0;
+		}
+		if ((quotes == 0) && (s[i] == ' ' || s[i] == '\t' || s[i] == '\r'))
+			wc++;
 		i++;
 	}
-	return (flag);
-}
-
-int	check_double_quotes(char const *str)
-{
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			flag++;
-		i++;
-	}
-	return (flag);
-}
-
-int	check_quotes(char const *str)
-{
-	int		s_flag;
-	int		d_flag;
-
-	s_flag = check_single_quotes(str);
-	d_flag = check_double_quotes(str);
-	if (s_flag % 2 != 0 || d_flag % 2 != 0)
-	{
-		printf("\033[0;31m Error: Odd number of quotes!\n");
-		exit(1);
-	}
+	if (quotes != 0)
+		return (ft_error("\033[0;31mSyntax Error : Wrong nbr of quotes!"));
 	else
-		return (word_count(str));
+		return (wc + 1);
+}
+
+int	ft_error(char *str)
+{
+	printf("%s\n", str);
+	exit(1);
+}
+
+int	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
