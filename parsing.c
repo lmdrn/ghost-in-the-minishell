@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 16:16:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:43:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,4 @@ int	word_count(char const *str)
 int	is_whitespace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
-}
-
-int	is_quote(char c)
-{
-	return (c == '\"' || c == '\'');
 }
