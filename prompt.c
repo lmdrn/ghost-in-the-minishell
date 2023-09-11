@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 11:18:48 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:38:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	while (1)
 	{
-		printf("welcome to ghost in the minishell !");
-		printf("Please enter a command\n");
-		input = readline("$ ");
+		printf("\x1b[36m Welcome to ghost in the minishell!\n");
+		printf("Please enter a command \e[0m\n");
+		input = readline("\U0001F63B \U0001F449 ");
 		if (input && *input)
 			add_history (input);
 		if (!ft_strncmp(input, "exit", 4))
