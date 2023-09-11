@@ -6,52 +6,38 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 18:43:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:52:04 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	word_count(char const *str)
+int	word_count(char const *s)
 {
 	int		i;
 	int		wc;
 	int		quotes;
-	char	c;
 
 	i = 0;
 	wc = 0;
 	quotes = 0;
-	while (str[i])
+	while (s[i])
 	{
-		c = str[i];
-		if (c == '\"' || c == '\'')
+		if ((s[i] == '\"' || s[i] == '\'') && (quotes == 0 || quotes == s[i]))
 		{
 			if (quotes == 0)
-			{
-				if (c == '\'')
-					quotes = 1;
-				else if (c == '\"')
-					quotes = 2;
-			}
+				quotes = s[i];
 			else
-			{
-				if (c == '\'' && quotes == 1)
-					quotes = 0;
-				else if (c == '\"' && quotes == 2)
-					quotes = 0;
-			}
+				quotes = 0;
 		}
-		if (quotes == 0)
-		{
-			if (c == ' ' || c == '\t' || c == '\r')
-				wc ++;
-		}
+		if ((quotes == 0) && (s[i] == ' ' || s[i] == '\t' || s[i] == '\r'))
+			wc++;
 		i++;
 	}
-	if (quotes == 0)
-		wc++;
-	return (wc);
+	if (quotes != 0)
+		return (-1);
+	else
+		return (wc + 1);
 }
 
 int	is_whitespace(char c)
