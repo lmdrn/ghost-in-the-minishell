@@ -6,87 +6,74 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/12 15:46:21 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/14 09:00:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	block_count(char const *s, int i, int sep)
-{
-	int		len;
+/* int	block_count(char const *s, int i, int sep) */
+/* { */
+/* } */
 
-	len = 0;
-	while (s[i])
+/* void	ft_blocks(char *s, char c, char **block, int i) */
+/* { */
+/* } */
+
+char	**ft_parsing_split(const char* str, char c, int* wc)
+{
+	int		count;
+	int		i;
+	int		start;
+	int		block_index;
+	int		block_len;
+	int		last_block_len;
+	char	**blocks;
+
+	count = 0;
+	i = 0;
+	while (str[i])
 	{
-		while (s[i] == sep)
-			i++;
-		while (s[i] != sep && s[i])
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	blocks = malloc(sizeof(char *) * (count + 1));
+	if (blocks == NULL)
+	{
+		printf("1st mem alloc failed\n");
+		exit(1);
+	}
+	start = 0;
+	block_index = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
 		{
-			len++;
-			i++;
+			block_len = i - start;
+			blocks[block_index] = malloc(sizeof(char) * (block_len + 1));
+			if (blocks[block_index] == NULL)
+			{
+				printf("2nd mem alloc failed\n");
+				exit(1);
+			}
+			strncpy(blocks[block_index], str + start, block_len);
+			blocks[block_index][block_len] = '\0';
+			start = i + 1;
+			block_index++;
 		}
 		i++;
 	}
-	return (len);
-}
-
-void	ft_free(char **tab, int j)
-{
-	if (tab)
+	last_block_len = ft_strlen(str) - start;
+	blocks[block_index] = malloc(sizeof(char) * (last_block_len + 1));
+	if (blocks[block_index] == NULL)
 	{
-		while (j >= 0)
-		{
-			free(tab[j]);
-			j--;
-		}
-		free(tab);
+		printf("Last mem alloc failed\n");
+		exit(1);
 	}
-}
-
-void	ft_blocks(char *s, char c, char **block, int i)
-{
-	int		len;
-	int		wc;
-	int		j;
-	int		k;
-
-	j = 0;
-	(void)c;
-	wc = word_count(s);
-	printf("word count is : %d\n", wc);
-	while (j < wc)
-	{
-		len = block_count(s, i, ' ');
-		printf("word len is : %d\n", len);
-		block[j] = malloc(sizeof(char) * (len + 1));
-		if (block[j] == NULL)
-		{
-			ft_free(block, j - 1);
-			free(block);
-			return ;
-		}
-		k = 0;
-		while (s[i])
-			block[j][k++] = s[i++];
-		block[j][k] = '\0';
-		j++;
-	}
-	block[j] = 0;
-}
-
-char	**ft_parsing_split(char *input)
-{
-	int		i;
-	int		len;
-	char	**res;
-
-	i = 0;
-	len = word_count(input);
-	res = malloc(sizeof(char *) * (len + 1));
-	if (res == NULL)
-		return (NULL);
-	res[len] = 0;
-	ft_blocks(input, ' ', res, i);
-	return (res);
+	strncpy(blocks[block_index], str + start, last_block_len);
+	blocks[block_index][last_block_len] = '\0';
+	*wc = count + 1;
+	return (blocks);
 }
