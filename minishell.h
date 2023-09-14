@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/14 07:36:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:02:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_free(char **tab, int j);
 int		is_whitespace(char c);
 int		is_quote(char c);
 int		ft_error(char *str);
-int		block_count(char const *s, int i, int sep);
+int		block_count(char const *str, char c);
 void	ft_blocks(char *s, char c, char **block, int i);
 char	**ft_parsing_split(const char *input, char c, int *wc);
 
