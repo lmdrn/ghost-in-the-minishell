@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/14 11:02:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:34:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
+	char	**blocks;
 	int		i;
+	int		block_count;
+	char	delimiter;
 
+	delimiter = ' ';
 	i = 0;
 	(void)ac;
 	(void)av;
@@ -35,12 +39,7 @@ int	main(int ac, char **av, char **envp)
 			exit(1);
 		else
 		{
-			printf("%s\n", input);
-			printf("number of words :%d\n", word_count(input));
-			/* printf("letters in block: %d\n", block_count(input, 0, ' ')); */
-			char delimiter = ' '; // Change to space character
-			int block_count;
-			char** blocks = ft_parsing_split(input, delimiter, &block_count);
+			blocks = ft_parsing_split(input, delimiter, &block_count);
 			i = 0;
 			while (i < block_count)
 			{
