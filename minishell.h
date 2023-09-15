@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 12:38:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:11:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@
 
 typedef struct s_type
 {
-	char			*text;
-	int				pipe;
-	int				chevron_d;
-	int				chevron_g;
-	int				dbl_chev_d;
-	int				dbl_chev_g;
-	struct s_type	*next;
+	char	*text;
+	int		pipe;
+	int		chevron_d;
+	int		chevron_g;
+	int		dbl_chev_d;
+	int		dbl_chev_g;
 }	t_type;
 
 typedef struct s_block
@@ -54,5 +53,6 @@ int		ft_error(char *str);
 int		block_count(char const *str, char c);
 void	ft_blocks(char *s, char c, char **block, int i);
 char	**ft_parsing_split(const char *input, char c, int *wc);
+void	blocks_into_types(char **blocks, int wc);
 
 #endif
