@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/11 11:19:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:02:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,15 @@ typedef struct s_block
 
 /* ooo - proto - ooo */
 
-int	ft_strcmp(char *s1, char *s2);
-int	check_quotes(char *str);
-int	word_count(char *str);
+int		ft_strcmp(char *s1, char *s2);
+int		check_quotes(char const *str);
+int		word_count(char const *str);
+void	ft_free(char **tab, int j);
+int		is_whitespace(char c);
+int		is_quote(char c);
+int		ft_error(char *str);
+int		block_count(char const *str, char c);
+void	ft_blocks(char *s, char c, char **block, int i);
+char	**ft_parsing_split(const char *input, char c, int *wc);
 
 #endif
