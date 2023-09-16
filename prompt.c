@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 15:50:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:16:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,11 @@ int	main(int ac, char **av, char **envp)
 			while (i < block_count)
 			{
 				printf("Block %d: %s\n", i, blocks[i]);
-				free(blocks[i]);
+				/* free(blocks[i]); */
 				i++;
 			}
-			/* free(blocks); */
 			blocks_into_types(blocks, wc);
-			free(blocks);
+			/* free(blocks); */
 		}
 	}
 	return (0);

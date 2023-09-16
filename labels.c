@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:28:24 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 15:49:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:40:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	blocks_into_types(char **blocks, int wc)
 			types[i].chevron_d = 1;
 		else
 			types[i].chevron_d = 0;
-		printf("Chevron Gauche: %d\n", types[i].chevron_g);
+		printf("Chevron Droit: %d\n", types[i].chevron_d);
 		if (ft_strcmp(blocks[i], "<") == 0)
 			types[i].chevron_g = 1;
 		else
 			types[i].chevron_g = 0;
-		printf("Chevron Droite: %d\n", types[i].chevron_d);
+		printf("Chevron Gauche: %d\n", types[i].chevron_g);
 		if (ft_strcmp(blocks[i], ">>") == 0)
 			types[i].dbl_chev_d = 1;
 		else
