@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 15:11:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:47:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ typedef struct s_type
 	int		dbl_chev_g;
 }	t_type;
 
-typedef struct s_block
+typedef struct s_commande
 {
 	char	**cmd;
 	char	**args;
 	char	**in;
 	char	**out;
-}	t_block;
+}	t_commande;
 
 /* ooo - proto - ooo */
 
