@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 11:34:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:16:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	char	**blocks;
 	int		i;
+	int		wc;
 	int		block_count;
 	char	delimiter;
 
@@ -40,14 +41,19 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			blocks = ft_parsing_split(input, delimiter, &block_count);
+			wc = 0;
+			while (blocks[wc] != NULL)
+				wc++;
+			printf("Word count is %d\n", wc);
 			i = 0;
 			while (i < block_count)
 			{
 				printf("Block %d: %s\n", i, blocks[i]);
-				free(blocks[i]);
+				/* free(blocks[i]); */
 				i++;
 			}
-			free(blocks);
+			blocks_into_types(blocks, wc);
+			/* free(blocks); */
 		}
 	}
 	return (0);
