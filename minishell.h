@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 19:30:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 19:59:46 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@
 /* ooo - structures - ooo */
 
 enum types {
-    cmd,
-    args,
+    word,
     is_pipe,
     ch_g,
     ch_d,
@@ -68,5 +67,6 @@ int     copy_env(char **envp);
 void    custom_exit(void);
 int    is_builtin(char *input);
 int    init_lst(char **blocks);
+void    assign_types(t_type *node);
 
 #endif

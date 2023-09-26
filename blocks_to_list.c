@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 19:38:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:09:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ struct  s_type  *create_node(const char *block)
         return (NULL);
     }
     node->text = ft_strdup(block); 
+    assign_types(node);
     if (node->text == NULL)
     {
         ft_putendl_fd("dup failed\n", 1);
@@ -35,6 +36,27 @@ struct  s_type  *create_node(const char *block)
 }
 
 //todo: fct that assigns type to create_node()
+void    assign_types(t_type *node)
+{
+    if (ft_strncmp(node->text, "|", 1) == 0)
+    {
+        node->type = is_pipe;
+        /* printf("type is: %d\n", node->type); */
+    }
+    else if (ft_strncmp(node->text, ">", 1) == 0)
+        node->type = ch_d;
+    else if (ft_strncmp(node->text, "<", 1) == 0)
+        node->type = ch_g;
+    else if (ft_strncmp(node->text, ">>", 1) == 0)
+        node->type = dbl_ch_d;
+    else if (ft_strncmp(node->text, "<<", 1) == 0)
+        node->type = dbl_ch_g;
+    else
+    {
+        node->type = word;
+        /* printf("type is: %d\n", node->type); */
+    }
+}
 
 //fct that takes blocks from split and transforms each block into nodes by calling create_node
 
