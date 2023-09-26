@@ -6,11 +6,13 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/15 14:53:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:20:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//coucou
 
 int	block_count(char const *str, char c)
 {
