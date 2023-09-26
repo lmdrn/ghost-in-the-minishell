@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/09/15 13:07:25 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/09/26 15:02:14 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ ORANGE 		= \033[38;5;215m
 GREEN 		= \033[38;5;82m
 RESET 		= \033[0m
 
-SRCS 		= prompt.c parsing.c quotes.c labels.c
+SRCS 		= prompt.c parsing.c quotes.c labels.c copy_env.c bultins.c \
+			  exit.c
 
 OBJS 		= ${SRCS:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/16 18:47:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:57:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,8 @@ int		block_count(char const *str, char c);
 void	ft_blocks(char *s, char c, char **block, int i);
 char	**ft_parsing_split(const char *input, char c, int *wc);
 void	blocks_into_types(char **blocks, int wc);
+int     copy_env(char **envp);
+void    custom_exit(void);
+int    is_builtin(char *input);
 
 #endif

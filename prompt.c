@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/16 16:16:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:14:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	main(int ac, char **av, char **envp)
 	i = 0;
 	(void)ac;
 	(void)av;
-	(void)envp;
 	while (1)
 	{
 		printf("\x1b[36mWelcome to ghost in the minishell!\n");
@@ -36,8 +35,8 @@ int	main(int ac, char **av, char **envp)
 		input = readline("\U0001F63B \U0001F449 ");
 		if (input && *input)
 			add_history (input);
-		if (!ft_strncmp(input, "exit", 4))
-			exit(1);
+		if (is_builtin(input) != 0)
+			printf("Built-in is: %s\n", input);
 		else
 		{
 			blocks = ft_parsing_split(input, delimiter, &block_count);
@@ -56,5 +55,6 @@ int	main(int ac, char **av, char **envp)
 			/* free(blocks); */
 		}
 	}
+    copy_env(envp);
 	return (0);
 }
