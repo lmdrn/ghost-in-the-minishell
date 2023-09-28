@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 20:09:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/26 20:19:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ struct  s_type  *create_node(const char *block)
     return (node);
 }
 
-//todo: fct that assigns type to create_node()
+//fct that assigns type to create_node()
 void    assign_types(t_type *node)
 {
     if (ft_strncmp(node->text, "|", 1) == 0)
@@ -59,7 +59,6 @@ void    assign_types(t_type *node)
 }
 
 //fct that takes blocks from split and transforms each block into nodes by calling create_node
-
 int    init_lst(char **blocks)
 {
     t_type  *head;

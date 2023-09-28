@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 19:59:46 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:34:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
 
-/* ooo - structures - ooo */
+/* ooo - enums - ooo */
 
 enum types {
     word,
@@ -31,6 +32,8 @@ enum types {
     dbl_ch_g,
     dbl_ch_d
 };
+
+/* ooo - structures - ooo */
 
 typedef struct s_type
 {
@@ -49,7 +52,7 @@ typedef struct s_type
 /* }	t_commande; */
 
 //execve needs : nom/path/env
-
+//
 /* ooo - proto - ooo */
 
 int		ft_strcmp(char *s1, char *s2);
@@ -68,5 +71,9 @@ void    custom_exit(void);
 int    is_builtin(char *input);
 int    init_lst(char **blocks);
 void    assign_types(t_type *node);
+void    ft_welcome(void);
+char    *ft_prompt(void);
+void    sigint_handler(int signum);
+void    sigeof_handler(int signum);
 
 #endif

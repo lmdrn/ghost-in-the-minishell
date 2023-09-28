@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 19:33:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:31:35 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,78 @@
 // careful do not use printf (or modify later on) could create trouble
 // (and we don't want trouble...)
 
+int ctrl_d_pressed = 0;
+
+void    ft_welcome(void)
+{
+    ft_putendl_fd("\x0b[35mWelcome to ghost in the minishell!\n", 1);
+    ft_putendl_fd("Please enter a command \e[0m\n", 1);
+}
+
+char    *ft_prompt(void)
+{
+    char    *input;
+
+    input = readline(NULL);
+    return (input);
+
+}
+
+//signal handler for Ctrl+C
+void    sigint_handler(int signum)
+{
+    (void)signum;
+    printf("\n\U0001F63B \U0001F449 ");
+}
+
+//signal handler for Ctrl+D
+void    sigeof_handler(int signum)
+{
+    (void)signum;
+    ctrl_d_pressed = 1;
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
 	char	**blocks;
 	int		i;
 	int		wc;
 	int		block_count;
 	char	delimiter;
+    char    *input;
 
 	delimiter = ' ';
-	i = 0;
+    input = NULL;
 	(void)ac;
 	(void)av;
 	(void)envp;
-	while (1)
+
+    // Install signal handlers
+    signal(SIGINT, sigint_handler);
+    signal(SIGQUIT, SIG_IGN);      // Ctrl+\ (ignore)
+    free(input);
+    ft_welcome();
+	while (ctrl_d_pressed == 0)
 	{
-		ft_putendl_fd("\x1b[36mWelcome to ghost in the minishell!\n", 1);
-		ft_putendl_fd("Please enter a command \e[0m\n", 1);
-		input = readline("\U0001F63B \U0001F449 ");
-		if (input && *input)
-			add_history (input);
-		if (ft_strncmp(input, "exit", 4) == 0)
-            exit(1);
-		else
-		{
+        printf("\U0001F63B \U0001F449 ");
+        input = ft_prompt();
+        if (input && *input)
+            add_history (input);               
+        if (input == NULL)
+        {
+            printf("Exiting shell...\n"); 
+            free(input);
+            break ;
+        }
+        if (ft_strncmp(input, "exit", 4) == 0)
+        {
+            free(input);
+            break ;
+        }
+        else
+        {
 			blocks = ft_parsing_split(input, delimiter, &block_count);
+            free(input);
 			wc = 0;
 			while (blocks[wc] != NULL)
 				wc++;
