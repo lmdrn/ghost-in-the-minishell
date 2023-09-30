@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/26 20:19:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/30 13:50:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,32 @@ void    assign_types(t_type *node)
     if (ft_strncmp(node->text, "|", 1) == 0)
     {
         node->type = is_pipe;
-        /* printf("type is: %d\n", node->type); */
+        printf("type is: %d\n", node->type);
     }
     else if (ft_strncmp(node->text, ">", 1) == 0)
+    {
         node->type = ch_d;
+        printf("type is: %d\n", node->type);
+    }
     else if (ft_strncmp(node->text, "<", 1) == 0)
+    {
         node->type = ch_g;
+        printf("type is: %d\n", node->type);
+    }
     else if (ft_strncmp(node->text, ">>", 1) == 0)
+    {
         node->type = dbl_ch_d;
+        printf("type is: %d\n", node->type);
+    }
     else if (ft_strncmp(node->text, "<<", 1) == 0)
+    {
         node->type = dbl_ch_g;
+        printf("type is: %d\n", node->type);
+    }
     else
     {
         node->type = word;
-        /* printf("type is: %d\n", node->type); */
+        printf("type is: %d\n", node->type);
     }
 }
 

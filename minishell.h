@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/28 14:34:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/30 13:51:36 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 /* ooo - enums - ooo */
 
 enum types {
-    word,
+    cmd,
+    builtin,
+    args,
+    filein,
+    fileout,
     is_pipe,
     ch_g,
     ch_d,
