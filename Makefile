@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+         #
+#    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/09/26 19:42:13 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/09/30 16:50:30 by angela           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,9 @@ BLUE 		= \033[38;5;69m
 ORANGE 		= \033[38;5;215m
 GREEN 		= \033[38;5;82m
 RESET 		= \033[0m
+BS_N_TXT			=		echo "\n"
+                                                  
+                                       
 
 SRCS 		= prompt.c parsing.c blocks_to_list.c
 
@@ -34,6 +37,9 @@ RM		= rm -rf
 all:		$(NAME)
 
 ${NAME}:	${OBJS}
+			@tput setaf 2; cat ascii_art/ghost; tput setaf default
+			@$(BS_N_TXT)
+			@$(BS_N_TXT)
 			@echo "$(RESET)$(ORANGE)ASSEMBLING $(NAME)$(RESET)"
 			@$(MAKE) -C libft --silent
 			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} -lreadline
