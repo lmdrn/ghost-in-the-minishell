@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/28 15:31:35 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/30 16:49:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 // careful do not use printf (or modify later on) could create trouble
 // (and we don't want trouble...)
-
-int ctrl_d_pressed = 0;
 
 void    ft_welcome(void)
 {
@@ -43,7 +41,7 @@ void    sigint_handler(int signum)
 void    sigeof_handler(int signum)
 {
     (void)signum;
-    ctrl_d_pressed = 1;
+    printf("Exiting shell...\n"); 
 }
 
 int	main(int ac, char **av, char **envp)
@@ -66,7 +64,7 @@ int	main(int ac, char **av, char **envp)
     signal(SIGQUIT, SIG_IGN);      // Ctrl+\ (ignore)
     free(input);
     ft_welcome();
-	while (ctrl_d_pressed == 0)
+	while (1)
 	{
         printf("\U0001F63B \U0001F449 ");
         input = ft_prompt();
@@ -74,7 +72,6 @@ int	main(int ac, char **av, char **envp)
             add_history (input);               
         if (input == NULL)
         {
-            printf("Exiting shell...\n"); 
             free(input);
             break ;
         }
