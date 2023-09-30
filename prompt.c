@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/30 16:49:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:51:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void    sigint_handler(int signum)
 }
 
 //signal handler for Ctrl+D
-void    sigeof_handler(int signum)
-{
-    (void)signum;
-    printf("Exiting shell...\n"); 
-}
+/* void    sigeof_handler(int signum) */
+/* { */
+/*     (void)signum; */
+/*     printf("Exiting shell...\n"); */ 
+/* } */
 
 int	main(int ac, char **av, char **envp)
 {

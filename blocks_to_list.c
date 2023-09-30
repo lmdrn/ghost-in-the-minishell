@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/30 16:22:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:18:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,100 @@ struct  s_type  *create_node(const char *block)
     node->next = NULL;
     return (node);
 }
-
-//fct that search in path if command exists and can be executed with execve
-int is_executable_command(char *node)
+char	*ft_strcpy(char *dest, const char *src)
 {
-    if(access(node, X_OK) == 0)
+	unsigned int i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = src[i];
+	return (dest);
+}
+
+char    *ft_strcat(char *dst, char *src)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (dst[i] != '\0')
+        i++;
+    while (src[j] != '\0')
     {
-        printf("The command '%s' exists and is executable.\n", node);
-        return (0);
+        dst[i + j] = src[j];
+        j++;
     }
-    else
+    dst[i + j] = '\0';
+    return (dst);
+}
+
+char    *concat_str(char *s1, char *s2)
+{
+    size_t  len1;
+    size_t  len2;
+    char    *res;
+
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    res = malloc(sizeof(len1 + len2 + 2));
+    if (res == NULL)
     {
-        printf("The command '%s' does not exist and is not executable.\n", node);
-        return (1);
+        perror("malloc failed\n");
+        return (NULL);
     }
+    ft_strcpy(res, s1);
+    if (s1[len1 - 1] != '/')
+        ft_strcat(res, s2);
+    return (res);
+}
+//fct that search in path if command exists and can be executed with execve
+char *is_executable_command(char *node)
+{
+    char    *path_env;
+    char    path_cpy[1024];
+    char    *dir;
+    char    *delimiter;
+    char    *full_path;
+    int     len;
+
+    len = 0;
+    path_env = getenv("PATH");
+    if (path_env == NULL)
+    {
+        ft_putendl_fd("PATH environment variable not found.\n", 1);
+        return (NULL);    
+    }
+    ft_strcpy(path_cpy, path_env);
+    path_cpy[len - 1] = '\0';
+    dir = path_cpy;
+    while (*dir != '\0') 
+    {
+        delimiter = ft_strchr(dir, ':');
+        if (delimiter != NULL)
+            *delimiter = '\0';
+        full_path = concat_str(dir, node);
+        if (full_path == NULL)
+            return (NULL);
+        if (access(full_path, F_OK) == 0)
+        {
+            if (access(full_path, X_OK) == 0)
+                return (full_path);
+        }
+        if (delimiter != NULL)
+        {
+            *delimiter = ':';
+            dir = delimiter + 1;
+        }
+        else
+            break ;
+        free(full_path);
+    }
+    return (NULL);
 }
 
 //fct that compares if input is equal to builtin 
@@ -91,6 +171,8 @@ int is_asym(char *node)
 //fct that assigns type to create_node()
 void    assign_types(t_type *node)
 {
+    t_type  *next_node;
+
     if (ft_strncmp(node->text, "|", 1) == 0)
     {
         node->type = is_pipe;
@@ -116,18 +198,31 @@ void    assign_types(t_type *node)
         node->type = dbl_ch_g;
         printf("type is: %d\n", node->type);
     }
-    else if (is_executable_command(node->text) == 0)
+    else if (is_executable_command(node->text) == NULL)
     {
         node->type = cmd;
         printf("type is: %d\n", node->type);
-        /* if (is_asym(node->text) != -1) */
-        /*     node->type->next = args; */
-        //ici check si le next c'est un args
+        if (is_asym(node->text) != 0)
+        {
+            next_node = node->next;
+            if (next_node != NULL)
+                next_node->type = args;
+            else
+                printf("error no next node\n");
+        }
     }
     else if (is_builtin(node->text) == 0)
     {
         node->type = builtin;
         printf("type is: %d\n", node->type);
+        if (is_asym(node->text) != 0)
+        {
+            next_node = node->next;
+            if (next_node != NULL)
+                next_node->type = args;
+            else
+                printf("error no next node\n");
+        }
     }
     else
     {

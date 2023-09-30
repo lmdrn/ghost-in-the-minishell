@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/09/30 16:50:30 by angela           ###   ########.fr        #
+#    Updated: 2023/09/30 16:54:08 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ RM		= rm -rf
 all:		$(NAME)
 
 ${NAME}:	${OBJS}
-			@tput setaf 2; cat ascii_art/ghost; tput setaf default
+			@tput setaf 2; cat ascii_art/ghost; tput setaf
 			@$(BS_N_TXT)
 			@$(BS_N_TXT)
 			@echo "$(RESET)$(ORANGE)ASSEMBLING $(NAME)$(RESET)"
