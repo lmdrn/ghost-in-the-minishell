@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/01 13:38:51 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:58:10 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ struct  s_type  *create_node(const char *block)
         return (NULL);
     }
     node->text = ft_strdup(block); 
-    assign_types(node);
     if (node->text == NULL)
     {
         ft_putendl_fd("dup failed\n", 1);
@@ -216,11 +215,18 @@ int is_asym(char *node)
 
 }
 
+t_type  *get_next_node(t_type *current_node)
+{
+    if (current_node != NULL)
+        return (current_node->next);
+    else
+        return (NULL);
+}
+
 //fct that assigns type to create_node()
-void    assign_types(t_type *node)
+void    assign_types(t_type *node, t_type *lst)
 {
     t_type  *next_node;
-
     if (ft_strncmp(node->text, "|", 1) == 0)
     {
         node->type = is_pipe;
@@ -250,27 +256,25 @@ void    assign_types(t_type *node)
     {
         node->type = cmd;
         printf("type is: %d\n", node->type);
-        if (is_asym(node->text) != 0)
-        {
-            next_node = node->next;
-            if (next_node != NULL)
+        next_node = lst;
+        while (next_node != NULL) {
+            if (next_node == node)
+                break;
+            next_node = next_node->next;
+        }
+        if (next_node != NULL && next_node->next != NULL) {
+            next_node = next_node->next;
+            if (next_node->type != is_pipe && next_node->type != ch_d &&
+                next_node->type != ch_g && next_node->type != dbl_ch_d && next_node->type != dbl_ch_g) {
                 next_node->type = args;
-            else
-                printf("error no next node\n");
+                printf("type is: %d\n", next_node->type);
+            }
         }
     }
     else if (is_builtin(node->text) == 0)
     {
         node->type = builtin;
         printf("type is: %d\n", node->type);
-        if (is_asym(node->text) != 0)
-        {
-            next_node = node->next;
-            if (next_node != NULL)
-                next_node->type = args;
-            else
-                printf("error no next node\n");
-        }
     }
     else
     {
@@ -279,13 +283,11 @@ void    assign_types(t_type *node)
     }
 }
 
-
 //fct that takes blocks from split and transforms each block into nodes by calling create_node
-int    init_lst(char **blocks)
+int    init_lst(char **blocks, t_type *node)
 {
     t_type  *head;
     t_type  *current;
-    t_type  *node;
     t_type  *print;
     t_type  *tmp;
     int     wc;
@@ -317,6 +319,7 @@ int    init_lst(char **blocks)
     while (print != NULL)
     {
         printf("node is: %s\n", print->text);
+        assign_types(print, head);
         print = print->next;
     }
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/30 15:42:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:58:44 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	blocks_into_types(char **blocks, int wc);
 int     copy_env(char **envp);
 void    custom_exit(void);
 int    is_builtin(char *input);
-int    init_lst(char **blocks);
-void    assign_types(t_type *node);
+int    init_lst(char **blocks, t_type *node);
+void    assign_types(t_type *node, t_type *lst);
 void    ft_welcome(void);
 char    *ft_prompt(void);
 void    sigint_handler(int signum);

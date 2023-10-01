@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/30 17:51:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/01 18:58:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ int	main(int ac, char **av, char **envp)
 	int		i;
 	int		wc;
 	int		block_count;
+    t_type  *node;
 	char	delimiter;
     char    *input;
 
 	delimiter = ' ';
+    node = NULL;
     input = NULL;
 	(void)ac;
 	(void)av;
@@ -94,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 				printf("Block %d: %s\n", i, blocks[i]);
 				i++;
 			}
-            init_lst(blocks);
+            init_lst(blocks, node);
 		}
 	}
 	return (0);
