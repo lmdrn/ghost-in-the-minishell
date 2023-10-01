@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/09/30 18:18:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:38:51 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,100 +34,148 @@ struct  s_type  *create_node(const char *block)
     node->next = NULL;
     return (node);
 }
-char	*ft_strcpy(char *dest, const char *src)
+
+char		*ft_strcpy(char *dst, const char *src)
 {
-	unsigned int i;
+	size_t	i;
 
 	i = 0;
 	while (src[i] != '\0')
 	{
-		dest[i] = src[i];
+		dst[i] = src[i];
 		i++;
+		dst[i] = '\0';
 	}
-	dest[i] = src[i];
-	return (dest);
+	return (dst);
 }
 
-char    *ft_strcat(char *dst, char *src)
+char	*ft_strcat(char *dest, char *src)
 {
-    int i;
-    int j;
+	unsigned int	i;
+	unsigned int	j;
 
-    i = 0;
-    j = 0;
-    while (dst[i] != '\0')
-        i++;
-    while (src[j] != '\0')
-    {
-        dst[i + j] = src[j];
-        j++;
-    }
-    dst[i + j] = '\0';
-    return (dst);
+	i = 0;
+	while (dest[i] != '\0')
+		++i;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		++j;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 char    *concat_str(char *s1, char *s2)
 {
-    size_t  len1;
-    size_t  len2;
+    int len1;
+    int len2;
     char    *res;
-
+    
     len1 = ft_strlen(s1);
     len2 = ft_strlen(s2);
-    res = malloc(sizeof(len1 + len2 + 2));
+    res = malloc(len1 + len2 + 1);
     if (res == NULL)
     {
-        perror("malloc failed\n");
+        printf("Malloc failed\n");
         return (NULL);
     }
     ft_strcpy(res, s1);
-    if (s1[len1 - 1] != '/')
-        ft_strcat(res, s2);
+    ft_strcat(res, s2);
     return (res);
 }
 //fct that search in path if command exists and can be executed with execve
-char *is_executable_command(char *node)
+//1. get path
+//2. split path with :
+//3. take each block and add command name to it
+//4. go to location and see it exists + is executable
+int is_executable_command(char *node)
 {
     char    *path_env;
-    char    path_cpy[1024];
-    char    *dir;
-    char    *delimiter;
+    char    **dirs;
     char    *full_path;
-    int     len;
+    char    *tmp;
+    int     i;
+    int     j;
+    int     dir_count;
 
-    len = 0;
+    (void)node;
     path_env = getenv("PATH");
     if (path_env == NULL)
+        printf("Path not found\n");
+    else
+        printf("Path is : %s\n", path_env);
+    dirs = ft_split(path_env, ':');
+    if (dirs == NULL)
+        printf("Split did not work\n");
+    // -- test section start --
+    i = 0;
+    while (dirs[i] != NULL)
     {
-        ft_putendl_fd("PATH environment variable not found.\n", 1);
-        return (NULL);    
+        printf("Dir %d is: %s\n", i, dirs[i]);
+        i++;
     }
-    ft_strcpy(path_cpy, path_env);
-    path_cpy[len - 1] = '\0';
-    dir = path_cpy;
-    while (*dir != '\0') 
+    dir_count = i;
+    i = 0;
+    while(i < dir_count)
     {
-        delimiter = ft_strchr(dir, ':');
-        if (delimiter != NULL)
-            *delimiter = '\0';
-        full_path = concat_str(dir, node);
+        full_path = concat_str(dirs[i], "/");
         if (full_path == NULL)
-            return (NULL);
+        {
+            j = 0;
+            while (j < dir_count)
+            {
+                free(dirs[j]);
+                j++;
+            }
+            free(dirs);
+            return (1);
+        }
+        tmp = concat_str(full_path, node);
+        free(full_path);
+        if (tmp == NULL)
+        {
+            j = 0;
+            while (j < dir_count)
+            {
+                free(dirs[j]);
+                j++;
+            }
+            free(dirs);
+            return (1);
+        }
+        full_path = tmp;
+        printf("full path is: %s\n", full_path);
         if (access(full_path, F_OK) == 0)
         {
             if (access(full_path, X_OK) == 0)
-                return (full_path);
+            {
+                j = 0;
+                while (j < dir_count)
+                {
+                    free(dirs[j]);
+                    j++;
+                }
+                free(dirs);
+                printf("%s exists and is executable\n", node);
+                return (0);
+            }
         }
-        if (delimiter != NULL)
-        {
-            *delimiter = ':';
-            dir = delimiter + 1;
-        }
-        else
-            break ;
         free(full_path);
+        i++;
     }
-    return (NULL);
+
+    i = 0;
+    while (i < dir_count)
+    {
+        free(dirs[i]);
+        i++;
+    }
+    free(dirs);
+    // -- test section end --
+    return (1);
 }
 
 //fct that compares if input is equal to builtin 
@@ -198,7 +246,7 @@ void    assign_types(t_type *node)
         node->type = dbl_ch_g;
         printf("type is: %d\n", node->type);
     }
-    else if (is_executable_command(node->text) == NULL)
+    else if (is_executable_command(node->text) == 0)
     {
         node->type = cmd;
         printf("type is: %d\n", node->type);
