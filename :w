@@ -1,0 +1,121 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/10/02 18:14:14 by lmedrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+//todo
+//1. create a new List
+//2. create and alloc mem for each node
+//3. each node should be delimited by a |
+//4. ur guuud to go mothafucka
+
+t_commande  *create_cmd_node(char *name, char **args)
+{
+    t_commande  *node;
+    
+    node = malloc(sizeof(t_type));
+    if (node == NULL)
+    {
+        printf("Malloc error\n");
+        exit(1);
+    }
+    node->cmd = ft_strdup(name);
+    if(node->cmd != NULL)
+    {
+        printf("Duplicate error\n");
+        exit(1);
+    }
+    node->args = args;
+    node->next = NULL;
+    return (node);
+}
+
+void    append_args(t_commande *command, char *arg)
+{
+    int num_args;
+    t_args  *new_arg;
+
+    new_arg = malloc(sizeof(t_args));
+    if (new_arg == NULL)
+    {
+        printf("Malloc error\n");
+        exit(1);
+    }
+    new_arg->arg = ft_strdup(arg);
+    new_arg->next = NULL;
+    if (command->args == NULL)
+    {
+
+    }
+}
+
+t_commande  *command_list(t_type *tokens)
+{
+   t_commande   *head;
+   t_commande   *current;
+   t_type       *token;
+   char         *current_cmd_name;
+   char         **current_cmd_args;
+   char         **new_args;
+   t_commande   *new_cmd;
+
+   head = NULL;
+   current = NULL;
+   token = tokens;
+   current_cmd_name = NULL;
+   current_cmd_args = NULL;
+   new_cmd = NULL;
+
+   while (token != NULL)
+   {
+       if (token == cmd)
+       {
+            if (current_cmd_name != NULL)
+            {
+                new_cmd = create_cmd_node(current_cmd_name, current_cmd_args);
+                if (head == NULL)
+                {
+                    head = new_cmd;
+                    current = new_cmd;
+                }
+                else
+                {
+                    current->next = new_cmd;
+                    current = new_cmd;
+                }
+                free(current_cmd_name);
+                free(current_cmd_args);
+                current_cmd_name = NULL;
+                current_cmd_args = NULL;
+            }
+            current_cmd_name = ft_strdup(token->text);
+       }
+       else if (token->type == args)
+       {
+           new_args = append_args(current_cmd_args, token->text);
+           free(current_cmd_args);
+           current_cmd_args = new_args;
+       }
+       token = token->next;
+   }
+   if (current_cmd_name != NULL)
+   {
+       new_cmd = create_cmd_node(current_cmd_name, current_cmd_args);
+       if (head != NULL)
+           head = new_cmd;
+       else
+           current->next = new_cmd;
+   }
+   free(current_cmd_name);
+   free(current_cmd_args);
+}
+

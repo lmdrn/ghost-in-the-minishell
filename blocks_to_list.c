@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 15:44:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:13:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
+//fct x step 3 of is_executable_command()
 char    *concat_str(char *s1, char *s2)
 {
     int len1;
@@ -199,6 +200,7 @@ int is_builtin(char *node)
         return (1);
 }
 
+//fct that checks if input is a symbol
 int is_asym(char *node)
 {
     if (ft_strncmp(node, "|", 1) == 0)
@@ -216,7 +218,7 @@ int is_asym(char *node)
 
 }
 
-//fct that assigns type to create_node()
+//fct that assigns type to each node
 void    assign_types(t_type *node, t_type *lst)
 {
     t_type  *next_node;
@@ -318,6 +320,7 @@ void    assign_types(t_type *node, t_type *lst)
 }
 
 //fct that takes blocks from split and transforms each block into nodes by calling create_node
+//then iterates through list again to assign a type to each node
 t_type    *init_lst(char **blocks, t_type *node)
 {
     t_type  *head;
