@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/01 18:58:44 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:21:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@
 /* ooo - enums - ooo */
 
 enum types {
-    cmd,
-    builtin,
-    args,
-    filein,
-    fileout,
-    is_pipe,
-    ch_g,
-    ch_d,
-    dbl_ch_g,
-    dbl_ch_d
+    cmd, //0
+    builtin, //1
+    args, //2
+    flags, //3
+    filein, //4
+    fileout, //5
+    delimiter, //6
+    is_pipe, //7
+    ch_g, //8
+    ch_d, //9
+    dbl_ch_g, //10
+    dbl_ch_d //11
 };
 
 /* ooo - structures - ooo */
