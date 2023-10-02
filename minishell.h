@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 14:28:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:48:44 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ typedef struct s_type
 
 }	t_type;
 
-/* typedef struct s_commande */
-/* { */
-/* 	char	**cmd; */
-/* 	char	**args; */
-/* 	char	**in; */
-/* 	char	**out; */
-/* }	t_commande; */
+typedef struct s_commande
+{
+	char	*cmd;
+	char	**args;
+	char	*fdin;
+	char	*fdout;
+}	t_commande;
 
 //execve needs : nom/path/env
 //
