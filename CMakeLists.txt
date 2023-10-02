@@ -56,4 +56,5 @@ add_executable(ghost_in_the_minishell
         blocks_to_list.c
         minishell.h
         parsing.c
-        prompt.c)
+        prompt.c
+        commands_into_blocks.c)

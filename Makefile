@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/09/30 16:54:08 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/10/02 15:26:36 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ BS_N_TXT			=		echo "\n"
                                                   
                                        
 
-SRCS 		= prompt.c parsing.c blocks_to_list.c
+SRCS 		= prompt.c parsing.c blocks_to_list.c \
+			  create_cmd.c
 
 OBJS 		= ${SRCS:.c=.o}
 

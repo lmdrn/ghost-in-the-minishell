@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 13:22:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:44:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int is_executable_command(char *node)
     i = 0;
     while (dirs[i] != NULL)
     {
-        printf("Dir %d is: %s\n", i, dirs[i]);
+        /* printf("Dir %d is: %s\n", i, dirs[i]); */
         i++;
     }
     dir_count = i;
@@ -146,7 +146,7 @@ int is_executable_command(char *node)
             return (1);
         }
         full_path = tmp;
-        printf("full path is: %s\n", full_path);
+        /* printf("full path is: %s\n", full_path); */
         if (access(full_path, F_OK) == 0)
         {
             if (access(full_path, X_OK) == 0)
@@ -174,6 +174,7 @@ int is_executable_command(char *node)
     }
     free(dirs);
     // -- test section end --
+    ft_putendl_fd("CMD does NOT exist OR is NOT executable", 1);
     return (1);
 }
 
@@ -215,14 +216,6 @@ int is_asym(char *node)
 
 }
 
-t_type  *get_next_node(t_type *current_node)
-{
-    if (current_node != NULL)
-        return (current_node->next);
-    else
-        return (NULL);
-}
-
 //fct that assigns type to create_node()
 void    assign_types(t_type *node, t_type *lst)
 {
@@ -230,12 +223,14 @@ void    assign_types(t_type *node, t_type *lst)
     if (ft_strncmp(node->text, "|", 1) == 0)
     {
         node->type = is_pipe;
-        printf("type is: %d\n", node->type);
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
     }
     else if (ft_strncmp(node->text, ">>", 2) == 0)
     {
         node->type = dbl_ch_d;
-        printf("type is: %d\n", node->type);
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
         next_node = lst;
         while (next_node != NULL) {
             if (next_node == node)
@@ -245,13 +240,15 @@ void    assign_types(t_type *node, t_type *lst)
         if (next_node != NULL && next_node->next != NULL) {
             next_node = next_node->next;
             next_node->type = fileout;
-            printf("type is: %d\n", next_node->type);
+            printf("%s type is: %d\n", next_node->text, next_node->type);
+            printf("\n");
         }
     }
     else if (ft_strncmp(node->text, "<<", 2) == 0)
     {
         node->type = dbl_ch_g;
-        printf("type is: %d\n", node->type);
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
         next_node = lst;
         while (next_node != NULL) {
             if (next_node == node)
@@ -261,13 +258,15 @@ void    assign_types(t_type *node, t_type *lst)
         if (next_node != NULL && next_node->next != NULL) {
             next_node = next_node->next;
             next_node->type = delimiter;
-            printf("type is: %d\n", next_node->type);
+            printf("%s type is: %d\n", next_node->text, next_node->type);
+            printf("\n");
         }
     }
     else if (ft_strncmp(node->text, ">", 1) == 0)
     {
         node->type = ch_d;
-        printf("type is: %d\n", node->type);
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
         next_node = lst;
         while (next_node != NULL) {
             if (next_node == node)
@@ -277,13 +276,14 @@ void    assign_types(t_type *node, t_type *lst)
         if (next_node != NULL && next_node->next != NULL) {
             next_node = next_node->next;
             next_node->type = fileout;
-            printf("type is: %d\n", next_node->type);
+            printf("%s type is: %d\n", next_node->text, next_node->type);
         }
     }
     else if (ft_strncmp(node->text, "<", 1) == 0)
     {
         node->type = ch_g;
         printf("type is: %d\n", node->type);
+        printf("\n");
         next_node = lst;
         while (next_node != NULL) {
             if (next_node == node)
@@ -293,72 +293,32 @@ void    assign_types(t_type *node, t_type *lst)
         if (next_node != NULL && next_node->next != NULL) {
             next_node = next_node->next;
             next_node->type = filein;
-            printf("type is: %d\n", next_node->type);
+            printf(" %s type is: %d\n", next_node->text, next_node->type);
+            printf("\n");
         }
     }
     else if (is_executable_command(node->text) == 0)
     {
         node->type = cmd;
-        printf("type is: %d\n", node->type);
-        next_node = lst;
-        while (next_node != NULL) {
-            if (next_node == node)
-                break;
-            next_node = next_node->next;
-        }
-        if (next_node != NULL && next_node->next != NULL) {
-            next_node = next_node->next;
-            if (is_asym(next_node->text) == 1)
-            {
-                if (next_node->text[0] == '-')
-                {
-                    next_node->type = flags;
-                    printf("type is %d\n", next_node->type);
-                }
-                else if (ft_strncmp(node->text, "-", 1) != 0)
-                {
-                    next_node->type = args;
-                    printf("type is: %d\n", next_node->type);
-                }
-            }
-        }
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
     }
     else if (is_builtin(node->text) == 0)
     {
         node->type = builtin;
-        printf("type is: %d\n", node->type);
-        next_node = lst;
-        while (next_node != NULL) {
-            if (next_node == node)
-                break;
-            next_node = next_node->next;
-        }
-        if (next_node != NULL && next_node->next != NULL) {
-            next_node = next_node->next;
-            if (is_asym(next_node->text) == 1)
-            {
-                if (next_node->text[0] == '-')
-                {
-                    next_node->type = flags;
-                    printf("type is %d\n", next_node->type);
-                }
-                else
-                {
-                    next_node->type = args;
-                    printf("type is: %d\n", next_node->type);
-                }
-            }
-        }
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
     }
     else
     {
-        //other
-        printf("type is nothing\n");
+        node->type = args;
+        printf("%s type is: %d\n", node->text, node->type);
+        printf("\n");
     }
 }
 
 //fct that takes blocks from split and transforms each block into nodes by calling create_node
-int    init_lst(char **blocks, t_type *node)
+t_type    *init_lst(char **blocks, t_type *node)
 {
     t_type  *head;
     t_type  *current;
@@ -407,5 +367,5 @@ int    init_lst(char **blocks, t_type *node)
         free(tmp);
     }
     free(blocks);
-    return (0);
+    return (print);
 }
