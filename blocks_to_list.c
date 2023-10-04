@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 19:13:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:39:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ int is_executable_command(char *node)
     (void)node;
     path_env = getenv("PATH");
     if (path_env == NULL)
+    {
         printf("Path not found\n");
+        return (1);
+    }
     else
         printf("Path is : %s\n", path_env);
     dirs = ft_split(path_env, ':');
@@ -114,7 +117,7 @@ int is_executable_command(char *node)
     i = 0;
     while (dirs[i] != NULL)
     {
-        /* printf("Dir %d is: %s\n", i, dirs[i]); */
+        printf("Dir %d is: %s\n", i, dirs[i]);
         i++;
     }
     dir_count = i;
@@ -147,7 +150,7 @@ int is_executable_command(char *node)
             return (1);
         }
         full_path = tmp;
-        /* printf("full path is: %s\n", full_path); */
+        printf("full path is: %s\n", full_path);
         if (access(full_path, F_OK) == 0)
         {
             if (access(full_path, X_OK) == 0)
@@ -159,6 +162,7 @@ int is_executable_command(char *node)
                     j++;
                 }
                 free(dirs);
+                free(tmp);
                 printf("%s exists and is executable\n", node);
                 return (0);
             }
@@ -359,9 +363,8 @@ t_type    *init_lst(char **blocks, t_type *node)
         assign_types(print, head);
         print = print->next;
     }
-
     //free nodes
-    print = head;
+    /* print = head; */
     while (print != NULL)
     {
         tmp = print;
@@ -369,6 +372,6 @@ t_type    *init_lst(char **blocks, t_type *node)
         free(tmp->text);
         free(tmp);
     }
-    free(blocks);
-    return (print);
+    /* free(blocks); */
+    return (head);
 }

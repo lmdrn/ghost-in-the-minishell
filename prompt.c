@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 19:32:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:36:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,13 @@ int	main(int ac, char **av, char **envp)
 				i++;
 			}
             tokens = init_lst(blocks, tokens);
-            printf("coucou1\n");
+            ft_free_parsing_split(blocks);
             cmd_lst = command_list(tokens, '|');
-            printf("coucou2\n");
             if (cmd_lst != NULL)
             {
                 printf("Command list:\n");
                 print_commande_list(cmd_lst);
-                printf("coucou3\n");
-                free_args(cmd_lst->args);
-                printf("coucou4\n");
+                /* free_args(cmd_lst->args); */
                 free_commande_list(cmd_lst);
             }
 		}

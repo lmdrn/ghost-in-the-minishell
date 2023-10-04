@@ -101,3 +101,8 @@
 2	39	1696251294076050465	CMakeFiles/ghost_in_the_minishell.dir/commands_into_blocks.c.o	d51ddfb52d1b88f8
 1	43	1696251294082717317	CMakeFiles/ghost_in_the_minishell.dir/prompt.c.o	75a60f033c8f2fc6
 43	76	1696251294112718152	ghost_in_the_minishell	8ab99c14b4644f21
+1	93	1696417693775387826	CMakeFiles/ghost_in_the_minishell.dir/libft/ft_strdup.c.o	62192ce74486d9cd
+1	95	1696417693778721311	CMakeFiles/ghost_in_the_minishell.dir/libft/ft_split.c.o	b6356fde98297a12
+7	115	1696417693798722229	CMakeFiles/ghost_in_the_minishell.dir/blocks_to_list.c.o	6ea09a57c8792bf7
+96	161	1696417693845391035	CMakeFiles/ghost_in_the_minishell.dir/prompt.c.o	75a60f033c8f2fc6
+94	166	1696417693848724521	CMakeFiles/ghost_in_the_minishell.dir/parsing.c.o	f1a55ff1b6910dae

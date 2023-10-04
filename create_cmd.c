@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/02 19:29:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:40:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ t_commande  *create_cmd_node(char *name)
         exit(1);
     }
     node->cmd = ft_strdup(name);
-    if(node->cmd != NULL)
+    if (node->cmd == NULL)
     {
         printf("Duplicate error\n");
         exit(1);
     }
     node->args = NULL;
+    node->fdin = NULL;
+    node->fdout = NULL;
     node->next = NULL;
     return (node);
 }
@@ -62,7 +64,12 @@ void    append_args(t_commande *command, char *arg)
     else
     {
         current = command->args;
-        while (current != NULL)
+        if (current == NULL)
+        {
+            printf("Error command->args is NULL\n");
+            exit(1);
+        }
+        while (current->next != NULL)
             current = current->next;
         current->next = new_arg;
     }
@@ -100,11 +107,11 @@ t_commande  *command_list(t_type *tokens, char del)
                 cmd_current = new_cmd;
             }
         }
-        else if (current->type == delimiter && current->text[0] == del)
+        else if (current->type == is_pipe && current->text[0] == del)
             current = current->next;
         else
         {
-            printf("unexecpected node type\n");
+            printf("Unexpected node type\n");
             exit(1);
         }
     }
