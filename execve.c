@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 17:42:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:49:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int execute_basic_cmd(t_commande *cmd)
     argv = NULL;
     while (tmp != NULL)
     {
-        path_len = ft_strlen(env) + 1 + ft_strlen(tmp->cmd);
+        path_len = ft_strlen(env) + 1 + ft_strlen(tmp->cmd) + 1;
         full_path = malloc(path_len + 1);
         if (full_path == NULL)
         {
@@ -78,7 +78,7 @@ int execute_basic_cmd(t_commande *cmd)
         argv[i] = NULL;
         if (execve(full_path, argv, NULL) == -1)
         {
-            printf("Execve\n");
+            printf("Error: could not execute cmd\n");
             free(full_path);
             free(argv);
             return (1);

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 15:11:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:48:18 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ int	main(int ac, char **av, char **envp)
                 printf("Command list:\n");
                 print_commande_list(cmd_lst);
                 /* free_args(cmd_lst->args); */
-                free_commande_list(cmd_lst);
             }
             send_to_execution(&pipe_count, &cmd_count, cmd_lst);
+            free_commande_list(cmd_lst);
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 17:19:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:49:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int    is_odd_or_even(int *pipe_count, int *cmd_count)
         printf("pipex shit should happen here\n");
         return (1);
     }
-    else if (*pipe_count == 0 && *cmd_count == 1)
+    else if (!(*pipe_count) && *cmd_count == 1)
     {
         printf("execve shit should happen here\n");
         return (2);
