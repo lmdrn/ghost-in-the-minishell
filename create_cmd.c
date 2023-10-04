@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 14:40:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:43:17 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,13 +139,13 @@ void free_args(t_args *args) {
 void free_commande_list(t_commande *head) {
     t_commande *current = head;
     while (current != NULL) {
-        t_commande *temp = current;
+        t_commande *tmp = current;
         current = current->next;
-        free(temp->cmd);
-        free_args(temp->args);
-        free(temp->fdin);
-        free(temp->fdout);
-        free(temp);
+        free(tmp->cmd);
+        free_args(tmp->args);
+        free(tmp->fdin);
+        free(tmp->fdout);
+        free(tmp);
     }
 }
 
