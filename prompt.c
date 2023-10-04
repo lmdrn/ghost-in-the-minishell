@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:36:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:31:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int ac, char **av, char **envp)
 	int		i;
 	int		wc;
 	int		block_count;
+    int     pipe_count;
+    int     cmd_count;
     t_type  *tokens;
     t_commande  *cmd_lst;
 	char	delimiter;
@@ -100,7 +102,8 @@ int	main(int ac, char **av, char **envp)
 			}
             tokens = init_lst(blocks, tokens);
             ft_free_parsing_split(blocks);
-            cmd_lst = command_list(tokens, '|');
+            cmd_lst = command_list(tokens, '|', &pipe_count, &cmd_count);
+            printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", pipe_count, cmd_count);
             if (cmd_lst != NULL)
             {
                 printf("Command list:\n");

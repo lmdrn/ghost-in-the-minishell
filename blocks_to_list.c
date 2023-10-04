@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:39:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:40:46 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int is_executable_command(char *node)
     i = 0;
     while (dirs[i] != NULL)
     {
-        printf("Dir %d is: %s\n", i, dirs[i]);
+        /* printf("Dir %d is: %s\n", i, dirs[i]); */
         i++;
     }
     dir_count = i;
@@ -150,7 +150,7 @@ int is_executable_command(char *node)
             return (1);
         }
         full_path = tmp;
-        printf("full path is: %s\n", full_path);
+        /* printf("full path is: %s\n", full_path); */
         if (access(full_path, F_OK) == 0)
         {
             if (access(full_path, X_OK) == 0)
@@ -170,7 +170,6 @@ int is_executable_command(char *node)
         free(full_path);
         i++;
     }
-
     i = 0;
     while (i < dir_count)
     {

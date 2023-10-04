@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:51:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:40:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void    append_args(t_commande *command, char *arg)
     }
 }
 
-t_commande  *command_list(t_type *tokens, char del)
+t_commande  *command_list(t_type *tokens, char del, int *pipe_count, int *cmd_count)
 {
     t_commande  *cmd_head;
     t_commande  *cmd_current;
@@ -85,10 +85,13 @@ t_commande  *command_list(t_type *tokens, char del)
     cmd_head = NULL;
     cmd_current = NULL;
     current = tokens;
+    *pipe_count = 0;
+    *cmd_count = 0;
     while (current != NULL)
     {
         if (current->type == cmd)
         {
+            (*cmd_count)++;
             new_cmd = create_cmd_node(current->text);
             current = current->next;
             while (current != NULL && current->type == args)
@@ -108,7 +111,10 @@ t_commande  *command_list(t_type *tokens, char del)
             }
         }
         else if (current->type == is_pipe && current->text[0] == del)
+        {
+            (*pipe_count)++;
             current = current->next;
+        }
         else
         {
             printf("Unexpected node type\n");
@@ -153,7 +159,6 @@ void print_commande_list(t_commande *head) {
             printf("%s ", args_current->arg);
             args_current = args_current->next;
         }
-
         printf("Input File: %s ", current->fdin);
         printf("Output File: %s ", current->fdout);
         printf("\n");

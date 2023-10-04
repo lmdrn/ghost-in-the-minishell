@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:37:17 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:27:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void    ft_welcome(void);
 char    *ft_prompt(void);
 void    sigint_handler(int signum);
 void    sigeof_handler(int signum);
-t_commande  *command_list(t_type *tokens, char del);
+t_commande  *command_list(t_type *tokens, char del, int *pipe_count, int *cmd_count);
 void    free_commande_list(t_commande *head);
 void    free_args(t_args *args);
 void    print_commande_list(t_commande *head);
