@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:40:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:51:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,17 +146,17 @@ void free_commande_list(t_commande *head) {
 void print_commande_list(t_commande *head) {
     t_commande *current = head;
     while (current != NULL) {
-        printf("Command: %s\n", current->cmd);
-        printf("Arguments:\n");
-
+        printf("Command: %s ", current->cmd);
+        printf("has arguments: ");
         t_args *args_current = current->args;
         while (args_current != NULL) {
-            printf("  %s\n", args_current->arg);
+            printf("%s ", args_current->arg);
             args_current = args_current->next;
         }
 
-        printf("Input File: %s\n", current->fdin);
-        printf("Output File: %s\n", current->fdout);
+        printf("Input File: %s ", current->fdin);
+        printf("Output File: %s ", current->fdout);
+        printf("\n");
         current = current->next;
     }
 }
