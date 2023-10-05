@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/05 11:55:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:29:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,53 +79,52 @@ int	count_args(t_args *args)
 	return (count);
 }
 
+char	**build_arg(t_commande *cmd)
+{
+	int		argc;
+	char	**argv;
+	t_args	*arg;
+	int		i;
+
+	argc = count_args(cmd->args);
+	argv = malloc(sizeof(char *) * (argc + 2));
+	if (!argv)
+		return (NULL);
+	argv[0] = find_executable_path(cmd->cmd);
+	if (!argv[0])
+		return (NULL);
+	i = 1;
+	arg = cmd->args;
+	while (arg)
+	{
+		argv[i++] = arg->arg;
+		arg = arg->next;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
 int	execute_basic_cmd(t_commande *cmd)
 {
 	char		*full_path;
 	char		**argv;
-	int			i;
-	t_args		*arg;
-	t_commande	*tmp;
 
-	tmp = cmd;
-	while (tmp != NULL)
+	while (cmd)
 	{
-		full_path = find_executable_path(tmp->cmd);
-		printf("after find path, full path is %s\n", full_path);
-		if (full_path == NULL)
-		{
-			printf("coucou\n");
-			printf("Error: %s is not an executable cmd\n", tmp->cmd);
-			return (1);
-		}
-		argv = malloc(sizeof(char *) * (count_args(tmp->args) + 2));
-		if (argv == NULL)
+		full_path = find_executable_path(cmd->cmd);
+		if (!full_path)
+			ft_error(cmd->cmd);
+		argv = build_arg(cmd);
+		if (!argv)
 		{
 			printf("Malloc error\n");
-			free(full_path);
 			return (1);
 		}
-		argv[0] = full_path;
-		i = 1;
-		arg = tmp->args;
-		while (arg != NULL)
-		{
-			argv[i] = arg->arg;
-			arg = arg->next;
-			i++;
-		}
-		argv[i] = NULL;
-		printf("full path before execve is : %s\n", full_path);
 		if (execve(full_path, argv, NULL) == -1)
-		{
-			printf("Error: Could not execute cmd\n");
-			free(full_path);
-			free(argv);
-			return (1);
-		}
-		free(argv);
+			ft_error(cmd->cmd);
+		free_argv(argv);
 		free(full_path);
-		tmp = tmp->next;
+		cmd = cmd->next;
 	}
 	return (0);
 }

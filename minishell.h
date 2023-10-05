@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/05 12:00:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:12:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ char		*ft_strcpy(char *dst, const char *src);
 int			is_executable_command(char *node);
 char		*ft_strncpy(char *dest, const char *src, unsigned int n);
 char		*concat_str(char *s1, char *s2);
+void		free_argv(char **argv);
+int			ft_error(char *str);
 
 #endif
