@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   custom_parsing_split.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 13:37:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:50:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_last_block(const char *str, char **blocks, int bi, int start)
 		printf("Last mem alloc failed\n");
 		exit(1);
 	}
-	strncpy(blocks[bi], str + start, last_block_len);
+	ft_strncpy(blocks[bi], str + start, last_block_len);
 	blocks[bi][last_block_len] = '\0';
 }
 
@@ -70,7 +70,7 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 				printf("2nd mem alloc failed\n");
 				exit(1);
 			}
-			strncpy(blocks[block_index], str + start, block_len);
+			ft_strncpy(blocks[block_index], str + start, block_len);
 			blocks[block_index][block_len] = '\0';
 			start = i + 1;
 			block_index++;
@@ -107,13 +107,15 @@ char	**ft_parsing_split(const char *str, char c, int *wc)
 	return (blocks);
 }
 
-void ft_free_parsing_split(char **blocks)
+void	ft_free_parsing_split(char **blocks)
 {
-    int i = 0;
-    while (blocks[i] != NULL)
-    {
-        free(blocks[i]);
-        i++;
-    }
-    free(blocks);
+	int	i;
+
+	i = 0;
+	while (blocks[i] != NULL)
+	{
+		free(blocks[i]);
+		i++;
+	}
+	free(blocks);
 }
