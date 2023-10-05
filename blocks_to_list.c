@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/05 11:41:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:03:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,41 @@ struct	s_type	*create_node(const char *block)
 	return (node);
 }
 
+char	*get_full_path(char *dir, char *node)
+{
+	char	*full_path;
+	char	*tmp;
+
+	full_path = concat_str(dir, "/");
+	if (!full_path)
+		return (NULL);
+	tmp = concat_str(full_path, node);
+	free(full_path);
+	return (tmp);
+}
+
+int	check_access(char *path)
+{
+	if (access(path, F_OK) == 0 && access(path, X_OK) == 0)
+		return (1);
+	return (0);
+}
+
+void	free_string_array(char **array)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 //fct that search in path if command exists and can be executed with execve
 //1. get path
 //2. split path with :
@@ -43,10 +78,7 @@ int	is_executable_command(char *node)
 	char	*path_env;
 	char	**dirs;
 	char	*full_path;
-	char	*tmp;
 	int		i;
-	int		j;
-	int		dir_count;
 
 	(void)node;
 	path_env = getenv("PATH");
@@ -55,103 +87,62 @@ int	is_executable_command(char *node)
 		printf("Path not found\n");
 		return (1);
 	}
-	else
-		printf("Path is : %s\n", path_env);
 	dirs = ft_split(path_env, ':');
 	if (dirs == NULL)
+	{
 		printf("Split did not work\n");
-	// -- test section start --
-	i = 0;
-	while (dirs[i] != NULL)
-	{
-		/* printf("Dir %d is: %s\n", i, dirs[i]); */
-		i++;
+		return (1);
 	}
-	dir_count = i;
 	i = 0;
-	while (i < dir_count)
+	while (dirs[i])
 	{
-		full_path = concat_str(dirs[i], "/");
-		if (full_path == NULL)
+		full_path = get_full_path(dirs[i], node);
+		if (!full_path)
 		{
-			j = 0;
-			while (j < dir_count)
-			{
-				free(dirs[j]);
-				j++;
-			}
-			free(dirs);
+			free_string_array(dirs);
 			return (1);
 		}
-		tmp = concat_str(full_path, node);
-		free(full_path);
-		if (tmp == NULL)
+		if (check_access(full_path))
 		{
-			j = 0;
-			while (j < dir_count)
-			{
-				free(dirs[j]);
-				j++;
-			}
-			free(dirs);
-			return (1);
-		}
-		full_path = tmp;
-		/* printf("full path is: %s\n", full_path); */
-		if (access(full_path, F_OK) == 0)
-		{
-			if (access(full_path, X_OK) == 0)
-			{
-				j = 0;
-				while (j < dir_count)
-				{
-					free(dirs[j]);
-					j++;
-				}
-				free(dirs);
-				free(tmp);
-				printf("%s exists and is executable\n", node);
-				return (0);
-			}
+			free_string_array(dirs);
+			free(full_path);
+			printf("%s exists and is executable\n", node);
+			return (0);
 		}
 		free(full_path);
 		i++;
 	}
-	i = 0;
-	while (i < dir_count)
-	{
-		free(dirs[i]);
-		i++;
-	}
-	free(dirs);
-	// -- test section end --
+	free_string_array(dirs);
 	ft_putendl_fd("CMD does NOT exist OR is NOT executable", 1);
 	return (1);
 }
 
+t_type	*create_node_and_assign_types(char *text, t_type *head)
+{
+	t_type	*node;
+
+	node = create_node(text);
+	assign_types(node, head);
+	return (node);
+}
 //fct that takes blocks from split and transforms
 //each block into nodes by calling create_node
 //then iterates through list again 
 //to assign a type to each node
+
 t_type	*init_lst(char **blocks, t_type *node)
 {
 	t_type	*head;
 	t_type	*current;
-	t_type	*print;
-	t_type	*tmp;
-	int		wc;
 	int		i;
 
 	head = NULL;
 	current = NULL;
 	i = 0;
-	wc = 0;
-	while (blocks[wc] != NULL)
-		wc++;
-	while (i < wc)
+	while (blocks[i])
 	{
-		node = create_node(blocks[i]);
-		if (head == NULL)
+		node = create_node_and_assign_types(blocks[i], head);
+		if (!head)
 		{
 			head = node;
 			current = node;
@@ -163,23 +154,5 @@ t_type	*init_lst(char **blocks, t_type *node)
 		}
 		i++;
 	}
-	//print nodes
-	print = head;
-	while (print != NULL)
-	{
-		printf("node is: %s\n", print->text);
-		assign_types(print, head);
-		print = print->next;
-	}
-	//free nodes
-	/* print = head; */
-	while (print != NULL)
-	{
-		tmp = print;
-		print = print->next;
-		free(tmp->text);
-		free(tmp);
-	}
-	/* free(blocks); */
 	return (head);
 }
