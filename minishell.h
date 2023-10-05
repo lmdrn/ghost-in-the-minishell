@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/04 17:04:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/10/05 10:06:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ void    send_to_execution(int *pipe_count, int *cmd_count, t_commande *cmd_lst);
 int     execute_basic_cmd(t_commande *cmd);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strcpy(char *dst, const char *src);
+int     is_executable_command(char *node);
 
 #endif
