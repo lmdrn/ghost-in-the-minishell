@@ -1,3 +1,0 @@
-/home/lea_seydur/Code/ghost-in-the-minishell/cmake-build-debug/CMakeFiles/ghost_in_the_minishell.dir
-/home/lea_seydur/Code/ghost-in-the-minishell/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/lea_seydur/Code/ghost-in-the-minishell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
