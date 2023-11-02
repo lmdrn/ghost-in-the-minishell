@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:12:25 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:37:44 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 	}
 	else if (!(*pipe_count) && *cmd_count == 1)
 	{
-		printf("execve shit should happen here\n");
+		printf("execve or builtin should happen here\n");
 		return (2);
 	}
 	else if (((*pipe_count % 2 == 0) && (*cmd_count % 2 == 0))
@@ -50,12 +50,22 @@ void	duplicate_process(t_commande *cmd_lst)
 	else
 	{
 		wait(&g_status);
-		printf("Command has been executed\n");
+		printf("Waiting succesful, command has been executed\n");
 	}
 }
 
-void	send_to_execution(int *pipe_count, int *cmd_count, t_commande *cmd_lst)
+void	send_to_execution(int *pipe_count, int *cmd_count,
+		t_commande *cmd_lst, t_type *token)
 {
+	printf("%d\n", token->type);
 	if (is_odd_or_even(pipe_count, cmd_count) == 2)
-		duplicate_process(cmd_lst);
+	{
+		if (token->type == 1)
+			printf("SEND THIS COMMAND TO BUILTINS EXEC\n");
+		else
+		{
+			printf("coucou\n");
+			duplicate_process(cmd_lst);
+		}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/01 14:34:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:37:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	append_args(t_commande *command, char *arg)
 	}
 }
 
-t_commande	*command_list(t_type *tokens, char del, int *pipe_count, int *cmd_count)
+t_commande	*command_list(t_type *tokens, char del,
+		int *pipe_count, int *cmd_count)
 {
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
@@ -89,7 +90,7 @@ t_commande	*command_list(t_type *tokens, char del, int *pipe_count, int *cmd_cou
 	*cmd_count = 0;
 	while (current != NULL)
 	{
-		if (current->type == cmd)
+		if (current->type == cmd || current->type == builtin)
 		{
 			(*cmd_count)++;
 			new_cmd = create_cmd_node(current->text);

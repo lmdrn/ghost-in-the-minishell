@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:12:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:22:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void		free_args(t_args *args);
 void		print_commande_list(t_commande *head);
 void		ft_free_parsing_split(char **blocks);
 void		send_to_execution(int *pipe_count, int *cmd_count,
-				t_commande *cmd_lst);
+				t_commande *cmd_lst, t_type *tokens);
 int			execute_basic_cmd(t_commande *cmd);
 char		*ft_strcat(char *dest, char *src);
 char		*ft_strcpy(char *dst, const char *src);
