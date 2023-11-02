@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/05 11:42:29 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 12:25:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,29 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 	return (0);
 }
 
+void	duplicate_process(t_commande *cmd_lst)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("Woopsie, fork did not work...\n");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		execute_basic_cmd(cmd_lst);
+	}
+	else
+	{
+		wait(NULL);
+		printf("Command has been executed\n");
+	}
+}
+
 void	send_to_execution(int *pipe_count, int *cmd_count, t_commande *cmd_lst)
 {
 	if (is_odd_or_even(pipe_count, cmd_count) == 2)
-		execute_basic_cmd(cmd_lst);
+		duplicate_process(cmd_lst);
 }

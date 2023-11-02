@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/11/01 14:54:33 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/11/02 12:28:30 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ BS_N_TXT			=		echo "\n"
 SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  create_cmd.c check_pipes.c execve.c tokenization.c \
 			  utils.c error.c free_lst.c assign_types.c \
-			  assign_cmd_or_builtin.c
+			  assign_cmd_or_builtin.c create_lst.c
 
 OBJS 		= ${SRCS:.c=.o}
 
