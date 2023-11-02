@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 13:49:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:12:25 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	duplicate_process(t_commande *cmd_lst)
 	}
 	else
 	{
-		wait(NULL);
+		wait(&g_status);
 		printf("Command has been executed\n");
 	}
 }

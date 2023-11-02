@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 16:29:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:04:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 // careful do not use printf (or modify later on) could create trouble
 // (and we don't want trouble...)
+
+int	g_status = 0;
 
 void	ft_welcome(void)
 {
