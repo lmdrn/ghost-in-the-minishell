@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:51:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:55:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	send_to_execution(int *pipe_count, int *cmd_count,
 	{
 		if (token->type == 1)
 			which_builtin(cmd_lst);
-		else
+		else if (token->type == 0)
 			duplicate_process(cmd_lst);
 	}
 }

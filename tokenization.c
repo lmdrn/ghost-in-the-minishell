@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/01 14:56:15 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:58:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	assign_types(t_type *node, t_type *lst)
 		assign_ch_droit(node, lst, next_node);
 	else if (ft_strncmp(node->text, "<", 1) == 0)
 		assign_ch_gauche(node, lst, next_node);
-	else if (is_executable_command(node->text) == 0)
-		assign_exec_cmd(node);
 	else if (is_builtin(node->text) == 0)
 		assign_builtin(node);
+	else if (is_executable_command(node->text) == 0)
+		assign_exec_cmd(node);
 	else
 		assign_else(node);
 }
