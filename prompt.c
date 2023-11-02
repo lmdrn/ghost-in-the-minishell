@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 12:28:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:29:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ void	sigint_handler(int signum)
 	printf("\n\U0001F63B \U0001F449 ");
 }
 
-//signal handler for Ctrl+D
-/* void    sigeof_handler(int signum) */
-/* { */
-/*     (void)signum; */
-/*     printf("Exiting shell...\n"); */
-/* } */
+void	handling_signals(char *input)
+{
+    // Install signal handlers
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);// Ctrl+\ (ignore)
+	free(input);
+	ft_welcome();
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -53,21 +55,18 @@ int	main(int ac, char **av, char **envp)
 	int			cmd_count;
 	t_type 		*tokens;
 	t_commande	*cmd_lst;
-	char		delimiter;
 	char		*input;
+	char		**env_copy;
 
-	delimiter = ' ';
 	cmd_lst = NULL;
 	tokens = NULL;
 	input = NULL;
 	(void)ac;
 	(void)av;
-	(void)envp;
-    // Install signal handlers
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);// Ctrl+\ (ignore)
-	free(input);
-	ft_welcome();
+	/* (void)envp; */
+	handling_signals(input);
+	env_copy = copy_env(envp);
+	free_env(env_copy);
 	while (1)
 	{
 		printf("\U0001F63B \U0001F449 ");
@@ -86,7 +85,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 		{
-			blocks = ft_parsing_split(input, delimiter, &block_count);
+			blocks = ft_parsing_split(input, ' ', &block_count);
 			free(input);
 			wc = 0;
 			while (blocks[wc] != NULL)
