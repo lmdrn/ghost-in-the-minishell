@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:21:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:19:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	g_status = 0;
 
 void	ft_welcome(void)
 {
-	ft_putendl_fd("\x0b[35mWelcome to ghost in the minishell!\n", 1);
+	ft_putendl_fd("\033[0;34mWelcome to ghost in the minishell!\n", 1);
 	ft_putendl_fd("Please enter a command \e[0m\n", 1);
 }
 
@@ -27,7 +27,7 @@ char	*ft_prompt(void)
 {
 	char	*input;
 
-	input = readline(NULL);
+	input = readline("\n\U0001F63B \U0001F449 ");
 	return (input);
 }
 
@@ -35,7 +35,10 @@ char	*ft_prompt(void)
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	printf("\n\U0001F63B \U0001F449 ");
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	handling_signals(char *input)
@@ -44,7 +47,6 @@ void	handling_signals(char *input)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);// Ctrl+\ (ignore)
 	free(input);
-	ft_welcome();
 }
 
 int	main(int ac, char **av, char **envp)
@@ -66,20 +68,20 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	/* (void)envp; */
-	handling_signals(input);
 	env_copy = copy_env(envp);
+	handling_signals(input);
 	free_env(env_copy);
+	ft_welcome();
 	while (1)
 	{
-		printf("\U0001F63B \U0001F449 ");
 		input = ft_prompt();
-		if (input && *input)
-			add_history (input);
 		if (input == NULL)
 		{
 			free(input);
 			break ;
 		}
+		if (input && *input)
+			add_history (input);
 		if (ft_strncmp(input, "exit", 4) == 0)
 		{
 			free(input);
@@ -87,6 +89,11 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 		{
+			if (ft_strncmp(input, "exit", 4) == 0)
+			{
+				free(input);
+				break ;
+			}
 			blocks = ft_parsing_split(input, ' ', &block_count);
 			free(input);
 			wc = 0;

@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/11/02 17:47:30 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/11/07 15:30:00 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,13 @@ NAME		= minishell
 
 CC 		= gcc
 
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 
 CFLAGS		+= -fsanitize=address -g3 
 
 LIBFT =		-L./libft -lft
+
+READLINE =	-I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline 
 
 RM		= rm -rf
 
@@ -46,7 +48,7 @@ ${NAME}:	${OBJS}
 			@$(BS_N_TXT)
 			@echo "$(RESET)$(ORANGE)ASSEMBLING $(NAME)$(RESET)"
 			@$(MAKE) -C libft --silent
-			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} -lreadline
+			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} ${READLINE}
 			@echo "$(RESET)$(GREEN)$(NAME) HAS ASSEMBLED ✓$(RESET)"
 
 clean:		
