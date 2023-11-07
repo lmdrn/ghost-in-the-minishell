@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:48:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/07 23:50:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:01:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	assign_else(t_type *node)
 			node->type = cmd;
 		else
 		{
-			printf("Error: command not found\n", node->text);
+			printf("Error: command not found\n");
 			exit(1);
 		}
 	}
