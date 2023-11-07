@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/07 15:27:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:26:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ enum e_types {
 	ch_g,
 	ch_d,
 	dbl_ch_g,
-	dbl_ch_d
+	dbl_ch_d,
+	dbl_q,
+	s_q
 };
 
 typedef struct s_type
@@ -113,5 +115,6 @@ char		*concat_str(char *s1, char *s2);
 void		free_argv(char **argv);
 int			ft_error(char *str);
 void		which_builtin(t_commande *cmd_lst);
+void		handling_signals(char *input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:37:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:13:17 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_commande	*command_list(t_type *tokens, char del,
 		}
 		else
 		{
+			//Here should return command not found (always?)
 			printf("Unexpected node type\n");
 			exit(1);
 		}

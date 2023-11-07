@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/10/05 11:50:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:52:46 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 	blocks[block_index + 1] = NULL;
 	if (in_q)
 	{
-		printf("\033[1;31mError! Odd number of quotes\n");
+		printf("\033[1;31mError! Odd number of quotes\e[0m\n");
 		exit(1);
 	}
 }
