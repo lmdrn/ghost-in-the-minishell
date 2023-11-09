@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/07 18:52:46 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/09 18:10:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,32 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 		printf("\033[1;31mError! Odd number of quotes\e[0m\n");
 		exit(1);
 	}
+}
+
+char	*remove_xtra_spaces(char *input)
+{
+	int		i;
+	int		j;
+	int		len;
+
+	i = 0;
+	while (ft_isspace(*input))
+		input++;
+	len = ft_strlen(input);
+	while (len > 0 && ft_isspace(input[len - 1]))
+		len--;
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		if (!ft_isspace(input[i]))
+			input[j++] = input[i];
+		else if (ft_isspace(input[i]) && !ft_isspace(input[i - 1]))
+			input[j++] = input[i];
+		i++;
+	}
+	input[j] = '\0';
+	return (input);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)
