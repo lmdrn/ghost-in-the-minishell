@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/01 15:12:44 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/09 12:53:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,52 @@ struct	s_type	*create_node(const char *block)
 	return (node);
 }
 
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+		return (1);
+	return (0);
+}
+
+t_type	*clean_cmd_type(t_type *node)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (node->type == cmd || node->type == builtin)
+	{
+		new_str = malloc(sizeof(char *) * ft_strlen(node->text) + 1);
+		if (new_str == NULL)
+			return (NULL);
+		while (node->text[i] != '\0')
+		{
+			if (node->text[i] != '\'' && node->text[i] != '\"' && !ft_isspace(node->text[i]))
+			{
+				new_str[j] = node->text[i];
+				j++;
+			}
+			i++;
+		}
+		new_str[j] = '\0';
+		node->text = new_str;
+		printf("without quotes is %s\n", new_str);
+	}
+	return (node);
+}
+
 t_type	*create_node_and_assign_types(char *text, t_type *head)
 {
 	t_type	*node;
 
 	node = create_node(text);
 	assign_types(node, head);
+	clean_cmd_type(node);
 	return (node);
 }
+
 //fct that takes blocks from split and transforms
 //each block into nodes by calling create_node
 //then iterates through list again 
