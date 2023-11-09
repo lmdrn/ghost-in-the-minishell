@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:48:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/09 11:38:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:59:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ void	assign_builtin(t_type *node)
 	printf("\n");
 }
 
-int is_valid_char(char c) {
-    return (isalpha(c) || c == '\'' || c == '\"');
+int	is_valid_char(char c)
+{
+	return (isalpha(c) || c == '\'' || c == '\"');
 }
 
 int	count_word_node(t_type *node)
 {
-	int	wc;
-	int	i;
-	int	inside_word;
+	int		wc;
+	int		i;
+	int		inside_word;
 	char	*str;
 
 	if (node == NULL || node->text == NULL)
@@ -52,17 +53,17 @@ int	count_word_node(t_type *node)
 				wc++;
 				inside_word = 1;
 			}
-		} 
+		}
 		else
 			inside_word = 0;
 		str++;
-    }
+	}
 	return (wc);
 }
 
-void	assign_else(t_type *node)
+void	assign_quotes(t_type *node)
 {
-	int	len;
+	int		len;
 	char	first;
 	char	last;
 
@@ -70,10 +71,18 @@ void	assign_else(t_type *node)
 	len = ft_strlen(node->text);
 	last = node->text[len - 1];
 	printf("Node has %d words\n", count_word_node(node));
-	if (first == '\"' && last == '\"')	
+	if (first == '\"' && last == '\"')
 	{
 		if (count_word_node(node) == 1)
-			node->type = cmd;
+		{
+			clean_cmd_type(node);
+			if (is_builtin(node->text) == 0)
+				node->type = builtin;
+			else if (is_executable_command(node->text) == 0)
+				node->type = cmd;
+			else
+				node->type = args;
+		}
 		else
 		{
 			printf("Error: command not found\n");
@@ -83,7 +92,15 @@ void	assign_else(t_type *node)
 	else if (first == '\'' && last == '\'')
 	{
 		if (count_word_node(node) == 1)
-			node->type = cmd;
+		{
+			clean_cmd_type(node);
+			if (is_builtin(node->text) == 0)
+				node->type = builtin;
+			else if (is_executable_command(node->text) == 0)
+				node->type = cmd;
+			else
+				node->type = args;
+		}
 		else
 		{
 			printf("Error: command not found\n");

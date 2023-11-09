@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:58:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:55:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ void	assign_types(t_type *node, t_type *lst)
 	else if (is_executable_command(node->text) == 0)
 		assign_exec_cmd(node);
 	else
-		assign_else(node);
+	{
+		assign_quotes(node);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/07 18:26:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:48:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,7 @@ void		free_argv(char **argv);
 int			ft_error(char *str);
 void		which_builtin(t_commande *cmd_lst);
 void		handling_signals(char *input);
+void		assign_quotes(t_type *node);
+t_type		*clean_cmd_type(t_type *node);
 
 #endif
