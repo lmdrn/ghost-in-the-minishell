@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/09 16:12:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:56:18 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	assign_quotes(t_type *node)
 			else
 				node->type = args;
 		}
+		// ici error dans le cas ou j'ai 2 mots et args et non une cmd!!
 		else
 		{
 			printf("Error: command not found\n");

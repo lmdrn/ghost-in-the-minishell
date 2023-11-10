@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/09 18:10:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:46:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,24 @@ char	*remove_xtra_spaces(char *input)
 	}
 	input[j] = '\0';
 	return (input);
+}
+
+int	between_quotes(char *str)
+{
+	int	i;
+	int	quotes;
+
+	i = 0;
+	quotes = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			quotes = !quotes;
+		if (quotes)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)

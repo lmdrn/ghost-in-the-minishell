@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/09 18:12:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:48:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 				break ;
 			}
-			input = remove_xtra_spaces(input);
+			if (between_quotes(input) == 0)
+				input = remove_xtra_spaces(input);
 			printf("Cleaned inputs is : %s\n", input);
 			blocks = ft_parsing_split(input, ' ', &block_count);
 			/* free(input); */

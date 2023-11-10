@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/09 16:48:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/10 12:47:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void		assign_quotes(t_type *node);
 t_type		*clean_cmd_type(t_type *node);
 int			ft_isspace(char c);
 char		*remove_xtra_spaces(char *input);
+int			between_quotes(char *str);
 
 #endif
