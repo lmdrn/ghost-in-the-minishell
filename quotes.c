@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/10 12:56:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:20:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,6 @@ int	count_word_node(t_type *node)
 	return (wc);
 }
 
-int	is_valid_char(char c)
-{
-	return (ft_isalpha(c) || c == '\'' || c == '\"');
-}
-
 void	assign_quotes(t_type *node)
 {
 	int		len;
@@ -57,6 +52,7 @@ void	assign_quotes(t_type *node)
 	len = ft_strlen(node->text);
 	last = node->text[len - 1];
 	printf("Node has %d words\n", count_word_node(node));
+	//make it a function START//
 	if (first == '\"' && last == '\"')
 	{
 		if (count_word_node(node) == 1)
@@ -66,15 +62,14 @@ void	assign_quotes(t_type *node)
 				node->type = builtin;
 			else if (is_executable_command(node->text) == 0)
 				node->type = cmd;
-			else
-				node->type = args;
 		}
 		else
 		{
-			printf("Error: command not found\n");
-			exit(1);
+			node->type = args;
 		}
 	}
+	//make it a function END//
+	//make it a function START//
 	else if (first == '\'' && last == '\'')
 	{
 		if (count_word_node(node) == 1)
@@ -84,29 +79,19 @@ void	assign_quotes(t_type *node)
 				node->type = builtin;
 			else if (is_executable_command(node->text) == 0)
 				node->type = cmd;
-			else
-				node->type = args;
 		}
-		// ici error dans le cas ou j'ai 2 mots et args et non une cmd!!
 		else
 		{
-			printf("Error: command not found\n");
-			exit(1);
+			node->type = args;
 		}
 	}
+	//make it a function END//
 	else
 		node->type = args;
 	printf("First letter is %c\n", first);
 	printf("Last letter is %c\n", last);
 	printf("%s type is: %d\n", node->text, node->type);
 	printf("\n");
-}
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
-		return (1);
-	return (0);
 }
 
 t_type	*clean_cmd_type(t_type *node)
@@ -134,4 +119,52 @@ t_type	*clean_cmd_type(t_type *node)
 	node->text = new_str;
 	printf("without quotes is %s\n", new_str);
 	return (node);
+}
+
+char	*remove_xtra_spaces(char *input)
+{
+	int		i;
+	int		j;
+	int		len;
+
+	i = 0;
+	while (ft_isspace(*input))
+		input++;
+	len = ft_strlen(input);
+	while (len > 0 && ft_isspace(input[len - 1]))
+		len--;
+	i = 0;
+	j = 0;
+	while (i < len)
+	{
+		if (!ft_isspace(input[i]))
+			input[j++] = input[i];
+		else if (ft_isspace(input[i]) && !ft_isspace(input[i - 1]))
+			input[j++] = input[i];
+		i++;
+	}
+	input[j] = '\0';
+	return (input);
+}
+
+int	between_quotes(char *str)
+{
+	int	i;
+	int	single_quotes;
+	int	double_quotes;
+
+	i = 0;
+	single_quotes = 0;
+	double_quotes = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			double_quotes = !double_quotes;
+		else if (str[i] == '\'')
+			single_quotes = !single_quotes;
+		if (single_quotes || double_quotes)
+			return (1);
+		i++;
+	}
+	return (0);
 }

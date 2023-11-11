@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   custom_parsing_split.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/10 12:46:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:55:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,20 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 	int		block_len;
 	int		i;
 	char	c;
-	int		in_q;
+	int		in_sq;
+	int		in_dq;
 
 	i = 0;
 	c = ' ';
-	in_q = 0;
+	in_sq = 0;
+	in_dq = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
-			in_q = 1 - in_q;
-		else if (str[i] == c && !in_q)
+		if (str[i] == '\'')
+			in_sq++;
+		else if (str[i] == '\"')
+			in_dq++;
+		else if (str[i] == c && !in_sq && !in_dq)
 		{
 			block_len = i - start;
 			blocks[block_index] = malloc(sizeof(char) * (block_len + 1));
@@ -77,57 +81,24 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 		}
 		i++;
 	}
+	printf("single: %d\n", in_sq);
+	printf("double: %d\n", in_dq);
 	ft_last_block(str, blocks, block_index, start);
 	blocks[block_index + 1] = NULL;
-	if (in_q)
+	if (in_dq % 2 == 0 && in_sq % 2 != 0)
+		printf("\033[1;31mThere is an unclosed single quote inside a double quote\e[0m\n");
+	else if (in_dq % 2 != 0 && in_sq % 2 == 0)
+		printf("\033[1;31mThere is an unclosed double quote inside a single quote\e[0m\n");
+	else if (in_sq % 2 != 0 && in_dq == 0)
 	{
-		printf("\033[1;31mError! Odd number of quotes\e[0m\n");
+		printf("\033[1;31mError! Odd number of single quotes\e[0m\n");
 		exit(1);
 	}
-}
-
-char	*remove_xtra_spaces(char *input)
-{
-	int		i;
-	int		j;
-	int		len;
-
-	i = 0;
-	while (ft_isspace(*input))
-		input++;
-	len = ft_strlen(input);
-	while (len > 0 && ft_isspace(input[len - 1]))
-		len--;
-	i = 0;
-	j = 0;
-	while (i < len)
+	else if (in_dq % 2 != 0 && in_sq == 0)
 	{
-		if (!ft_isspace(input[i]))
-			input[j++] = input[i];
-		else if (ft_isspace(input[i]) && !ft_isspace(input[i - 1]))
-			input[j++] = input[i];
-		i++;
+		printf("\033[1;31mError! Odd number of double quotes\e[0m\n");
+		exit(1);
 	}
-	input[j] = '\0';
-	return (input);
-}
-
-int	between_quotes(char *str)
-{
-	int	i;
-	int	quotes;
-
-	i = 0;
-	quotes = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			quotes = !quotes;
-		if (quotes)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)
