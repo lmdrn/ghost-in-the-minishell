@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 12:24:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:46:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void	assign_quotes(t_type *node)
 	char	first;
 	char	last;
 	char	*env_var;
+	char	*env_value;
 
 	env_var = NULL;
+	env_value = NULL;
 	first = node->text[0];
 	len = ft_strlen(node->text);
 	last = node->text[len - 1];
@@ -69,6 +71,8 @@ void	assign_quotes(t_type *node)
 		{
 			node->type = args;
 			env_var = find_env_variable(node);
+			if (env_var != NULL)
+				env_value = retrieve_env_variable(env_var);
 		}
 	}
 	//make it a function END//
@@ -88,6 +92,8 @@ void	assign_quotes(t_type *node)
 			node->type = args;
 			clean_cmd_type(node);
 			env_var = find_env_variable(node);
+			if (env_var != NULL)
+				env_value = retrieve_env_variable(env_var);
 		}
 	}
 	//make it a function END//
@@ -96,11 +102,14 @@ void	assign_quotes(t_type *node)
 		node->type = args;
 		clean_cmd_type(node);
 		env_var = find_env_variable(node);
+		if (env_var != NULL)
+			env_value = retrieve_env_variable(env_var);
 	}
 	printf("First letter is %c\n", first);
 	printf("Last letter is %c\n", last);
 	printf("%s type is: %d\n", node->text, node->type);
 	printf("Env var is %s\n", env_var);
+	printf("Env var value is %s\n", env_value);
 	printf("\n");
 }
 
