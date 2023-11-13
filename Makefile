@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/11/11 14:55:03 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/11/13 12:19:32 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  utils.c error.c free_lst.c assign_types.c \
 			  assign_cmd_or_builtin.c create_lst.c \
 			  copy_env.c send_to_builtin_exec.c quotes.c \
-			  utils_2.c
+			  utils_2.c expand_variable.c
 
 OBJS 		= ${SRCS:.c=.o}
 

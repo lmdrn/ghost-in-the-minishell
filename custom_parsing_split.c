@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/11 14:55:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:47:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			in_sq++;
+			in_sq = !in_sq;
 		else if (str[i] == '\"')
-			in_dq++;
+			in_dq = !in_dq;
 		else if (str[i] == c && !in_sq && !in_dq)
 		{
 			block_len = i - start;
@@ -86,9 +86,9 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 	ft_last_block(str, blocks, block_index, start);
 	blocks[block_index + 1] = NULL;
 	if (in_dq % 2 == 0 && in_sq % 2 != 0)
-		printf("\033[1;31mThere is an unclosed single quote inside a double quote\e[0m\n");
+		printf("\033[1;31mUnclosed single quote in a double quote\e[0m\n");
 	else if (in_dq % 2 != 0 && in_sq % 2 == 0)
-		printf("\033[1;31mThere is an unclosed double quote inside a single quote\e[0m\n");
+		printf("\033[1;31mUnclosed double quote in a single quote\e[0m\n");
 	else if (in_sq % 2 != 0 && in_dq == 0)
 	{
 		printf("\033[1;31mError! Odd number of single quotes\e[0m\n");
