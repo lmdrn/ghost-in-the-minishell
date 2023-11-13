@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 12:46:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:23:36 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	assign_quotes(t_type *node)
 	char	last;
 	char	*env_var;
 	char	*env_value;
+	char	*new_node;
 
 	env_var = NULL;
 	env_value = NULL;
+	new_node = NULL;
 	first = node->text[0];
 	len = ft_strlen(node->text);
 	last = node->text[len - 1];
@@ -73,6 +75,8 @@ void	assign_quotes(t_type *node)
 			env_var = find_env_variable(node);
 			if (env_var != NULL)
 				env_value = retrieve_env_variable(env_var);
+			new_node = replace_env_value(node, env_value);
+			printf("New str with environment_value is %s\n", new_node);
 		}
 	}
 	//make it a function END//
@@ -94,6 +98,8 @@ void	assign_quotes(t_type *node)
 			env_var = find_env_variable(node);
 			if (env_var != NULL)
 				env_value = retrieve_env_variable(env_var);
+			new_node = replace_env_value(node, env_value);
+			printf("New str with environment_value is %s\n", new_node);
 		}
 	}
 	//make it a function END//
@@ -104,6 +110,8 @@ void	assign_quotes(t_type *node)
 		env_var = find_env_variable(node);
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var);
+		new_node = replace_env_value(node, env_value);
+		printf("New str with environment_value is %s\n", new_node);
 	}
 	printf("First letter is %c\n", first);
 	printf("Last letter is %c\n", last);

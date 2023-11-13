@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 13:14:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:22:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*find_env_variable(t_type *node)
 	if (dollar != NULL)
 	{
 		end_position = dollar;
-		while (*end_position != '\0' && !ft_isspace(*end_position))
+		while (*end_position != '\0' && !ft_isspace(*end_position)
+			&& *end_position != '\"' && *end_position != '\'')
 			end_position++;
 		while (current_pos < end_position)
 		{
@@ -75,4 +76,38 @@ char	*retrieve_env_variable(char *env_var)
 	{
 		return (NULL);
 	}
+}
+
+char	*replace_env_value(t_type *node, char *env_value)
+{
+	char	*start_pos;
+	char	*new_text;
+	int		env_len;
+	int		prefix;
+	int		suffix;
+
+	start_pos = ft_strnstr(node->text, "$", ft_strlen(node->text));
+	if (start_pos != NULL)
+	{
+		prefix = start_pos - node->text;
+		suffix = ft_strlen(start_pos + 1);
+		if (env_value != NULL)
+			env_len = ft_strlen(env_value);
+		else
+			env_len = 0;
+		new_text = malloc(prefix + suffix + env_len + 1);
+		if (new_text == NULL)
+		{
+			printf("Error: malloc failed\n");
+			exit(1);
+		}
+		ft_strncpy(new_text, node->text, prefix);
+		new_text[prefix] = '\0';
+		if (env_value != NULL)
+			ft_strcat(new_text, env_value);
+		ft_memmove(new_text + prefix + env_len, start_pos + 1, suffix);
+	}
+	else
+		new_text = ft_strdup(node->text);
+	return (new_text);
 }

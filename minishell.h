@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 12:45:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:00:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,6 @@ char		*remove_xtra_spaces(char *input);
 int			between_quotes(char *str);
 char		*find_env_variable(t_type *node);
 char		*retrieve_env_variable(char *env_var);
+char		*replace_env_value(t_type *node, char *env_value);
 
 #endif
