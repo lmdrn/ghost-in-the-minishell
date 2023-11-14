@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:33:23 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 19:43:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 				node->type = builtin;
 			else if (is_executable_command(node->text) == 0)
 				node->type = cmd;
+			else
+				node->type = args;
 		}
 		else
 		{
 			node->type = args;
+			printf("NODE TYPE IS %d\n", node->type);
 			env_var = find_env_variable(node);
 			if (env_var != NULL)
 				env_value = retrieve_env_variable(env_var, env_cpy);

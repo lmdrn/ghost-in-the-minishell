@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:26:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:54:18 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_environment	*init_env(char **envp)
 	i = 0;
 	while (env_copy[i].key != NULL)
 	{
-		printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
+		/* printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value); */
 		i++;
 	}
 	return (env_copy);
