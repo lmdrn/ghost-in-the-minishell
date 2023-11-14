@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 16:15:35 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:34:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,12 @@ void			ft_welcome(void);
 char			*ft_prompt(void);
 void			sigint_handler(int signum);
 void			sigeof_handler(int signum);
-t_commande		*command_list(t_type *tokens, char del,
-					int *pipe_count, int *cmd_count);
+t_commande		*command_list(t_type *tokens, int *pipe_count, int *cmd_count);
 void			free_commande_list(t_commande *head);
 void			free_args(t_args *args);
 void			print_commande_list(t_commande *head);
 void			ft_free_parsing_split(char **blocks);
-void			send_to_execution(int *pipe_count, int *cmd_count,
-					t_commande *cmd_lst, t_type *tokens);
-int				execute_basic_cmd(t_commande *cmd);
+int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
 char			*ft_strcat(char *dest, char *src);
 char			*ft_strcpy(char *dst, const char *src);
 int				is_executable_command(char *node);
@@ -137,10 +134,8 @@ char			*replace_env_value(t_type *node, char *env_value);
 void			free_env_struct(t_environment *env_struct);
 int				ft_strcmp(char *s1, char *s2);
 int				is_odd_or_even(int *pipe_count, int *cmd_count);
-void			duplicate_process(t_commande *cmd_lst);
-void			send_to_execution(int *pipe_count, int *cmd_count,
-					t_commande *cmd_lst, t_type *token);
-void			init_tokenizer(char **blocks);
+void			duplicate_process(t_commande *cmd_lst, t_environment *env_copy);
+void			init_tokenizer(char **blocks, t_environment *env_copy);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 #endif

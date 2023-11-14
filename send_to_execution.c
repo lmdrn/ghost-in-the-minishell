@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 15:20:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:33:17 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 }
 
 //fucntion that forks process when cmd is found, then sends to execve
-void	duplicate_process(t_commande *cmd_lst)
+void	duplicate_process(t_commande *cmd_lst, t_environment *env_copy)
 {
 	pid_t	pid;
 
@@ -47,26 +47,11 @@ void	duplicate_process(t_commande *cmd_lst)
 	}
 	else if (pid == 0)
 	{
-		execute_basic_cmd(cmd_lst);
+		execute_basic_cmd(cmd_lst, env_copy);
 	}
 	else
 	{
 		wait(&g_status);
 		printf("Waiting succesful, command has been executed\n");
-	}
-}
-
-//Function that checks if pipe numbers are correct.
-//If correct and == 1 check function checks if what builtin
-//If coorect and == 0 duplicate process and execute cmd with execve
-void	send_to_execution(int *pipe_count, int *cmd_count,
-		t_commande *cmd_lst, t_type *token)
-{
-	if (is_odd_or_even(pipe_count, cmd_count) == 2)
-	{
-		if (token->type == 1)
-			which_builtin(cmd_lst);
-		else if (token->type == 0)
-			duplicate_process(cmd_lst);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 16:13:35 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:03:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_environment	*init_env(char **envp)
 		printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
 		i++;
 	}
-	free_env_struct(env_copy);
 	return (env_copy);
 }
 
@@ -60,7 +59,7 @@ char	**init_parse(const char *input)
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
-void	init_tokenizer(char **blocks)
+void	init_tokenizer(char **blocks, t_environment *env_copy)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
@@ -70,7 +69,7 @@ void	init_tokenizer(char **blocks)
 	tokens = NULL;
 	tokens = init_lst(blocks, tokens);
 	ft_free_parsing_split(blocks);
-	cmd_lst = command_list(tokens, '|', &pipe_count, &cmd_count);
+	cmd_lst = command_list(tokens, &pipe_count, &cmd_count);
 	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",
 		pipe_count, cmd_count);
 	if (cmd_lst != NULL)
@@ -78,6 +77,13 @@ void	init_tokenizer(char **blocks)
 		printf("Command list:\n");
 		print_commande_list(cmd_lst);
 	}
-	send_to_execution(&pipe_count, &cmd_count, cmd_lst, tokens);
+	if (is_odd_or_even(&pipe_count, &cmd_count) == 2)
+	{
+		if (tokens->type == 1)
+			which_builtin(cmd_lst);
+		else if (tokens->type == 0)
+			duplicate_process(cmd_lst, env_copy);
+	}
 	free_commande_list(cmd_lst);
+	free_env_struct(env_copy);
 }

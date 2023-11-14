@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:49:26 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 14:15:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:02:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ int	env_count(char **envp)
 	while (envp[env_count] != NULL)
 		env_count++;
 	return (env_count);
-}
-
-void	free_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
 }
 
 void	dup_env(int count, char **new_env, char **envp)

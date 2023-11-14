@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 15:35:21 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:28:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,15 @@ void	append_args(t_commande *command, char *arg)
 	}
 }
 
-t_commande	*command_list(t_type *tokens, char del,
-		int *pipe_count, int *cmd_count)
+t_commande	*command_list(t_type *tokens, int *pipe_count, int *cmd_count)
 {
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
 	t_commande	*new_cmd;
 	t_type		*current;
+	char		del;
 
+	del = '|';
 	cmd_head = NULL;
 	cmd_current = NULL;
 	current = tokens;
@@ -118,7 +119,6 @@ t_commande	*command_list(t_type *tokens, char del,
 		}
 		else
 		{
-			//Here should return command not found (always?)
 			printf("Unexpected node type\n");
 			exit(1);
 		}
