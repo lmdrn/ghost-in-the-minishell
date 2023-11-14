@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 17:03:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:26:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	int			cmd_count;
 
 	tokens = NULL;
-	tokens = init_lst(blocks, tokens);
+	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
 	cmd_lst = command_list(tokens, &pipe_count, &cmd_count);
 	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",

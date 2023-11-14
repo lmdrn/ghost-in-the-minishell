@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 12:14:35 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:31:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ struct	s_type	*create_node(const char *block)
 	return (node);
 }
 
-t_type	*create_node_and_assign_types(char *text, t_type *head)
+t_type	*create_node_and_assign_types(char *text, t_type *head,
+		t_environment *env_copy)
 {
 	t_type	*node;
 
 	node = create_node(text);
-	assign_types(node, head);
+	assign_types(node, head, env_copy);
 	return (node);
 }
 
@@ -47,7 +48,7 @@ t_type	*create_node_and_assign_types(char *text, t_type *head)
 //then iterates through list again 
 //to assign a type to each node
 
-t_type	*init_lst(char **blocks, t_type *node)
+t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
 	t_type	*head;
 	t_type	*current;
@@ -58,7 +59,7 @@ t_type	*init_lst(char **blocks, t_type *node)
 	i = 0;
 	while (blocks[i])
 	{
-		node = create_node_and_assign_types(blocks[i], head);
+		node = create_node_and_assign_types(blocks[i], head, env_copy);
 		if (!head)
 		{
 			head = node;

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 15:50:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:33:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	count_word_node(t_type *node)
 	return (wc);
 }
 
-void	assign_quotes(t_type *node)
+void	assign_quotes(t_type *node, t_environment *env_cpy)
 {
 	int		len;
 	char	first;
@@ -73,9 +73,8 @@ void	assign_quotes(t_type *node)
 		{
 			node->type = args;
 			env_var = find_env_variable(node);
-			t_environment *env_cpy2 = NULL;
 			if (env_var != NULL)
-				env_value = retrieve_env_variable(env_var, env_cpy2);
+				env_value = retrieve_env_variable(env_var, env_cpy);
 			new_node = replace_env_value(node, env_value);
 			printf("New str with environment_value is %s\n", new_node);
 		}
@@ -103,11 +102,10 @@ void	assign_quotes(t_type *node)
 		node->type = args;
 		clean_cmd_type(node);
 		env_var = find_env_variable(node);
-		t_environment *env_cpy = NULL;
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
 		new_node = replace_env_value(node, env_value);
-		/* printf("New str with environment_value is %s\n", new_node); */
+		printf("New str with environment_value is %s\n", new_node);
 	}
 	//TESTS VARIABLES//
 	printf("First letter is %c\n", first);

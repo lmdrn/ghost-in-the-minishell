@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 15:15:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:33:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,16 @@ char	*retrieve_env_variable(char *env_var, t_environment *env)
 {
 	int	i;
 
+	if (env_var == NULL || env == NULL)
+		return (NULL);
 	i = 0;
 	while (env[i].key != NULL)
 	{
-		if (ft_strcmp(env_var, env[i].key) == 0)
-			return (ft_strdup(env[i].value));
+		if (env[i].key != NULL && env[i].value != NULL)
+		{
+			if (ft_strcmp(env_var, env[i].key) == 0)
+				return (ft_strdup(env[i].value));
+		}
 		i++;
 	}
 	return (NULL);
@@ -89,7 +94,7 @@ char	*replace_env_value(t_type *node, char *env_value)
 			env_len = ft_strlen(env_value);
 		else
 			env_len = 0;
-		new_text = malloc(prefix + suffix + env_len + 1);
+		new_text = malloc(prefix + env_len + suffix + 1);
 		if (new_text == NULL)
 		{
 			printf("Error: malloc failed\n");
@@ -99,7 +104,7 @@ char	*replace_env_value(t_type *node, char *env_value)
 		new_text[prefix] = '\0';
 		if (env_value != NULL)
 			ft_strcat(new_text, env_value);
-		ft_memmove(new_text + prefix + env_len, start_pos + 1, suffix);
+		ft_strcat(new_text, start_pos + 1);
 	}
 	else
 		new_text = ft_strdup(node->text);
