@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:33:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:37:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*retrieve_env_variable(char *env_var, t_environment *env)
 	return (NULL);
 }
 
+//function that takes expanded variable and for example: 
+//replaces $PATH by the current path from copied enn in current node
 char	*replace_env_value(t_type *node, char *env_value)
 {
 	char	*start_pos;
