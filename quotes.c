@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 14:11:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:50:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ void	assign_quotes(t_type *node)
 		{
 			node->type = args;
 			env_var = find_env_variable(node);
+			t_environment *env_cpy2 = NULL;
 			if (env_var != NULL)
-				env_value = retrieve_env_variable(env_var);
+				env_value = retrieve_env_variable(env_var, env_cpy2);
 			new_node = replace_env_value(node, env_value);
-			/* printf("New str with environment_value is %s\n", new_node); */
+			printf("New str with environment_value is %s\n", new_node);
 		}
 	}
 	//make it a function END//
@@ -102,11 +103,13 @@ void	assign_quotes(t_type *node)
 		node->type = args;
 		clean_cmd_type(node);
 		env_var = find_env_variable(node);
+		t_environment *env_cpy = NULL;
 		if (env_var != NULL)
-			env_value = retrieve_env_variable(env_var);
+			env_value = retrieve_env_variable(env_var, env_cpy);
 		new_node = replace_env_value(node, env_value);
 		/* printf("New str with environment_value is %s\n", new_node); */
 	}
+	//TESTS VARIABLES//
 	printf("First letter is %c\n", first);
 	printf("Last letter is %c\n", last);
 	printf("%s type is: %d\n", node->text, node->type);

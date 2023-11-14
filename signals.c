@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_2.c                                          :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/11 14:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 15:53:33 by lmedrano         ###   ########.fr       */
+/*   Created: 2023/11/14 15:36:37 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/11/14 15:38:29 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_valid_char(char c)
+//signal handler for Ctrl+C
+void	sigint_handler(int signum)
 {
-	return (ft_isalpha(c) || c == '\'' || c == '\"');
+	(void)signum;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-int	ft_isspace(char c)
+void	handling_signals(char *input)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
-		return (1);
-	return (0);
-}
-
-int ft_strcmp(char *s1, char *s2)
-{
-	int i = 0;
-
-	while((s1[i] == s2[i]) && s1[i] && s2[i])
-		i++;
-	return (s1[i]-s2[i]);
+    // Install signal handlers
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);// Ctrl+\ (ignore)
+	free(input);
 }

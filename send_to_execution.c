@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_pipes.c                                      :+:      :+:    :+:   */
+/*   send_to_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:55:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:20:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//Function to check whether pipe number is odd or even
 int	is_odd_or_even(int *pipe_count, int *cmd_count)
 {
 	if ((*pipe_count % 2 != 0) && (*cmd_count % 2 == 0))
@@ -33,6 +34,7 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 	return (0);
 }
 
+//fucntion that forks process when cmd is found, then sends to execve
 void	duplicate_process(t_commande *cmd_lst)
 {
 	pid_t	pid;
@@ -54,10 +56,12 @@ void	duplicate_process(t_commande *cmd_lst)
 	}
 }
 
+//Function that checks if pipe numbers are correct.
+//If correct and == 1 check function checks if what builtin
+//If coorect and == 0 duplicate process and execute cmd with execve
 void	send_to_execution(int *pipe_count, int *cmd_count,
 		t_commande *cmd_lst, t_type *token)
 {
-	printf("%d\n", token->type);
 	if (is_odd_or_even(pipe_count, cmd_count) == 2)
 	{
 		if (token->type == 1)

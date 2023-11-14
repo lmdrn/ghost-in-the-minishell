@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 18:22:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:15:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,18 @@ char	*find_env_variable(t_type *node)
 //look in env if it exists
 //go to the said variable and jump past the =
 //then copies back the value of this variable
-char	*retrieve_env_variable(char *env_var)
+char	*retrieve_env_variable(char *env_var, t_environment *env)
 {
-	char	*value;
-	char	*res;
+	int	i;
 
-	value = getenv(env_var);
-	if (value != NULL)
+	i = 0;
+	while (env[i].key != NULL)
 	{
-		res = malloc(sizeof(char *) * (ft_strlen(value) + 1));
-		if (res == NULL)
-			return (NULL);
-		ft_strcpy(res, value);
-		return (res);
+		if (ft_strcmp(env_var, env[i].key) == 0)
+			return (ft_strdup(env[i].value));
+		i++;
 	}
-	else
-	{
-		return (NULL);
-	}
+	return (NULL);
 }
 
 char	*replace_env_value(t_type *node, char *env_value)

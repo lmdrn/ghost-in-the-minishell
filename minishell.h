@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 14:01:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:15:35 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int				ft_error(char *str);
 int				block_count(char const *str, char c);
 void			ft_blocks(char *s, char c, char **block, int i);
 char			**ft_parsing_split(const char *input, char c, int *wc);
+char			**init_parse(const char *input);
 void			blocks_into_types(char **blocks, int wc);
 t_environment	*copy_env(char **envp);
 void			free_env(char **env);
@@ -131,8 +132,15 @@ int				ft_isspace(char c);
 char			*remove_xtra_spaces(char *input);
 int				between_quotes(char *str);
 char			*find_env_variable(t_type *node);
-char			*retrieve_env_variable(char *env_var);
+char			*retrieve_env_variable(char *env_var, t_environment *env);
 char			*replace_env_value(t_type *node, char *env_value);
 void			free_env_struct(t_environment *env_struct);
-
+int				ft_strcmp(char *s1, char *s2);
+int				is_odd_or_even(int *pipe_count, int *cmd_count);
+void			duplicate_process(t_commande *cmd_lst);
+void			send_to_execution(int *pipe_count, int *cmd_count,
+					t_commande *cmd_lst, t_type *token);
+void			init_tokenizer(char **blocks);
+void			init_prompt(char *input);
+t_environment	*init_env(char **envp);
 #endif
