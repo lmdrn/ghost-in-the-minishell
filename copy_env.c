@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:49:26 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 16:42:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:15:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,37 @@ void	dup_env(int count, char **new_env, char **envp)
 	}
 }
 
-char	**copy_env(char **envp)
+void	populate_env_struct(char **envp,
+		t_environment *new_env, int i)
 {
-	char	**new_env;
-	int		count;
+	char			*delimiter;
+	int				key;
+	int				value;
+
+	delimiter = ft_strchr(envp[i], '=');
+	if (delimiter != NULL)
+	{
+		key = delimiter - envp[i];
+		new_env[i].key = malloc(key + 1);
+		ft_strncpy(new_env[i].key, envp[i], key);
+		new_env[i].key[key] = '\0';
+		value = ft_strlen(delimiter + 1);
+		new_env[i].value = malloc(value + 1);
+		ft_strcpy(new_env[i].value, delimiter + 1);
+		new_env[i].value[value] = '\0';
+	}
+	else
+	{
+		new_env[i].key = NULL;
+		new_env[i].value = NULL;
+	}
+}
+
+t_environment	*copy_env(char **envp)
+{
+	t_environment	*new_env;
+	int				count;
+	int				i;
 
 	if (!envp)
 	{
@@ -58,16 +85,33 @@ char	**copy_env(char **envp)
 		exit(EXIT_FAILURE);
 	}
 	count = env_count(envp);
-	new_env = malloc(sizeof(char *) * (count + 1));
+	new_env = malloc(sizeof(t_environment) * (count + 1));
 	if (new_env == NULL)
 	{
 		printf("Malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	dup_env(count, new_env, envp);
-	if (count < (count + 1))
-		new_env[count] = NULL;
-	else
-		printf("Error: Count exceeds allocated memory\n");
+	i = 0;
+	while (i < count)
+	{
+		populate_env_struct(envp, new_env, i);
+		i++;
+	}
+	new_env[count].key = NULL;
+	new_env[count].value = NULL;
 	return (new_env);
+}
+
+void	free_env_struct(t_environment *env_struct)
+{
+	int	i;
+
+	i = 0;
+	while (env_struct[i].key != NULL)
+	{
+		free(env_struct[i].key);
+		free(env_struct[i].value);
+		i++;
+	}
+	free(env_struct);
 }

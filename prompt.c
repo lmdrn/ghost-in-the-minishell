@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/10 12:48:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:15:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 	t_type 		*tokens;
 	t_commande	*cmd_lst;
 	char		*input;
-	char		**env_copy;
+	t_environment *env_copy;
 
 	cmd_lst = NULL;
 	tokens = NULL;
@@ -70,7 +70,12 @@ int	main(int ac, char **av, char **envp)
 	/* (void)envp; */
 	env_copy = copy_env(envp);
 	handling_signals(input);
-	free_env(env_copy);
+	int l = 0;
+    while (env_copy[l].key != NULL) {
+        printf("Key: %s, Value: %s\n", env_copy[l].key, env_copy[l].value);
+        l++;
+    }
+	free_env_struct(env_copy);
 	ft_welcome();
 	while (1)
 	{
