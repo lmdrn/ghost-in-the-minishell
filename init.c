@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:54:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:41:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}
-	free_commande_list(cmd_lst);
-	free_env_struct(env_copy);
+	/* free_commande_list(cmd_lst); */
+	clear_commande_list(&cmd_lst);
+	/* free_env_struct(env_copy); */
 }
