@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:31:24 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/01 14:33:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/15 11:31:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ void	free_commande_list(t_commande *head)
 		free(tmp->fdout);
 		free(tmp);
 	}
+}
+
+void clearCommandList(CommandList *list) {
+    CommandNode *current = list->head;
+    while (current != NULL) {
+        CommandNode *next = current->next;
+        free(current->command);
+        free(current);
+        current = next;
+    }
+    list->head = NULL;
 }
 
 void	print_commande_list(t_commande *head)

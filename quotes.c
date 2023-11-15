@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 19:50:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/15 10:58:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	count_word_node(t_type *node)
 {
 	int		wc;
-	int		i;
 	int		inside_word;
 	char	*str;
 
@@ -23,7 +22,6 @@ int	count_word_node(t_type *node)
 		return (0);
 	str = node->text;
 	wc = 0;
-	i = 0;
 	inside_word = 0;
 	while (*str)
 	{
