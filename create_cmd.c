@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 19:43:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/20 18:10:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_commande	*create_cmd_node(char *name)
 		exit(1);
 	}
 	node->args = NULL;
-	node->fdin = NULL;
-	node->fdout = NULL;
+	node->fdin = STDIN_FILENO;
+	node->fdout = STDOUT_FILENO;
 	node->next = NULL;
 	return (node);
 }

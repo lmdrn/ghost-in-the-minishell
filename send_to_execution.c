@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 16:33:17 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:21:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,19 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 {
 	if ((*pipe_count % 2 != 0) && (*cmd_count % 2 == 0))
 	{
-		printf("pipex shit should happen here\n");
+		printf("Odd pipes and even commands\n");
 		return (1);
+	}
+	else if ((*pipe_count % 2 == 0) && (*cmd_count % 2 != 0)
+		&& (*cmd_count > 1))
+	{
+		printf("Even pipes and odd commands\n");
+		return (2);
 	}
 	else if (!(*pipe_count) && *cmd_count == 1)
 	{
-		printf("execve or builtin should happen here\n");
-		return (2);
+		printf("One command and no pipes >> sending to exec\n");
+		return (3);
 	}
 	else if (((*pipe_count % 2 == 0) && (*cmd_count % 2 == 0))
 		|| (*pipe_count % 2 != 0 && *cmd_count % 2 != 0))

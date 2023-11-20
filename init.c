@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/15 14:41:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:54:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,15 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 		printf("Command list:\n");
 		print_commande_list(cmd_lst);
 	}
-	if (is_odd_or_even(&pipe_count, &cmd_count) == 2)
+	if (is_odd_or_even(&pipe_count, &cmd_count) == 3)
 	{
 		if (tokens->type == 1)
 			which_builtin(cmd_lst);
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}
-	/* free_commande_list(cmd_lst); */
+	else if (is_odd_or_even(&pipe_count, &cmd_count) == 1
+		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
+		send_to_pipes(env_copy, cmd_lst);
 	clear_commande_list(&cmd_lst);
-	/* free_env_struct(env_copy); */
 }

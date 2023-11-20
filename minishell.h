@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/15 14:36:29 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:22:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include "libft.h"
 
 extern int	g_status;
@@ -63,8 +64,8 @@ typedef struct s_commande
 {
 	char				*cmd;
 	t_args				*args;
-	char				*fdin;
-	char				*fdout;
+	int					fdin;
+	int					fdout;
 	struct s_commande	*next;
 }	t_commande;
 
@@ -142,5 +143,8 @@ void			init_tokenizer(char **blocks, t_environment *env_copy);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 void			clear_commande_list(t_commande **lst);
+void			send_to_pipes(t_environment *env_copy, t_commande *cmd_lst);
+char			*find_executable_path(char *command, t_environment *env_copy);
+char			**build_arg(t_commande *cmd, t_environment *env_copy);
 
 #endif
