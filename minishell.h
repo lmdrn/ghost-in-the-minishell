@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/20 16:22:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:40:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,22 @@ typedef struct s_args
 
 }	t_args;
 
-typedef struct s_commande
-{
-	char				*cmd;
-	t_args				*args;
-	int					fdin;
-	int					fdout;
-	struct s_commande	*next;
-}	t_commande;
-
 typedef struct s_environment
 {
 	char					*key;
 	char					*value;
 	struct s_environment	*next;
 }	t_environment;
+
+typedef struct s_commande
+{
+	char				*cmd;
+	t_args				*args;
+	int					fdin;
+	int					fdout;
+	t_environment		*env_copy;
+	struct s_commande	*next;
+}	t_commande;
 
 /* ooo - proto - ooo */
 
@@ -112,7 +113,8 @@ void			ft_welcome(void);
 char			*ft_prompt(void);
 void			sigint_handler(int signum);
 void			sigeof_handler(int signum);
-t_commande		*command_list(t_type *tokens, int *pipe_count, int *cmd_count);
+t_commande		*command_list(t_type *tokens, int *pipe_count, int *cmd_count,
+					t_environment *env_copy);
 void			free_commande_list(t_commande *head);
 void			free_args(t_args *args);
 void			print_commande_list(t_commande *head);
@@ -146,5 +148,7 @@ void			clear_commande_list(t_commande **lst);
 void			send_to_pipes(t_environment *env_copy, t_commande *cmd_lst);
 char			*find_executable_path(char *command, t_environment *env_copy);
 char			**build_arg(t_commande *cmd, t_environment *env_copy);
+int				create_pipes(t_commande *cmd, t_environment *env_copy, int cmd_count);
+int				execute_pipeline(void);
 
 #endif

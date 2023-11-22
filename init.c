@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/20 15:54:15 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:44:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	t_commande	*cmd_lst;
 	int			pipe_count;
 	int			cmd_count;
+	int 		r;
 
+	r = 0;
 	tokens = NULL;
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
-	cmd_lst = command_list(tokens, &pipe_count, &cmd_count);
+	cmd_lst = command_list(tokens, &pipe_count, &cmd_count, env_copy);
 	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",
 		pipe_count, cmd_count);
 	if (cmd_lst != NULL)
@@ -86,6 +88,9 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	}
 	else if (is_odd_or_even(&pipe_count, &cmd_count) == 1
 		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
-		send_to_pipes(env_copy, cmd_lst);
+	{
+		r = execute_pipeline();
+		printf("R is %d\n", r);
+	}
 	clear_commande_list(&cmd_lst);
 }
