@@ -1,64 +1,9 @@
-//#include "minishell.h"\
-// si delimiter dans le str...et verifier si executable.
-//echo juste delimiter
+#include "minishell.h"
+
 #include<stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <unistd.h>
-int	ft_strncmp(const char *s1, const char *s2, size_t nbytes)
-{
-	size_t	i;
-
-	i = 0;
-	while ((i < nbytes) && ((s1[i] != '\0') || (s2[i] != '\0')))
-	{
-		if (s1[i] > s2[i])
-			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
-		if (s1[i] < s2[i])
-			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (0);
-}
-
-enum e_types {
-	cmd,
-	builtin,
-	args,
-	flags,
-	filein,
-	fileout,
-	delimiter,
-	is_pipe,
-	ch_g,
-	ch_d,
-	dbl_ch_g,
-	dbl_ch_d
-};
-
-typedef struct s_type
-{
-	char			*text;
-	int				type;
-	struct s_type	*next;
-}	t_type;
-
-typedef struct s_args
-{
-	char			*arg;
-	struct s_args	*next;
-
-}	t_args;
-
-typedef struct s_commande
-{
-	char				*cmd;
-	t_args				*args;
-	char				*fdin;
-	char				*fdout;
-	struct s_commande	*next;
-}	t_commande;
-
 
 void ft_echo(char *str, int option_n);
 
@@ -74,7 +19,6 @@ int check_option_n(char *str) // verifie si le node apres echo est une option
 	return (0);
 
 }
-
 
 int echo(t_commande *cmd_lst) // recoil le node apres "echo", navigue dans la liste entiere qui touche echo
 {
@@ -118,8 +62,6 @@ int echo(t_commande *cmd_lst) // recoil le node apres "echo", navigue dans la li
 
 int g_errno = 0;
 
-
-
 void ft_echo(char *str, int option_n)
 {
 	int i = 0;
@@ -161,51 +103,48 @@ void ft_echo(char *str, int option_n)
 	}
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 // Assurez-vous que vos structures et prototypes de fonctions sont déclarés ici.
 // ...
 
 
-int main() {
-	// Initialisation des structures
-	t_commande command1;
-	t_args arg1, arg2, arg3;
-
-	// Assignation des valeurs
-	command1.cmd = strdup("echo"); // Utilisez votre propre fonction de duplication si nécessaire
-	command1.next = NULL; // Pas d'autres commandes
-
-	arg1.arg = strdup("-nnnnnnn");
-	arg1.next = &arg2; // Pointe vers le prochain argument
-
-	arg2.arg = strdup("hello");
-	arg2.next = &arg3; // Pointe vers le prochain argument
-
-	arg3.arg = strdup("-n");
-	arg3.next = NULL; // Dernier argument
-
-	// Lier la liste d'arguments à la commande
-	command1.args = &arg1;
-
-	// Utilisation des structures
-	t_args *current_arg = command1.args;
-	int i = 0;
-	while (current_arg != NULL)
-	{
-
-		printf("node %d %s\n",i++, current_arg->arg);
-		current_arg = current_arg->next;
-	}
-	echo(&command1);
-	// Libération de la mémoire si nécessaire
-	// Assurez-vous de libérer la mémoire pour chaque strdup utilisé précédemment
-	free(command1.cmd);
-	free(arg1.arg);
-	free(arg2.arg);
-	free(arg3.arg);
-
-	return 0;
-}
+//int main() {
+//	// Initialisation des structures
+//	t_commande command1;
+//	t_args arg1, arg2, arg3;
+//
+//	// Assignation des valeurs
+//	command1.cmd = strdup("echo"); // Utilisez votre propre fonction de duplication si nécessaire
+//	command1.next = NULL; // Pas d'autres commandes
+//
+//	arg1.arg = strdup("-nnnnnnn");
+//	arg1.next = &arg2; // Pointe vers le prochain argument
+//
+//	arg2.arg = strdup("hello");
+//	arg2.next = &arg3; // Pointe vers le prochain argument
+//
+//	arg3.arg = strdup("-n");
+//	arg3.next = NULL; // Dernier argument
+//
+//	// Lier la liste d'arguments à la commande
+//	command1.args = &arg1;
+//
+//	// Utilisation des structures
+//	t_args *current_arg = command1.args;
+//	int i = 0;
+//	while (current_arg != NULL)
+//	{
+//
+//		printf("node %d %s\n",i++, current_arg->arg);
+//		current_arg = current_arg->next;
+//	}
+//	echo(&command1);
+//	// Libération de la mémoire si nécessaire
+//	// Assurez-vous de libérer la mémoire pour chaque strdup utilisé précédemment
+//	free(command1.cmd);
+//	free(arg1.arg);
+//	free(arg2.arg);
+//	free(arg3.arg);
+//
+//	return 0;
+//}
