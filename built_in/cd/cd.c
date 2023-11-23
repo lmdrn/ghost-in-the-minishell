@@ -1,3 +1,4 @@
+#include "minishell.h"
 #include<stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -5,123 +6,123 @@
 #include <string.h>
 
 
-int SUCCESS =1 ;
-int ERROR = 0;
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*str;
-	int		i;
-	int		s1_len;
-
-	i = 0;
-	s1_len = ft_strlen(s1);
-	str = malloc((sizeof(*str) * s1_len) + 1);
-	if (str == NULL)
-		return (0);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-int	ft_strncmp(const char *s1, const char *s2, size_t nbytes)
-{
-	size_t	i;
-
-	i = 0;
-	while ((i < nbytes) && ((s1[i] != '\0') || (s2[i] != '\0')))
-	{
-		if (s1[i] > s2[i])
-			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
-		if (s1[i] < s2[i])
-			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char		*str;
-	int			i;
-	int			j;
-	int			count;
-
-	i = 0;
-	j = 0;
-	count = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(count + 1);
-	if (str == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		str[i] = ((char *)s1)[i];
-		i++;
-	}
-	while (s2[j] != '\0')
-		str[i++] = ((char *)s2)[j++];
-	str[i] = '\0';
-	return (str);
-}
-
-
- // struct pour l'env : t_environment	*env_copy;
- typedef struct s_environment
- {
-	 char					*key;
-	 char					*value;
-	 struct s_environment	*next;
- }	t_environment;
-
-enum e_types {
-	cmd,
-	builtin,
-	args,
-	flags,
-	filein,
-	fileout,
-	delimiter,
-	is_pipe,
-	ch_g,
-	ch_d,
-	dbl_ch_g,
-	dbl_ch_d
-};
-
-typedef struct s_type
-{
-	char			*text;
-	int				type;
-	struct s_type	*next;
-}	t_type;
-
-typedef struct s_args
-{
-	char			*arg;
-	struct s_args	*next;
-
-}	t_args;
-
-typedef struct s_commande
-{
-	char				*cmd;
-	t_args				*args;
-	char				*fdin;
-	char				*fdout;
-	struct s_commande	*next;
-}	t_commande;
+//int SUCCESS =1 ;
+//int ERROR = 0;
+//size_t	ft_strlen(const char *s)
+//{
+//	size_t	i;
+//
+//	i = 0;
+//	while (s[i] != '\0')
+//		i++;
+//	return (i);
+//}
+//
+//char	*ft_strdup(const char *s1)
+//{
+//	char	*str;
+//	int		i;
+//	int		s1_len;
+//
+//	i = 0;
+//	s1_len = ft_strlen(s1);
+//	str = malloc((sizeof(*str) * s1_len) + 1);
+//	if (str == NULL)
+//		return (0);
+//	while (s1[i])
+//	{
+//		str[i] = s1[i];
+//		i++;
+//	}
+//	str[i] = '\0';
+//	return (str);
+//}
+//int	ft_strncmp(const char *s1, const char *s2, size_t nbytes)
+//{
+//	size_t	i;
+//
+//	i = 0;
+//	while ((i < nbytes) && ((s1[i] != '\0') || (s2[i] != '\0')))
+//	{
+//		if (s1[i] > s2[i])
+//			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
+//		if (s1[i] < s2[i])
+//			return ((((unsigned char *)s1)[i]) - ((unsigned char *)s2)[i]);
+//		i++;
+//	}
+//	return (0);
+//}
+//
+//char	*ft_strjoin(char const *s1, char const *s2)
+//{
+//	char		*str;
+//	int			i;
+//	int			j;
+//	int			count;
+//
+//	i = 0;
+//	j = 0;
+//	count = ft_strlen(s1) + ft_strlen(s2);
+//	str = (char *)malloc(count + 1);
+//	if (str == NULL)
+//		return (NULL);
+//	while (s1[i] != '\0')
+//	{
+//		str[i] = ((char *)s1)[i];
+//		i++;
+//	}
+//	while (s2[j] != '\0')
+//		str[i++] = ((char *)s2)[j++];
+//	str[i] = '\0';
+//	return (str);
+//}
+//
+//
+// // struct pour l'env : t_environment	*env_copy;
+// typedef struct s_environment
+// {
+//	 char					*key;
+//	 char					*value;
+//	 struct s_environment	*next;
+// }	t_environment;
+//
+//enum e_types {
+//	cmd,
+//	builtin,
+//	args,
+//	flags,
+//	filein,
+//	fileout,
+//	delimiter,
+//	is_pipe,
+//	ch_g,
+//	ch_d,
+//	dbl_ch_g,
+//	dbl_ch_d
+//};
+//
+//typedef struct s_type
+//{
+//	char			*text;
+//	int				type;
+//	struct s_type	*next;
+//}	t_type;
+//
+//typedef struct s_args
+//{
+//	char			*arg;
+//	struct s_args	*next;
+//
+//}	t_args;
+//
+//typedef struct s_commande
+//{
+//	char				*cmd;
+//	t_args				*args;
+//	char				*fdin;
+//	char				*fdout;
+//	struct s_commande	*next;
+//}	t_commande;
 
 /* -------------------prototype-----------------------------*/
 int check_args(t_commande *cmd_lst);
@@ -131,6 +132,18 @@ void add_node_at_end(t_environment **head, char *key, char *value);
 int go_home(t_environment *env_copy, char *home);
 char *get_home(t_environment *head);
 /*------ utils liste------*/
+char * get_env_value(t_environment *env_copy. char *key)
+{
+	t_environnment *current;
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+			break;
+		current = current->next;
+		i++;
+	}
+	return (current->value)
+}
 t_environment	*last_node(t_environment *head)
 {
 	if (!head)//secu si existe pas
@@ -180,6 +193,22 @@ char *get_home(t_environment *head)
 	return NULL; // HOME n'est pas défini
 }
 /*------ check liste------*/
+int go_last_directories(t_environment *env_copy)
+{
+	t_environnment *current;
+	char *temp_OLDPWD;
+	char *new_pwd;
+
+	current = env_copy
+	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
+		return (ERROR);
+	else
+	{
+		temp_OLDPWD = get_env_value(env_copy, "OLDPWD");
+		//enlever "old " à la value du oldpwd pour le mettre dans le pwd
+		
+	}
+}
 int check_is_in_env(t_environment *env_copy, char *var)
 {
 	int length;
@@ -208,7 +237,7 @@ int check_path(char *path)
 		return (ERROR);
 	}
 }
-int check_args(t_commande *cmd_lst)
+int check_args(t_commande *cmd_lst, t_environment *env_copy)
 {
 	t_commande *current = cmd_lst;
 	int	i;
@@ -224,6 +253,10 @@ int check_args(t_commande *cmd_lst)
 			printf("cd: Failed to change directory");
 			return ERROR;
 		}
+	}
+	else if(strcmp(current->args->arg, "-") == 0)
+	{
+		go_last_directories(env_copy);
 	}
 	while (current != NULL)
 	{
@@ -383,92 +416,92 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 //	return 0;
 //}
 // Fonction pour libérer la mémoire allouée pour une liste de commandes
-void free_cmd_list(t_commande *head)
-{
-	while (head != NULL) {
-		t_commande *temp = head;
-		head = head->next;
+//void free_cmd_list(t_commande *head)
+//{
+//	while (head != NULL) {
+//		t_commande *temp = head;
+//		head = head->next;
+//
+//		// Libérer la mémoire allouée pour la commande et ses arguments
+//		free(temp->cmd);
+//		free(temp->args->arg);
+//		free(temp->args);
+//
+//		// Libérer la mémoire allouée pour les descripteurs de fichiers (si nécessaire)
+//		// free(temp->fdin);
+//		// free(temp->fdout);
+//
+//		// Libérer la mémoire allouée pour la commande actuelle
+//		free(temp);
+//	}
+//}
+//
+//// Fonction pour libérer la mémoire allouée pour une liste d'environnement
+//void free_env_list(t_environment *head)
+//{
+//	while (head != NULL) {
+//		t_environment *temp = head;
+//		head = head->next;
+//
+//		// Libérer la mémoire allouée pour la clé et la valeur
+//		free(temp->key);
+//		free(temp->value);
+//
+//		// Libérer la mémoire allouée pour le nœud d'environnement actuel
+//		free(temp);
+//	}
+//}
 
-		// Libérer la mémoire allouée pour la commande et ses arguments
-		free(temp->cmd);
-		free(temp->args->arg);
-		free(temp->args);
-
-		// Libérer la mémoire allouée pour les descripteurs de fichiers (si nécessaire)
-		// free(temp->fdin);
-		// free(temp->fdout);
-
-		// Libérer la mémoire allouée pour la commande actuelle
-		free(temp);
-	}
-}
-
-// Fonction pour libérer la mémoire allouée pour une liste d'environnement
-void free_env_list(t_environment *head)
-{
-	while (head != NULL) {
-		t_environment *temp = head;
-		head = head->next;
-
-		// Libérer la mémoire allouée pour la clé et la valeur
-		free(temp->key);
-		free(temp->value);
-
-		// Libérer la mémoire allouée pour le nœud d'environnement actuel
-		free(temp);
-	}
-}
-
-int main(int argc, char *argv[])
-{
-	t_commande *cmd_lst = NULL;
-	t_environment *env_copy = NULL;
-
-	// Lire les commandes depuis les arguments de la ligne de commande et les ajouter à la liste
-	for (int i = 1; i < argc; i++) {
-		// Ajouter une nouvelle commande à la liste
-		t_commande *new_cmd = malloc(sizeof(t_commande));
-		new_cmd->cmd = ft_strdup("cd"); // Pour tester la commande cd
-		new_cmd->args = malloc(sizeof(t_args));
-		new_cmd->args->arg = ft_strdup(argv[i]); // Utilisez l'argument comme argument pour cd
-		new_cmd->args->next = NULL;
-		new_cmd->fdin = NULL;
-		new_cmd->fdout = NULL;
-		new_cmd->next = NULL;
-
-		// Ajouter la nouvelle commande à la fin de la liste
-		if (cmd_lst == NULL) {
-			cmd_lst = new_cmd;
-		} else {
-			t_commande *temp = cmd_lst;
-			while (temp->next != NULL) {
-				temp = temp->next;
-			}
-			temp->next = new_cmd;
-		}
-
-		// Afficher la commande ajoutée pour vérification
-		printf("Commande ajoutée: %s\n", argv[i]);
-	}
-
-//	// Initialiser la liste d'environnement (env_copy) avec des valeurs par défaut
-//	add_node_at_end(&env_copy, "HOME", "/home/utilisateur");
-//	add_node_at_end(&env_copy, "PWD", "/home/utilisateur");
-//	add_node_at_end(&env_copy, "OLDPWD", "/home/utilisateur/ancien");
-
-	// Appeler la fonction builtin_cd avec la première commande de la liste et la liste d'environnement
-	builtin_cd(cmd_lst, env_copy);
-	// Après avoir appelé votre fonction cd
-	char cwd[1024];
-	if (getcwd(cwd, sizeof(cwd)) != NULL) {
-		printf("Répertoire actuel: %s\n", cwd);
-	} else {
-		perror("getcwd() error");
-	}
-
-	// Libérer la mémoire allouée pour la liste de commandes et la liste d'environnement
-	free_cmd_list(cmd_lst);
-	free_env_list(env_copy);
-
-	return 0;
-}
+//int main(int argc, char *argv[])
+//{
+//	t_commande *cmd_lst = NULL;
+//	t_environment *env_copy = NULL;
+//
+//	// Lire les commandes depuis les arguments de la ligne de commande et les ajouter à la liste
+//	for (int i = 1; i < argc; i++) {
+//		// Ajouter une nouvelle commande à la liste
+//		t_commande *new_cmd = malloc(sizeof(t_commande));
+//		new_cmd->cmd = ft_strdup("cd"); // Pour tester la commande cd
+//		new_cmd->args = malloc(sizeof(t_args));
+//		new_cmd->args->arg = ft_strdup(argv[i]); // Utilisez l'argument comme argument pour cd
+//		new_cmd->args->next = NULL;
+//		new_cmd->fdin = NULL;
+//		new_cmd->fdout = NULL;
+//		new_cmd->next = NULL;
+//
+//		// Ajouter la nouvelle commande à la fin de la liste
+//		if (cmd_lst == NULL) {
+//			cmd_lst = new_cmd;
+//		} else {
+//			t_commande *temp = cmd_lst;
+//			while (temp->next != NULL) {
+//				temp = temp->next;
+//			}
+//			temp->next = new_cmd;
+//		}
+//
+//		// Afficher la commande ajoutée pour vérification
+//		printf("Commande ajoutée: %s\n", argv[i]);
+//	}
+//
+////	// Initialiser la liste d'environnement (env_copy) avec des valeurs par défaut
+////	add_node_at_end(&env_copy, "HOME", "/home/utilisateur");
+////	add_node_at_end(&env_copy, "PWD", "/home/utilisateur");
+////	add_node_at_end(&env_copy, "OLDPWD", "/home/utilisateur/ancien");
+//
+//	// Appeler la fonction builtin_cd avec la première commande de la liste et la liste d'environnement
+//	builtin_cd(cmd_lst, env_copy);
+//	// Après avoir appelé votre fonction cd
+//	char cwd[1024];
+//	if (getcwd(cwd, sizeof(cwd)) != NULL) {
+//		printf("Répertoire actuel: %s\n", cwd);
+//	} else {
+//		perror("getcwd() error");
+//	}
+//
+//	// Libérer la mémoire allouée pour la liste de commandes et la liste d'environnement
+//	free_cmd_list(cmd_lst);
+//	free_env_list(env_copy);
+//
+//	return 0;
+//}

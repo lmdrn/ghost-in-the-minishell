@@ -80,7 +80,7 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	if (is_odd_or_even(&pipe_count, &cmd_count) == 2)
 	{
 		if (tokens->type == 1)
-			which_builtin(cmd_lst);
+			which_builtin(cmd_lst, env_copy);
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}

@@ -122,7 +122,7 @@ char			*ft_strncpy(char *dest, const char *src, unsigned int n);
 char			*concat_str(char *s1, char *s2);
 void			free_argv(char **argv);
 int				ft_error(char *str);
-void			which_builtin(t_commande *cmd_lst);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
 void			handling_signals(char *input);
 void			assign_quotes(t_type *node, t_environment *env_copy);
 t_type			*clean_cmd_type(t_type *node);
@@ -139,5 +139,19 @@ void			duplicate_process(t_commande *cmd_lst, t_environment *env_copy);
 void			init_tokenizer(char **blocks, t_environment *env_copy);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
+
+/* builtin cd */
+int                   check_args(t_commande *cmd_lst);
+int                   ft_cd(t_environment *env_copy, char *path);
+void                  add_node_at_end(t_environment **head, char *key, char *value);
+int                   go_home(t_environment *env_copy, char *home);
+char                 *get_home(t_environment *head);
+char                 *get_env_value(t_environment *env_copy, char *key);
+t_environment       *last_node(t_environment *head);
+int                   go_last_directories(t_environment *env_copy);
+int                   check_is_in_env(t_environment *env_copy, char *var);
+int                   check_path(char *path);
+void                  update_pwd_oldpwd(t_environment **head, char *change_pwd);
+int                   builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
 
 #endif

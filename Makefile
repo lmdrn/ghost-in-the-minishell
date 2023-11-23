@@ -25,6 +25,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  copy_env.c send_to_builtin_exec.c quotes.c \
 			  utils_2.c expand_variable.c minishell.c \
 			  signals.c init.c send_to_execution.c \
+			  ./built_in/cd.c \
 
 OBJS 		= ${SRCS:.c=.o}
 
@@ -34,11 +35,11 @@ CC 		= gcc
 
 CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 
-CFLAGS		+= -fsanitize=address -g3 
+CFLAGS		+= -fsanitize=address -g3
 
 LIBFT =		-L./libft -lft
 
-READLINE =	-I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline 
+READLINE =	-I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
 
 RM		= rm -rf
 
@@ -53,7 +54,7 @@ ${NAME}:	${OBJS}
 			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} ${READLINE}
 			@echo "$(RESET)$(GREEN)$(NAME) HAS ASSEMBLED ✓$(RESET)"
 
-clean:		
+clean:
 			@echo "$(RESET)$(ORANGE)I'M CLEANING OUT MY CLOSET...$(RESET)"
 			@$(MAKE) -C libft clean
 			@echo "$(RESET)$(GREEN)CLEANED ✓$(RESET)"
@@ -67,4 +68,3 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean libft re
-
