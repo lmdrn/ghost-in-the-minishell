@@ -5,33 +5,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void ft_echo(char *str, int option_n);
+void	ft_echo(char *str, t_environment *env_copy);
+int 	check_option_n(char *str);
+int		echo(t_commande *cmd_lst, t_environment *env_copy);
 
-int check_option_n(char *str) // verifie si le node apres echo est une option
-{
-	int i;
 
-	i = 0;
-	while (str[i] == '\t' || str[i] == ' ')
-		i++;
-	if (str[i]== '-' && str[i+1] == 'n')
-			return (1);
-	return (0);
 
-}
-
-int echo(t_commande *cmd_lst) // recoil le node apres "echo", navigue dans la liste entiere qui touche echo
+int echo(t_commande *cmd_lst, t_environment *env_copy) // recoil le node apres "echo", navigue dans la liste entiere qui touche echo
 {
 	int option;
 
 	option = 0;
-	option = check_option_n(cmd_lst->args->arg);
+	if (cmd_lst != NULL && cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
+		option = check_option_n(cmd_lst->args->arg);
+	else
+		return (ERROR);
 //	if (option == 1)// option active
 //		cmd_lst->args = cmd_lst->args->next;//cmd_lst = cmd_lst->next ; // va au suivant
 	while (check_option_n(cmd_lst->args->arg) == 1)
 			cmd_lst->args = cmd_lst->args->next;
 	t_commande *current = cmd_lst; // temp pour paroucrir, on a un new head. on a checker option c'est bon
-	while (current != NULL)// check si delimiter qui bloque comme pipe
+
+	//peut etre pas necessaire
+	while (current != NULL && current->args != NULL && current->args->arg != NULL)// check si delimiter qui bloque comme pipe
 	{
 		//si le node aectuel est un delimieur '|'...mais que le suivant n'est pas une commande valide. stop
 		// '' '>' et le suivant pas une commande. cree le file
@@ -45,9 +41,10 @@ int echo(t_commande *cmd_lst) // recoil le node apres "echo", navigue dans la li
 			current = current->next;//va aunprochain node
 	}
 	current = cmd_lst;
-	while (current->args != NULL)// on print
+	while (current->args != NULL && current->args != NULL && current->args->arg != NULL)// on print
 	{
-		ft_echo(current->args->arg, option);
+
+		ft_echo(current->args->arg, env_copy);
 		if (current->args->next != NULL)
 			printf(" ");// si nbre de node non final
 		cmd_lst->args = cmd_lst->args->next;//bouge
@@ -60,50 +57,55 @@ int echo(t_commande *cmd_lst) // recoil le node apres "echo", navigue dans la li
 	return (0);
 }
 
-int g_errno = 0;
+//int g_errno = 0;
 
-void ft_echo(char *str, int option_n)
+void ft_echo(char *str, t_environment *env_copy)//ajouter env_copy
 {
 	int i = 0;
-	int boli = 0;
-	while (str[i])
-	{
+
+	while (str[i]) {
 		/* Valeur de retour de l'action précédente "$?"
 		 Check - imprime le retour - continue d'imprimer */
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
+		if (str[i] == '$' && str[i + 1] == '?') {
 			printf("print derrniere error"); // , g_status
 			i++;
 		}
 
 
 			/* Interprète une variable d'environnement, par exemple, "$USER" */
-		else if (str[i] == '$' && isalnum(str[i + 1]) )
-		{
-			char *str_env = &str[i+1];
-			char *check_env = getenv(str_env);
-			// de toute facon retour NULL si existe pas
+		else if (str[i] == '$' && isalnum(str[i + 1]) && str[i + 1] != '\0') {
+			//char *str_env = &str[i+1];
+			if (check_is_in_env(env_copy, str) == ERROR)
+				exit(1);
 
-			if (check_env)
-				printf("%s", str_env);
-			else
-				boli = 1;
-		}
-		else
-		{
+				// de toute facon retour NULL si existe pas
+			else {
+				char *value_env = get_env_value(env_copy, &str[i + 1]);
+				printf("%s", value_env);
+			}
+
+		} else {
 			// Afficher le caractère tel quel
 			printf("%c", str[i]);
 		}
 		i++;
 	}
-
-	if (!option_n || (!option_n && boli == 1))
-	{
-		printf("\n");
-	}
 }
 
+int check_option_n(char *str) // verifie si le node apres echo est une option
+{
+	int i;
 
+	i = 0;
+	if (!str)
+		return (ERROR);
+	while (str[i] == '\t' || str[i] == ' ')
+		i++;
+	if (str[i]== '-' && str[i+1] == 'n')
+		return (1);
+	return (0);
+
+}
 // Assurez-vous que vos structures et prototypes de fonctions sont déclarés ici.
 // ...
 

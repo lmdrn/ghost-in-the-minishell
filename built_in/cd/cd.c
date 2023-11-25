@@ -188,7 +188,7 @@ void add_node_at_end(t_environment *head, char *key, char *value) {
 char *get_home(t_environment *head)
 {
 	while (head != NULL) {
-		if (strcmp(head->key, "HOME") == 0)
+		if (head->key != NULL && strcmp(head->key, "HOME") == 0)
 		{
 			return head->value;
 		}
@@ -264,40 +264,85 @@ int check_path(char *path)
 		return (ERROR);
 	}
 }
-int check_args(t_commande *cmd_lst, t_environment *env_copy)
+//int check_args(t_commande *cmd_lst, t_environment *env_copy)
+//{
+//	t_commande *current = cmd_lst;
+//	int	i;
+//	//parcourt le node
+//	i = 0;
+//	if ((current->args->arg == NULL) || (current->args->arg[0] == '~' && current->args->arg[1] == '\0'))
+//		return(0);
+//	else if (strcmp(current->args->arg, "..") == 0)
+//	{
+//		// remonter d'un répertoire
+//		if (chdir("..") != 0)
+//		{
+//			printf("cd: Failed to change directory");
+//			return ERROR;
+//		}
+//	}
+//	else if(strcmp(current->args->arg, "-") == 0)
+//	{
+//		go_last_directories(env_copy, 1);
+//		//non return success
+//	}
+//	else if (strcmp(current->args->arg, "--") == 0)
+//		go_last_directories(env_copy, 2);
+//	//non return success
+//	while (current != NULL)
+//	{
+//		current = current->next;
+//		i++;
+//	}
+//	if (i > 1)
+//		return (-1);
+//	else
+//		return (i);
+//}
+
+int check_args(t_commande *cmd_lst, t_environment *env_copy)//gpt
 {
-	t_commande *current = cmd_lst;
-	int	i;
-	//parcourt le node
-	i = 0;
-	if ((current->args->arg == NULL) || (current->args->arg[0] == '~' && current->args->arg[1] == '\0'))
-		return(0);
-	else if (strcmp(current->args->arg, "..") == 0)
+	if (cmd_lst == NULL || cmd_lst->args == NULL || cmd_lst->args->arg == NULL)
 	{
-		// remonter d'un répertoire
+		printf("cd: Invalid command\n");
+		return ERROR;
+	}
+
+	t_commande *current = cmd_lst;
+	int i = 0;
+
+	if (strcmp(current->args->arg, "..") == 0)
+	{
 		if (chdir("..") != 0)
 		{
-			printf("cd: Failed to change directory");
+			printf("cd: Failed to change directory\n");
 			return ERROR;
 		}
 	}
-	else if(strcmp(current->args->arg, "-") == 0)
+	else if (strcmp(current->args->arg, "-") == 0)
 	{
-		go_last_directories(env_copy, 1);
-		//non return success
+		if (go_last_directories(env_copy, 1) == ERROR)
+			return ERROR;
 	}
 	else if (strcmp(current->args->arg, "--") == 0)
-		go_last_directories(env_copy, 2);
-	//non return success
+	{
+		if (go_last_directories(env_copy, 2) == ERROR)
+			return ERROR;
+	}
+
 	while (current != NULL)
 	{
 		current = current->next;
 		i++;
 	}
+
 	if (i > 1)
-		return (-1);
-	else
-		return (i);
+	{
+		printf("cd: too many arguments\n");
+		return ERROR;
+	}
+
+	return i;
 }
 
 /*------real shit------*/

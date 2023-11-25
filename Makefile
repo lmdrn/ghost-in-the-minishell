@@ -52,7 +52,7 @@ ${NAME}:	${OBJS}
 			@$(BS_N_TXT)
 			@echo "$(RESET)$(ORANGE)ASSEMBLING $(NAME)$(RESET)"
 			@$(MAKE) -C libft --silent
-			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} ${READLINE}
+			@${CC} ${CFLAGS} ${READLINE} ${LIBFT} ${OBJS} -o ${NAME}
 			@echo "$(RESET)$(GREEN)$(NAME) HAS ASSEMBLED ✓$(RESET)"
 
 clean:
@@ -63,7 +63,7 @@ clean:
 fclean:		clean
 			@echo "$(RESET)$(ORANGE)ONE MORE TIME...$(RESET)"
 			rm -f libft/libft.a
-			${RM} ${OBJS} ${NAME}
+			@${RM} ${OBJS} ${NAME}
 			@echo "$(RESET)$(GREEN)ALL CLEANED ✓✓$(RESET)"
 
 re:			fclean all

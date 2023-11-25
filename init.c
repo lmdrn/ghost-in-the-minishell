@@ -27,7 +27,7 @@ t_environment	*init_env(char **envp)
 	i = 0;
 	while (env_copy[i].key != NULL)
 	{
-		/* printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value); */
+		printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
 		i++;
 	}
 	return (env_copy);

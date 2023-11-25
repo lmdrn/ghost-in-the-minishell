@@ -145,7 +145,7 @@ void			init_tokenizer(char **blocks, t_environment *env_copy);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 
-/* builtin cd */
+/*-------------- builtin cd --------------*/
 int				check_args(t_commande *cmd_lst, t_environment *env_copy);
 int				ft_cd(t_environment *env_copy, char *path);
 void			add_node_at_end(t_environment *head, char *key, char *value);
@@ -158,5 +158,10 @@ int				check_is_in_env(t_environment *env_copy, char *var);
 int				check_path(char *path);
 void			update_pwd_oldpwd(t_environment *head, char *change_pwd);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+/* --------------builtin echo --------------*/
+void ft_echo(char *str, t_environment *env_copy);
+int check_option_n(char *str);
+int echo(t_commande *cmd_lst, t_environment *env_copy);
+
 
 #endif
