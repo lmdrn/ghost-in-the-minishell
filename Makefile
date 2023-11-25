@@ -25,7 +25,8 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  copy_env.c send_to_builtin_exec.c quotes.c \
 			  utils_2.c expand_variable.c minishell.c \
 			  signals.c init.c send_to_execution.c \
-			  ./built_in/cd.c \
+			  ./built_in/cd/cd.c \
+			  ./built_in/echo.c \
 
 OBJS 		= ${SRCS:.c=.o}
 

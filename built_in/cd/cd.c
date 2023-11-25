@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include ".././minishell.h"
 #include<stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -125,24 +125,28 @@
 //}	t_commande;
 
 /* -------------------prototype-----------------------------*/
-int check_args(t_commande *cmd_lst);
+int check_args(t_commande *cmd_lst, t_environment *env_copy);
 int check_path(char *str);
 int	ft_cd(t_environment *env_copy, char *path);
-void add_node_at_end(t_environment **head, char *key, char *value);
+void add_node_at_end(t_environment *head, char *key, char *value);
 int go_home(t_environment *env_copy, char *home);
 char *get_home(t_environment *head);
 /*------ utils liste------*/
-char * get_env_value(t_environment *env_copy. char *key)
+char *get_env_value(t_environment *env_copy, char *env_key)
 {
-	t_environnment *current;
+	t_environment *current;
+	int i;
+
+	i = 0;
+	current = env_copy;
 	while (current != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (strcmp(current->key, env_key) == 0)
 			break;
 		current = current->next;
 		i++;
 	}
-	return (current->value)
+	return (current->value);
 }
 t_environment	*last_node(t_environment *head)
 {
@@ -152,7 +156,7 @@ t_environment	*last_node(t_environment *head)
 		head = head->next; // passe au prochain
 	return (head); //retourne l'adresse du node et pas du pointeur
 }
-void add_node_at_end(t_environment **head, char *key, char *value) {
+void add_node_at_end(t_environment *head, char *key, char *value) {
 	// Créer un nouveau nœud
 	t_environment *new_node = malloc(sizeof(t_environment));
 	if (new_node == NULL) {
@@ -172,13 +176,13 @@ void add_node_at_end(t_environment **head, char *key, char *value) {
 	new_node->next = NULL;
 
 	// Secu si la liste est vide, le nouveau nœud devient la tête
-	if (*head == NULL) {
-		*head = new_node;
-		return;
-	}
+//	if (*head == NULL) {
+//		*head = new_node;
+//		return;
+//	}
 
 	// Trouver le dernier nœud et ajouter le nouveau nœud à la fin de la liste
-	t_environment *last = last_node(*head);
+	t_environment *last = last_node(head);
 	last->next = new_node;
 }
 char *get_home(t_environment *head)
@@ -193,22 +197,45 @@ char *get_home(t_environment *head)
 	return NULL; // HOME n'est pas défini
 }
 /*------ check liste------*/
-int go_last_directories(t_environment *env_copy)
+// cd -
+int go_last_directories(t_environment *env_copy, int hyphen)
 {
-	t_environnment *current;
+	t_environment *current;
 	char *temp_OLDPWD;
 	char *new_pwd;
+	char *home;
 
-	current = env_copy
+	home = get_home(env_copy);
+	current = env_copy;
 	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
 		return (ERROR);
 	else
 	{
 		temp_OLDPWD = get_env_value(env_copy, "OLDPWD");
 		//enlever "old " à la value du oldpwd pour le mettre dans le pwd
-		
+		if (temp_OLDPWD == NULL)
+		{
+			printf("cd: go_last_direct : oldpwd non defini\n");
+			return (ERROR);
+		}
+		//récupere le path de oldpwd pour actualisé pwd->"old"pwd
+		new_pwd = ft_strdup(temp_OLDPWD + 4);
+		update_pwd_oldpwd(env_copy, new_pwd);
 	}
+	if (hyphen == 1 && chdir(new_pwd) != 0)
+	{
+		printf("probleme cd -,chdir\n");
+		free(new_pwd);
+		return ERROR;
+	}
+	else if (hyphen == 2 && chdir(home) != 0)
+	{
+		printf("probleme cd -,chdir\n");
+		return ERROR;
+	}
+	return (SUCCESS);
 }
+
 int check_is_in_env(t_environment *env_copy, char *var)
 {
 	int length;
@@ -224,7 +251,7 @@ int check_is_in_env(t_environment *env_copy, char *var)
 		current = current->next;
 	}
 
-	add_node_at_end(&env_copy, var, 0);
+	add_node_at_end(env_copy, var, 0);
 	return (ERROR);
 }
 int check_path(char *path)
@@ -256,8 +283,12 @@ int check_args(t_commande *cmd_lst, t_environment *env_copy)
 	}
 	else if(strcmp(current->args->arg, "-") == 0)
 	{
-		go_last_directories(env_copy);
+		go_last_directories(env_copy, 1);
+		//non return success
 	}
+	else if (strcmp(current->args->arg, "--") == 0)
+		go_last_directories(env_copy, 2);
+	//non return success
 	while (current != NULL)
 	{
 		current = current->next;
@@ -270,7 +301,7 @@ int check_args(t_commande *cmd_lst, t_environment *env_copy)
 }
 
 /*------real shit------*/
-void update_pwd_oldpwd(t_environment **head, char *change_pwd)
+void update_pwd_oldpwd(t_environment *head, char *change_pwd)
 {
 	char *current_pwd;
 	char *new_pwd;
@@ -283,7 +314,7 @@ void update_pwd_oldpwd(t_environment **head, char *change_pwd)
 	old_pwd = ft_strjoin("OLDPWD=", current_pwd);
 
 	// Rechercher et mettre à jour la valeur de "PWD"
-	t_environment *current = *head;
+	t_environment *current = head;
 	while (current != NULL)
 	{
 		if (strcmp(current->key, "PWD") == 0)
@@ -315,19 +346,18 @@ int go_home(t_environment *env_copy, char *home)
 		return (ERROR);
 	}
 	else
-		update_pwd_oldpwd(&env_copy, home);
+		update_pwd_oldpwd(env_copy, home);
 	return (SUCCESS);
 }
 int	ft_cd(t_environment *env_copy, char *path)
 {
 	//gerer les ..
-	int ret;
 
 	if (check_path(path) == ERROR)
 		return (ERROR);
 	check_is_in_env(env_copy, "PWD");
 	check_is_in_env(env_copy, "OLDPWD");
-	update_pwd_oldpwd(&env_copy, path);
+	update_pwd_oldpwd(env_copy, path);
 	return (SUCCESS);
 
 }
@@ -337,7 +367,7 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	int arg;
 
 	//trop d'arguments
-	if ((arg = check_args(cmd_lst)) == -1)
+	if ((arg = check_args(cmd_lst, env_copy)) == -1)
 	{
 		printf("cd: too many arguments\n");
 		return (ERROR);
