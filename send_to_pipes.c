@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/27 16:51:06 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 19:51:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,16 @@ void	assign_fds(t_commande *cmd, int *fd)
 		cmd->next->fdin = fd[0];
 		cmd = cmd->next;
 	}
-	cmd->fdout = 1;
+	cmd->fdout = STDOUT_FILENO;
 }
 
 void	close_fds(t_commande *cmd)
 {
 	while (cmd != NULL)
 	{
-		if (cmd->fdin > 2)
+		if (cmd->fdin != STDIN_FILENO)
 			close(cmd->fdin);
-		if (cmd->fdout > 2)
+		if (cmd->fdout != STDOUT_FILENO)
 			close(cmd->fdout);
 		cmd = cmd->next;
 	}
@@ -140,17 +140,34 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 	assign_fds(cmd_lst, fd);
 	while (cmd_lst != NULL)
 	{
-		cmd_lst->pid = fork();
-		if (cmd_lst->pid == 0)
+		int pid = fork();
+		if (pid == 0)
 		{
-			if (cmd_lst->fdin > 2)
+			if (cmd_lst->fdin != STDIN_FILENO)
+			{
 				dup2(cmd_lst->fdin, STDIN_FILENO);
-			if (cmd_lst->fdout > 2)
+				close(cmd_lst->fdin);
+			}
+			if (cmd_lst->fdout != STDOUT_FILENO)
+			{
 				dup2(cmd_lst->fdout, STDOUT_FILENO);
-			close_fds(cmd_lst);
+				close(cmd_lst->fdin);
+			}
+			//dup2(cmd_lst->fdin, STDIN_FILENO);
+			//dup2(cmd_lst->fdout, STDOUT_FILENO);
+			//close_fds(cmd_lst);
 			execute_basic_cmd(cmd_lst, env_copy);
 		}
-		wait_for_children(cmd_lst);
+		else
+		{
+			if (cmd_lst->fdin != STDIN_FILENO)
+				close(cmd_lst->fdin);
+			if (cmd_lst->fdout != STDOUT_FILENO)
+				close(cmd_lst->fdout);
+		//	close_fds(cmd_lst);
+			waitpid(pid, NULL, 0);
+			//wait_for_children(cmd_lst);
+		}
 		cmd_lst = cmd_lst->next;
 	}
 }

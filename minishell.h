@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/27 15:51:29 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:56:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,6 @@ void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy);
 char			*find_cmd_path(t_commande *cmd_lst, t_environment *env_copy);
 char			**find_cmd_args(t_commande *cmd_lst, t_environment *env_copy);
 char			**env_list_to_array(t_environment *env_copy);
+void			close_fds(t_commande *cmd);
 
 #endif

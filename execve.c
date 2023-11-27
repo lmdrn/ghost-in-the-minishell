@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/27 13:14:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 19:51:46 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 		}
 		if (execve(full_path, argv, NULL) == -1)
 			ft_error(cmd->cmd);
+		break;
 		free_argv(argv);
 		free(full_path);
 		cmd = cmd->next;
