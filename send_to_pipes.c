@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/27 14:53:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:51:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,57 +40,119 @@
 /* } */
 
 /* TEST 2 */
-void	execute_pipeline(t_commande	*cmd_lst, t_environment *env_copy)
+/* void	execute_pipeline(t_commande	*cmd_lst, t_environment *env_copy) */
+/* { */
+/* 	int	fd[2]; */
+/* 	int	pid1; */
+/* 	int	pid2; */
+
+/* 	if (pipe(fd) == -1) */
+/* 	{ */
+/* 		printf("Error piping\n"); */
+/* 		exit(EXIT_FAILURE); */
+/* 	} */
+/* 	pid1 = fork(); */
+/* 	if (pid1 == -1) */
+/* 	{ */
+/* 		printf("Error forking\n"); */
+/* 		exit(EXIT_FAILURE); */
+/* 	} */
+/* 	if (pid1 == 0) */
+/* 	{ */
+/* 		//child process stuff to do */ 
+/* 		dup2(fd[1], STDOUT_FILENO); */
+/* 		close(fd[0]); */
+/* 		close(fd[1]); */
+/* 		if (execute_basic_cmd(cmd_lst, env_copy) == -1) */
+/* 		{ */
+/* 			printf("Execution failure\n"); */
+/* 			exit(EXIT_FAILURE); */
+/* 		} */
+/* 	} */
+/* 	pid2 = fork(); */
+/* 	if (pid2 == -1) */
+/* 	{ */
+/* 		printf("Error forking\n"); */
+/* 		exit(EXIT_FAILURE); */
+/* 	} */
+/* 	if (pid2 == 0) */
+/* 	{ */
+/* 		//second child process stuff to do */ 
+/* 		dup2(fd[0], STDIN_FILENO); */
+/* 		close(fd[0]); */
+/* 		close(fd[1]); */
+/* 		if (execute_basic_cmd(cmd_lst->next, env_copy) == -1) */
+/* 		{ */
+/* 			printf("Execution failure\n"); */
+/* 			exit(EXIT_FAILURE); */
+/* 		} */
+/* 	} */
+/* 	close(fd[0]); */
+/* 	close(fd[1]); */
+/* 	waitpid(pid1, NULL, 0); */
+/* 	waitpid(pid2, NULL, 0); */
+/* } */
+
+/* TEST 3 */
+void	assign_fds(t_commande *cmd, int *fd)
+{
+	cmd->fdin = 0;
+	while (cmd->next != NULL)
+	{
+		pipe(fd);
+		cmd->fdout = fd[1];
+		cmd->next->fdin = fd[0];
+		cmd = cmd->next;
+	}
+	cmd->fdout = 1;
+}
+
+void	close_fds(t_commande *cmd)
+{
+	while (cmd != NULL)
+	{
+		if (cmd->fdin > 2)
+			close(cmd->fdin);
+		if (cmd->fdout > 2)
+			close(cmd->fdout);
+		cmd = cmd->next;
+	}
+}
+
+void	wait_for_children(t_commande *cmd)
+{
+	int	wstatus;
+
+	while (cmd != NULL)
+	{
+		if (cmd->pid > 0)
+		{
+			waitpid(cmd->pid, &wstatus, 0);
+		}
+		cmd = cmd->next;
+	}
+}
+
+void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int	fd[2];
-	int	pid1;
-	int	pid2;
 
-	if (pipe(fd) == -1)
+	assign_fds(cmd_lst, fd);
+	while (cmd_lst != NULL)
 	{
-		printf("Error piping\n");
-		exit(EXIT_FAILURE);
-	}
-	pid1 = fork();
-	if (pid1 == -1)
-	{
-		printf("Error forking\n");
-		exit(EXIT_FAILURE);
-	}
-	if (pid1 == 0)
-	{
-		//child process stuff to do 
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		if (execute_basic_cmd(cmd_lst, env_copy) == -1)
+		cmd_lst->pid = fork();
+		if (cmd_lst->pid == 0)
 		{
-			printf("Execution failure\n");
-			exit(EXIT_FAILURE);
+			if (cmd_lst->fdin > 2)
+				dup2(cmd_lst->fdin, STDIN_FILENO);
+			if (cmd_lst->fdout > 2)
+				dup2(cmd_lst->fdout, STDOUT_FILENO);
+			close_fds(cmd_lst);
+			execute_basic_cmd(cmd_lst, env_copy);
 		}
+		wait_for_children(cmd_lst);
+		cmd_lst = cmd_lst->next;
 	}
-	pid2 = fork();
-	if (pid2 == -1)
-	{
-		printf("Error forking\n");
-		exit(EXIT_FAILURE);
-	}
-	if (pid2 == 0)
-	{
-		//parent process stuff to do 
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		if (execute_basic_cmd(cmd_lst->next, env_copy) == -1)
-		{
-			printf("Execution failure\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
 }
 
 /* char	**env_list_to_array(t_environment *env_copy) */
@@ -144,4 +206,3 @@ void	execute_pipeline(t_commande	*cmd_lst, t_environment *env_copy)
 /* 	/1* } *1/ */
 /* 	return (env_array); */
 /* } */
-

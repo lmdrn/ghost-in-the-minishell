@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/27 12:55:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:51:29 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_commande
 	t_args				*args;
 	int					fdin;
 	int					fdout;
+	pid_t				pid;
 	t_environment		*env_copy;
 	struct s_commande	*next;
 }	t_commande;
