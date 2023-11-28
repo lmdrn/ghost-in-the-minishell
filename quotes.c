@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 19:50:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:58:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	count_word_node(t_type *node)
 {
 	int		wc;
-	int		i;
 	int		inside_word;
 	char	*str;
 
@@ -23,7 +22,6 @@ int	count_word_node(t_type *node)
 		return (0);
 	str = node->text;
 	wc = 0;
-	i = 0;
 	inside_word = 0;
 	while (*str)
 	{
@@ -42,11 +40,8 @@ int	count_word_node(t_type *node)
 	return (wc);
 }
 
-void	assign_quotes(t_type *node, t_environment *env_cpy)
+void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 {
-	int		len;
-	char	first;
-	char	last;
 	char	*env_var;
 	char	*env_value;
 	char	*new_node;
@@ -54,62 +49,82 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	env_var = NULL;
 	env_value = NULL;
 	new_node = NULL;
-	first = node->text[0];
-	len = ft_strlen(node->text);
-	last = node->text[len - 1];
-	printf("Node has %d words\n", count_word_node(node));
-	//make it a function START//
-	if (first == '\"' && last == '\"')
+	if (count_word_node(node) == 1)
 	{
-		if (count_word_node(node) == 1)
-		{
-			clean_cmd_type(node);
-			if (is_builtin(node->text) == 0)
-				node->type = builtin;
-			else if (is_executable_command(node->text) == 0)
-				node->type = cmd;
-			else
-				node->type = args;
-		}
+		clean_cmd_type(node);
+		if (is_builtin(node->text) == 0)
+			node->type = builtin;
+		else if (is_executable_command(node->text) == 0)
+			node->type = cmd;
 		else
-		{
 			node->type = args;
-			printf("NODE TYPE IS %d\n", node->type);
-			env_var = find_env_variable(node);
-			if (env_var != NULL)
-				env_value = retrieve_env_variable(env_var, env_cpy);
-			new_node = replace_env_value(node, env_value);
-			printf("New str with environment_value is %s\n", new_node);
-		}
 	}
-	//make it a function END//
-	//make it a function START//
-	else if (first == '\'' && last == '\'')
-	{
-		if (count_word_node(node) == 1)
-		{
-			clean_cmd_type(node);
-			if (is_builtin(node->text) == 0)
-				node->type = builtin;
-			else if (is_executable_command(node->text) == 0)
-				node->type = cmd;
-		}
-		else
-		{
-			node->type = args;
-		}
-	}
-	//make it a function END//
 	else
 	{
 		node->type = args;
-		clean_cmd_type(node);
+		printf("NODE TYPE IS %d\n", node->type);
 		env_var = find_env_variable(node);
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
 		new_node = replace_env_value(node, env_value);
 		printf("New str with environment_value is %s\n", new_node);
 	}
+}
+
+void	block_has_s_quotes(t_type *node)
+{
+		if (count_word_node(node) == 1)
+		{
+			clean_cmd_type(node);
+			if (is_builtin(node->text) == 0)
+				node->type = builtin;
+			else if (is_executable_command(node->text) == 0)
+				node->type = cmd;
+		}
+		else
+		{
+			node->type = args;
+		}
+}
+
+void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
+{
+	char	*env_var;
+	char	*env_value;
+	char	*new_node;
+
+	env_var = NULL;
+	env_value = NULL;
+	new_node = NULL;
+	node->type = args;
+	clean_cmd_type(node);
+	env_var = find_env_variable(node);
+	if (env_var != NULL)
+		env_value = retrieve_env_variable(env_var, env_cpy);
+	new_node = replace_env_value(node, env_value);
+	printf("New str with environment_value is %s\n", new_node);
+}
+
+void	assign_quotes(t_type *node, t_environment *env_cpy)
+{
+	int		len;
+	char	first;
+	char	last;
+	char	*env_var;
+	char	*env_value;
+
+	env_var = NULL;
+	env_value = NULL;
+	first = node->text[0];
+	len = ft_strlen(node->text);
+	last = node->text[len - 1];
+	printf("Node has %d words\n", count_word_node(node));
+	if (first == '\"' && last == '\"')
+		block_has_dbl_quotes(node, env_cpy);
+	else if (first == '\'' && last == '\'')
+		block_has_s_quotes(node);
+	else
+		block_has_no_quotes(node, env_cpy);
 	//TESTS VARIABLES//
 	printf("First letter is %c\n", first);
 	printf("Last letter is %c\n", last);

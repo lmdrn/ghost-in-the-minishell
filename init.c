@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:54:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:23:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	tokens = NULL;
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
-	cmd_lst = command_list(tokens, &pipe_count, &cmd_count);
+	cmd_lst = command_list(tokens, &pipe_count, &cmd_count, env_copy);
 	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",
 		pipe_count, cmd_count);
 	if (cmd_lst != NULL)
@@ -77,13 +77,15 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 		printf("Command list:\n");
 		print_commande_list(cmd_lst);
 	}
-	if (is_odd_or_even(&pipe_count, &cmd_count) == 2)
+	if (is_odd_or_even(&pipe_count, &cmd_count) == 3)
 	{
 		if (tokens->type == 1)
 			which_builtin(cmd_lst);
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}
-	free_commande_list(cmd_lst);
-	free_env_struct(env_copy);
+	else if (is_odd_or_even(&pipe_count, &cmd_count) == 1
+		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
+		execute_pipeline(cmd_lst, env_copy);
+	clear_commande_list(&cmd_lst);
 }
