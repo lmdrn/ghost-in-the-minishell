@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/26 14:04:24 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:01:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //3. each node should be delimited by a |
 //4. ur guuud to go mothafucka
 
-t_commande	*create_cmd_node(char *name, t_environment *env_copy)
+t_commande	*create_cmd_node(char *name, t_environment *env_copy, t_type *tokens)
 {
 	t_commande	*node;
 
@@ -38,6 +38,7 @@ t_commande	*create_cmd_node(char *name, t_environment *env_copy)
 	node->fdin = STDIN_FILENO;
 	node->fdout = STDOUT_FILENO;
 	node->env_copy = env_copy;
+	node->tokens = tokens;
 	node->next = NULL;
 	return (node);
 }
@@ -96,9 +97,14 @@ t_commande	*command_list(t_type *tokens, int *pipe_count,
 		if (current->type == cmd || current->type == builtin)
 		{
 			(*cmd_count)++;
-			new_cmd = create_cmd_node(current->text, env_copy);
+			new_cmd = create_cmd_node(current->text, env_copy, tokens);
 			current = current->next;
-			while (current != NULL && current->type == args)
+			while (current != NULL
+				&& (current->type == args
+					|| current->type == ch_d
+					|| current->type == ch_g
+					|| current->type == dbl_ch_g
+					|| current->type == dbl_ch_d))
 			{
 				append_args(new_cmd, current->text);
 				current = current->next;

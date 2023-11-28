@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/28 14:33:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:04:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,39 +54,52 @@ void	wait_for_children(t_commande *cmd)
 void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int	fd[2];
+	int	pid;
 
 	assign_fds(cmd_lst, fd);
 	while (cmd_lst != NULL)
 	{
-		int pid = fork();
-		if (pid == 0)
+		while (cmd_lst->tokens != NULL)
 		{
-			if (cmd_lst->fdin != STDIN_FILENO)
-			{
-				dup2(cmd_lst->fdin, STDIN_FILENO);
-				close(cmd_lst->fdin);
-			}
-			if (cmd_lst->fdout != STDOUT_FILENO)
-			{
-				dup2(cmd_lst->fdout, STDOUT_FILENO);
-				close(cmd_lst->fdin);
-			}
-			//dup2(cmd_lst->fdin, STDIN_FILENO);
-			//dup2(cmd_lst->fdout, STDOUT_FILENO);
-			//close_fds(cmd_lst);
-			execute_basic_cmd(cmd_lst, env_copy);
+			printf("token is %d\n", cmd_lst->tokens->type);
+			cmd_lst->tokens = cmd_lst->tokens->next;
 		}
-		else
-		{
-			if (cmd_lst->fdin != STDIN_FILENO)
-				close(cmd_lst->fdin);
-			if (cmd_lst->fdout != STDOUT_FILENO)
-				close(cmd_lst->fdout);
-		//	close_fds(cmd_lst);
-			waitpid(pid, NULL, 0);
-			//wait_for_children(cmd_lst);
-		}
-		cmd_lst = cmd_lst->next;
+		/* if (cmd_lst->args->tokens->type != 0) */
+		/* { */
+		/* 	execute_output_redir(cmd_lst, env_copy); */
+		/* } */
+		/* else */ 
+		/* { */
+			pid = fork();
+			if (pid == 0)
+			{
+				if (cmd_lst->fdin != STDIN_FILENO)
+				{
+					dup2(cmd_lst->fdin, STDIN_FILENO);
+					close(cmd_lst->fdin);
+				}
+				if (cmd_lst->fdout != STDOUT_FILENO)
+				{
+					dup2(cmd_lst->fdout, STDOUT_FILENO);
+					close(cmd_lst->fdin);
+				}
+				//dup2(cmd_lst->fdin, STDIN_FILENO);
+				//dup2(cmd_lst->fdout, STDOUT_FILENO);
+				//close_fds(cmd_lst);
+				execute_basic_cmd(cmd_lst, env_copy);
+			}
+			else
+			{
+				if (cmd_lst->fdin != STDIN_FILENO)
+					close(cmd_lst->fdin);
+				if (cmd_lst->fdout != STDOUT_FILENO)
+					close(cmd_lst->fdout);
+			//	close_fds(cmd_lst);
+				waitpid(pid, NULL, 0);
+				//wait_for_children(cmd_lst);
+			}
+			cmd_lst = cmd_lst->next;
+		/* } */
 	}
 }
 

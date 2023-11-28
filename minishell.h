@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/28 14:32:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:55:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_type
 
 typedef struct s_args
 {
-	char			*arg;
+	char				*arg;
 	struct s_args	*next;
 
 }	t_args;
@@ -80,6 +80,7 @@ typedef struct s_commande
 	int					fdout;
 	pid_t				pid;
 	t_environment		*env_copy;
+	t_type				*tokens;
 	struct s_commande	*next;
 }	t_commande;
 
@@ -162,6 +163,10 @@ void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 void			init_tokenizer(char **blocks, t_environment *env_copy);
 char			**init_parse(const char *input);
+
+/* ooo - output_redir - ooo */
+
+void	execute_output_redir(t_commande *cmd, t_environment *env_copy);
 
 /* ooo - prompt - ooo */
 
