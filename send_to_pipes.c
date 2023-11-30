@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/29 17:02:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:16:48 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,27 @@ void	wait_for_children(t_commande *cmd)
 	}
 }
 
-void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *token)
+void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
-	int	fd[2];
-	int	pid;
-    t_commande  *curr_cmd;
-    t_args      *curr_arg;
-    t_type      *curr_token;
+	int			fd[2];
+	int			pid;
+	t_commande	*curr_cmd;
+	t_args		*curr_arg;
 
 	assign_fds(cmd_lst, fd);
-    curr_cmd = cmd_lst;
-    while (curr_cmd != NULL)
-    {
+	curr_cmd = cmd_lst;
+	while (curr_cmd != NULL)
+	{
 		printf("cmd is %s\n", curr_cmd->cmd);
-        curr_arg = curr_cmd->args;
+		curr_arg = curr_cmd->args;
 		while (curr_arg != NULL)
 		{
-			printf("arg is is %s\n", curr_arg->arg);
-            curr_token = token;
-            while (curr_token != NULL)
-            {
-                if (curr_token->type == 9)
-                {
-			        printf("token is %d\n", curr_token->type);
-                    break;
-                }
-                curr_token = curr_token->next;
-            }
-            curr_arg = curr_arg->next;
-        }
+			printf("arg is %s\n", curr_arg->arg);
+			printf("token is %d\n", curr_arg->type);
+			curr_arg = curr_arg->next;
+		}
 		curr_cmd = curr_cmd->next;
-    }
+	}
 	while (cmd_lst != NULL)
 	{
 		pid = fork();
@@ -97,9 +87,6 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *toke
 				dup2(cmd_lst->fdout, STDOUT_FILENO);
 				close(cmd_lst->fdin);
 			}
-			//dup2(cmd_lst->fdin, STDIN_FILENO);
-			//dup2(cmd_lst->fdout, STDOUT_FILENO);
-			//close_fds(cmd_lst);
 			execute_basic_cmd(cmd_lst, env_copy);
 		}
 		else
@@ -108,9 +95,7 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *toke
 				close(cmd_lst->fdin);
 			if (cmd_lst->fdout != STDOUT_FILENO)
 				close(cmd_lst->fdout);
-		//	close_fds(cmd_lst);
 			waitpid(pid, NULL, 0);
-			//wait_for_children(cmd_lst);
 		}
 		cmd_lst = cmd_lst->next;
 	}

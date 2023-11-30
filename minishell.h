@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/29 16:59:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:16:35 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ typedef struct s_type
 
 typedef struct s_args
 {
-	char				*arg;
-	t_type				*tokens;
+	char			*arg;
+	int				type;
+	t_type			*tokens;
 	struct s_args	*next;
 
 }	t_args;
@@ -166,7 +167,7 @@ char			**init_parse(const char *input);
 
 /* ooo - output_redir - ooo */
 
-void	execute_output_redir(t_commande *cmd, t_environment *env_copy);
+void			execute_output_redir(t_commande *cmd, t_environment *env_copy);
 
 /* ooo - prompt - ooo */
 
@@ -191,7 +192,7 @@ void			only_one_cmd(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - send_to_pipes - ooo*/
 
-void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *token);
+void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy);
 void			close_fds(t_commande *cmd);
 char			**env_list_to_array(t_environment *env_copy);
 
@@ -218,4 +219,3 @@ int				ft_isspace(char c);
 int				ft_strcmp(char *s1, char *s2);
 
 #endif
-
