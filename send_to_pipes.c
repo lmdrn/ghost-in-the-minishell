@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/30 17:16:48 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:34:48 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,23 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int			fd[2];
 	int			pid;
-	t_commande	*curr_cmd;
-	t_args		*curr_arg;
+	/* t_commande	*curr_cmd; */
+	/* t_args		*curr_arg; */
 
 	assign_fds(cmd_lst, fd);
-	curr_cmd = cmd_lst;
-	while (curr_cmd != NULL)
-	{
-		printf("cmd is %s\n", curr_cmd->cmd);
-		curr_arg = curr_cmd->args;
-		while (curr_arg != NULL)
-		{
-			printf("arg is %s\n", curr_arg->arg);
-			printf("token is %d\n", curr_arg->type);
-			curr_arg = curr_arg->next;
-		}
-		curr_cmd = curr_cmd->next;
-	}
+	/* curr_cmd = cmd_lst; */
+	/* while (curr_cmd != NULL) */
+	/* { */
+	/* 	printf("cmd is %s\n", curr_cmd->cmd); */
+	/* 	curr_arg = curr_cmd->args; */
+	/* 	while (curr_arg != NULL) */
+	/* 	{ */
+	/* 		printf("arg is %s\n", curr_arg->arg); */
+	/* 		printf("token is %d\n", curr_arg->type); */
+	/* 		curr_arg = curr_arg->next; */
+	/* 	} */
+	/* 	curr_cmd = curr_cmd->next; */
+	/* } */
 	while (cmd_lst != NULL)
 	{
 		pid = fork();
