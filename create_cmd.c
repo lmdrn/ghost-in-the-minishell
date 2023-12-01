@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/29 15:44:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:28:10 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_commande	*create_cmd_node(char *name, t_environment *env_copy)
 	return (node);
 }
 
-void	append_args(t_commande *command, char *arg, t_type *tokens)
+void	append_args(t_commande *command, char *arg, int type)
 {
 	t_args	*new_arg;
 	t_args	*current;
@@ -54,7 +54,7 @@ void	append_args(t_commande *command, char *arg, t_type *tokens)
 		exit(1);
 	}
 	new_arg->arg = ft_strdup(arg);
-	new_arg->tokens = tokens;
+	new_arg->type = type;
 	if (new_arg->arg == NULL)
 	{
 		printf("Duplicate error\n");
@@ -106,7 +106,7 @@ t_commande	*command_list(t_type *tokens, int *pipe_count,
 					|| current->type == dbl_ch_g
 					|| current->type == dbl_ch_d))
 			{
-				append_args(new_cmd, current->text, tokens);
+				append_args(new_cmd, current->text, current->type);
 				current = current->next;
 			}
 			if (cmd_head == NULL)
