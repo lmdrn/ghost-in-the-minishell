@@ -6,7 +6,11 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/12/01 17:30:10 by lmedrano         ###   ########.fr       */
+=======
+/*   Updated: 2023/11/30 17:16:59 by lmedrano         ###   ########.fr       */
+>>>>>>> 65fabb6d56e6e9e2024dccd9a5494ef56dce9cf9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +90,10 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	}
 	else if (is_odd_or_even(&pipe_count, &cmd_count) == 1
 		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
+<<<<<<< HEAD
 		execute_pipeline(cmd_lst, env_copy, cmd_count);
+=======
+		execute_pipeline(cmd_lst, env_copy);
+>>>>>>> 65fabb6d56e6e9e2024dccd9a5494ef56dce9cf9
 	clear_commande_list(&cmd_lst);
 }
