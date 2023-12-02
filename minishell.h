@@ -27,7 +27,8 @@
 # include "libft.h"
 
 extern int	g_status;
-
+# define ERROR 1
+# define SUCCESS 0
 /* ooo - enums - ooo */
 
 enum e_types {
@@ -161,4 +162,7 @@ void			close_fds(t_commande *cmd);
 void			ft_echo(char *str);
 int				check_option_n(char *str);
 int				echo(t_commande *cmd_lst);
+/* -------------------pwd-----------------------------*/
+int check_args(t_commande *cmd_lst);
+int builtin_pwd(t_commande *cmd_lst);
 #endif

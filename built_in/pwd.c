@@ -1,64 +1,12 @@
-//#include "minishell.h"
+#include "../minishell.h"
 //censé pouvoir donner pwd si on unset...pwd?
 
-
-
-int SUCCESS =1 ;
-int ERROR = 0;
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-typedef struct s_environment
-{
-	char					*key;
-	char					*value;
-	struct s_environment	*next;
-}	t_environment;
-
-enum e_types {
-	cmd,
-	builtin,
-	args,
-	flags,
-	filein,
-	fileout,
-	delimiter,
-	is_pipe,
-	ch_g,
-	ch_d,
-	dbl_ch_g,
-	dbl_ch_d
-};
-
-typedef struct s_type
-{
-	char			*text;
-	int				type;
-	struct s_type	*next;
-}	t_type;
-
-typedef struct s_args
-{
-	char			*arg;
-	struct s_args	*next;
-
-}	t_args;
-
-typedef struct s_commande
-{
-	char				*cmd;
-	t_args				*args;
-	char				*fdin;
-	char				*fdout;
-	struct s_commande	*next;
-}	t_commande;
 
 // Déclarations des prototypes de fonction
 void free_env_list(t_environment *head);
 void free_cmd_list(t_commande *head);
 int check_args(t_commande *cmd_lst);
-int builtin_pwd(t_environment *env_copy, t_commande *cmd_lst);
+int builtin_pwd( t_commande *cmd_lst);
 void free_cmd_list(t_commande *head)
 {
 	while (head != NULL) {
@@ -99,19 +47,34 @@ void free_env_list(t_environment *head)
 int check_args(t_commande *cmd_lst)
 {
 	t_commande *current = cmd_lst;
-	int	i;
-	//parcourt le node
-	i = 0;
-		if ((current->args->arg == NULL) || (current->args->arg[0] == '\0'))
-		return(SUCCESS);
-	else
-		return (ERROR);
-		//pourrait directement imprimer l'erreur et sortir-> perror
+
+	if (cmd_lst != NULL && cmd_lst->next == NULL)
+	{
+		if (cmd_lst->args == NULL ) //|| (current->args->next == NULL && current->args->arg[0] == '\0')
+		{
+			while (current->args != NULL && ((current->args->arg[0] == ' ') || (current->args->arg[0] == '\t')))
+			{
+				current->args = current->args->next;
+			}
+			if (current->args == NULL)
+				return SUCCESS;
+			else
+				return (ERROR);
+		}
+		else
+		{
+			printf("Erreur : La commande 'pwd' ne doit pas avoir d'options ou d'arguments.\n");
+			return ERROR;
+		}
+	}
+	printf("Erreur : La commande 'pwd' ne doit pas être suivie d'autres commandes.\n");
+	return ERROR;
+
 }
 
 /* print direct depuis getcwd ou lire la liste..?*/
 
-int	builtin_pwd(t_environment *env_copy, t_commande *cmd_lst)
+int	builtin_pwd( t_commande *cmd_lst)
 {
 	char *actual_pwd;
 
@@ -141,37 +104,37 @@ int	builtin_pwd(t_environment *env_copy, t_commande *cmd_lst)
 #include <stdlib.h>
 #include <unistd.h>
 
-int main() {
-	// Créer un environnement de test avec une valeur bidon
-	t_environment *env_copy = malloc(sizeof(t_environment));
-	env_copy->key = "TEST_ENV";
-	env_copy->value = "test_value";
-	env_copy->next = NULL;
-
-	// Créer une commande avec des arguments valides
-	t_commande *cmd_lst_valid = malloc(sizeof(t_commande));
-	cmd_lst_valid->args = malloc(sizeof(t_args));
-	cmd_lst_valid->args->arg = "";
-	cmd_lst_valid->args->next = NULL;
-
-	// Tester la fonction builtin_pwd avec des arguments valides
-	printf("Testing pwd with valid arguments:\n");
-	builtin_pwd(env_copy, cmd_lst_valid);
-
-	// Créer une commande avec des arguments invalides
-	t_commande *cmd_lst_invalid = malloc(sizeof(t_commande));
-	cmd_lst_invalid->args = malloc(sizeof(t_args));
-	cmd_lst_invalid->args->arg = "invalid_argument";
-	cmd_lst_invalid->args->next = NULL;
-
-	// Tester la fonction builtin_pwd avec des arguments invalides
-	printf("\nTesting pwd with invalid arguments:\n");
-	builtin_pwd(env_copy, cmd_lst_invalid);
-
-	// Libérer la mémoire allouée
-	free_env_list(env_copy);
-	free_cmd_list(cmd_lst_valid);
-	free_cmd_list(cmd_lst_invalid);
-
-	return 0;
-}
+//int main() {
+//	// Créer un environnement de test avec une valeur bidon
+//	t_environment *env_copy = malloc(sizeof(t_environment));
+//	env_copy->key = "TEST_ENV";
+//	env_copy->value = "test_value";
+//	env_copy->next = NULL;
+//
+//	// Créer une commande avec des arguments valides
+//	t_commande *cmd_lst_valid = malloc(sizeof(t_commande));
+//	cmd_lst_valid->args = malloc(sizeof(t_args));
+//	cmd_lst_valid->args->arg = "";
+//	cmd_lst_valid->args->next = NULL;
+//
+//	// Tester la fonction builtin_pwd avec des arguments valides
+//	printf("Testing pwd with valid arguments:\n");
+//	builtin_pwd(env_copy, cmd_lst_valid);
+//
+//	// Créer une commande avec des arguments invalides
+//	t_commande *cmd_lst_invalid = malloc(sizeof(t_commande));
+//	cmd_lst_invalid->args = malloc(sizeof(t_args));
+//	cmd_lst_invalid->args->arg = "invalid_argument";
+//	cmd_lst_invalid->args->next = NULL;
+//
+//	// Tester la fonction builtin_pwd avec des arguments invalides
+//	printf("\nTesting pwd with invalid arguments:\n");
+//	builtin_pwd(env_copy, cmd_lst_invalid);
+//
+//	// Libérer la mémoire allouée
+//	free_env_list(env_copy);
+//	free_cmd_list(cmd_lst_valid);
+//	free_cmd_list(cmd_lst_invalid);
+//
+//	return 0;
+//}

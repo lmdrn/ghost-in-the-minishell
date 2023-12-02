@@ -24,7 +24,7 @@ int echo(t_commande *cmd_lst) // recoit le node apres "echo", navigue dans la li
 	if (cmd_lst->args == NULL)
 	{
 		printf("\n");
-		return (1);
+		return (SUCCESS);
 	}
 	option = check_option_n(cmd_lst->args->arg);
 
@@ -35,7 +35,7 @@ int echo(t_commande *cmd_lst) // recoit le node apres "echo", navigue dans la li
 	if (cmd_lst->args == NULL && option == 1)// pour si que -n mais marche po
 	{
 		printf("");
-		return (1);
+		return (SUCCESS);
 	}
 
 	t_commande *current = cmd_lst; // temp pour paroucrir, on a un new head. on a checker option c'est bon
@@ -47,7 +47,7 @@ int echo(t_commande *cmd_lst) // recoit le node apres "echo", navigue dans la li
 		if (ft_strncmp(current->args->arg, "|", 1) == 0 || (ft_strncmp(current->args->arg, ">", 1) == 0))//(current->type != delimiter)
 		{
 			printf("bash: erreur de syntaxe ,utilisation de delimiteur: `%s'\n", current->args->arg);
-			return (1);
+			return (ERROR);
 
 		}
 		else
@@ -65,7 +65,7 @@ int echo(t_commande *cmd_lst) // recoit le node apres "echo", navigue dans la li
 	{
 		printf("\n");
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 void ft_echo(char *str)
