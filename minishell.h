@@ -157,4 +157,8 @@ char			**find_cmd_args(t_commande *cmd_lst, t_environment *env_copy);
 char			**env_list_to_array(t_environment *env_copy);
 void			close_fds(t_commande *cmd);
 
+/* -------------------echo-----------------------------*/
+void			ft_echo(char *str);
+int				check_option_n(char *str);
+int				echo(t_commande *cmd_lst);
 #endif

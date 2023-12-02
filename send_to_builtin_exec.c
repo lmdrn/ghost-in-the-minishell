@@ -15,7 +15,7 @@
 void	which_builtin(t_commande *cmd_lst)
 {
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
-		printf("ECHO function should happen here\n");
+		echo(cmd_lst);
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
 		printf("PWD function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
