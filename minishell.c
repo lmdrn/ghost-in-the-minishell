@@ -17,6 +17,20 @@
 
 int	g_status = 0;
 
+void print_env_copy(t_environment *env_copy) {
+	if (env_copy == NULL) {
+		printf("env_copy n'est pas initialisé ou est vide.\n");
+		return;
+	}
+
+	printf("Contenu de env_copy :\n");
+	t_environment *current = env_copy;
+	while (current != NULL) {
+		printf("Key: %s, Value: %s\n", current->key, current->value);
+		current = current->next;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
@@ -28,6 +42,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_prompt(input);
 	env_copy = init_env(envp);
+	print_env_copy(env_copy);
+
 	while (1)
 	{
 		input = ft_prompt();
