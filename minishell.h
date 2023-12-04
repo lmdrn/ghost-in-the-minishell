@@ -26,7 +26,10 @@
 # include <errno.h>
 # include "libft.h"
 
+/*----- Macro -----*/
 extern int	g_status;
+# define ERROR 1
+# define SUCCESS 0
 
 /* ooo - enums - ooo */
 
@@ -129,7 +132,7 @@ char			*ft_strncpy(char *dest, const char *src, unsigned int n);
 char			*concat_str(char *s1, char *s2);
 void			free_argv(char **argv);
 int				ft_error(char *str);
-void			which_builtin(t_commande *cmd_lst);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
 void			handling_signals(char *input);
 void			assign_quotes(t_type *node, t_environment *env_copy);
 t_type			*clean_cmd_type(t_type *node);
@@ -156,5 +159,17 @@ char			*find_cmd_path(t_commande *cmd_lst, t_environment *env_copy);
 char			**find_cmd_args(t_commande *cmd_lst, t_environment *env_copy);
 char			**env_list_to_array(t_environment *env_copy);
 void			close_fds(t_commande *cmd);
-
+/*-------------cd-----------------------------*/
+int				ft_cd(t_environment *env_copy, char *path);
+void			add_node_at_end(t_environment **head, char *key, char *value);
+int				go_home(t_environment *env_copy, char *home);
+char			*get_home(t_environment *head);
+t_environment	*last_node(t_environment *head);
+int				check_is_in_env(t_environment *env_copy, char *var);
+int				check_path(char *path);
+//int static		check_args_cd(t_commande *cmd_lst);
+void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
+int				go_home(t_environment *env_copy, char *home);
+int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+void			print_value(t_environment    *env_copy, char *key);
 #endif
