@@ -16,11 +16,16 @@ void print_env(t_environment    *env_copy)
 {
 	int                i;
 	i = 0;
-	while (env_copy[i].key != NULL)
+	if (env_copy!= NULL)
 	{
-		printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
-		i++;
-	}
+		while (env_copy[i].key != NULL)
+		{
+			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
+			i++;
+		}
+	} else
+		return;
+
 }
 void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
@@ -30,7 +35,7 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		printf("PWD function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
 	{
-		printf("plop\n");
+		//printf("plop\n");
 		print_env(env_copy);
 		printf("\n------------\n");
 

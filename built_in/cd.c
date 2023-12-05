@@ -100,22 +100,50 @@ char *get_home(t_environment *env_copy)
 /*------ check liste------*/
 int check_is_in_env(t_environment *env_copy, char *var)
 {
-	int length;
-	t_environment *current;
+	t_environment *current = env_copy;
 
-	length = ft_strlen(var);
-	current = env_copy;
-
-	while (current)
+	while (current != NULL && current->key != NULL)
 	{
-		if (ft_strncmp(current->key, var, length) == 0)
-			return (SUCCESS);
+		if (strcmp(current->key, var) == 0)
+		{
+			// La clé existe dans la copie de l'environnement
+			return SUCCESS;
+		}
 		current = current->next;
 	}
 
-	add_node_at_end(&env_copy, var, 0);
-	return (ERROR);
+	// Si la clé n'existe pas, ajoutez-la à la fin
+	// Notez que vous devrez probablement adapter cette partie
+	// en fonction de la façon dont vous ajoutez des nœuds à votre liste.
+//	add_node_at_end(&env_copy, var, "")var; // Assumption: The third argument should be the corresponding value for the new node.
+
+	return ERROR;
+//	int i = 0;
+//	t_environment *current;
+//
+//
+//	current = env_copy;
+//
+////	while (current)
+////	{
+////		if (ft_strncmp(current->key, var, length) == 0)
+////			return (SUCCESS);
+////		current = current->next;
+////	}
+//	while (env_copy[i].key != NULL)
+//	{
+//		if (ft_strcmp(current->key, var) == 0)// kjsute?
+//			return (SUCCESS);
+//		current = current->next;
+//	}
+//	if (current == NULL)
+//	{
+//		add_node_at_end(&env_copy, var, 0);
+//		return (ERROR);
+//	}
+//	return (ERROR);
 }
+
 int check_path(char *path)
 {
 	if (access(path, F_OK) != -1)
@@ -127,20 +155,65 @@ int check_path(char *path)
 	}
 }
 
+void print_list(t_commande *cmd_lst)
+{
+	t_commande *current = cmd_lst;
+
+	while (current != NULL)
+	{
+		printf("Command: %s\n", current->cmd);
+
+		t_args *args = current->args;
+		while (args != NULL)
+		{
+			printf("Argument: %s\n", args->arg);
+			args = args->next;
+		}
+		current = current->next;
+	}
+}
+
+
 int static check_args_cd(t_commande *cmd_lst)
 {
 	t_commande *current = cmd_lst;
 	t_commande *temp = cmd_lst;
 	int	i;
+
 	//parcourt le node
 	i = 0;
 	if (current != NULL)
 	{
-		while (current->args != NULL && ((current->args->arg[0] == ' ') || (current->args->arg[0] == '\t')))
+//		while (current->args != NULL && ((current->args->arg[0] == ' ') || (current->args->arg[0] == '\t')))
+//		{
+//			current->args = current->args->next;
+//		}
+//		temp = current;
+//		while (current != NULL && current->args != NULL) // compte le nomnbre d'argument
+//		{
+//			i++;
+//			current = current->next;
+//		}
+		//print_list(cmd_lst);
+		t_args *args = current->args;
+		while (args != NULL)
 		{
-			current->args = current->args->next;
+			i++;
+			args = args->next;
 		}
-		if (temp->args == NULL )
+		if (i > 1)
+		{
+			printf("\ntrop d'artgumetns\n");
+			return (-1);
+		}
+		else if (i == 1)
+		{
+			printf("\n bien un seul argument\n");
+			return(10);
+		}
+		current = temp;
+
+		if (current->args == NULL )// a voir si on place plus haut avant la boucle de current..pas nesoin temp
 		{
 			printf("il n'y a aucuuuun arguments, ok");
 			return (0);
@@ -151,28 +224,31 @@ int static check_args_cd(t_commande *cmd_lst)
 			return (0);
 		}
 
-		else if (strcmp(current->args->arg, "..") == 0) {
+		if (strcmp(current->args->arg, "..") == 0)
+		{
 			// remonter d'un répertoire
+			//ft-cd? faut que ca upDATE
+			printf("\n je suis bien chez ..\n");
 			if (chdir("..") != 0)
 			{
 				printf("cd: Failed to change directory");
 				return ERROR;
 			}
+			else
+			{
+				printf("\n je suis recul´´d'un cran normalement, reste a upload la nouvel position\n");
+				return(6);
+			}
 		}
+		else
+			return (9);
 	}
-	while (current != NULL)
+	else
 	{
-		current = current->next;
-		i++;
-	}
-	if (i > 1)
-	{
-		printf("trop d'artgumetns");
-		return (-1);
+		printf("current est NULL, ok");
+		return (-1); // Ajout du return ici pour le cas où current est NULL
 	}
 
-	else
-		return (-1);
 }
 
 /*------real shit------*/
@@ -317,8 +393,10 @@ int	ft_cd(t_environment *env_copy, char *path)
 
 	if (check_path(path) == ERROR)
 		return (ERROR);
-	check_is_in_env(env_copy, "PWD");
-	check_is_in_env(env_copy, "OLDPWD");
+	if (check_is_in_env(env_copy, "PWD") == ERROR)
+		add_node_at_end(&env_copy, "PWD", "");
+	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
+		add_node_at_end(&env_copy, "OLDPWD", "");
 	update_pwd_oldpwd(env_copy, path);
 	return (SUCCESS);
 
@@ -361,7 +439,7 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		free(home);
 		return(SUCCESS);
 	}
-	if (arg == 1 || arg == -1)
+	if (arg == 1)
 	{
 		if (ft_cd(env_copy,cmd_lst->args->arg) == ERROR)
 		{
@@ -370,8 +448,15 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 			return (ERROR);
 		}
 	}
+	if (arg == -1)
+	{
+		printf("\n trop d'arguments ca marche po\n");
+		free(home);
+		return (ERROR);
+	}
 	ft_cd(env_copy,cmd_lst->args->arg);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
 	free(home);
+	printf("\n je suis quand meme arrivé au bout\n");
 	return (SUCCESS);
 
 
