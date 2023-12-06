@@ -175,4 +175,6 @@ void			print_value(t_environment    *env_copy, char *key);
 /* -------------------pwd-----------------------------*/
 int check_args(t_commande *cmd_lst);
 int builtin_pwd(t_commande *cmd_lst);
+/* -------------------env-----------------------------*/
+void print_env_builtin(t_environment  *env_copy);
 #endif

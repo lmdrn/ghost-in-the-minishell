@@ -47,7 +47,7 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
 		printf("UNSET function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)
-		printf("ENV function should happen here\n");
+		print_env_builtin(env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "exit", 4) == 0)
 		printf("EXIT function should happen here\n");
 	else

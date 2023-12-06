@@ -367,7 +367,4 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 //		free(home);
 	printf("\n je suis quand meme arrivé au bout\n");
 	return (SUCCESS);
-
-
 }
-
