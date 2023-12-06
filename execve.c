@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/28 13:38:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:29:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	arg = cmd->args;
 	while (arg)
 	{
-		argv[i++] = arg->arg;
+		if (arg->type != 9)
+			argv[i++] = arg->arg;
 		arg = arg->next;
 	}
 	argv[i] = NULL;
@@ -137,23 +138,18 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	char		*full_path;
 	char		**argv;
 
-	/* while (cmd) */
-	/* { */
-		full_path = find_executable_path(cmd->cmd, env_copy);
-		if (!full_path)
-			ft_error(cmd->cmd);
-		argv = build_arg(cmd, env_copy);
-		if (!argv)
-		{
-			printf("Malloc error\n");
-			return (1);
-		}
-		if (execve(full_path, argv, NULL) == -1)
-			ft_error(cmd->cmd);
-		/* break; */
-		free_argv(argv);
-		free(full_path);
-		/* cmd = cmd->next; */
-	/* } */
+	full_path = find_executable_path(cmd->cmd, env_copy);
+	if (!full_path)
+		ft_error(cmd->cmd);
+	argv = build_arg(cmd, env_copy);
+	if (!argv)
+	{
+		printf("Malloc error\n");
+		return (1);
+	}
+	if (execve(full_path, argv, NULL) == -1)
+		ft_error(cmd->cmd);
+	free_argv(argv);
+	free(full_path);
 	return (0);
 }

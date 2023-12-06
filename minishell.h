@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/29 16:59:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:43:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ typedef struct s_type
 typedef struct s_args
 {
 	char				*arg;
-	t_type				*tokens;
-	struct s_args	*next;
+	int					type;
+	struct s_args		*next;
 
 }	t_args;
 
@@ -161,7 +161,7 @@ void			print_commande_list(t_commande *head);
 /* ooo - init - ooo */
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
-void			init_tokenizer(char **blocks, t_environment *env_copy);
+int				init_tokenizer(char **blocks, t_environment *env_copy);
 char			**init_parse(const char *input);
 
 /* ooo - output_redir - ooo */
@@ -191,7 +191,8 @@ void			only_one_cmd(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - send_to_pipes - ooo*/
 
-void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *token);
+void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy);
+void			execute_redir(t_commande *cmd, t_environment *env_copy);
 void			close_fds(t_commande *cmd);
 char			**env_list_to_array(t_environment *env_copy);
 

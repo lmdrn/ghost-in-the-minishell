@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/29 17:02:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:28:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,145 @@ void	wait_for_children(t_commande *cmd)
 	}
 }
 
-void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *token)
+int	has_input(t_commande *cmd)
 {
-	int	fd[2];
-	int	pid;
-    t_commande  *curr_cmd;
-    t_args      *curr_arg;
-    t_type      *curr_token;
+	if (cmd->args->type == 8)
+	{
+		printf("HAS input %d\n", cmd->args->type);
+		return (cmd->args->type);
+	}
+	return (0);
+}
 
-	assign_fds(cmd_lst, fd);
-    curr_cmd = cmd_lst;
-    while (curr_cmd != NULL)
-    {
-		printf("cmd is %s\n", curr_cmd->cmd);
-        curr_arg = curr_cmd->args;
+int	has_output(t_commande *cmd)
+{
+	if (cmd->args->type == 9)
+	{
+		printf("HAS output %d\n", cmd->args->type);
+		return (cmd->args->type);
+	}
+	return (0);
+}
+
+char	*find_output_file_name(t_commande *cmd)
+{
+	t_args		*curr_arg;
+	char		*last_word;
+	char		*output_redir;
+	char		*file;
+
+	last_word = NULL;
+	curr_arg = cmd->args;
+	output_redir = ft_strchr(curr_arg->arg, '>');
+	printf("outputredir is %s\n", output_redir);
+	if (output_redir != NULL)
+	{
+		file = curr_arg->next->arg;
+		printf("file is %s\n", file);
+		while (*file == ' ')
+			file++;
+		if (*file != '\0' && ft_strchr(" \t\n\r", *file) == NULL)
+			last_word = ft_strdup(file);
+	}
+	return (last_word);
+}
+
+char	*find_input_file_name(t_commande *cmd)
+{
+	t_args		*curr_arg;
+	char		*last_word;
+	char		*output_redir;
+	char		*file;
+
+	last_word = NULL;
+	curr_arg = cmd->args;
+	output_redir = ft_strchr(curr_arg->arg, '<');
+	printf("inputredir is %s\n", output_redir);
+	if (output_redir != NULL)
+	{
+		file = curr_arg->next->arg;
+		printf("file is %s\n", file);
+		while (*file == ' ')
+			file++;
+		if (*file != '\0' && ft_strchr(" \t\n\r", *file) == NULL)
+			last_word = ft_strdup(file);
+	}
+	return (last_word);
+}
+
+void	assign_redir(t_commande *cmd, int input, int output)
+{
+	char	*file;
+
+	file = NULL;
+	if (input == 8)
+	{
+		file = find_input_file_name(cmd);
+		printf("input file name is : %s\n", file);
+		cmd->fdin = open(file, O_RDONLY);
+		if (cmd->fdin == -1)
+		{
+			printf("Error opening file \n");
+			exit(EXIT_FAILURE);
+		}
+		dup2(cmd->fdin, STDIN_FILENO);
+		close(cmd->fdin);
+	}
+	if (output == 9)
+	{
+		file = find_output_file_name(cmd);
+		printf("output file name is : %s\n", file);
+		cmd->fdout = creat(file, 0644);
+		if (cmd->fdout == -1)
+		{
+			printf("Error creating file\n");
+			exit(EXIT_FAILURE);
+		}
+		dup2(cmd->fdout, STDOUT_FILENO);
+		close(cmd->fdout);
+	}
+}
+
+void	execute_redir(t_commande *cmd, t_environment *env_copy)
+{
+	int			pid;
+	t_args		*curr_arg;
+	int			input;
+	int			output;
+
+	input = has_input(cmd);
+	output = has_output(cmd);
+	pid = fork();
+	if (pid == 0)
+	{
+		curr_arg = cmd->args;
 		while (curr_arg != NULL)
 		{
-			printf("arg is is %s\n", curr_arg->arg);
-            curr_token = token;
-            while (curr_token != NULL)
-            {
-                if (curr_token->type == 9)
-                {
-			        printf("token is %d\n", curr_token->type);
-                    break;
-                }
-                curr_token = curr_token->next;
-            }
-            curr_arg = curr_arg->next;
-        }
-		curr_cmd = curr_cmd->next;
-    }
+			if (input == 8 || output == 9)
+			{
+				assign_redir(cmd, input, output);
+			}
+			curr_arg = curr_arg->next;
+		}
+		if (execute_basic_cmd(cmd, env_copy) == -1)
+			printf("Error executing %s\n", cmd->cmd);
+	}
+	else
+	{
+		if (cmd->fdin != STDIN_FILENO)
+			close(cmd->fdin);
+		if (cmd->fdout != STDOUT_FILENO)
+			close(cmd->fdout);
+		waitpid(pid, NULL, 0);
+	}
+}
+
+void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
+{
+	int			fd[2];
+	int			pid;
+
+	assign_fds(cmd_lst, fd);
 	while (cmd_lst != NULL)
 	{
 		pid = fork();
@@ -97,9 +205,6 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *toke
 				dup2(cmd_lst->fdout, STDOUT_FILENO);
 				close(cmd_lst->fdin);
 			}
-			//dup2(cmd_lst->fdin, STDIN_FILENO);
-			//dup2(cmd_lst->fdout, STDOUT_FILENO);
-			//close_fds(cmd_lst);
 			execute_basic_cmd(cmd_lst, env_copy);
 		}
 		else
@@ -108,142 +213,11 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *toke
 				close(cmd_lst->fdin);
 			if (cmd_lst->fdout != STDOUT_FILENO)
 				close(cmd_lst->fdout);
-		//	close_fds(cmd_lst);
 			waitpid(pid, NULL, 0);
-			//wait_for_children(cmd_lst);
 		}
 		cmd_lst = cmd_lst->next;
 	}
 }
-
-void    execute_pipeline(t_commande *cmd, t_environment *env_copy, int cmd_count)
-{
-    int ret;
-    int tmp_in;
-    int tmp_out;
-    int i;
-    int fds[2];
-    char    *infile;
-    char    *outfile;
-
-    i = 0;
-    tmp_in = dup(0);
-    tmp_out = dup(1);
-    if (is_input_redir(cmd) != NULL)
-        infile = is_input_redir(cmd);
-    if (infile != NULL)
-    {
-        cmd->fdin = open(infile, O_WRONLY | O_CREAT | O_TRUNC | 0666);
-        if (cmd->fdin == -1)
-            printf("Could not open infile\n");
-    }
-    else
-        cmd->fdin = dup(tmp_in);
-    while (i < cmd_count)
-    {
-        dup2(cmd->fdin, 0);
-        close(cmd->fdin);
-        if (i == (cmd_count - 1))
-        {
-            if (is_output_redir(cmd) != NULL)
-                outfile = is_output_redir(cmd);
-            if (outfile != NULL)
-            {
-                cmd->fdout = open(outfile, O_WRONLY | O_CREAT | O_TRUNC | 0666);
-                if (cmd->fdout == -1)
-                    printf("Could not open outfile\n");
-            }
-            else
-                cmd->fdout = dup(tmp_out);
-        }
-        else
-        {
-            pipe(fds);
-            cmd->fdout = fds[1];
-            cmd->fdin = fds[0];
-        }
-        dup2(cmd->fdout, 1);
-        close(cmd->fdout);
-        ret = fork();
-        if (ret == 0)
-        {
-            execute_basic_cmd(cmd, env_copy);
-            printf("Error executing cmd\n");
-            exit(EXIT_FAILURE);
-        }
-        i++;
-    }
-    dup2(tmp_in, 0);
-    dup2(tmp_out, 1);
-    close(tmp_in);
-    close(tmp_out);
-    waitpid(ret, &g_status, 0);
-}
-
-/* void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy, t_type *token) */
-/* { */
-/* 	int	fd[2]; */
-/* 	int	pid; */
-/*     t_commande  *curr_cmd; */
-/*     t_args      *curr_arg; */
-/*     t_type      *curr_token; */
-
-/* 	assign_fds(cmd_lst, fd); */
-/*     curr_cmd = cmd_lst; */
-/*     while (curr_cmd != NULL) */
-/*     { */
-/* 		printf("cmd is %s\n", curr_cmd->cmd); */
-/*         curr_arg = curr_cmd->args; */
-/* 		while (curr_arg != NULL) */
-/* 		{ */
-/* 			printf("arg is is %s\n", curr_arg->arg); */
-/*             curr_token = token; */
-/*             while (curr_token != NULL) */
-/*             { */
-/*                 if (curr_token->type == 9) */
-/*                 { */
-/* 			        printf("token is %d\n", curr_token->type); */
-/*                     break; */
-/*                 } */
-/*                 curr_token = curr_token->next; */
-/*             } */
-/*             curr_arg = curr_arg->next; */
-/*         } */
-/* 		curr_cmd = curr_cmd->next; */
-/*     } */
-/* 	while (cmd_lst != NULL) */
-/* 	{ */
-/* 		pid = fork(); */
-/* 		if (pid == 0) */
-/* 		{ */
-/* 			if (cmd_lst->fdin != STDIN_FILENO) */
-/* 			{ */
-/* 				dup2(cmd_lst->fdin, STDIN_FILENO); */
-/* 				close(cmd_lst->fdin); */
-/* 			} */
-/* 			if (cmd_lst->fdout != STDOUT_FILENO) */
-/* 			{ */
-/* 				dup2(cmd_lst->fdout, STDOUT_FILENO); */
-/* 				close(cmd_lst->fdin); */
-/* 			} */
-/* 			//dup2(cmd_lst->fdin, STDIN_FILENO); */
-/* 			//dup2(cmd_lst->fdout, STDOUT_FILENO); */
-/* 			//close_fds(cmd_lst); */
-/* 			execute_basic_cmd(cmd_lst, env_copy); */
-/* 		} */
-/* 		else */
-/* 		{ */
-/* 			if (cmd_lst->fdin != STDIN_FILENO) */
-/* 				close(cmd_lst->fdin); */
-/* 			if (cmd_lst->fdout != STDOUT_FILENO) */
-/* 				close(cmd_lst->fdout); */
-/* 		//	close_fds(cmd_lst); */
-/* 			waitpid(pid, NULL, 0); */
-/* 			//wait_for_children(cmd_lst); */
-/* 		} */
-/* 		cmd_lst = cmd_lst->next; */
-/* 	} */
-/* } */
 
 /* char	**env_list_to_array(t_environment *env_copy) */
 /* { */

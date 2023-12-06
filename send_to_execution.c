@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/28 13:57:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:39:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 		|| (*pipe_count % 2 != 0 && *cmd_count % 2 != 0))
 	{
 		printf("Error: Not enough cmds or pipes\n");
-		exit(1);
 	}
 	return (0);
 }
