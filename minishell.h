@@ -161,7 +161,7 @@ char			**env_list_to_array(t_environment *env_copy);
 void			close_fds(t_commande *cmd);
 /*-------------cd-----------------------------*/
 int				ft_cd(t_environment *env_copy, char *path);
-void			add_node_at_end(t_environment **head, char *key, char *value);
+void			add_node_at_end(t_environment *head, char *key, char *value);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
 t_environment	*last_node(t_environment *head);

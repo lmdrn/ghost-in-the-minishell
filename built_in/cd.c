@@ -14,7 +14,7 @@ void print_value(t_environment    *env_copy, char *key)
 
 /* -------------------prototype-----------------------------*/
 int	ft_cd(t_environment *env_copy, char *path);
-void add_node_at_end(t_environment **head, char *key, char *value);
+void add_node_at_end(t_environment *head, char *key, char *value);
 int go_home(t_environment *env_copy, char *home);
 char *get_home(t_environment *head);
 t_environment	*last_node(t_environment *head);
@@ -33,7 +33,7 @@ t_environment	*last_node(t_environment *head)
 		head = head->next; // passe au prochain
 	return (head); //retourne l'adresse du node et pas du pointeur
 }
-void add_node_at_end(t_environment **head, char *key, char *value) {
+void add_node_at_end(t_environment *head, char *key, char *value) {
 	// Créer un nouveau nœud
 	t_environment *new_node = malloc(sizeof(t_environment));
 	if (new_node == NULL) {
@@ -53,13 +53,13 @@ void add_node_at_end(t_environment **head, char *key, char *value) {
 	new_node->next = NULL;
 
 	// Secu si la liste est vide, le nouveau nœud devient la tête
-	if (*head == NULL) {
-		*head = new_node;
+	if (head == NULL) {
+		head = new_node;
 		return;
 	}
 
 	// Trouver le dernier nœud et ajouter le nouveau nœud à la fin de la liste
-	t_environment *last = last_node(*head);
+	t_environment *last = last_node(head);
 	last->next = new_node;
 }
 
@@ -98,26 +98,30 @@ char *get_home(t_environment *env_copy)
 
 
 /*------ check liste------*/
+
 int check_is_in_env(t_environment *env_copy, char *var)
 {
-	t_environment *current = env_copy;
 
-	while (current != NULL && current->key != NULL)
+	int                i;
+	i = 0;
+	if (env_copy!= NULL)
 	{
-		if (strcmp(current->key, var) == 0)
+		while (env_copy[i].key != NULL)
 		{
-			// La clé existe dans la copie de l'environnement
-			return SUCCESS;
+			if (strcmp(env_copy[i].key, var) == 0)
+			{
+				printf("key found \n");
+				return SUCCESS;
+			}
+			i++;
 		}
-		current = current->next;
+		return (ERROR);
 	}
+	else
+		return(ERROR);
 
-	// Si la clé n'existe pas, ajoutez-la à la fin
-	// Notez que vous devrez probablement adapter cette partie
-	// en fonction de la façon dont vous ajoutez des nœuds à votre liste.
-//	add_node_at_end(&env_copy, var, "")var; // Assumption: The third argument should be the corresponding value for the new node.
+}
 
-	return ERROR;
 //	int i = 0;
 //	t_environment *current;
 //
@@ -142,7 +146,7 @@ int check_is_in_env(t_environment *env_copy, char *var)
 //		return (ERROR);
 //	}
 //	return (ERROR);
-}
+
 
 int check_path(char *path)
 {
@@ -255,36 +259,34 @@ int static check_args_cd(t_commande *cmd_lst)
 
 void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 {
-	char *current_pwd;
-
+	char *current_pwd = NULL;
+	char *old_pwd = NULL;
 
 	current_pwd = getcwd(NULL, 0);
-	printf("\n current pwd %s \n", current_pwd);
-	// Construire les chaînes "PWD=" et "OLDPWD="
-	//new_pwd = ft_strjoin("PWD=", change_pwd + 1); // Ignorer le premier caractère (=)
-	//printf("\n etape 2\n");
-	printf("\netape 3 \n");
+	int i = 0;
+	printf("\n ------\n current  dans update avant de send ,pwd: %s \n", current_pwd);
+
 
 	// Rechercher et mettre à jour la valeur de "PWD" et "OLDPWD"
-	int i = 0;
+	i = 0;
 	while (env_copy[i].key != NULL)
 	{
 		if (strcmp(env_copy[i].key, "PWD") == 0)
 		{
+			old_pwd = ft_strdup(env_copy[i].value);
 			free(env_copy[i].value); // Libérer l'ancienne valeur
 			env_copy[i].value = ft_strdup(change_pwd); // Mettre à jour la valeur (ignorer le premier caractère)
-			printf("\n etape pwd\n");
 			break;
 		}
 		i++;
 	}
+	 i = 0;
 	while (env_copy[i].key != NULL)
 	{
 		if (strcmp(env_copy[i].key, "OLDPWD") == 0)
 		{
 			free(env_copy[i].value); // Libérer l'ancienne valeur
-			env_copy[i].value = ft_strdup(current_pwd); // Mettre à jour la valeur
-			printf("\n eatape oldpqd\n");
+			env_copy[i].value = ft_strdup(old_pwd); // Mettre à jour la valeur
 			break;
 		}
 		i++;
@@ -294,6 +296,7 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 	print_value(env_copy, "OLDPWD");
 	// Libérer la mémoire allouée par getcwd, strjoin
 	free(current_pwd);
+	//free (old_pwd);
 }
 
 //void update_pwd_oldpwd(t_environment **head, char *change_pwd)
@@ -370,20 +373,24 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 /* retourne 0 pour mener à HOME, -1 si erreur et autre si ok, parfcours la liste*/
 int go_home(t_environment *env_copy, char *home)
 {
+	update_pwd_oldpwd(env_copy, home);// on tente car tojour suodate a home
 	if (chdir(home) != 0)
 	{
 		printf ("cd: Home non accessible");
+		free(home);
+		home = NULL;
 		return (ERROR);
 	}
 
 	else
 	{
-		printf("\n je suis arriv´´jusqu ici\n");
-		update_pwd_oldpwd(env_copy, home);
+		printf("\n on rentre a la maisonnn\n");
 	}
 
 
 	//leaks aussi ici
+	free(home);
+	home = NULL;
 	return (SUCCESS);
 }
 int	ft_cd(t_environment *env_copy, char *path)
@@ -393,11 +400,14 @@ int	ft_cd(t_environment *env_copy, char *path)
 
 	if (check_path(path) == ERROR)
 		return (ERROR);
-	if (check_is_in_env(env_copy, "PWD") == ERROR)
-		add_node_at_end(&env_copy, "PWD", "");
-	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
-		add_node_at_end(&env_copy, "OLDPWD", "");
 	update_pwd_oldpwd(env_copy, path);
+	if (check_is_in_env(env_copy, "PWD") == ERROR)
+		printf("Adding PWD to env_copy\n");
+//		add_node_at_end(env_copy, "PWD", "");
+	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
+		printf("Adding OLDPWD to env_copy\n");
+//		add_node_at_end(env_copy, "OLDPWD", "");
+
 	return (SUCCESS);
 
 }
@@ -414,7 +424,6 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	if (arg == -1)
 	{
 		printf("cd: too many arguments\n");
-		free(home);
 		return (ERROR);
 	}
 	//pas acces à home
@@ -422,7 +431,7 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	if (home == NULL)
 	{
 		printf("cd: Home not set\n");
-		free(home);
+//		free(home);
 		return (ERROR);
 	}
 	//doit retourner a la racine
@@ -433,10 +442,10 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		if (go_home(env_copy, home) == ERROR)
 		{
 			printf("can't go home");
-			free(home);
+			//free(home);
 			return(ERROR);
 		}
-		free(home);
+		//free(home);
 		return(SUCCESS);
 	}
 	if (arg == 1)
@@ -445,6 +454,7 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		{
 			printf("path to file doesn't exist");
 			free(home);
+			home = NULL;
 			return (ERROR);
 		}
 	}
@@ -455,7 +465,8 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		return (ERROR);
 	}
 	ft_cd(env_copy,cmd_lst->args->arg);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
-	free(home);
+//	if (home != NULL)
+//		free(home);
 	printf("\n je suis quand meme arrivé au bout\n");
 	return (SUCCESS);
 
