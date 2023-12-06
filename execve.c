@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:29:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 16:55:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	char	**argv;
 	t_args	*arg;
 	int		i;
+	t_args	*head;
 
+	head = cmd->args;
 	argc = count_args(cmd->args);
 	argv = malloc(sizeof(char *) * (argc + 2));
 	if (!argv)
@@ -126,7 +128,8 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	while (arg)
 	{
 		if (arg->type != 9)
-			argv[i++] = arg->arg;
+			argv[i] = arg->arg;
+		i++;
 		arg = arg->next;
 	}
 	argv[i] = NULL;
@@ -142,6 +145,12 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	if (!full_path)
 		ft_error(cmd->cmd);
 	argv = build_arg(cmd, env_copy);
+	int i = 0;
+	while (argv[i])
+	{
+		printf("ARGV IS %s\n", argv[i]);
+		i++;
+	}
 	if (!argv)
 	{
 		printf("Malloc error\n");
