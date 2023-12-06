@@ -295,7 +295,11 @@ int	ft_cd(t_environment *env_copy, char *path)
 	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
 		printf("Adding OLDPWD to env_copy\n");
 //		add_node_at_end(env_copy, "OLDPWD", "");
-
+	if (chdir(path) != 0)//capibara
+	{
+		printf("cd: Failed to change directory");
+		return ERROR;
+	}
 	return (SUCCESS);
 
 }
