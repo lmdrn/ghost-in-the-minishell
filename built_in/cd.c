@@ -63,20 +63,35 @@ void add_node_at_end(t_environment *head, char *key, char *value) {
 	last->next = new_node;
 }
 
-//char *get_home(t_environment *env_copy)
-//{
-//	if (env_copy == NULL)
-//		return (NULL);
-//	while (env_copy != NULL && env_copy->key != NULL)
+int go_home(t_environment *env_copy, char *home)
+{
+	update_pwd_oldpwd(env_copy, home);// on tente car tojour suodate a home
+
+	if (chdir(home) != 0)
+	{
+		printf ("cd: Home non accessible");
+		//free(home);
+		//home = NULL;
+		return (ERROR);
+	}
+
+	else
+	{
+		printf("\n on rentre a la maisonnn\n");
+		return(SUCCESS);
+	}
+
+
+	//leaks aussi ici
+//	if (home != NULL)
 //	{
-//		if (strcmp(env_copy->key, "HOME") == 0)
-//		{
-//			return env_copy->value;
-//		}
-//		env_copy = env_copy->next;
-//	}
-//	return NULL; // HOME n'est pas défini
-//}
+	free(home);
+	home = NULL;
+	//}
+	return (SUCCESS);
+}
+
+
 char *get_home(t_environment *env_copy)
 {
 	if (env_copy == NULL)
@@ -122,31 +137,6 @@ int check_is_in_env(t_environment *env_copy, char *var)
 
 }
 
-//	int i = 0;
-//	t_environment *current;
-//
-//
-//	current = env_copy;
-//
-////	while (current)
-////	{
-////		if (ft_strncmp(current->key, var, length) == 0)
-////			return (SUCCESS);
-////		current = current->next;
-////	}
-//	while (env_copy[i].key != NULL)
-//	{
-//		if (ft_strcmp(current->key, var) == 0)// kjsute?
-//			return (SUCCESS);
-//		current = current->next;
-//	}
-//	if (current == NULL)
-//	{
-//		add_node_at_end(&env_copy, var, 0);
-//		return (ERROR);
-//	}
-//	return (ERROR);
-
 
 int check_path(char *path)
 {
@@ -188,17 +178,7 @@ int static check_args_cd(t_commande *cmd_lst)
 	i = 0;
 	if (current != NULL)
 	{
-//		while (current->args != NULL && ((current->args->arg[0] == ' ') || (current->args->arg[0] == '\t')))
-//		{
-//			current->args = current->args->next;
-//		}
-//		temp = current;
-//		while (current != NULL && current->args != NULL) // compte le nomnbre d'argument
-//		{
-//			i++;
-//			current = current->next;
-//		}
-		//print_list(cmd_lst);
+
 		t_args *args = current->args;
 		while (args != NULL)
 		{
@@ -264,8 +244,8 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 
 	current_pwd = getcwd(NULL, 0);
 	int i = 0;
-	printf("\n ------\n current  dans update avant de send ,pwd: %s \n", current_pwd);
-
+	printf("\n ------\n current  dans update avant de send ,pwd: %s \n", current_pwd); // capibara
+	//!!!! soucis ici,.. a vbien recuperer le current mais mal update dans le env_copy
 
 	// Rechercher et mettre à jour la valeur de "PWD" et "OLDPWD"
 	i = 0;
@@ -299,100 +279,8 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 	//free (old_pwd);
 }
 
-//void update_pwd_oldpwd(t_environment **head, char *change_pwd)
-//{
-//	char *current_pwd;
-//	char *new_pwd;
-//	char *old_pwd;
-//
-//	current_pwd = getcwd(NULL, 0);
-//
-//	// Construire les chaînes "PWD=" et "OLDPWD="
-//	new_pwd = ft_strjoin("PWD=", change_pwd);// pas garder le =?
-//	old_pwd = ft_strjoin("OLDPWD=", current_pwd);
-//
-//	// Rechercher et mettre à jour la valeur de "PWD" et "OLDPWD"
-//	int i = 0;
-//	while ((*head)[i].key != NULL)
-//	{
-//		if (strcmp((*head)[i].key, "PWD") == 0)
-//		{
-//			free((*head)[i].value); // Libérer l'ancienne valeur
-//			(*head)[i].value = ft_strdup(change_pwd); // Mettre à jour la valeur
-//		}
-//		else if (strcmp((*head)[i].key, "OLDPWD") == 0)
-//		{
-//			free((*head)[i].value); // Libérer l'ancienne valeur
-//			(*head)[i].value = ft_strdup(current_pwd); // Mettre à jour la valeur
-//		}
-//		i++;
-//	}
-//
-//	// Libérer la mémoire allouée par getcwd, strjoin
-//	free(current_pwd);
-//	free(new_pwd);
-//	free(old_pwd);
-//}
-
-//void update_pwd_oldpwd(t_environment **head, char *change_pwd)
-//{
-//	char *current_pwd;
-//	char *new_pwd;
-//	char *old_pwd;
-//
-//	current_pwd = getcwd(NULL, 0);
-//
-//	// Construire les chaînes "PWD=" et "OLDPWD="
-//	new_pwd = ft_strjoin("PWD=", change_pwd);
-//	old_pwd = ft_strjoin("OLDPWD=", current_pwd);
-//
-//	// Rechercher et mettre à jour la valeur de "PWD"
-//	t_environment *current = *head;
-//	while (current != NULL)
-//	{
-//		if (strcmp(current->key, "PWD") == 0)
-//		{
-//			free(current->value); // Libérer l'ancienne valeur
-//			current->value = ft_strdup(change_pwd); // Mettre à jour la valeur
-//			break;
-//		}
-//		else if (strcmp(current->key, "OLDPWD") == 0)
-//		{
-//			free(current->value); // Libérer l'ancienne valeur
-//			current->value = ft_strdup(current_pwd); // Mettre à jour la valeur
-//			break;
-//		}
-//		current = current->next;
-//	}
-//
-//	// Libérer la mémoire allouée par getcwd, strjoin
-//	free(current_pwd);
-//	free(new_pwd);
-//	free(old_pwd);
-//}
-/* retourne 0 pour mener à HOME, -1 si erreur et autre si ok, parfcours la liste*/
-int go_home(t_environment *env_copy, char *home)
-{
-	update_pwd_oldpwd(env_copy, home);// on tente car tojour suodate a home
-	if (chdir(home) != 0)
-	{
-		printf ("cd: Home non accessible");
-		free(home);
-		home = NULL;
-		return (ERROR);
-	}
-
-	else
-	{
-		printf("\n on rentre a la maisonnn\n");
-	}
 
 
-	//leaks aussi ici
-	free(home);
-	home = NULL;
-	return (SUCCESS);
-}
 int	ft_cd(t_environment *env_copy, char *path)
 {
 	//gerer les ..
@@ -417,6 +305,7 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	int arg;
 	arg = 0;
 	home = NULL;
+	//t_environment *current = env_copy;
 	//trop d'arguments
 	arg = check_args_cd(cmd_lst);
 	printf("\n voici la valeur de arg avabt traitment %d\n", arg);
@@ -438,10 +327,15 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	if (arg == 0)
 	{
 		//leaks peut pas aller vers go home
-		printf("\nvoici la valeur de home %s\n", home);
-		if (go_home(env_copy, home) == ERROR)
+		home = get_home(env_copy);//check ici
+		if (home == NULL)
 		{
-			printf("can't go home");
+			printf(" la maison c'est null \n");
+			return(ERROR);
+		}
+		if (go_home(env_copy, home) == ERROR) // ici probleme 2e cd
+		{
+			printf("\n can't go home\n");
 			//free(home);
 			return(ERROR);
 		}
