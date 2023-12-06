@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:54:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:14:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int	main(int ac, char **av, char **envp)
 			/* printf("Cleaned input is : %s\n", input); */
 			blocks = init_parse(input);
 			if (init_tokenizer(blocks, env_copy) == -1)
+			{
+				printf("Error: %s: command not found\n", input);
 				handling_signals(input);
+			}
 		}
 	}
 	return (0);

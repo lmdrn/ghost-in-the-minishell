@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:43:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:14:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,6 @@ t_commande		*command_list(t_type *tokens, int *pipe_count, int *cmd_count,
 /* ooo - create_lst - ooo */
 
 t_type			*init_lst(char **blocks, t_type *node, t_environment *env_copy);
-
-
-void			free_env(char **env);
-void			custom_exit(void);
-t_type			*commands_into_blocks(t_type *node, t_type *commands);
 
 /* ooo - custom_parsing_split - ooo */
 

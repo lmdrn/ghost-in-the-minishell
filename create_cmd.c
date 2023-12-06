@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:37:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:13:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ t_commande	*command_list(t_type *tokens, int *pipe_count,
 		}
 		else
 		{
-			printf("Error: command not found\n");
 			return (NULL);
 		}
 	}
