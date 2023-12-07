@@ -37,7 +37,7 @@ CC 		= gcc
 
 CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 
-CFLAGS		+= -fsanitize=address -g3 
+CFLAGS		+= -fsanitize=address -g #-fsanitize=address -g3 car trop recent pour les macs de l'ecole
 
 LIBFT =		-L./libft -lft
 

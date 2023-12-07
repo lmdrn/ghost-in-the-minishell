@@ -171,7 +171,7 @@ int				check_path(char *path);
 void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
 int				go_home(t_environment *env_copy, char *home);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
-void			print_value(t_environment    *env_copy, char *key);
+char			*print_value(t_environment    *env_copy, char *key);
 /* -------------------pwd-----------------------------*/
 int check_args(t_commande *cmd_lst);
 int builtin_pwd(t_commande *cmd_lst);

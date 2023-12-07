@@ -1,15 +1,30 @@
 #include "../minishell.h"
 
-void print_value(t_environment    *env_copy, char *key)
+char * print_value(t_environment    *env_copy, char *key)
 {
 	int                i;
 	i = 0;
 	while (env_copy[i].key != NULL)
 	{
 		if (strcmp(env_copy[i].key, key) == 0)
-			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
+		{
+			//printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
+			return (env_copy[i].value);
+		}
 		i++;
 	}
+	return (NULL);
+}
+
+static char *add_to_debut_tild(char *user)
+{
+	char *user_tild;
+	char charStr[2] = {'~', '\0'}; // Convertit le caractère en une chaîne d'un seul caractère
+
+	// Utilise strjoin pour concaténer le caractère et la chaîne existante
+	user_tild = ft_strjoin(charStr, user);
+
+	return (user_tild);
 }
 
 /* -------------------prototype-----------------------------*/
@@ -20,7 +35,7 @@ char *get_home(t_environment *head);
 t_environment	*last_node(t_environment *head);
 int check_is_in_env(t_environment *env_copy, char *var);
 int check_path(char *path);
-int static	check_args_cd(t_commande *cmd_lst);
+int static	check_args_cd(t_commande *cmd_lst, t_environment *env_copy);
 void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
 int go_home(t_environment *env_copy, char *home);
 int builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
@@ -77,7 +92,7 @@ int go_home(t_environment *env_copy, char *home)
 
 	else
 	{
-		printf("\n on rentre a la maisonnn\n");
+		//printf("\n on rentre a la maisonnn\n");
 		return(SUCCESS);
 	}
 
@@ -117,7 +132,7 @@ int check_is_in_env(t_environment *env_copy, char *var)
 		{
 			if (strcmp(env_copy[i].key, var) == 0)
 			{
-				printf("key found \n");
+				//printf("key found \n");
 				return SUCCESS;
 			}
 			i++;
@@ -147,7 +162,7 @@ void print_list(t_commande *cmd_lst)
 
 	while (current != NULL)
 	{
-		printf("Command: %s\n", current->cmd);
+		//printf("Command: %s\n", current->cmd);
 
 		t_args *args = current->args;
 		while (args != NULL)
@@ -160,7 +175,7 @@ void print_list(t_commande *cmd_lst)
 }
 
 
-int static check_args_cd(t_commande *cmd_lst)
+int static check_args_cd(t_commande *cmd_lst, t_environment *env_copy)
 {
 	t_commande *current = cmd_lst;
 	t_commande *temp = cmd_lst;
@@ -179,26 +194,34 @@ int static check_args_cd(t_commande *cmd_lst)
 		}
 		if (i > 1)
 		{
-			printf("\ntrop d'artgumetns\n");
+			//printf("\ntrop d'artgumetns\n");
 			return (-1);
 		}
 		else if (i == 1)
 		{
-			printf("\n bien un seul argument\n");
+			//printf("\n bien un seul argument\n");
+					char *user = print_value(env_copy, "USER");
+					char *new_user = add_to_debut_tild(user);
+			if ((ft_strcmp(current->args->arg, "~") == 0)  || (ft_strcmp(current->args->arg, new_user) == 0))//&& current->args->arg[1] == '\0'),
+			{
+				printf("il y a le tild avec et snas user, ok");
+				return (0);
+			}
+			if (ft_strcmp(current->args->arg, ".") == 0)
+			{
+				printf("il y a juste un point\n");
+				return(7);
+			}
 			return(10);
 		}
 		current = temp;
 
 		if (current->args == NULL )// a voir si on place plus haut avant la boucle de current..pas nesoin temp
 		{
-			printf("il n'y a aucuuuun arguments, ok");
+			//printf("il n'y a aucuuuun arguments, ok");
 			return (0);
 		}
-		if (ft_strcmp(current->args->arg, "~") == 0 )//&& current->args->arg[1] == '\0')
-		{
-			printf("il y a le tild, ok");
-			return (0);
-		}
+
 
 		if (strcmp(current->args->arg, "..") == 0)
 		{
@@ -301,11 +324,13 @@ int builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	int arg;
 	arg = 0;
 	home = NULL;
-	//t_environment *current = env_copy;
-	//trop d'arguments
-	arg = check_args_cd(cmd_lst);
+
+
+	arg = check_args_cd(cmd_lst, env_copy);
 	printf("\n voici la valeur de arg avabt traitment %d\n", arg);
 	//plus de 1 arguments
+	if (arg == 7)
+		return(SUCCESS);
 	if (arg == -1)
 	{
 		printf("cd: too many arguments\n");
