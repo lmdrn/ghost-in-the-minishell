@@ -81,14 +81,6 @@ int go_home(t_environment *env_copy, char *home)
 		return(SUCCESS);
 	}
 
-
-	//leaks aussi ici
-//	if (home != NULL)
-//	{
-	free(home);
-	home = NULL;
-	//}
-	return (SUCCESS);
 }
 
 
