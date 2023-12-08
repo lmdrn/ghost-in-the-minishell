@@ -259,8 +259,6 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 
 	current_pwd = getcwd(NULL, 0);
 	int i = 0;
-	printf("\n ------\n current  dans update avant de send ,pwd: %s \n", current_pwd); // capibara
-	//!!!! soucis ici,.. a vbien recuperer le current mais mal update dans le env_copy
 
 	// Rechercher et mettre à jour la valeur de "PWD" et "OLDPWD"
 	i = 0;

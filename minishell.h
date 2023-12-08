@@ -177,4 +177,10 @@ int check_args(t_commande *cmd_lst);
 int builtin_pwd(t_commande *cmd_lst);
 /* -------------------env-----------------------------*/
 void print_env_builtin(t_environment  *env_copy);
+/* -------------------export-----------------------------*/
+
+char *get_value_export(char *str);
+char *get_key_export(char *str, char *value);
+int	check_good_variable(char * str);
+int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
 #endif
