@@ -29,7 +29,7 @@ static char *add_to_debut_tild(char *user)
 
 /* -------------------prototype-----------------------------*/
 int	ft_cd(t_environment *env_copy, char *path);
-void add_node_at_end(t_environment *head, char *key, char *value);
+void add_node_at_end(t_environment *head, char *key, char *value); // pour creer pwd et oldpwd si non existant
 int go_home(t_environment *env_copy, char *home);
 char *get_home(t_environment *head);
 t_environment	*last_node(t_environment *head);
@@ -48,6 +48,7 @@ t_environment	*last_node(t_environment *head)
 		head = head->next; // passe au prochain
 	return (head); //retourne l'adresse du node et pas du pointeur
 }
+
 void add_node_at_end(t_environment *head, char *key, char *value) {
 	// Créer un nouveau nœud
 	t_environment *new_node = malloc(sizeof(t_environment));

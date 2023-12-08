@@ -140,10 +140,11 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 				if (check_is_in_env(env_copy, key) == ERROR)
 				{
 					printf("node a rajouter la varaible existe pas\n");
+					add_node_at_end(head, key, value);
 				}
 				else
 				{
-					printf("on va changer le papier peint\n");
+					//printf("on va changer le papier peint\n");
 					change_value_key(key, value, env_copy);
 
 				}
@@ -158,14 +159,14 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 		}
 		else
 		{
-			printf("travail en cours \n");
+			//printf("travail en cours \n");
 			return (1);
 		}
 
 
 
 	}
-	printf("j'ai finii\n");
+	//printf("j'ai finii\n");
 	return (0);
 }
 
