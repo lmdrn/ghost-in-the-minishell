@@ -140,7 +140,7 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 				if (check_is_in_env(env_copy, key) == ERROR)
 				{
 					printf("node a rajouter la varaible existe pas\n");
-					add_node_at_end(head, key, value);
+//					add_node_at_end(head, key, value);
 				}
 				else
 				{

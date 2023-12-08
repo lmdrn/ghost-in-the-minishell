@@ -40,44 +40,44 @@ void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
 int go_home(t_environment *env_copy, char *home);
 int builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
 /*------ utils liste------*/
-t_environment	*last_node(t_environment *head)
-{
-	if (!head)//secu si existe pas
-		return (NULL);
-	while (head->next != NULL) // tant que le pointeur du prochain n'est pas null, donc pas fin
-		head = head->next; // passe au prochain
-	return (head); //retourne l'adresse du node et pas du pointeur
-}
-
-void add_node_at_end(t_environment *head, char *key, char *value) {
-	// Créer un nouveau nœud
-	t_environment *new_node = malloc(sizeof(t_environment));
-	if (new_node == NULL) {
-		perror("Erreur d'allocation mémoire pour le nouveau nœud");
-		exit(EXIT_FAILURE);
-	}
-
-	// attribue la valeur pour la key et la valeur
-	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
-	//secu si les valeurs sont vides
-	if (new_node->key == NULL || new_node->value == NULL) {
-		perror("Erreur d'allocation mémoire pour la clé ou la valeur");
-		exit(EXIT_FAILURE);
-	}
-	// Le nouveau nœud est ajouté à la fin, donc son prochain nœud est NULL
-	new_node->next = NULL;
-
-	// Secu si la liste est vide, le nouveau nœud devient la tête
-	if (head == NULL) {
-		head = new_node;
-		return;
-	}
-
-	// Trouver le dernier nœud et ajouter le nouveau nœud à la fin de la liste
-	t_environment *last = last_node(head);
-	last->next = new_node;
-}
+//t_environment	*last_node(t_environment *head)
+//{
+//	if (!head)//secu si existe pas
+//		return (NULL);
+//	while (head->next != NULL) // tant que le pointeur du prochain n'est pas null, donc pas fin
+//		head = head->next; // passe au prochain
+//	return (head); //retourne l'adresse du node et pas du pointeur
+//}
+//
+//void add_node_at_end(t_environment *head, char *key, char *value) {
+//	// Créer un nouveau nœud
+//	t_environment *new_node = malloc(sizeof(t_environment));
+//	if (new_node == NULL) {
+//		perror("Erreur d'allocation mémoire pour le nouveau nœud");
+//		exit(EXIT_FAILURE);
+//	}
+//
+//	// attribue la valeur pour la key et la valeur
+//	new_node->key = ft_strdup(key);
+//	new_node->value = ft_strdup(value);
+//	//secu si les valeurs sont vides
+//	if (new_node->key == NULL || new_node->value == NULL) {
+//		perror("Erreur d'allocation mémoire pour la clé ou la valeur");
+//		exit(EXIT_FAILURE);
+//	}
+//	// Le nouveau nœud est ajouté à la fin, donc son prochain nœud est NULL
+//	new_node->next = NULL;
+//
+//	// Secu si la liste est vide, le nouveau nœud devient la tête
+//	if (head == NULL) {
+//		head = new_node;
+//		return;
+//	}
+//
+//	// Trouver le dernier nœud et ajouter le nouveau nœud à la fin de la liste
+//	t_environment *last = last_node(head);
+//	last->next = new_node;
+//}
 
 int go_home(t_environment *env_copy, char *home)
 {
