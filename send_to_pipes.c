@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 18:14:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:04:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,6 @@ char	*find_output_file_name(t_args *curr_arg)
 char	*assign_redir(t_commande *cmd, char *file, int input, int output)
 {
 	(void)input;
-	/* if (input == 8) */
-	/* { */
-	/* 	file = find_input_file_name(cmd); */
-	/* 	printf("input file name is : %s\n", file); */
-	/* 	cmd->fdin = open(file, O_RDONLY); */
-	/* 	if (cmd->fdin == -1) */
-	/* 	{ */
-	/* 		printf("Error opening file \n"); */
-	/* 		exit(EXIT_FAILURE); */
-	/* 	} */
-	/* 	dup2(cmd->fdin, STDIN_FILENO); */
-	/* 	close(cmd->fdin); */
-	/* } */
 	printf("file is %s\n", file);
 	printf("output is %d\n", output);
 	if (output == 9)
@@ -119,7 +106,7 @@ char	*assign_redir(t_commande *cmd, char *file, int input, int output)
 		}
 		if (dup2(cmd->fdout, STDOUT_FILENO) == -1)
 		{
-			printf("Dup out did not work\n");
+			perror("Dup out did not work\n");
 			exit(EXIT_FAILURE);
 		}
 		close(cmd->fdout);
@@ -127,50 +114,123 @@ char	*assign_redir(t_commande *cmd, char *file, int input, int output)
 	return (file);
 }
 
-//try and transform cmd into char * and args into array ?
-void	execute_redir(t_commande *cmd, t_environment *env_copy)
+char	*find_filename(t_commande *cmd)
 {
-	int			pid;
+	t_commande	*head;
 	t_args		*curr_arg;
-	int			input;
-	int			output;
 	char		*file;
 
-	input = 0;
-	output = has_output(cmd);
-	while (cmd != NULL)
+	head = cmd;
+	while (head != NULL)
 	{
-		curr_arg = cmd->args;
+		curr_arg = head->args;
 		while (curr_arg != NULL)
 		{
 			if (curr_arg->type == 9)
 			{
-				file = curr_arg->next->arg;
+				return (file = curr_arg->next->arg);
 				printf("file is %s\n", file);
 			}
 			curr_arg = curr_arg->next;
 		}
-		cmd = cmd->next;
+		head = head->next;
 	}
-	while (cmd != NULL)
+	return (NULL);
+}
+
+void	redirect_output_to_file(int output_file)
+{
+	if (dup2(output_file, STDOUT_FILENO) == 1)
 	{
-		pid = fork();
-		if (pid == 0)
+		perror("Error Dup fd\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	execute_redir(t_commande *cmd, t_environment *env_copy)
+{
+	int		output_file;
+	int		pipe_fd[2];
+	pid_t	pid;
+	char	buffer[256];
+	size_t	bytes_read;
+	char	*filename;
+
+	filename = find_filename(cmd);
+	output_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (output_file == -1)
+	{
+		perror("Error opening output file");
+		exit(EXIT_FAILURE);
+	}
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("Error creating pipe");
+		close(output_file);
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Error forking");
+		close(output_file);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+        // Child process
+		close(pipe_fd[0]);  // Close read end of the pipe
+		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		{
-			if (file != NULL)
-				assign_redir(cmd, file, input, output);
-			if (execute_basic_cmd(cmd, env_copy) == -1)
-				printf("Error executing %s\n", cmd->cmd);
+			perror("Error dup fd\n");
+			close(output_file);
+			exit(EXIT_FAILURE);
 		}
-		else
+		close(pipe_fd[1]);
+		if (cmd->fdin != STDIN_FILENO)
 		{
-			if (cmd->fdin != STDIN_FILENO)
-				close(cmd->fdin);
-			if (cmd->fdout != STDOUT_FILENO)
-				close(cmd->fdout);
-			waitpid(pid, NULL, 0);
+			dup2(cmd->fdin, STDIN_FILENO);
+			close(cmd->fdin);
 		}
-		cmd = cmd->next;
+        // Command and arguments for ls
+		/* char *args[] = {"ls", NULL}; */
+		/* execve("/bin/ls", args, NULL); */
+		char	*full_path = find_executable_path(cmd->cmd, env_copy);
+		if (!full_path)
+			ft_error(cmd->cmd);
+		char	**argv = build_arg(cmd, env_copy);
+		if (!argv)
+		{
+			printf("Malloc error\n");
+			close(output_file);
+			exit(EXIT_FAILURE);
+		}
+		if (execve(full_path, argv, NULL) == -1)
+		{
+			perror("Error executing cmd\n");
+			ft_error(cmd->cmd);
+		}
+		/* (void)env_copy; */
+		/* execute_basic_cmd(cmd, env_copy); */
+		// If execve fails
+		close(output_file);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+        // Parent process
+		close(pipe_fd[1]);  // Close write end of the pipe
+		bytes_read = read(pipe_fd[0], buffer, sizeof(buffer));
+		while (bytes_read > 0)
+		{
+			write(output_file, buffer, bytes_read);
+			bytes_read = read(pipe_fd[0], buffer, sizeof(buffer));
+		}
+		close(output_file);
+		close(pipe_fd[0]);
+		waitpid(pid, NULL, 0);  // Wait for the child process to complete
 	}
 }
 

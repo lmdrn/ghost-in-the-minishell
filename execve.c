@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 16:55:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:21:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ char	*find_executable_path(char *command, t_environment *env_copy)
 	int		segment_len;
 
 	i = 0;
-	while (env_copy[i].value != NULL)
+	cmd_path = NULL;
+	while (env_copy[i].key != NULL)
 	{
-		if (ft_strcmp(env_copy[i].key, "PATH") == 0)
+		if (strcmp(env_copy[i].key, "PATH") == 0)
 		{
 			path = ft_strdup(env_copy[i].value);
 			token_start = path;
@@ -77,7 +78,7 @@ char	*find_executable_path(char *command, t_environment *env_copy)
 				else
 				{
 					cmd_path = concat_path_cmd(token_start, command);
-					if (access(cmd_path, F_OK) == 0)
+					if (cmd_path != NULL && access(cmd_path, F_OK) == 0)
 					{
 						free(path);
 						return (cmd_path);
@@ -121,15 +122,29 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	if (!argv)
 		return (NULL);
 	argv[0] = find_executable_path(cmd->cmd, env_copy);
+	printf("argv0 is %s\n", argv[0]);
 	if (!argv[0])
 		return (NULL);
 	i = 1;
 	arg = cmd->args;
 	while (arg)
 	{
-		if (arg->type != 9)
-			argv[i] = arg->arg;
-		i++;
+		if (arg->type == 9)
+		{
+			break ;
+		}
+		else
+		{
+			printf("Arg: %s\n", arg->arg);
+			argv[i] = ft_strdup(arg->arg);
+			if (!argv[i])
+			{
+				perror("alloc error\n");
+				free_argv(argv);
+				return (NULL);
+			}
+			i++;
+		}
 		arg = arg->next;
 	}
 	argv[i] = NULL;
@@ -141,20 +156,22 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	char		*full_path;
 	char		**argv;
 
+	printf("Hello bitch\n");
 	full_path = find_executable_path(cmd->cmd, env_copy);
+	printf("FULL PATH IS %s\n", full_path);
 	if (!full_path)
 		ft_error(cmd->cmd);
 	argv = build_arg(cmd, env_copy);
-	int i = 0;
-	while (argv[i])
-	{
-		printf("ARGV IS %s\n", argv[i]);
-		i++;
-	}
 	if (!argv)
 	{
 		printf("Malloc error\n");
 		return (1);
+	}
+	int i = 0;
+	while (argv[i] != NULL)
+	{
+		printf("ARGV IS %s\n", argv[i]);
+		i++;
 	}
 	if (execve(full_path, argv, NULL) == -1)
 		ft_error(cmd->cmd);
@@ -162,3 +179,44 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	free(full_path);
 	return (0);
 }
+
+/* int execute_basic_cmd(t_commande *cmd, t_environment *env_copy) { */
+/*     char *full_path; */
+/*     char **argv; */
+
+/*     printf("Hello bitch\n"); */
+/*     full_path = find_executable_path(cmd->cmd, env_copy); */
+/*     printf("FULL PATH IS %s\n", full_path); */
+/*     if (!full_path) */
+/*         ft_error(cmd->cmd); */
+
+/*     // Check for output redirection */
+/*     if (cmd->fdout != STDOUT_FILENO) { */
+/*         int output_file = open(find_filename(cmd), O_WRONLY | O_CREAT | O_TRUNC, 0644); */
+/*         if (output_file == -1) { */
+/*             perror("Error opening output file"); */
+/*             free(full_path); */
+/*             return 1; */
+/*         } */
+/*         dup2(output_file, STDOUT_FILENO); */
+/*         close(output_file); */
+/*     } */
+
+/*     argv = build_arg(cmd, env_copy); */
+/*     if (!argv) { */
+/*         printf("Malloc error\n"); */
+/*         return 1; */
+/*     } */
+/*     int i = 0; */
+/*     while (argv[i] != NULL) { */
+/*         printf("ARGV IS %s\n", argv[i]); */
+/*         i++; */
+/*     } */
+/*     if (execve(full_path, argv, NULL) == -1) */
+/*         ft_error(cmd->cmd); */
+
+/*     free_argv(argv); */
+/*     free(full_path); */
+/*     return 0; */
+/* } */
+
