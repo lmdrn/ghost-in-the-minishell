@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "miiiiiiiii_cd::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-miiiiiiiii_cd-Debug-a671fa939be05de1b070.json",
+					"jsonFile" : "target-miiiiiiiii_cd-Debug-5f60e0a8c24973aebd4a.json",
 					"name" : "miiiiiiiii_cd",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/angnguye/projet_42/ghostintheminishell/cmake-build-debug",
-		"source" : "/Users/angnguye/projet_42/ghostintheminishell"
+		"build" : "/Users/angela/42/miiiiiiiii_cd/cmake-build-debug",
+		"source" : "/Users/angela/42/miiiiiiiii_cd"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 5
+		"minor" : 3
 	}
 }

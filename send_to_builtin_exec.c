@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void print_env(t_environment    *env_copy)
+void print_env(t_environment    *env_copy, int count)
 {
 	int                i;
 	i = 0;
 	if (env_copy!= NULL)
 	{
-		while (env_copy[i].key != NULL)
+		while (i < count)//env_copy[i].key != NULL
 		{
 			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
 			i++;
@@ -27,6 +27,7 @@ void print_env(t_environment    *env_copy)
 		return;
 
 }
+
 void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)

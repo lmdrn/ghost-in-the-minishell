@@ -28,20 +28,20 @@ void free_cmd_list(t_commande *head)
 }
 
 // Fonction pour libérer la mémoire allouée pour une liste d'environnement
-void free_env_list(t_environment *head)
-{
-	while (head != NULL) {
-		t_environment *temp = head;
-		head = head->next;
-
-		// Libérer la mémoire allouée pour la clé et la valeur
-		free(temp->key);
-		free(temp->value);
-
-		// Libérer la mémoire allouée pour le nœud d'environnement actuel
-		free(temp);
-	}
-}
+//void free_env_list(t_environment *head)
+//{
+//	while (head != NULL) {
+//		t_environment *temp = head;
+//		head = head->next;
+//
+//		// Libérer la mémoire allouée pour la clé et la valeur
+//		free(temp->key);
+//		free(temp->value);
+//
+//		// Libérer la mémoire allouée pour le nœud d'environnement actuel
+//		free(temp);
+//	}
+//}
 
 
 int check_args(t_commande *cmd_lst)

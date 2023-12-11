@@ -48,18 +48,21 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu11 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.15 -fcolor-diagnostics"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk"
+				},
+				{
+					"fragment" : "-std=gnu11"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 2,
-					"path" : "/Users/angnguye/projet_42/ghostintheminishell/."
+					"path" : "/Users/angela/42/miiiiiiiii_cd/."
 				},
 				{
 					"backtrace" : 3,
-					"path" : "/Users/angnguye/projet_42/ghostintheminishell/libft"
+					"path" : "/Users/angela/42/miiiiiiiii_cd/libft"
 				}
 			],
 			"language" : "C",

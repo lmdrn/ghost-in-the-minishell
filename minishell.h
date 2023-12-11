@@ -68,7 +68,7 @@ typedef struct s_environment
 {
 	char					*key;
 	char					*value;
-	struct s_environment	*next;
+	//struct s_environment	*next;
 }	t_environment;
 
 typedef struct s_commande
@@ -183,4 +183,10 @@ char *get_value_export(char *str);
 char *get_key_export(char *str, char *value);
 int	check_good_variable(char * str);
 int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
+int env_count_env_copy(t_environment *env_copy);
+t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_struct);
+void search_empty_fill(t_environment *env_copy, char *key, char *value, int count_tab);
+void bigger_env_copy(t_environment **env_copy, int *count_tab);
+/* -------------------outils-----------------------------*/
+void	print_env(t_environment    *env_copy, int count);
 #endif
