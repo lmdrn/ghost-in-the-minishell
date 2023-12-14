@@ -59,7 +59,7 @@ char	**init_parse(const char *input)
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
-void	init_tokenizer(char **blocks, t_environment *env_copy)
+void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
@@ -80,7 +80,7 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 	if (is_odd_or_even(&pipe_count, &cmd_count) == 3)
 	{
 		if (tokens->type == 1)
-			which_builtin(cmd_lst, env_copy);
+			which_builtin(cmd_lst, env_copy, count_env);
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}
@@ -88,4 +88,12 @@ void	init_tokenizer(char **blocks, t_environment *env_copy)
 		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
 		execute_pipeline(cmd_lst, env_copy);
 	clear_commande_list(&cmd_lst);
+}
+
+/*  init pour print l'environnement et agrandie -> env, export*/ //------>  free(my_var);
+t_var *create_t_var()
+{
+	t_var *count_env = (t_var *)malloc(sizeof(t_var));
+
+	return count_env;
 }

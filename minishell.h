@@ -33,6 +33,12 @@ extern int	g_status;
 
 /* ooo - enums - ooo */
 
+typedef struct s_var
+{
+	int				count_filled;
+	int				count_total;
+}	t_var;
+
 enum e_types {
 	cmd,
 	builtin,
@@ -132,7 +138,7 @@ char			*ft_strncpy(char *dest, const char *src, unsigned int n);
 char			*concat_str(char *s1, char *s2);
 void			free_argv(char **argv);
 int				ft_error(char *str);
-void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env);
 void			handling_signals(char *input);
 void			assign_quotes(t_type *node, t_environment *env_copy);
 t_type			*clean_cmd_type(t_type *node);
@@ -146,7 +152,7 @@ void			free_env_struct(t_environment *env_struct);
 int				ft_strcmp(char *s1, char *s2);
 int				is_odd_or_even(int *pipe_count, int *cmd_count);
 void			duplicate_process(t_commande *cmd_lst, t_environment *env_copy);
-void			init_tokenizer(char **blocks, t_environment *env_copy);
+void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 void			clear_commande_list(t_commande **lst);
@@ -165,7 +171,7 @@ void			add_node_at_end(t_environment *head, char *key, char *value);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
 t_environment	*last_node(t_environment *head);
-int				check_is_in_env(t_environment *env_copy, char *var);
+int check_is_in_env(t_environment *env_copy, char *var);
 int				check_path(char *path);
 //int static		check_args_cd(t_commande *cmd_lst);
 void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
@@ -182,11 +188,12 @@ void print_env_builtin(t_environment  *env_copy);
 char *get_value_export(char *str);
 char *get_key_export(char *str, char *value);
 int	check_good_variable(char * str);
-int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
+int builtin_export(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env);
 int env_count_env_copy(t_environment *env_copy);
-t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_struct);
-void search_empty_fill(t_environment *env_copy, char *key, char *value, int count_tab);
-void bigger_env_copy(t_environment **env_copy, int *count_tab);
+t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env);
+void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env);
+void bigger_env_copy(t_environment **env_copy, t_var *count_env);
+t_var *create_t_var();
 /* -------------------outils-----------------------------*/
 void	print_env(t_environment    *env_copy, int count);
 #endif

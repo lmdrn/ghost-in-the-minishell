@@ -28,7 +28,11 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	init_prompt(input);
+
 	env_copy = init_env(envp);
+	t_var *count_env = create_t_var();
+	count_env->count_filled = env_count_env_copy(env_copy);
+	count_env->count_total = count_env->count_filled;
 	while (1)
 	{
 		input = ft_prompt();
@@ -55,7 +59,7 @@ int	main(int ac, char **av, char **envp)
 				input = remove_xtra_spaces(input);
 			printf("Cleaned input is : %s\n", input);
 			blocks = init_parse(input);
-			init_tokenizer(blocks, env_copy);
+			init_tokenizer(blocks, env_copy, count_env);
 		}
 	}
 	return (0);

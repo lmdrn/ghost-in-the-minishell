@@ -1,19 +1,19 @@
 #include "../minishell.h"
 
-void add_node_at_end(t_environment *head, char *key, char *value);
+
 char *get_value_export(char *str);
 char *get_key_export(char *str, char *value);
 int	check_good_variable(char * str);
-int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
-size_t get_current_size(t_environment *env_copy);
-void bigger_tab(t_environment **env_copy, size_t size_factor);
-void get_big_tab(t_environment **env_copy);
-void search_empty_fill(t_environment *env_copy, char *key, char *value, int count_tab);
+int builtin_export(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env);
+//size_t get_current_size(t_environment *env_copy);
+//void bigger_tab(t_environment **env_copy, size_t size_factor);
+//void get_big_tab(t_environment **env_copy);
+void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env);
 
 int env_count_env_copy(t_environment *env_copy);
-t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_struct);
+t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env);
 
-void bigger_env_copy(t_environment **env_copy, int *count_tab);
+void bigger_env_copy(t_environment **env_copy, t_var *count_env);
 
 //void get_big_tab(t_environment **env_copy)
 //{
@@ -63,7 +63,7 @@ void bigger_env_copy(t_environment **env_copy, int *count_tab);
 //	}
 //}
 
-int env_count_env_copy(t_environment *env_copy)
+int env_count_env_copy(t_environment *env_copy) // taille remplie du coup..sauf si appelé par env_bigger qui appelle quand ce'st plein
 {
 	int count = 0;
 	while (env_copy[count].key != NULL)
@@ -72,11 +72,12 @@ int env_count_env_copy(t_environment *env_copy)
 	return count;
 }
 
-t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_struct)
+t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env)// j'ai modifie 3eme param...louche
+//est appelé pour agrandir la taille d'un tableau plein
 {
-	int count = env_count_env_copy(env_copy);
-	*count_struct = (count * factor);
-	t_environment *new_env = malloc(sizeof(t_environment) * ((count * factor) + 1));
+	//int size_env = env_count_env_copy(env_copy);// peit etre pas necessaire..deja compter dans builtin...sauf si efface?
+	count_env->count_total = (count_env->count_total * factor);
+	t_environment *new_env = malloc(sizeof(t_environment) * ((count_env->count_total) + 1));
 
 	if (new_env == NULL)
 	{
@@ -85,7 +86,7 @@ t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_s
 	}
 
 	int i = 0;
-	while (env_copy[i].key != NULL)
+	while (env_copy[i].key != NULL && env_copy[i].value!= NULL )//&& i < size_env
 	{
 		new_env[i].key = strdup(env_copy[i].key);
 		new_env[i].value = strdup(env_copy[i].value);
@@ -93,29 +94,29 @@ t_environment *copy_env_bigger(t_environment *env_copy, int factor, int *count_s
 	}
 
 	// remplie de vide les slot libre
-	while (i < (count * factor))
+	while (i < count_env->count_total)
 	{
 		new_env[i].key = NULL;
 		new_env[i].value = NULL;
 		i++;
 	}
 
-	new_env[count + factor].key = NULL;
-	new_env[count + factor].value = NULL;
+	new_env[count_env->count_total].key = NULL;
+	new_env[count_env->count_total].value = NULL;
 
 	return new_env;
 }
 
-void bigger_env_copy(t_environment **env_copy, int *count_tab)
+void bigger_env_copy(t_environment **env_copy, t_var *count_env)
 {
-	t_environment *temp = copy_env_bigger(*env_copy, 2, count_tab);
+	t_environment *temp = make_bigger(*env_copy, 2, count_env);//tab plein
 		free_env_struct(*env_copy);
 		*env_copy = temp;
 	printf("doooone it's bigger\n");
 
 }
-
-void change_value_key(char *key, char *new_value, t_environment *env_copy)
+// pourrait retourner le nombre de fois que ca agrnadie...pour avoir le nombre total
+void change_value_key(char *key, char *new_value, t_environment *env_copy, t_var *count_env)
 {
 	if (key == NULL || env_copy == NULL) {
 		// Gérer l'erreur ou retourner si key ou env_copy est NULL
@@ -123,7 +124,7 @@ void change_value_key(char *key, char *new_value, t_environment *env_copy)
 	}
 
 	int i = 0;
-	while (env_copy[i].key != NULL)
+	while (env_copy[i].key != NULL && i < count_env->count_total)
 	{
 		if (strcmp(env_copy[i].key, key) == 0)
 		{
@@ -213,17 +214,20 @@ char *get_key_export(char *str, char *value)
 	return NULL;
 }
 
-void search_empty_fill(t_environment *env_copy, char *key, char *value, int count_tab)
+void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env)// besoin tab total
 {
 	int	i;
 	i = 0;
-	while (env_copy!= NULL && i < count_tab)
+
+	int tab_size = count_env->count_total;
+	while (env_copy!= NULL && i < tab_size)
 	{
 		if ( (env_copy[i].key == NULL) && (env_copy[i].value == NULL))
 		{
 			env_copy[i].key = ft_strdup(key);
 			env_copy[i].value = ft_strdup(value);
 			printf("ona reussis a remplir le vide \n");
+			count_env->count_filled++;
 			return;
 		}
 		i++;
@@ -233,11 +237,12 @@ void search_empty_fill(t_environment *env_copy, char *key, char *value, int coun
 	free(value);
 }
 
-int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
+int check_args_export(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env)
 {
+
 	t_commande *current = cmd_lst;
 	int	i =0;
-	int count_tab = 0;
+	//int count_tab = 0;
 	if (current != NULL)
 	{
 		t_args *args = current->args;
@@ -248,7 +253,8 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 		}
 		if (i == 0)
 		{
-			print_env_builtin(env_copy);
+			print_env(env_copy, count_env->count_filled); // c'est ok..imprime que remplie
+			//print_env_builtin(env_copy); //ancien env
 			return(SUCCESS);
 		}
 		if (i == 1) // plusieurs varaible init
@@ -277,24 +283,25 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 						printf("i want a bigger train \n");
 						//print_env(env_copy, 27);
 						printf("\n");
-						bigger_env_copy(&env_copy, &count_tab); // here
+						bigger_env_copy(&env_copy, count_env); // here &count_tab
+						//count_env->count_total = count_env->count_filled;// remet a jour le compte total
 						printf("--------\n");
 						//print_env(env_copy, 54);
 						printf("\n");
 						printf(" c'est moi qui ai la plus grosse\n");
-						printf(" count tab %d\n", count_tab);
+						printf(" quantite total du tableau %d\n", count_env->count_total);
 					}
 					printf("on a trouvé une place de parc :)\n");
-					search_empty_fill(env_copy, key, value, count_tab);  //11h50
+					search_empty_fill(env_copy, key, value, count_env);  //a besoin de savoir la taille totale
 					printf("--------\n");
-					//print_env(env_copy, 54);
+					print_env(env_copy, count_env->count_filled); // 54.. on veut la valeur dedans le pointeur
 					return(SUCCESS);
 
 				}
 				else
 				{
 					printf("on va changer le papier peint\n");
-					change_value_key(key, value, env_copy);
+					change_value_key(key, value, env_copy, NULL);
 					//return(SUCCESS);
 
 				}
@@ -317,10 +324,10 @@ int static check_args_export(t_commande *cmd_lst, t_environment *env_copy)
 	return (0);
 }
 
-int builtin_export(t_commande *cmd_lst, t_environment *env_copy)//, t_commande *cmd_lst
+int	builtin_export(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env)//, t_commande *cmd_lst
 {
 
-	if (check_args_export(cmd_lst, env_copy) == ERROR)
+	if (check_args_export(cmd_lst, env_copy, count_env) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
