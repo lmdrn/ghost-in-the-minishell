@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:39:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:53:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int			fd[2];
 	int			pid;
+	int			output_file;
 
+	output_file = create_output_file(cmd_lst);
 	assign_fds(cmd_lst, fd);
 	while (cmd_lst != NULL)
 	{
@@ -75,7 +77,10 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 				dup2(cmd_lst->fdout, STDOUT_FILENO);
 				close(cmd_lst->fdin);
 			}
-			execute_basic_cmd(cmd_lst, env_copy);
+			if (has_output(cmd_lst) == 9)
+				redir_execution(cmd_lst, env_copy, output_file);
+			else
+				execute_basic_cmd(cmd_lst, env_copy);
 		}
 		else
 		{
@@ -83,6 +88,8 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 				close(cmd_lst->fdin);
 			if (cmd_lst->fdout != STDOUT_FILENO)
 				close(cmd_lst->fdout);
+			if (has_output(cmd_lst) == 9)
+				write_on_output(output_file, fd);
 			waitpid(pid, NULL, 0);
 		}
 		cmd_lst = cmd_lst->next;

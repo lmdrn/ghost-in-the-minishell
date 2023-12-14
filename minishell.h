@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:27:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:49:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ char			**init_parse(const char *input);
 /* ooo - output_redir - ooo */
 
 void			execute_redir(t_commande *cmd, t_environment *env_copy);
+void			write_on_output(int output_file, int *pipe_fd);
+void			redir_execution(t_commande *cmd, t_environment *env_copy,
+					int output_file);
 
 /* ooo - output_utils - ooo */
 char			*find_filename(t_commande *cmd);
