@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/11 17:37:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:27:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,14 @@ char			**init_parse(const char *input);
 
 /* ooo - output_redir - ooo */
 
-void			execute_output_redir(t_commande *cmd, t_environment *env_copy);
+void			execute_redir(t_commande *cmd, t_environment *env_copy);
 
+/* ooo - output_utils - ooo */
+char			*find_filename(t_commande *cmd);
+int				create_output_file(t_commande *cmd);
+void			dup_and_close(int *pipe_fd, t_commande *cmd, int output_file);
+void			close_fds_output(int output_file, int *pipe_fd);
+void			pipe_fd_output(int *pipe_fd, int output_file);
 /* ooo - prompt - ooo */
 
 void			ft_welcome(void);
@@ -187,10 +193,7 @@ void			only_one_cmd(t_commande *cmd_lst, t_environment *env_copy);
 /* ooo - send_to_pipes - ooo*/
 
 void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy);
-void			execute_redir(t_commande *cmd, t_environment *env_copy);
 void			close_fds(t_commande *cmd);
-char			**env_list_to_array(t_environment *env_copy);
-char			*find_filename(t_commande *cmd);
 
 /* ooo - signals - ooo */
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/11 18:21:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:34:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	char	**argv;
 	t_args	*arg;
 	int		i;
-	t_args	*head;
+	/* t_args	*head; */
 
-	head = cmd->args;
+	/* head = cmd->args; */
 	argc = count_args(cmd->args);
 	argv = malloc(sizeof(char *) * (argc + 2));
 	if (!argv)
@@ -156,9 +156,8 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	char		*full_path;
 	char		**argv;
 
-	printf("Hello bitch\n");
 	full_path = find_executable_path(cmd->cmd, env_copy);
-	printf("FULL PATH IS %s\n", full_path);
+	/* printf("FULL PATH IS %s\n", full_path); */
 	if (!full_path)
 		ft_error(cmd->cmd);
 	argv = build_arg(cmd, env_copy);
@@ -167,56 +166,15 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 		printf("Malloc error\n");
 		return (1);
 	}
-	int i = 0;
-	while (argv[i] != NULL)
-	{
-		printf("ARGV IS %s\n", argv[i]);
-		i++;
-	}
+	/* int i = 0; */
+	/* while (argv[i] != NULL) */
+	/* { */
+	/* 	printf("ARGV IS %s\n", argv[i]); */
+	/* 	i++; */
+	/* } */
 	if (execve(full_path, argv, NULL) == -1)
 		ft_error(cmd->cmd);
 	free_argv(argv);
 	free(full_path);
 	return (0);
 }
-
-/* int execute_basic_cmd(t_commande *cmd, t_environment *env_copy) { */
-/*     char *full_path; */
-/*     char **argv; */
-
-/*     printf("Hello bitch\n"); */
-/*     full_path = find_executable_path(cmd->cmd, env_copy); */
-/*     printf("FULL PATH IS %s\n", full_path); */
-/*     if (!full_path) */
-/*         ft_error(cmd->cmd); */
-
-/*     // Check for output redirection */
-/*     if (cmd->fdout != STDOUT_FILENO) { */
-/*         int output_file = open(find_filename(cmd), O_WRONLY | O_CREAT | O_TRUNC, 0644); */
-/*         if (output_file == -1) { */
-/*             perror("Error opening output file"); */
-/*             free(full_path); */
-/*             return 1; */
-/*         } */
-/*         dup2(output_file, STDOUT_FILENO); */
-/*         close(output_file); */
-/*     } */
-
-/*     argv = build_arg(cmd, env_copy); */
-/*     if (!argv) { */
-/*         printf("Malloc error\n"); */
-/*         return 1; */
-/*     } */
-/*     int i = 0; */
-/*     while (argv[i] != NULL) { */
-/*         printf("ARGV IS %s\n", argv[i]); */
-/*         i++; */
-/*     } */
-/*     if (execve(full_path, argv, NULL) == -1) */
-/*         ft_error(cmd->cmd); */
-
-/*     free_argv(argv); */
-/*     free(full_path); */
-/*     return 0; */
-/* } */
-

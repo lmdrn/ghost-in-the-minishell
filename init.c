@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/11 17:54:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:36:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 			{
 				if (tokens->type == 9)
 				{
-					printf("je suis execute_redir\n");
+					/* printf("je suis execute_redir\n"); */
 					execute_redir(cmd_lst, env_copy);
-					/* redirect_ls_to_file(cmd_lst, "output.txt"); */
 					flag = 1;
 					break ;
 				}
@@ -103,7 +102,7 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 			}
 			if (flag == 0)
 			{
-				printf("je suis only_one_cmd\n");
+				/* printf("je suis only_one_cmd\n"); */
 				only_one_cmd(cmd_lst, env_copy);
 			}
 		}
