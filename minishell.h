@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:49:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:02:07 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ typedef struct s_commande
 	int					fdin;
 	int					fdout;
 	pid_t				pid;
+	int					wait_status;
 	t_environment		*env_copy;
+	t_type				*tokens;
 	struct s_commande	*next;
 }	t_commande;
 
@@ -172,6 +174,9 @@ int				create_output_file(t_commande *cmd);
 void			dup_and_close(int *pipe_fd, t_commande *cmd, int output_file);
 void			close_fds_output(int output_file, int *pipe_fd);
 void			pipe_fd_output(int *pipe_fd, int output_file);
+char			*create_filename(t_commande *cmd);
+int				create_output_file2(char *filename);
+
 /* ooo - prompt - ooo */
 
 void			ft_welcome(void);
@@ -219,5 +224,10 @@ char			*concat_str(char *s1, char *s2);
 
 int				ft_isspace(char c);
 int				ft_strcmp(char *s1, char *s2);
+
+/* ooo - TEST EXEC - ooo */
+
+void			send_to_execution2(t_commande *cmd, t_environment *env_copy);
+void			assign_fds2(t_commande *cmd);
 
 #endif

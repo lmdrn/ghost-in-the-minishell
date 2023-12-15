@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:22:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:52:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,52 @@ char	*find_filename(t_commande *cmd)
 	return (NULL);
 }
 
+char	*create_filename(t_commande *cmd)
+{
+	char	*filename;
+
+	filename = find_filename(cmd);
+	if (filename != NULL)
+		return (filename);
+	else
+		return (NULL);
+}
+
 int	create_output_file(t_commande *cmd)
 {
 	char	*filename;
 	int		output_file;
 
 	filename = find_filename(cmd);
-	printf("fielanme is %s\n", filename);
-	output_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (output_file == -1)
+	printf("fileanme is %s\n", filename);
+	if (filename != NULL)
 	{
-		perror("Error opening output file");
-		exit(EXIT_FAILURE);
+		output_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (output_file == -1)
+		{
+			perror("Error opening output file");
+			exit(EXIT_FAILURE);
+		}
+		return (output_file);
 	}
-	return (output_file);
+	return (-1);
+}
+
+int	create_output_file2(char *filename)
+{
+	int		output_file;
+
+	if (filename != NULL)
+	{
+		output_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (output_file == -1)
+		{
+			perror("Error opening output file");
+			exit(EXIT_FAILURE);
+		}
+		return (output_file);
+	}
+	return (-1);
 }
 
 void	dup_and_close(int *pipe_fd, t_commande *cmd, int output_file)
@@ -57,7 +89,7 @@ void	dup_and_close(int *pipe_fd, t_commande *cmd, int output_file)
 	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
-		perror("Error dup fd\n");
+		perror("Error dup fd1\n");
 		close(output_file);
 		exit(EXIT_FAILURE);
 	}

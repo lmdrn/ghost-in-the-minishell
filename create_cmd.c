@@ -6,17 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 15:13:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:25:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//todo
-//1. create a new List
-//2. create and alloc mem for each node
-//3. each node should be delimited by a |
-//4. ur guuud to go mothafucka
 
 t_commande	*create_cmd_node(char *name, t_environment *env_copy)
 {
@@ -34,9 +28,10 @@ t_commande	*create_cmd_node(char *name, t_environment *env_copy)
 		printf("Duplicate error\n");
 		exit(1);
 	}
+	assign_fds2(node);
+	assign_redir(node);
+	//should do something here to link to tokens
 	node->args = NULL;
-	node->fdin = STDIN_FILENO;
-	node->fdout = STDOUT_FILENO;
 	node->env_copy = env_copy;
 	node->next = NULL;
 	return (node);

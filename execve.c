@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:34:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:34:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,14 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	while (arg)
 	{
 		if (arg->type == 9)
-		{
 			break ;
-		}
 		else
 		{
 			printf("Arg: %s\n", arg->arg);
 			argv[i] = ft_strdup(arg->arg);
 			if (!argv[i])
 			{
-				perror("alloc error\n");
+				perror("malloc error\n");
 				free_argv(argv);
 				return (NULL);
 			}

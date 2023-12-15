@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:53:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:52:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,18 @@ void	assign_fds(t_commande *cmd, int *fd)
 	cmd->fdout = STDOUT_FILENO;
 }
 
-void	close_fds(t_commande *cmd)
-{
-	while (cmd != NULL)
-	{
-		if (cmd->fdin != STDIN_FILENO)
-			close(cmd->fdin);
-		if (cmd->fdout != STDOUT_FILENO)
-			close(cmd->fdout);
-		cmd = cmd->next;
-	}
-}
-
-int	has_output(t_commande *cmd)
-{
-	while (cmd != NULL)
-	{
-		while (cmd->args != NULL)
-		{
-			if (cmd->args->type == 9)
-			{
-				return (cmd->args->type);
-			}
-			cmd->args = cmd->args->next;
-		}
-		cmd = cmd->next;
-	}
-	return (0);
-}
-
 void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int			fd[2];
 	int			pid;
 	int			output_file;
+	char		*filename;
 
-	output_file = create_output_file(cmd_lst);
 	assign_fds(cmd_lst, fd);
 	while (cmd_lst != NULL)
 	{
+		filename = create_filename(cmd_lst);
+		output_file = -1;
 		pid = fork();
 		if (pid == 0)
 		{
@@ -75,12 +48,20 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 			if (cmd_lst->fdout != STDOUT_FILENO)
 			{
 				dup2(cmd_lst->fdout, STDOUT_FILENO);
-				close(cmd_lst->fdin);
+				close(cmd_lst->fdout);
 			}
-			if (has_output(cmd_lst) == 9)
+			if (filename != NULL)
+			{
+				output_file = create_output_file2(filename);
+				printf("output file %d\n", output_file);
 				redir_execution(cmd_lst, env_copy, output_file);
+				exit(EXIT_SUCCESS);
+			}
 			else
+			{
 				execute_basic_cmd(cmd_lst, env_copy);
+				exit(EXIT_SUCCESS);
+			}
 		}
 		else
 		{
@@ -88,7 +69,7 @@ void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
 				close(cmd_lst->fdin);
 			if (cmd_lst->fdout != STDOUT_FILENO)
 				close(cmd_lst->fdout);
-			if (has_output(cmd_lst) == 9)
+			if (filename != NULL)
 				write_on_output(output_file, fd);
 			waitpid(pid, NULL, 0);
 		}

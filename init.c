@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 14:36:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/15 16:58:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,33 +83,34 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		/* printf("Command list:\n"); */
 		print_commande_list(cmd_lst);
 	}
-	if (is_odd_or_even(&pipe_count, &cmd_count) == 3)
-	{
-		if (tokens->type == 1)
-			which_builtin(cmd_lst);
-		else if (tokens->type == 0)
-		{
-			while (tokens != NULL)
-			{
-				if (tokens->type == 9)
-				{
-					/* printf("je suis execute_redir\n"); */
-					execute_redir(cmd_lst, env_copy);
-					flag = 1;
-					break ;
-				}
-				tokens = tokens->next;
-			}
-			if (flag == 0)
-			{
-				/* printf("je suis only_one_cmd\n"); */
-				only_one_cmd(cmd_lst, env_copy);
-			}
-		}
-	}
-	else if (is_odd_or_even(&pipe_count, &cmd_count) == 1
-		|| is_odd_or_even(&pipe_count, &cmd_count) == 2)
-		execute_pipeline(cmd_lst, env_copy);
+	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
+	/* { */
+	/* 	if (tokens->type == 1) */
+	/* 		which_builtin(cmd_lst); */
+	/* 	else if (tokens->type == 0) */
+	/* 	{ */
+	/* 		while (tokens != NULL) */
+	/* 		{ */
+	/* 			if (tokens->type == 9) */
+	/* 			{ */
+	/* 				/1* printf("je suis execute_redir\n"); *1/ */
+	/* 				execute_redir(cmd_lst, env_copy); */
+	/* 				flag = 1; */
+	/* 				break ; */
+	/* 			} */
+	/* 			tokens = tokens->next; */
+	/* 		} */
+	/* 		if (flag == 0) */
+	/* 		{ */
+	/* 			/1* printf("je suis only_one_cmd\n"); *1/ */
+	/* 			only_one_cmd(cmd_lst, env_copy); */
+	/* 		} */
+	/* 	} */
+	/* } */
+	/* else if (is_odd_or_even(&pipe_count, &cmd_count) == 1 */
+	/* 	|| is_odd_or_even(&pipe_count, &cmd_count) == 2) */
+	/* 	execute_pipeline(cmd_lst, env_copy); */
+	send_to_execution2(cmd_lst, env_copy);
 	clear_commande_list(&cmd_lst);
 	return (0);
 }
