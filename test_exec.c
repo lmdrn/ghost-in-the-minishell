@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 17:48:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:26:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,10 @@ int	create_input_redir(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		close(fd);
+		printf("something's wrong\n");
 		exit(EXIT_FAILURE);
 	}
-	if (curr_cmd->fdout != 0)
+	if (curr_cmd->fdin != 0)
 		close(curr_cmd->fdin);
 	curr_cmd->fdin = fd;
 	return (fd);
@@ -206,7 +207,7 @@ int	create_heredoc(char *filename, t_commande *cmd)
 		printf("Error with fd\n");
 		exit(EXIT_FAILURE);
 	}
-	if (curr_cmd->fdout != 0)
+	if (curr_cmd->fdin != 0)
 		close(curr_cmd->fdin);
 	curr_cmd->fdin = fd;
 	return (fd);
@@ -236,11 +237,18 @@ void	wait_for_children2(t_commande *cmd)
 	{
 		if (curr_cmd->pid > 0)
 		{
-			waitpid(curr_cmd->pid, &curr_cmd->wait_status, 0);
+			if (waitpid(curr_cmd->pid, &curr_cmd->wait_status, 0) == -1)
+			{
+				perror("waitpid\n");
+				exit(EXIT_FAILURE);
+			}
 			if (WIFSIGNALED(curr_cmd->wait_status))
 				g_status = 128 + WTERMSIG(curr_cmd->wait_status);
 			if (WIFEXITED(curr_cmd->wait_status))
+			{
 				g_status = WIFEXITED(curr_cmd->wait_status);
+				printf("Child proccess exited with status %d\n", g_status);
+			}
 		}
 		curr_cmd = curr_cmd->next;
 	}
@@ -252,22 +260,34 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 
 	curr_cmd = cmd;
 	curr_cmd->pid = fork();
+	if (curr_cmd->pid == -1)
+	{
+		perror("did not fork\n");
+		exit(EXIT_FAILURE);
+	}
 	if (curr_cmd->pid == 0)
 	{
 		if (curr_cmd->fdin > 2)
 		{
-			dup2(curr_cmd->fdin, STDIN_FILENO);
+			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
+			{
+				perror("fdin dup did not work\n");
+				exit(EXIT_FAILURE);
+			}
 			close(curr_cmd->fdin);
 		}
 		if (curr_cmd->fdout > 2)
 		{
-			dup2(curr_cmd->fdout, STDOUT_FILENO);
+			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
+			{
+				perror("fdout dup did not work\n");
+				exit(EXIT_FAILURE);
+			}
 			close(curr_cmd->fdout);
 		}
 		close_fds2(cmd);
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
-		exit(g_status);
 	}
 }
 

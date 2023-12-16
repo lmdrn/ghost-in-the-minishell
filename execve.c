@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 17:38:38 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:13:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	char	**argv;
 	t_args	*arg;
 	int		i;
-	/* t_args	*head; */
-
-	/* head = cmd->args; */
 	argc = count_args(cmd->args);
 	argv = malloc(sizeof(char *) * (argc + 2));
 	if (!argv)
@@ -156,7 +153,6 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	char		**argv;
 
 	full_path = find_executable_path(cmd->cmd, env_copy);
-	/* printf("FULL PATH IS %s\n", full_path); */
 	if (!full_path)
 		ft_error(cmd->cmd);
 	argv = build_arg(cmd, env_copy);
@@ -165,12 +161,6 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 		printf("Malloc error\n");
 		return (1);
 	}
-	/* int i = 0; */
-	/* while (argv[i] != NULL) */
-	/* { */
-	/* 	printf("ARGV IS %s\n", argv[i]); */
-	/* 	i++; */
-	/* } */
 	if (execve(full_path, argv, NULL) == -1)
 		ft_error(cmd->cmd);
 	free_argv(argv);
