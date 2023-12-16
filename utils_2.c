@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/11 14:35:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:58:04 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (*s1 == *s2 && *s1 != '\0')
+	while ((*s1 == *s2) && *s1 != '\0')
 	{
 		s1++;
-		s1++;
+		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

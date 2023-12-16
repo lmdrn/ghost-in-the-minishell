@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/14 15:34:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:38:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	arg = cmd->args;
 	while (arg)
 	{
-		if (arg->type == 9)
+		if (arg->type == 8 || arg->type == 9
+			|| arg->type == 10 || arg->type == 11)
 			break ;
 		else
 		{

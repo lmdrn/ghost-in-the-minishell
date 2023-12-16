@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 15:38:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:29:18 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ char			*concat_str(char *s1, char *s2);
 /* ooo - utils_2 - ooo */
 
 int				ft_isspace(char c);
-int				ft_strcmp(char *s1, char *s2);
+int				ft_strcmp(const char *s1, const char *s2);
 
 /* ooo - TEST EXEC - ooo */
 
@@ -239,5 +239,6 @@ void			close_fds2(t_commande *cmd);
 void			wait_for_children2(t_commande *cmd);
 void			fork_it2(t_commande *cmd, t_environment *env_copy);
 void			assign_redir(t_commande *cmd);
+int				has_redir(t_commande *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 15:57:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:48:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ void	assign_fds2(t_commande *cmd)
 	}
 	curr_cmd->fdout = STDOUT_FILENO;
 }
+
+/* int	has_redir(t_commande *cmd) */
+/* { */
+/* 	t_commande	*curr_cmd; */
+/* 	t_args		*curr_args; */
+
+/* 	curr_cmd = cmd; */
+/* 	while (curr_cmd) */
+/* 	{ */
+/* 		curr_args = curr_cmd->args; */
+/* 		if (curr_args->type == 8 || curr_args->type == 9 */
+/* 			|| curr_args->type == 10 || curr_args->type == 11) */
+/* 		{ */
+/* 			printf("Type is %d\n", curr_args->type); */
+/* 			return (0); */
+/* 		} */
+/* 		curr_cmd = curr_cmd->next; */
+/* 	} */
+/* 	return (-1); */
+/* } */
 
 int	which_token(t_commande *cmd, int token)
 {
@@ -159,8 +179,7 @@ int	heredoc_fd(char	*del)
 		line = readline("> ");
 		if (line == NULL)
 			break ;
-		(void)del;
-		if (line == NULL && !ft_strcmp(line, "EOF"))
+		if (!ft_strcmp(line, del))
 		{
 			free(line);
 			break ;
@@ -184,6 +203,7 @@ int	create_heredoc(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		close(fd);
+		printf("Error with fd\n");
 		exit(EXIT_FAILURE);
 	}
 	if (curr_cmd->fdout != 0)
@@ -235,12 +255,19 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 	if (curr_cmd->pid == 0)
 	{
 		if (curr_cmd->fdin > 2)
+		{
 			dup2(curr_cmd->fdin, STDIN_FILENO);
+			close(curr_cmd->fdin);
+		}
 		if (curr_cmd->fdout > 2)
+		{
 			dup2(curr_cmd->fdout, STDOUT_FILENO);
+			close(curr_cmd->fdout);
+		}
 		close_fds2(cmd);
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
+		exit(g_status);
 	}
 }
 
