@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/15 15:52:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:56:21 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,33 @@
 
 char	*find_filename(t_commande *cmd)
 {
-	t_commande	*head;
 	t_args		*curr_arg;
 	char		*file;
 
-	head = cmd;
-	while (head != NULL)
+	curr_arg = cmd->args;
+	while (curr_arg != NULL)
 	{
-		curr_arg = head->args;
-		while (curr_arg != NULL)
+		if (curr_arg->type == 8)
 		{
-			if (curr_arg->type == 9)
-			{
-				return (file = curr_arg->next->arg);
-				printf("file is %s\n", file);
-			}
-			curr_arg = curr_arg->next;
+			return (file = curr_arg->next->arg);
+			printf("file is %s\n", file);
 		}
-		head = head->next;
+		else if (curr_arg->type == 9)
+		{
+			return (file = curr_arg->next->arg);
+			printf("file is %s\n", file);
+		}
+		else if (curr_arg->type == 10)
+		{
+			return (file = curr_arg->next->arg);
+			printf("file is %s\n", file);
+		}
+		else if (curr_arg->type == 11)
+		{
+			return (file = curr_arg->next->arg);
+			printf("file is %s\n", file);
+		}
+		curr_arg = curr_arg->next;
 	}
 	return (NULL);
 }
@@ -53,7 +62,7 @@ int	create_output_file(t_commande *cmd)
 	int		output_file;
 
 	filename = find_filename(cmd);
-	printf("fileanme is %s\n", filename);
+	printf("filename is %s\n", filename);
 	if (filename != NULL)
 	{
 		output_file = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);

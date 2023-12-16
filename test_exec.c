@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/15 17:24:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:57:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	assign_fds2(t_commande *cmd)
 {
 	int			fds[2];
 	t_commande	*curr_cmd;
-	
+
 	curr_cmd = cmd;
 	curr_cmd->fdin = STDIN_FILENO;
-	while (curr_cmd != NULL)
+	while (curr_cmd->next != NULL)
 	{
 		pipe(fds);
 		curr_cmd->fdout = fds[1];
@@ -29,28 +29,62 @@ void	assign_fds2(t_commande *cmd)
 	curr_cmd->fdout = STDOUT_FILENO;
 }
 
+int	which_token(t_commande *cmd, int token)
+{
+	t_args	*curr_cmd;
+
+	curr_cmd = cmd->args;
+	while (curr_cmd != NULL)
+	{
+		if (curr_cmd->type == token)
+		{
+			printf("curr arg type is %d\n", curr_cmd->type);
+			return (curr_cmd->type);
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	return (-1);
+}
+
 void	assign_redir(t_commande *cmd)
 {
 	t_commande	*curr_cmd;
+	char		*filename;
 
 	curr_cmd = cmd;
 	while (curr_cmd != NULL)
 	{
-		/* if (<) */
-		/* 	create_input_redir(); */
-		/* if (>) */
-		/* 	create_output_redir(); */
-		/* if (>>) */
-		/* 	create_heredoc(); */
-		/* if (<<) */
-		/* 	create_append(); */
+		if (which_token(curr_cmd, 8) == 8)
+		{
+			filename = find_filename(curr_cmd);
+			printf("filename is %s\n", filename);
+			create_input_redir(filename, cmd);
+		}
+		if (which_token(curr_cmd, 9) == 9)
+		{
+			filename = find_filename(curr_cmd);
+			printf("filename is %s\n", filename);
+			create_output_redir(filename, cmd);
+		}
+		if (which_token(curr_cmd, 10) == 10)
+		{
+			filename = find_filename(curr_cmd);
+			printf("filename is %s\n", filename);
+			create_heredoc(filename, cmd);
+		}
+		if (which_token(curr_cmd, 11) == 11)
+		{
+			filename = find_filename(curr_cmd);
+			printf("filename is %s\n", filename);
+			create_append(filename, cmd);
+		}
 		curr_cmd = curr_cmd->next;
 	}
 }
 
 t_commande	*is_last_cmd(t_commande *cmd)
 {
-	t_commande *curr_cmd;
+	t_commande	*curr_cmd;
 
 	curr_cmd = cmd;
 	while (curr_cmd->next != NULL)
@@ -76,7 +110,7 @@ int	create_output_redir(char *filename, t_commande *cmd)
 	return (fd);
 }
 
-int	create_intput_redir(char *filename, t_commande *cmd)
+int	create_input_redir(char *filename, t_commande *cmd)
 {
 	int			fd;
 	t_commande	*curr_cmd;
@@ -112,7 +146,7 @@ int	create_append(char *filename, t_commande *cmd)
 	return (fd);
 }
 
-int	heredoc_fd(char *del)
+int	heredoc_fd(char	*del)
 {
 	int		fd[2];
 	char	*line;
@@ -125,7 +159,8 @@ int	heredoc_fd(char *del)
 		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (!ft_strcmp(line, del))
+		(void)del;
+		if (line == NULL && !ft_strcmp(line, "EOF"))
 		{
 			free(line);
 			break ;
@@ -141,11 +176,11 @@ int	heredoc_fd(char *del)
 
 int	create_heredoc(char *filename, t_commande *cmd)
 {
-	int	fd;
+	int			fd;
 	t_commande	*curr_cmd;
 
-	/* curr_cmd = is_last_cmd(cmd); */
-	/* fd = heredoc_fd(filename); */
+	curr_cmd = is_last_cmd(cmd);
+	fd = heredoc_fd(filename);
 	if (fd == -1)
 	{
 		close(fd);

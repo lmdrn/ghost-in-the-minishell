@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/15 17:02:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:38:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,5 +229,15 @@ int				ft_strcmp(char *s1, char *s2);
 
 void			send_to_execution2(t_commande *cmd, t_environment *env_copy);
 void			assign_fds2(t_commande *cmd);
+t_commande		*is_last_cmd(t_commande *cmd);
+int				create_output_redir(char *filename, t_commande *cmd);
+int				create_input_redir(char *filename, t_commande *cmd);
+int				create_append(char *filename, t_commande *cmd);
+int				heredoc_fd(char *del);
+int				create_heredoc(char *filename, t_commande *cmd);
+void			close_fds2(t_commande *cmd);
+void			wait_for_children2(t_commande *cmd);
+void			fork_it2(t_commande *cmd, t_environment *env_copy);
+void			assign_redir(t_commande *cmd);
 
 #endif

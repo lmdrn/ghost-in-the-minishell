@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/14 14:38:31 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/12/16 14:03:06 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  utils_2.c expand_variable.c minishell.c \
 			  signals.c init.c send_to_execution.c \
 			  send_to_pipes.c output_redir.c heredoc.c \
-			  output_utils.c
+			  output_utils.c test_exec.c
 
 OBJS 		= ${SRCS:.c=.o}
 

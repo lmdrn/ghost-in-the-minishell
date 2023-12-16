@@ -6,13 +6,13 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/15 17:25:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:19:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_commande	*create_cmd_node(char *name, t_environment *env_copy)
+t_commande	*create_cmd_node(char *name, t_environment *env_copy, t_type *tokens)
 {
 	t_commande	*node;
 
@@ -28,10 +28,10 @@ t_commande	*create_cmd_node(char *name, t_environment *env_copy)
 		printf("Duplicate error\n");
 		exit(1);
 	}
-	assign_fds2(node);
-	assign_redir(node);
-	//should do something here to link to tokens
 	node->args = NULL;
+	node->fdin = STDIN_FILENO;
+	node->fdout = STDOUT_FILENO;
+	node->tokens = tokens;
 	node->env_copy = env_copy;
 	node->next = NULL;
 	return (node);
@@ -92,7 +92,7 @@ t_commande	*command_list(t_type *tokens, int *pipe_count,
 		if (current->type == cmd || current->type == builtin)
 		{
 			(*cmd_count)++;
-			new_cmd = create_cmd_node(current->text, env_copy);
+			new_cmd = create_cmd_node(current->text, env_copy, tokens);
 			current = current->next;
 			while (current != NULL
 				&& (current->type == args
