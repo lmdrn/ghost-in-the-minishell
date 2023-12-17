@@ -186,7 +186,7 @@ void print_env_builtin(t_environment  *env_copy);
 /* -------------------export-----------------------------*/
 int export_main(t_commande *cmd_lst, t_environment **env_copy);
 char *get_value_export(char *str);
-char *get_key_export(char *str, char *value);
+char *get_key_export(char *str);
 int	check_good_variable(char * str);
 int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
 int env_count_env_copy(t_environment *env_copy);

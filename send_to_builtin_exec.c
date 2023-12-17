@@ -37,7 +37,6 @@ void which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
 
 	//count_env->count_filled = env_count_env_copy(env_copy); // compte le nombre de case rempli
-	printf("\n\nwhich_builtin cmd_list %s\n\n", cmd_lst->args->arg);
 
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
 		printf("ECHO function should happen here\n");

@@ -86,63 +86,60 @@ char *get_value_export(char *str)
 		return (NULL);
 	if (str[equal + 1] == '\0')
 		return (ft_strdup("\"\""));
-	res = malloc(sizeof(char) * ft_strlen(str) - (equal + 1));
-	res = ft_strdup(&str[equal]);
+	res = ft_strdup(&str[equal + 1]);
 	return (res);
 }
-//
-//char *get_value_export(char *str)
-//{
-//	char *result;
-//	int i;
-//	int j;
-//
-//	if (str == NULL)
-//		return(NULL);
-//	i = 0;
-//	while (str[i] != '=' || str[i] != '\0')
-//		i++;
-//	j = 0;
-//	while(str[i] != '\0')
-//		i++;
-//
-//	return(result);
-//}
 
-char *get_key_export(char *str, char *value)
+
+char *get_key_export(char *str)
 {
-	if (str != NULL && value != NULL)
+	char	*res;
+	int		equal;
+	int		i;
+
+	if (str == NULL)
+		return (NULL);
+	equal = ft_strchrint(str, '=');
+
+	if (equal == 0)
+		return (str);
+	res = malloc(sizeof(char) * equal + 1);
+	i = 0;
+	while(equal > 0)
 	{
-		// Calcule la longueur de la sous-chaîne avant le délimiteur
-		size_t key_length = value - (str + 1);// pour enelever le =
-
-		// Utilise ft_strndup pour créer une copie de la sous-chaîne
-		return (ft_strndup(str, key_length) );
+		res[i] = str[i];
+		i++;
+		equal--;
 	}
-
-	return NULL;
+	res[i] = '\0';
+	return (res);
 }
 
 
 int valid_cmd(char *arg)
 {
-	int i = 0;
-	printf("\n valid_cmd= %s\n", arg);
+	int i;
+
+	i = 0;
 	while (arg[i] != '\0')
 	{
-		if (!ft_isalpha(arg[i]))
-			return (ERROR);
 		if (arg[i] == '=')
 		{
 			i++;
 			break;
+		}
+		if (!ft_isalpha(arg[i]))
+		{
+			return (ERROR);
 		}
 		i++;
 	}
 	while (arg[i] != '\0')
 	{
 		if (!ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
+		{
 			return (ERROR);
+		}
 		i++;
 	}
 	return (SUCCESS);
@@ -200,7 +197,7 @@ void double_env(t_environment **env_copy, int size_total, int factor)
 
 		new_env[size_total].key = NULL;
 		new_env[size_total].value = NULL;
-		free(*env_copy); // Libère l'ancien tableau
+//		free(*env_copy); // Libère l'ancien tableau
 		*env_copy = new_env; // Met à jour le pointeur
 	}
 	return ;
@@ -237,42 +234,29 @@ int if_exist_in_env(char *key, t_environment *env_origin, int size)
 	i = 0;
 	while (size > 0)
 	{
-		printf("size = %d\n", size);
-		printf("key = %s\n", env_copy[i].key);
-		printf("actual key = %s\n", key);
 		if (strcmp(env_copy[i].key, key) == 0)
-		{
-			printf("find it = %d\n", i);
 			return (i);
-		}
 		i++;
 		size--;
 	}
-	printf("Not find it = %d\n", i);
 	return (-1);
 }
 
 void remplace_old_value(char *value, int index, t_environment **env_copy)
 {
-	if ((*env_copy)[index].key != NULL)
+	printf("USER env = %s\n", (*env_copy)[index].key);
+	if ((*env_copy)[index].key != NULL || ft_strcmp((*env_copy)[index].value, "\"\"") == 0)
 		free((*env_copy)[index].value);
 	(*env_copy)[index].value = strdup(value);
 }
 
-void	just_replace_value(char *value, int index, t_environment *env_copy)
+int	create_more_space (t_environment **env_copy, int size_total)
 {
-	if (index >= 0)//pas == -1, pas trouver valeur
-		remplace_old_value(value, index, &env_copy);
-	else
-		return;
-}
-
-int	create_more_space (t_environment *env_copy, int size_total)
-{
-	double_env(&env_copy, size_total, 2);
+	double_env(env_copy, size_total, 2);
 	return (SUCCESS);
 }
 
+int check_env_is_full();
 
 int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size_filled_env, int size_total)
 {
@@ -281,21 +265,33 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 	char *value;
 	int index;
 
-	while (nb_args != 0) // va lire
+	while (nb_args != 0)
 	{
 		value = get_value_export(current->args->arg);
-		key = get_key_export(current->args->arg, value);
+		key = get_key_export(current->args->arg);
 		index = if_exist_in_env(key, env_copy, size_filled_env);
-		just_replace_value(value, index, env_copy);
-		(void)size_total;
-//		if (index == size_total)
-//			size_total = create_more_space(env_copy, size_total);
-		//agrandi total++
-//		size_filled_env = fill_slot (key, value, env_copy, index, size_filled_env); //++ size_filled
-		// +1 rempli
+		printf("index = %d\n", index);
+		printf("value = %s\n", value);
+		if (index != -1)
+		{
+			if (size_filled_env < size_total)
+				size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env);
+			if (size_filled_env == size_total)
+				create_more_space(&env_copy, size_total);
+		}
+		else
+			remplace_old_value(value, index, &env_copy);
+		if (key != NULL)
+		{
+			free(key);
+			key = NULL;
+		}
+		if(value != NULL)
+		{
+			free(value);
+			value = NULL;
+		}
 		nb_args--;
-		key = NULL;
-		value = NULL;
 	}
 	return (ERROR);
 }
@@ -355,14 +351,15 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 	int size_filled_env;
 	int size_total;
 
-	printf("\n avant :export_main =  %s\n\n", cmd_lst->args->arg);
+//	printf("\n avant :export_main =  %s\n\n", cmd_lst->args->arg);
 	size_filled_env = calculate_sizes_filled(*env_copy);
 	size_total = calculate_size_env(*env_copy);
 
 	nb_args = count_args_export(cmd_lst);
-	if (nb_args == -1)
+	if (nb_args == -1) {
 		return (ERROR);
-	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
+	}
+//	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
 	fill_env(cmd_lst, *env_copy, nb_args, size_filled_env, size_total);
 
 	return (SUCCESS);
