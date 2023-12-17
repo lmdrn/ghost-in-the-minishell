@@ -33,10 +33,11 @@ void print_env(t_environment    *env_copy, int count) // besoin taille remplie
 
 }
 
-void	which_builtin(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env)
+void which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
 
 	//count_env->count_filled = env_count_env_copy(env_copy); // compte le nombre de case rempli
+	printf("\n\nwhich_builtin cmd_list %s\n\n", cmd_lst->args->arg);
 
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
 		printf("ECHO function should happen here\n");
@@ -52,7 +53,7 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy, t_var *count_en
 	}
 
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
-		builtin_export(cmd_lst, env_copy, count_env);
+		export_main(cmd_lst, &env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
 		printf("UNSET function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)

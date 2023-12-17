@@ -138,7 +138,7 @@ char			*ft_strncpy(char *dest, const char *src, unsigned int n);
 char			*concat_str(char *s1, char *s2);
 void			free_argv(char **argv);
 int				ft_error(char *str);
-void			which_builtin(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
 void			handling_signals(char *input);
 void			assign_quotes(t_type *node, t_environment *env_copy);
 t_type			*clean_cmd_type(t_type *node);
@@ -152,7 +152,7 @@ void			free_env_struct(t_environment *env_struct);
 int				ft_strcmp(char *s1, char *s2);
 int				is_odd_or_even(int *pipe_count, int *cmd_count);
 void			duplicate_process(t_commande *cmd_lst, t_environment *env_copy);
-void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env);
+void init_tokenizer(char **blocks, t_environment *env_copy);
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 void			clear_commande_list(t_commande **lst);
@@ -184,11 +184,11 @@ int builtin_pwd(t_commande *cmd_lst);
 /* -------------------env-----------------------------*/
 void print_env_builtin(t_environment  *env_copy);
 /* -------------------export-----------------------------*/
-
+int export_main(t_commande *cmd_lst, t_environment **env_copy);
 char *get_value_export(char *str);
 char *get_key_export(char *str, char *value);
 int	check_good_variable(char * str);
-int builtin_export(t_commande *cmd_lst, t_environment *env_copy, t_var *count_env);
+int builtin_export(t_commande *cmd_lst, t_environment *env_copy);
 int env_count_env_copy(t_environment *env_copy);
 t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env);
 void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env);

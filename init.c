@@ -59,7 +59,7 @@ char	**init_parse(const char *input)
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
-void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env)
+void init_tokenizer(char **blocks, t_environment *env_copy)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
@@ -70,6 +70,8 @@ void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env)
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
 	cmd_lst = command_list(tokens, &pipe_count, &cmd_count, env_copy);
+
+
 	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",
 		pipe_count, cmd_count);
 	if (cmd_lst != NULL)
@@ -80,7 +82,7 @@ void init_tokenizer(char **blocks, t_environment *env_copy, t_var *count_env)
 	if (is_odd_or_even(&pipe_count, &cmd_count) == 3)
 	{
 		if (tokens->type == 1)
-			which_builtin(cmd_lst, env_copy, count_env);
+			which_builtin(cmd_lst, env_copy);
 		else if (tokens->type == 0)
 			duplicate_process(cmd_lst, env_copy);
 	}
