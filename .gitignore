@@ -2,3 +2,5 @@
 .clangd/
 compile_commands.json
 .vscode/
+.idea
+cmake-build-debug
