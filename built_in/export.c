@@ -244,10 +244,11 @@ int if_exist_in_env(char *key, t_environment *env_origin, int size)
 
 void remplace_old_value(char *value, int index, t_environment **env_copy)
 {
-	printf("USER env = %s\n", (*env_copy)[index].key);
+	printf("USER key = %s\n", (*env_copy)[index].key);
 	if ((*env_copy)[index].key != NULL || ft_strcmp((*env_copy)[index].value, "\"\"") == 0)
 		free((*env_copy)[index].value);
 	(*env_copy)[index].value = strdup(value);
+	printf("USER value = %s\n", (*env_copy)[index].value);
 }
 
 int	create_more_space (t_environment **env_copy, int size_total)
@@ -272,7 +273,7 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 		index = if_exist_in_env(key, env_copy, size_filled_env);
 		printf("index = %d\n", index);
 		printf("value = %s\n", value);
-		if (index != -1)
+		if (index == -1)
 		{
 			if (size_filled_env < size_total)
 				size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env);
