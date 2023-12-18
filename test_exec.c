@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/18 10:08:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/18 11:09:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void	wait_for_children2(t_commande *cmd)
 	t_commande	*curr_cmd;
 
 	curr_cmd = cmd;
+	printf("g status is %d\n", g_status);
 	while (curr_cmd != NULL)
 	{
 		if (curr_cmd->pid > 0)
@@ -246,7 +247,7 @@ void	wait_for_children2(t_commande *cmd)
 				g_status = 128 + WTERMSIG(curr_cmd->wait_status);
 			if (WIFEXITED(curr_cmd->wait_status))
 			{
-				g_status = WIFEXITED(curr_cmd->wait_status);
+				g_status = WEXITSTATUS(curr_cmd->wait_status);
 				printf("Child proccess exited with status %d\n", g_status);
 			}
 		}
@@ -267,7 +268,8 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 	}
 	if (curr_cmd->pid == 0)
 	{
-		if (curr_cmd->fdin != STDIN_FILENO)
+		printf("curr fdin is %d\n", curr_cmd->fdin);
+		if (curr_cmd->fdin > 2)
 		{
 			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
 			{
@@ -276,7 +278,8 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 			}
 			close(curr_cmd->fdin);
 		}
-		if (curr_cmd->fdout != STDOUT_FILENO)
+		printf("before curr fdout is %d\n", curr_cmd->fdout);
+		if (curr_cmd->fdout > 2)
 		{
 			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
 			{
@@ -285,25 +288,29 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 			}
 			close(curr_cmd->fdout);
 		}
-		close_fds2(cmd);
+		printf("after curr fdout is %d\n", curr_cmd->fdout);
+		/* close_fds2(cmd); */
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
+		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		close_fds2(cmd);
-		wait_for_children2(cmd);
+		if (curr_cmd->fdin > 2)
+			close(curr_cmd->fdin);
+		if (curr_cmd->fdout > 2)
+			close(curr_cmd->fdout);
 	}
 }
 
 void	send_to_execution2(t_commande *cmd, t_environment *env_copy)
 {
-	t_commande	*curr_cmd;
+	/* t_commande	*curr_cmd; */
 
-	curr_cmd = cmd;
-	while (curr_cmd != NULL)
-	{
+	/* curr_cmd = cmd; */
+	/* while (curr_cmd != NULL) */
+	/* { */
 		fork_it2(cmd, env_copy);
-		curr_cmd = curr_cmd->next;
-	}
+		/* curr_cmd = curr_cmd->next; */
+	/* } */
 }
