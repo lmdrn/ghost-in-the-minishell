@@ -39,6 +39,26 @@ int	check_good_variable(char *str)
 }
 
 /*------- Lecture et check env--------*/
+void print_env_builtin_export(t_environment  *env_copy)//fprint tout
+{
+	int                i;
+	i = 0;
+	if (env_copy!= NULL)
+	{
+		while ( env_copy[i].key != NULL)
+		{
+			printf("%s=%s", env_copy[i].key, env_copy[i].value);
+//			if (env_copy[i + 1].key != NULL)
+				printf("\n");
+			i++;
+		}
+	}
+	else
+		return;
+	printf("\n");
+
+}
+
 void print_env_export(t_environment *env_copy, int size_filled)
 {
 	if (env_copy == NULL) {
@@ -49,7 +69,7 @@ void print_env_export(t_environment *env_copy, int size_filled)
 	int i = 0;
 	while (i <= size_filled && env_copy[i].key != NULL)
 	{
-		printf("Key: %s, Value: %s", env_copy[i].key, env_copy[i].value);
+		printf("%s=%s", env_copy[i].key, env_copy[i].value);
 
 		if (i < size_filled - 1 && env_copy[i + 1].key != NULL)
 		{
@@ -206,21 +226,25 @@ void double_env(t_environment **env_copy, int size_total, int factor)
 int 	fill_slot(char *key, char *value, t_environment *env_copy, int index, int size_filled_env)
 {
 	int current_index ; // on a arreté index jusqu'a tout filled..
-
-	current_index = index +1 ; // va au prochain qui doit etre vide () en theorie
+	(void)index;
+	current_index = size_filled_env +1 ; // va au prochain qui doit etre vide () en theorie
 	if ((env_copy)[current_index].key != NULL && env_copy[current_index].value != NULL)
 	{
+		printf("Avant la libération : key = %s, value = %s\n", (env_copy)[current_index].key, (env_copy)[current_index].value);
+
+		// Libère l'ancienne clé si elle existe
 		free((env_copy)[current_index].key);   // Libère l'ancienne clé si elle existe
 		free((env_copy)[current_index].value); // Libère l'ancienne valeur si elle existe
-
+		if ((env_copy)[current_index].key == NULL)
+			printf("on a liberer la key\n");
 		(env_copy)[current_index].key = strdup(key);
 		(env_copy)[current_index].value = strdup(value);
-		return(size_filled_env + 1);
+		printf("Après l'allocation : key = %s, value = %s\n", (env_copy)[current_index].key, (env_copy)[current_index].value);
+
+		return(current_index);
 	}
+	printf("pas reussi a rempplir\n");
 	return(ERROR);
-
-
-
 }
 
 int if_exist_in_env(char *key, t_environment *env_origin, int size)
@@ -254,6 +278,9 @@ void remplace_old_value(char *value, int index, t_environment **env_copy)
 int	create_more_space (t_environment **env_copy, int size_total)
 {
 	double_env(env_copy, size_total, 2);
+	printf("yes c'est plus grand\n");
+	//print_env_builtin_export(*env_copy);
+	//yeah...ca print bien tout le tableau
 	return (SUCCESS);
 }
 
@@ -265,7 +292,7 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 	char *key;
 	char *value;
 	int index;
-
+	printf("\n\n------------\nnombre d'arguments %d\n",nb_args);
 	while (nb_args != 0)
 	{
 		value = get_value_export(current->args->arg);
@@ -273,15 +300,34 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 		index = if_exist_in_env(key, env_copy, size_filled_env);
 		printf("index = %d\n", index);
 		printf("value = %s\n", value);
-		if (index == -1)
+		printf("key = %s\n", key);
+		printf("size_total = %d\n", size_total);
+		printf("size_filled_env = %d\n", size_filled_env);
+		printf("\n------------------------");
+		if (index == -1) // need space
 		{
-			if (size_filled_env < size_total)
-				size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env);
+//			if (size_filled_env < size_total)// encore place
+//			{
+//				size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env);
+//				size_filled_env++;
+//			}
 			if (size_filled_env == size_total)
-				create_more_space(&env_copy, size_total);
+			{
+				create_more_space(&env_copy, size_total); // is okaaaay
+				size_total *= 2;
+			}
+
+			size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env); // a check 18.12
+			//size_filled_env++;
+			printf("size_total selon variable = %d\n", size_total);
+			printf("real size total : %d \n", calculate_size_env(env_copy));
+			printf("size_filled_env = %d\n", size_filled_env);
 		}
 		else
+		{
 			remplace_old_value(value, index, &env_copy);
+			printf("on a juste remplacer la valeur \n");
+		}
 		if (key != NULL)
 		{
 			free(key);
@@ -355,18 +401,25 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 //	printf("\n avant :export_main =  %s\n\n", cmd_lst->args->arg);
 	size_filled_env = calculate_sizes_filled(*env_copy);
 	size_total = calculate_size_env(*env_copy);
-
+	printf("---------\n\nsize_total %d\n", size_total);
+	printf("size_filled %d\n\n-----------", size_filled_env);
 	nb_args = count_args_export(cmd_lst);
 	if (nb_args == -1) {
 		return (ERROR);
 	}
-//	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
+	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
 	fill_env(cmd_lst, *env_copy, nb_args, size_filled_env, size_total);
+	size_filled_env = calculate_sizes_filled(*env_copy);
+	printf("========================\n");
+	printf("size_total apres filled = %d\n", size_total);
+	printf("size_filled_env = %d\n", size_filled_env);
+	//printf("Après l'allocation : key = %s, value = %s\n", (env_copy)[size_filled_env]->key, (env_copy)[size_filled_env]->value);
+	print_env_builtin_export(*env_copy);
 
 	return (SUCCESS);
 
 }
-
+//pas bien agrandi...parce que j;arrive pas a print
 /*------- tools--------*/
 
 

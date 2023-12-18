@@ -194,6 +194,8 @@ t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env
 void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env);
 void bigger_env_copy(t_environment **env_copy, t_var *count_env);
 t_var *create_t_var();
+int calculate_size_env(t_environment *env_copy);
+void print_env_builtin_export(t_environment  *env_copy);
 /* -------------------outils-----------------------------*/
 void	print_env(t_environment    *env_copy, int count);
 #endif
