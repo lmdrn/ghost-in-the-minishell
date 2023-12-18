@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 18:26:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/18 10:08:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +267,7 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 	}
 	if (curr_cmd->pid == 0)
 	{
-		if (curr_cmd->fdin > 2)
+		if (curr_cmd->fdin != STDIN_FILENO)
 		{
 			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
 			{
@@ -276,7 +276,7 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 			}
 			close(curr_cmd->fdin);
 		}
-		if (curr_cmd->fdout > 2)
+		if (curr_cmd->fdout != STDOUT_FILENO)
 		{
 			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
 			{
@@ -288,6 +288,11 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 		close_fds2(cmd);
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
+	}
+	else
+	{
+		close_fds2(cmd);
+		wait_for_children2(cmd);
 	}
 }
 
@@ -301,6 +306,4 @@ void	send_to_execution2(t_commande *cmd, t_environment *env_copy)
 		fork_it2(cmd, env_copy);
 		curr_cmd = curr_cmd->next;
 	}
-	close_fds2(cmd);
-	wait_for_children2(cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 18:11:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/18 10:00:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	t_commande	*cmd_lst;
 	int			pipe_count;
 	int			cmd_count;
-	int			flag;
+	/* int			flag; */
 
 	tokens = NULL;
-	flag = 0;
+	/* flag = 0; */
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
 	cmd_lst = command_list(tokens, &pipe_count, &cmd_count, env_copy);
