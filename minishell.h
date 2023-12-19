@@ -29,6 +29,11 @@
 /* ooo - GLOBAL VARS - ooo */
 
 extern int	g_status;
+/*◇───────────────────────────────────────────────────────────────◇*\
+*	Macro
+\*◇───────────────────────────────────────────────────────────────◇*/
+# define ERROR				0
+# define SUCCESS			1
 
 /* ooo - ENUMS - ooo */
 
@@ -248,5 +253,24 @@ int				heredoc_fd(char *del);
 int				create_heredoc(char *filename, t_commande *cmd);
 void			assign_redir(t_commande *cmd);
 int				has_redir(t_commande *cmd);
+
+/*-------------- builtin cd --------------*/
+int				check_args(t_commande *cmd_lst, t_environment *env_copy);
+int				ft_cd(t_environment *env_copy, char *path);
+void			add_node_at_end(t_environment *head, char *key, char *value);
+int				go_home(t_environment *env_copy, char *home);
+char			*get_home(t_environment *head);
+char			*get_env_value(t_environment *env_copy, char *key);
+t_environment	*last_node(t_environment *head);
+int				go_last_directories(t_environment *env_copy, int hyphen);
+int				check_is_in_env(t_environment *env_copy, char *var);
+int				check_path(char *path);
+void			update_pwd_oldpwd(t_environment *head, char *change_pwd);
+int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+/* --------------builtin echo --------------*/
+void ft_echo(char *str, t_environment *env_copy);
+int check_option_n(char *str);
+int echo(t_commande *cmd_lst, t_environment *env_copy);
+
 
 #endif

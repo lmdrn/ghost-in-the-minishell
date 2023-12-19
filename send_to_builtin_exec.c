@@ -12,14 +12,18 @@
 
 #include "minishell.h"
 
-void	which_builtin(t_commande *cmd_lst)
+void	which_builtin(t_commande *cmd_lst, t_environment *env_copy) // ajout arguments
 {
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
-		printf("ECHO function should happen here\n");
+	{
+		if (echo(cmd_lst, env_copy) == ERROR)
+			exit(1);
+	}
+
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
 		printf("PWD function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
-		printf("CD function should happen here\n");
+		builtin_cd(cmd_lst->next, env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 		printf("EXPORT function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
