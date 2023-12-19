@@ -6,73 +6,98 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/18 09:58:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 14:28:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	assign_fds(t_commande *cmd, int *fd)
+void	send_to_execution(t_commande *cmd, t_environment *env_copy)
 {
-	cmd->fdin = 0;
-	while (cmd->next != NULL)
+	t_commande	*curr_cmd;
+
+	curr_cmd = cmd;
+	curr_cmd->pid = fork();
+	if (curr_cmd->pid == -1)
 	{
-		pipe(fd);
-		cmd->fdout = fd[1];
-		cmd->next->fdin = fd[0];
-		cmd = cmd->next;
+		perror("did not fork\n");
+		exit(EXIT_FAILURE);
 	}
-	cmd->fdout = STDOUT_FILENO;
+	if (curr_cmd->pid == 0)
+	{
+		printf("curr fdin is %d\n", curr_cmd->fdin);
+		if (curr_cmd->fdin != STDIN_FILENO)
+		{
+			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
+			{
+				perror("fdin dup did not work\n");
+				exit(EXIT_FAILURE);
+			}
+			close(curr_cmd->fdin);
+		}
+		printf("before curr fdout is %d\n", curr_cmd->fdout);
+		if (curr_cmd->fdout != STDOUT_FILENO)
+		{
+			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
+			{
+				perror("fdout dup did not work\n");
+				exit(EXIT_FAILURE);
+			}
+			close(curr_cmd->fdout);
+		}
+		printf("after curr fdout is %d\n", curr_cmd->fdout);
+		execute_basic_cmd(cmd, env_copy);
+		g_status = errno;
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		if (curr_cmd->fdin != STDIN_FILENO)
+			close(cmd->fdin);
+		if (curr_cmd->fdout != STDOUT_FILENO)
+			close(curr_cmd->fdout);
+		wait_for_children(curr_cmd);
+	}
 }
 
-void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
+void	close_fds(t_commande *cmd)
 {
-	int			fd[2];
-	int			pid;
-	int			output_file;
-	char		*filename;
+	t_commande	*curr_cmd;
 
-	assign_fds(cmd_lst, fd);
-	while (cmd_lst != NULL)
+	curr_cmd = cmd;
+	while (curr_cmd != NULL)
 	{
-		filename = create_filename(cmd_lst);
-		output_file = -1;
-		pid = fork();
-		if (pid == 0)
+		if (curr_cmd->fdin > 2)
+			close(curr_cmd->fdin);
+		if (curr_cmd->fdout > 2)
+			close(curr_cmd->fdout);
+		curr_cmd = curr_cmd->next;
+	}
+}
+
+void	wait_for_children(t_commande *cmd)
+{
+	t_commande	*curr_cmd;
+
+	curr_cmd = cmd;
+	printf("g status is %d\n", g_status);
+	while (curr_cmd != NULL)
+	{
+		if (curr_cmd->pid > 0)
 		{
-			if (cmd_lst->fdin != STDIN_FILENO)
+			if (waitpid(curr_cmd->pid, &curr_cmd->wait_status, 0) == -1)
 			{
-				dup2(cmd_lst->fdin, STDIN_FILENO);
-				close(cmd_lst->fdin);
+				perror("waitpid\n");
+				exit(EXIT_FAILURE);
 			}
-			if (cmd_lst->fdout != STDOUT_FILENO)
+			if (WIFSIGNALED(curr_cmd->wait_status))
+				g_status = 128 + WTERMSIG(curr_cmd->wait_status);
+			if (WIFEXITED(curr_cmd->wait_status))
 			{
-				dup2(cmd_lst->fdout, STDOUT_FILENO);
-				close(cmd_lst->fdout);
-			}
-			if (filename != NULL)
-			{
-				output_file = create_output_file2(filename);
-				printf("output file %d\n", output_file);
-				redir_execution(cmd_lst, env_copy, output_file);
-				exit(EXIT_SUCCESS);
-			}
-			else
-			{
-				execute_basic_cmd(cmd_lst, env_copy);
-				exit(EXIT_SUCCESS);
+				g_status = WEXITSTATUS(curr_cmd->wait_status);
+				printf("Child proccess exited with status %d\n", g_status);
 			}
 		}
-		else
-		{
-			if (cmd_lst->fdin != STDIN_FILENO)
-				close(cmd_lst->fdin);
-			if (cmd_lst->fdout != STDOUT_FILENO)
-				close(cmd_lst->fdout);
-			if (filename != NULL)
-				write_on_output(output_file, fd);
-			waitpid(pid, NULL, 0);
-		}
-		cmd_lst = cmd_lst->next;
+		curr_cmd = curr_cmd->next;
 	}
 }

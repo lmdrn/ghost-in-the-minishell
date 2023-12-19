@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output_redir.c                                     :+:      :+:    :+:   */
+/*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 15:36:47 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:37:39 by lmedrano         ###   ########.fr       */
+/*   Created: 2023/12/19 14:25:15 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/19 14:43:22 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_output_redir(char *filename, t_commande *cmd)
+int	create_append(char *filename, t_commande *cmd)
 {
 	int			fd;
 	t_commande	*curr_cmd;
 
-	curr_cmd = is_last_cmd(cmd);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	curr_cmd = cmd;
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		close(fd);
@@ -30,10 +30,10 @@ int	create_output_redir(char *filename, t_commande *cmd)
 	return (fd);
 }
 
-void	init_output(t_commande *curr_cmd, t_commande *cmd)
+void	init_append(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
 
 	filename = find_filename(curr_cmd);
-	create_output_redir(filename, cmd);
+	create_append(filename, cmd);
 }

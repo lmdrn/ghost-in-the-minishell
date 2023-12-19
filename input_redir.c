@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output_redir.c                                     :+:      :+:    :+:   */
+/*   input_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 15:36:47 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:37:39 by lmedrano         ###   ########.fr       */
+/*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/19 14:35:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_output_redir(char *filename, t_commande *cmd)
+int	create_input_redir(char *filename, t_commande *cmd)
 {
 	int			fd;
 	t_commande	*curr_cmd;
 
-	curr_cmd = is_last_cmd(cmd);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	curr_cmd = cmd;
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		close(fd);
+		printf("something's wrong\n");
 		exit(EXIT_FAILURE);
 	}
-	if (curr_cmd->fdout > 2)
-		close(curr_cmd->fdout);
-	curr_cmd->fdout = fd;
+	if (curr_cmd->fdin != 0)
+		close(curr_cmd->fdin);
+	curr_cmd->fdin = fd;
 	return (fd);
 }
 
-void	init_output(t_commande *curr_cmd, t_commande *cmd)
+void	init_input(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
 
 	filename = find_filename(curr_cmd);
-	create_output_redir(filename, cmd);
+	create_input_redir(filename, cmd);
 }

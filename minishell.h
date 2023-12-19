@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 17:29:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 14:45:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ typedef struct s_commande
 
 /* ooo - PROTOTYPES DE FONCTIONS - ooo */
 
+/* ooo - append - ooo */
+int				create_append(char *filename, t_commande *cmd);
+void			init_append(t_commande *curr_cmd, t_commande *cmd);
+
 /* ooo - assign_cmd_or_builtin - ooo */
 
 void			assign_exec_cmd(t_type *node);
@@ -154,19 +158,27 @@ void			clear_commande_list(t_commande **lst);
 void			print_commande_list(t_commande *head);
 
 /* ooo - heredoc - ooo */
+int				heredoc_fd(char	*del);
+t_commande		*is_last_cmd(t_commande *cmd);
+int				create_heredoc(char *filename, t_commande *cmd);
+void			init_heredoc(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - init - ooo */
+
 void			init_prompt(char *input);
 t_environment	*init_env(char **envp);
 int				init_tokenizer(char **blocks, t_environment *env_copy);
 char			**init_parse(const char *input);
 
+/* ooo - input_redir - ooo */
+
+int				create_input_redir(char *filename, t_commande *cmd);
+void			init_input(t_commande *curr_cmd, t_commande *cmd);
+
 /* ooo - output_redir - ooo */
 
-void			execute_redir(t_commande *cmd, t_environment *env_copy);
-void			write_on_output(int output_file, int *pipe_fd);
-void			redir_execution(t_commande *cmd, t_environment *env_copy,
-					int output_file);
+int				create_output_redir(char *filename, t_commande *cmd);
+void			init_output(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - output_utils - ooo */
 char			*find_filename(t_commande *cmd);
@@ -196,12 +208,10 @@ void			which_builtin(t_commande *cmd_lst);
 /* ooo - send_to_execution - ooo*/
 
 int				is_odd_or_even(int *pipe_count, int *cmd_count);
-void			only_one_cmd(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - send_to_pipes - ooo*/
 
-void			execute_pipeline(t_commande *cmd_lst, t_environment *env_copy);
-void			close_fds(t_commande *cmd);
+
 
 /* ooo - signals - ooo */
 
@@ -227,17 +237,16 @@ int				ft_strcmp(const char *s1, const char *s2);
 
 /* ooo - TEST EXEC - ooo */
 
-void			send_to_execution2(t_commande *cmd, t_environment *env_copy);
-void			assign_fds2(t_commande *cmd);
+void			assign_fds(t_commande *cmd);
 t_commande		*is_last_cmd(t_commande *cmd);
 int				create_output_redir(char *filename, t_commande *cmd);
 int				create_input_redir(char *filename, t_commande *cmd);
 int				create_append(char *filename, t_commande *cmd);
 int				heredoc_fd(char *del);
 int				create_heredoc(char *filename, t_commande *cmd);
-void			close_fds2(t_commande *cmd);
-void			wait_for_children2(t_commande *cmd);
-void			fork_it2(t_commande *cmd, t_environment *env_copy);
+void			close_fds(t_commande *cmd);
+void			wait_for_children(t_commande *cmd);
+void			send_to_execution(t_commande *cmd, t_environment *env_copy);
 void			assign_redir(t_commande *cmd);
 int				has_redir(t_commande *cmd);
 
