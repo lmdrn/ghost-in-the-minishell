@@ -27,7 +27,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  signals.c init.c send_to_execution.c \
 			  send_to_pipes.c \
 			 	./built_in/cd.c ./built_in/pwd.c ./built_in/env.c \
-			 	./built_in/export.c
+			 	./built_in/echo.c
 
 OBJS 		= ${SRCS:.c=.o}
 

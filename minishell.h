@@ -177,4 +177,8 @@ int check_args(t_commande *cmd_lst);
 int builtin_pwd(t_commande *cmd_lst);
 /* -------------------env-----------------------------*/
 void print_env_builtin(t_environment  *env_copy);
+/* -------------------echo-----------------------------*/
+void	ft_echo(char *str, t_environment *env_copy);
+int 	check_option_n(char *str);
+int		echo(t_commande *cmd_lst, t_environment *env_copy);
 #endif

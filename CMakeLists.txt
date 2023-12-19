@@ -75,4 +75,4 @@ add_executable(miiiiiiiii_cd
         test_chdir.c
         tokenization.c
         utils.c
-        utils_2.c built_in/export.c)
+        utils_2.c)
