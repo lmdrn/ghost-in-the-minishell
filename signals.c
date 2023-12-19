@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
 
 //signal handler for Ctrl+C
 void	sigint_handler(int signum)

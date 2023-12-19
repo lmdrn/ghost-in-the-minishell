@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/15 14:58:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:35:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	else
 	{
 		node->type = args;
-		printf("NODE TYPE IS %d\n", node->type);
+		/* printf("NODE TYPE IS %d\n", node->type); */
 		env_var = find_env_variable(node);
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
@@ -118,7 +118,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	first = node->text[0];
 	len = ft_strlen(node->text);
 	last = node->text[len - 1];
-	printf("Node has %d words\n", count_word_node(node));
+	/* printf("Node has %d words\n", count_word_node(node)); */
 	if (first == '\"' && last == '\"')
 		block_has_dbl_quotes(node, env_cpy);
 	else if (first == '\'' && last == '\'')
@@ -126,12 +126,12 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	else
 		block_has_no_quotes(node, env_cpy);
 	//TESTS VARIABLES//
-	printf("First letter is %c\n", first);
-	printf("Last letter is %c\n", last);
-	printf("%s type is: %d\n", node->text, node->type);
+	/* printf("First letter is %c\n", first); */
+	/* printf("Last letter is %c\n", last); */
+	/* printf("%s type is: %d\n", node->text, node->type); */
 	printf("Env var is %s\n", env_var);
 	printf("Env var value is %s\n", env_value);
-	printf("\n");
+	/* printf("\n"); */
 }
 
 t_type	*clean_cmd_type(t_type *node)
@@ -157,7 +157,7 @@ t_type	*clean_cmd_type(t_type *node)
 	}
 	new_str[j] = '\0';
 	node->text = new_str;
-	printf("without quotes is %s\n", new_str);
+	/* printf("without quotes is %s\n", new_str); */
 	return (node);
 }
 

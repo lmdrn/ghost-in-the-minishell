@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:37:28 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/15 14:42:14 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:09:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,5 @@ char	*ft_prompt(void)
 	char	*input;
 
 	input = readline("\n\U0001F63B \U0001F449 ");
-    // Readline setup
-    /* rl_bind_key('\t', rl_insert);  = 0; */
 	return (input);
 }

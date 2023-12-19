@@ -6,138 +6,89 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/28 13:37:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:07:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	assign_fds(t_commande *cmd, int *fd)
+void	close_fds(t_commande *curr_cmd, t_commande *cmd)
 {
-	cmd->fdin = 0;
-	while (cmd->next != NULL)
-	{
-		pipe(fd);
-		cmd->fdout = fd[1];
-		cmd->next->fdin = fd[0];
-		cmd = cmd->next;
-	}
-	cmd->fdout = STDOUT_FILENO;
+	if (curr_cmd->fdin != STDIN_FILENO)
+		close(cmd->fdin);
+	if (curr_cmd->fdout != STDOUT_FILENO)
+		close(curr_cmd->fdout);
+	wait_for_children(curr_cmd);
 }
 
-void	close_fds(t_commande *cmd)
+void	dup_and_close_fdin(t_commande *curr_cmd)
 {
-	while (cmd != NULL)
+	if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
 	{
-		if (cmd->fdin != STDIN_FILENO)
-			close(cmd->fdin);
-		if (cmd->fdout != STDOUT_FILENO)
-			close(cmd->fdout);
-		cmd = cmd->next;
+		perror("fdin dup did not work\n");
+		exit(EXIT_FAILURE);
 	}
+	close(curr_cmd->fdin);
+}
+
+void	dup_and_close_fdout(t_commande *curr_cmd)
+{
+	if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
+	{
+		perror("fdout dup did not work\n");
+		exit(EXIT_FAILURE);
+	}
+	close(curr_cmd->fdout);
+}
+
+void	send_to_execution(t_commande *cmd, t_environment *env_copy)
+{
+	t_commande	*curr_cmd;
+
+	curr_cmd = cmd;
+	curr_cmd->pid = fork();
+	if (curr_cmd->pid == -1)
+	{
+		perror("did not fork\n");
+		exit(EXIT_FAILURE);
+	}
+	if (curr_cmd->pid == 0)
+	{
+		if (curr_cmd->fdin != STDIN_FILENO)
+			dup_and_close_fdin(curr_cmd);
+		if (curr_cmd->fdout != STDOUT_FILENO)
+			dup_and_close_fdout(curr_cmd);
+		execute_basic_cmd(cmd, env_copy);
+		g_status = errno;
+		exit(EXIT_SUCCESS);
+	}
+	else
+		close_fds(curr_cmd, cmd);
 }
 
 void	wait_for_children(t_commande *cmd)
 {
-	int	wstatus;
+	t_commande	*curr_cmd;
 
-	while (cmd != NULL)
+	curr_cmd = cmd;
+	/* printf("g status is %d\n", g_status); */
+	while (curr_cmd != NULL)
 	{
-		if (cmd->pid > 0)
+		if (curr_cmd->pid > 0)
 		{
-			waitpid(cmd->pid, &wstatus, 0);
+			if (waitpid(curr_cmd->pid, &curr_cmd->wait_status, 0) == -1)
+			{
+				perror("waitpid\n");
+				exit(EXIT_FAILURE);
+			}
+			if (WIFSIGNALED(curr_cmd->wait_status))
+				g_status = 128 + WTERMSIG(curr_cmd->wait_status);
+			if (WIFEXITED(curr_cmd->wait_status))
+			{
+				g_status = WEXITSTATUS(curr_cmd->wait_status);
+				/* printf("Child proccess exited with status %d\n", g_status); */
+			}
 		}
-		cmd = cmd->next;
+		curr_cmd = curr_cmd->next;
 	}
 }
-
-void	execute_pipeline(t_commande *cmd_lst, t_environment *env_copy)
-{
-	int	fd[2];
-
-	assign_fds(cmd_lst, fd);
-	while (cmd_lst != NULL)
-	{
-		int pid = fork();
-		if (pid == 0)
-		{
-			if (cmd_lst->fdin != STDIN_FILENO)
-			{
-				dup2(cmd_lst->fdin, STDIN_FILENO);
-				close(cmd_lst->fdin);
-			}
-			if (cmd_lst->fdout != STDOUT_FILENO)
-			{
-				dup2(cmd_lst->fdout, STDOUT_FILENO);
-				close(cmd_lst->fdin);
-			}
-			//dup2(cmd_lst->fdin, STDIN_FILENO);
-			//dup2(cmd_lst->fdout, STDOUT_FILENO);
-			//close_fds(cmd_lst);
-			execute_basic_cmd(cmd_lst, env_copy);
-		}
-		else
-		{
-			if (cmd_lst->fdin != STDIN_FILENO)
-				close(cmd_lst->fdin);
-			if (cmd_lst->fdout != STDOUT_FILENO)
-				close(cmd_lst->fdout);
-		//	close_fds(cmd_lst);
-			waitpid(pid, NULL, 0);
-			//wait_for_children(cmd_lst);
-		}
-		cmd_lst = cmd_lst->next;
-	}
-}
-
-/* char	**env_list_to_array(t_environment *env_copy) */
-/* { */
-/* 	int 			count; */
-/* 	t_environment	*tmp; */
-/* 	char			**env_array; */
-/* 	int				i; */
-/* 	int				key_len; */
-/* 	int				value_len; */
-
-/* 	count = 0; */
-/* 	tmp = env_copy; */
-/* 	i = 0; */
-/* 	while (tmp[i].key != NULL) */
-/* 	{ */
-/* 		count++; */
-/* 		i++; */
-/* 	} */
-/* 	printf("count is %d\n", count); */
-/* 	env_array = (char **)malloc(sizeof(char *) * (count + 1)); */
-/* 	if (env_array == NULL) */
-/* 	{ */
-/* 		printf("Malloc failure\n"); */
-/* 		exit(EXIT_FAILURE); */
-/* 	} */
-/* 	tmp = env_copy; */
-/* 	i = 0; */
-/* 	while (tmp[i].key != NULL) */
-/* 	{ */
-/* 		key_len = ft_strlen(tmp[i].key); */
-/* 		/1* printf("len is %d\n", key_len); *1/ */
-/* 		value_len = ft_strlen(tmp[i].value); */
-/* 		env_array[i] = (char *)malloc(key_len + value_len + 2); */
-/* 		if (env_array[i] == NULL) */
-/* 		{ */
-/* 			printf("Malloc failure\n"); */
-/* 			exit(EXIT_FAILURE); */
-/* 		} */
-/* 		ft_strcpy(env_array[i], tmp[i].key); */
-/* 		env_array[i][key_len] = '='; */
-/* 		ft_strcpy(env_array[i] + key_len + 1, tmp[i].value); */
-/* 		i++; */
-/* 	} */
-/* 	env_array[count] = NULL; */
-/* 	/1* i = 0; *1/ */
-/* 	/1* while (env_array[i] != NULL) *1/ */
-/* 	/1* { *1/ */
-/* 	/1* 	printf("env var is %s\n", env_array[i]); *1/ */
-/* 	/1* 	i++; *1/ */
-/* 	/1* } *1/ */
-/* 	return (env_array); */
-/* } */
