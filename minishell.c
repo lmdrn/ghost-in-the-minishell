@@ -6,14 +6,19 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 16:31:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:14:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// careful do not use printf (or modify later on) could create trouble
-// (and we don't want trouble...)
+//MAIN FUNCTION:
+//display prompt
+//copies env
+//in infinite loop, takes input, adds it to history
+//checks if exit was typed (TO BE REPLACED BY BUILTIN)
+//else check quotes qand remove extra spaces in input
+//parses that shit and tokenize it
 
 int	g_status = 0;
 
@@ -60,21 +65,14 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 				break;
 			}
-			if (input && *input)
-				add_history(input);
-			if (ft_strncmp(input, "exit", 4) == 0) {
-				free(input);
-				break;
-			} else {
-				if (ft_strncmp(input, "exit", 4) == 0) {
-					free(input);
-					break;
-				}
-				if (between_quotes(input) == 0)
-					input = remove_xtra_spaces(input);
-				printf("Cleaned input is : %s\n", input);
-				blocks = init_parse(input);
-				init_tokenizer(blocks, env_copy);
+			if (between_quotes(input) == 0)
+				input = remove_xtra_spaces(input);
+			/* printf("Cleaned input is : %s\n", input); */
+			blocks = init_parse(input);
+			if (init_tokenizer(blocks, env_copy) == -1)
+			{
+				printf("Error: %s: command not found\n", input);
+				handling_signals(input);
 			}
 		}
 	}

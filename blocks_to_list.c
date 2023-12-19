@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/01 15:12:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:17:31 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	is_executable_command(char *node)
 		{
 			free_string_array(dirs);
 			free(full_path);
-			printf("%s exists and is executable\n", node);
+			/* printf("%s exists and is executable\n", node); */
 			return (0);
 		}
 		free(full_path);
 		i++;
 	}
 	free_string_array(dirs);
-	ft_putendl_fd("CMD does NOT exist OR is NOT executable", 1);
+	/* ft_putendl_fd("CMD does NOT exist OR is NOT executable", 1); */
 	return (1);
 }

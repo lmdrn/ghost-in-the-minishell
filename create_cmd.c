@@ -6,19 +6,13 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 19:43:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/16 15:19:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//todo
-//1. create a new List
-//2. create and alloc mem for each node
-//3. each node should be delimited by a |
-//4. ur guuud to go mothafucka
-
-t_commande	*create_cmd_node(char *name)
+t_commande	*create_cmd_node(char *name, t_environment *env_copy, t_type *tokens)
 {
 	t_commande	*node;
 
@@ -35,13 +29,15 @@ t_commande	*create_cmd_node(char *name)
 		exit(1);
 	}
 	node->args = NULL;
-	node->fdin = NULL;
-	node->fdout = NULL;
+	node->fdin = STDIN_FILENO;
+	node->fdout = STDOUT_FILENO;
+	node->tokens = tokens;
+	node->env_copy = env_copy;
 	node->next = NULL;
 	return (node);
 }
 
-void	append_args(t_commande *command, char *arg)
+void	append_args(t_commande *command, char *arg, int type)
 {
 	t_args	*new_arg;
 	t_args	*current;
@@ -53,6 +49,7 @@ void	append_args(t_commande *command, char *arg)
 		exit(1);
 	}
 	new_arg->arg = ft_strdup(arg);
+	new_arg->type = type;
 	if (new_arg->arg == NULL)
 	{
 		printf("Duplicate error\n");
@@ -75,7 +72,8 @@ void	append_args(t_commande *command, char *arg)
 	}
 }
 
-t_commande	*command_list(t_type *tokens, int *pipe_count, int *cmd_count)
+t_commande	*command_list(t_type *tokens, int *pipe_count,
+			int *cmd_count, t_environment *env_copy)
 {
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
@@ -94,11 +92,16 @@ t_commande	*command_list(t_type *tokens, int *pipe_count, int *cmd_count)
 		if (current->type == cmd || current->type == builtin)
 		{
 			(*cmd_count)++;
-			new_cmd = create_cmd_node(current->text);
+			new_cmd = create_cmd_node(current->text, env_copy, tokens);
 			current = current->next;
-			while (current != NULL && current->type == args)
+			while (current != NULL
+				&& (current->type == args
+					|| current->type == ch_d
+					|| current->type == ch_g
+					|| current->type == dbl_ch_g
+					|| current->type == dbl_ch_d))
 			{
-				append_args(new_cmd, current->text);
+				append_args(new_cmd, current->text, current->type);
 				current = current->next;
 			}
 			if (cmd_head == NULL)
@@ -119,8 +122,7 @@ t_commande	*command_list(t_type *tokens, int *pipe_count, int *cmd_count)
 		}
 		else
 		{
-			printf("Unexpected node type\n");
-			exit(1);
+			return (NULL);
 		}
 	}
 	return (cmd_head);

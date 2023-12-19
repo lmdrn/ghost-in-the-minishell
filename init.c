@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:54:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:07:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ char	**init_parse(const char *input)
 	wc = 0;
 	while (blocks[wc] != NULL)
 		wc++;
-	printf("Word count is %d\n", wc);
+	/* printf("Word count is %d\n", wc); */
 	i = 0;
 	while (i < block_count)
 	{
-		printf("Block %d: %s\n", i, blocks[i]);
+		/* printf("Block %d: %s\n", i, blocks[i]); */
 		i++;
 	}
 	return (blocks);
@@ -59,31 +59,64 @@ char	**init_parse(const char *input)
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
-void	init_tokenizer(char **blocks, t_environment *env_copy)
+int	init_tokenizer(char **blocks, t_environment *env_copy)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
 	int			pipe_count;
 	int			cmd_count;
+	/* int			flag; */
 
 	tokens = NULL;
+	/* flag = 0; */
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
-	cmd_lst = command_list(tokens, &pipe_count, &cmd_count);
-	printf("\nPipe nbr is %d and Cmd nbr is %d\n\n",
-		pipe_count, cmd_count);
-	if (cmd_lst != NULL)
+	cmd_lst = command_list(tokens, &pipe_count, &cmd_count, env_copy);
+	if (cmd_lst == NULL)
 	{
-		printf("Command list:\n");
-		print_commande_list(cmd_lst);
+		return (-1);
 	}
-	if (is_odd_or_even(&pipe_count, &cmd_count) == 2)
+	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
+	/* 	pipe_count, cmd_count); */
+	/* if (cmd_lst != NULL) */
+	/* { */
+	/* 	/1* printf("Command list:\n"); *1/ */
+	/* 	print_commande_list(cmd_lst); */
+	/* } */
+	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
+	/* { */
+	/* 	if (tokens->type == 1) */
+	/* 		which_builtin(cmd_lst); */
+	/* 	else if (tokens->type == 0) */
+	/* 	{ */
+	/* 		while (tokens != NULL) */
+	/* 		{ */
+	/* 			if (tokens->type == 9) */
+	/* 			{ */
+	/* 				/1* printf("je suis execute_redir\n"); *1/ */
+	/* 				execute_redir(cmd_lst, env_copy); */
+	/* 				flag = 1; */
+	/* 				break ; */
+	/* 			} */
+	/* 			tokens = tokens->next; */
+	/* 		} */
+	/* 		if (flag == 0) */
+	/* 		{ */
+	/* 			/1* printf("je suis only_one_cmd\n"); *1/ */
+	/* 			only_one_cmd(cmd_lst, env_copy); */
+	/* 		} */
+	/* 	} */
+	/* } */
+	/* else if (is_odd_or_even(&pipe_count, &cmd_count) == 1 */
+	/* 	|| is_odd_or_even(&pipe_count, &cmd_count) == 2) */
+	/* 	execute_pipeline(cmd_lst, env_copy); */
+	assign_fds(cmd_lst);
+	while (cmd_lst != NULL)
 	{
-		if (tokens->type == 1)
-			which_builtin(cmd_lst, env_copy);
-		else if (tokens->type == 0)
-			duplicate_process(cmd_lst, env_copy);
+		assign_redir(cmd_lst);
+		send_to_execution(cmd_lst, env_copy);
+		cmd_lst = cmd_lst->next;
 	}
-	free_commande_list(cmd_lst);
-	free_env_struct(env_copy);
+	clear_commande_list(&cmd_lst);
+	return (0);
 }

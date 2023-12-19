@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/13 11:47:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/06 14:19:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 		}
 		i++;
 	}
-	printf("single: %d\n", in_sq);
-	printf("double: %d\n", in_dq);
+	/* printf("single: %d\n", in_sq); */
+	/* printf("double: %d\n", in_dq); */
 	ft_last_block(str, blocks, block_index, start);
 	blocks[block_index + 1] = NULL;
 	if (in_dq % 2 == 0 && in_sq % 2 != 0)
