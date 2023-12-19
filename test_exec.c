@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/18 11:09:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:53:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 	if (curr_cmd->pid == 0)
 	{
 		printf("curr fdin is %d\n", curr_cmd->fdin);
-		if (curr_cmd->fdin > 2)
+		if (curr_cmd->fdin != STDIN_FILENO)
 		{
 			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
 			{
@@ -279,7 +279,7 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 			close(curr_cmd->fdin);
 		}
 		printf("before curr fdout is %d\n", curr_cmd->fdout);
-		if (curr_cmd->fdout > 2)
+		if (curr_cmd->fdout != STDOUT_FILENO)
 		{
 			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
 			{
@@ -296,10 +296,11 @@ void	fork_it2(t_commande *cmd, t_environment *env_copy)
 	}
 	else
 	{
-		if (curr_cmd->fdin > 2)
-			close(curr_cmd->fdin);
-		if (curr_cmd->fdout > 2)
+		if (curr_cmd->fdin != STDIN_FILENO)
+			close(cmd->fdin);
+		if (curr_cmd->fdout != STDOUT_FILENO)
 			close(curr_cmd->fdout);
+		waitpid(curr_cmd->pid, NULL, 0);
 	}
 }
 

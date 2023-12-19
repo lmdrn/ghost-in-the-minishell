@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/18 11:08:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:53:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,13 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	/* else if (is_odd_or_even(&pipe_count, &cmd_count) == 1 */
 	/* 	|| is_odd_or_even(&pipe_count, &cmd_count) == 2) */
 	/* 	execute_pipeline(cmd_lst, env_copy); */
+	assign_fds2(cmd_lst);
 	while (cmd_lst != NULL)
 	{
-		assign_fds2(cmd_lst);
 		assign_redir(cmd_lst);
 		fork_it2(cmd_lst, env_copy);
-		wait_for_children2(cmd_lst);
-		close_fds2(cmd_lst);
+		/* wait_for_children2(cmd_lst); */
+		/* close_fds2(cmd_lst); */
 		cmd_lst = cmd_lst->next;
 	}
 	clear_commande_list(&cmd_lst);
