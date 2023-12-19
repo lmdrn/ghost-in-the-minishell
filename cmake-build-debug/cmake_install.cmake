@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+# Install script for directory: /Users/angnguye/projet_42/ghostintheminishell
+=======
 # Install script for directory: /Users/angnguye/projet_42/MINISHELL
+>>>>>>> master
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +49,9 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
+<<<<<<< HEAD
+file(WRITE "/Users/angnguye/projet_42/ghostintheminishell/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+=======
 file(WRITE "/Users/angnguye/projet_42/MINISHELL/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+>>>>>>> master
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

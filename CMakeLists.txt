@@ -1,11 +1,20 @@
+<<<<<<< HEAD
+cmake_minimum_required(VERSION 3.21)
+project(miiiiiiiii_cd C)
+=======
 cmake_minimum_required(VERSION 3.22)
 project(MINISHELL C)
+>>>>>>> master
 
 set(CMAKE_C_STANDARD 11)
 
 include_directories(.)
 include_directories(libft)
 
+<<<<<<< HEAD
+add_executable(miiiiiiiii_cd
+        built_in/cd.c
+=======
 
 # Chemin vers le répertoire d'installation de Readline
 set(READLINE_INSTALL_PATH "/Users/angnguye/.brew/opt/readline")
@@ -21,6 +30,7 @@ add_executable(MINISHELL
         built_in/cd/cd.c
         built_in/cd/check_cd.c
         built_in/echo.c
+>>>>>>> master
         libft/ft_atoi.c
         libft/ft_bzero.c
         libft/ft_calloc.c
@@ -83,7 +93,16 @@ add_executable(MINISHELL
         quotes.c
         send_to_builtin_exec.c
         send_to_execution.c
+<<<<<<< HEAD
+        send_to_pipes.c
+        signals.c
+        test_chdir.c
+        tokenization.c
+        utils.c
+        utils_2.c built_in/export.c)
+=======
         signals.c
         tokenization.c
         utils.c
         utils_2.c)
+>>>>>>> master
