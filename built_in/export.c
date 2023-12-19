@@ -217,7 +217,7 @@ void double_env(t_environment **env_copy, int size_total, int factor)
 
 		new_env[size_total].key = NULL;
 		new_env[size_total].value = NULL;
-//		free(*env_copy); // Libère l'ancien tableau
+		//free(*env_copy); // Libère l'ancien tableau
 		*env_copy = new_env; // Met à jour le pointeur
 	}
 	return ;
@@ -277,7 +277,7 @@ void remplace_old_value(char *value, int index, t_environment **env_copy)
 
 int	create_more_space (t_environment **env_copy, int size_total)
 {
-	double_env(env_copy, size_total, 2);
+	double_env(env_copy, size_total, 2); // avant juste env_copy
 	printf("yes c'est plus grand\n");
 	//print_env_builtin_export(*env_copy);
 	//yeah...ca print bien tout le tableau
@@ -286,7 +286,7 @@ int	create_more_space (t_environment **env_copy, int size_total)
 
 int check_env_is_full();
 
-int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size_filled_env, int size_total)
+int fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args, int size_filled_env, int size_total) // *env_copy
 {
 	t_commande *current = cmd_lst;
 	char *key;
@@ -297,7 +297,7 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 	{
 		value = get_value_export(current->args->arg);
 		key = get_key_export(current->args->arg);
-		index = if_exist_in_env(key, env_copy, size_filled_env);
+		index = if_exist_in_env(key, *env_copy, size_filled_env);
 		printf("index = %d\n", index);
 		printf("value = %s\n", value);
 		printf("key = %s\n", key);
@@ -313,19 +313,18 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 //			}
 			if (size_filled_env == size_total)
 			{
-				create_more_space(&env_copy, size_total); // is okaaaay
+				create_more_space(env_copy, size_total); // is okaaaay
 				size_total *= 2;
 			}
 
-			size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env); // a check 18.12
-			//size_filled_env++;
+			size_filled_env = fill_slot(key, value, *env_copy, index, size_filled_env); // a check 18.12
 			printf("size_total selon variable = %d\n", size_total);
-			printf("real size total : %d \n", calculate_size_env(env_copy));
+			printf("real size total : %d \n", calculate_size_env(*env_copy));
 			printf("size_filled_env = %d\n", size_filled_env);
 		}
 		else
 		{
-			remplace_old_value(value, index, &env_copy);
+			remplace_old_value(value, index, env_copy);
 			printf("on a juste remplacer la valeur \n");
 		}
 		if (key != NULL)
@@ -365,7 +364,7 @@ int calculate_size_env(t_environment *env_copy)//size total
 	int count;
 
 	count = 0;
-	while (env_copy[count].key != NULL)
+	while (env_copy[count].key != NULL && env_copy[count].value != NULL)
 		count++;
 	return (count);
 }
@@ -394,27 +393,27 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 {
 
 	int nb_args;
-//	int valid_args;
 	int size_filled_env;
 	int size_total;
 
-//	printf("\n avant :export_main =  %s\n\n", cmd_lst->args->arg);
-	size_filled_env = calculate_sizes_filled(*env_copy);
+	size_filled_env = calculate_sizes_filled(*env_copy); // comme si calcule une copy en env
 	size_total = calculate_size_env(*env_copy);
-	printf("---------\n\nsize_total %d\n", size_total);
-	printf("size_filled %d\n\n-----------", size_filled_env);
+	printf("---------\n\nsize_total debut %d\n", size_total);
+	printf("size_filled debut %d\n\n-----------", size_filled_env);
 	nb_args = count_args_export(cmd_lst);
-	if (nb_args == -1) {
+	if (nb_args == -1)
 		return (ERROR);
-	}
+
 	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
-	fill_env(cmd_lst, *env_copy, nb_args, size_filled_env, size_total);
-	size_filled_env = calculate_sizes_filled(*env_copy);
+	fill_env(cmd_lst, env_copy, nb_args, size_filled_env, size_total);
+
+	size_total = calculate_size_env(*env_copy);
+	size_filled_env = calculate_sizes_filled(*env_copy); // manque de 1...
 	printf("========================\n");
-	printf("size_total apres filled = %d\n", size_total);
-	printf("size_filled_env = %d\n", size_filled_env);
+	printf("apres size_total apres filled = %d\n", size_total);
+	printf("apres size_filled_env = %d\n", size_filled_env);
 	//printf("Après l'allocation : key = %s, value = %s\n", (env_copy)[size_filled_env]->key, (env_copy)[size_filled_env]->value);
-	print_env_builtin_export(*env_copy);
+	//print_env_builtin_export(*env_copy);
 
 	return (SUCCESS);
 
