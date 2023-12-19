@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:45:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:01:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ void			init_output(t_commande *curr_cmd, t_commande *cmd);
 /* ooo - output_utils - ooo */
 char			*find_filename(t_commande *cmd);
 int				create_output_file(t_commande *cmd);
-void			dup_and_close(int *pipe_fd, t_commande *cmd, int output_file);
 void			close_fds_output(int output_file, int *pipe_fd);
 void			pipe_fd_output(int *pipe_fd, int output_file);
 char			*create_filename(t_commande *cmd);
@@ -211,7 +210,10 @@ int				is_odd_or_even(int *pipe_count, int *cmd_count);
 
 /* ooo - send_to_pipes - ooo*/
 
-
+void			close_fds(t_commande *current_cmd, t_commande *cmd);
+void			wait_for_children(t_commande *cmd);
+void			send_to_execution(t_commande *cmd, t_environment *env_copy);
+void			dup_and_close(int fd);
 
 /* ooo - signals - ooo */
 
@@ -244,9 +246,6 @@ int				create_input_redir(char *filename, t_commande *cmd);
 int				create_append(char *filename, t_commande *cmd);
 int				heredoc_fd(char *del);
 int				create_heredoc(char *filename, t_commande *cmd);
-void			close_fds(t_commande *cmd);
-void			wait_for_children(t_commande *cmd);
-void			send_to_execution(t_commande *cmd, t_environment *env_copy);
 void			assign_redir(t_commande *cmd);
 int				has_redir(t_commande *cmd);
 

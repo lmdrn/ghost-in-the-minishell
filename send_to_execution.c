@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:44:25 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:39:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 14:49:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,4 @@ int	is_odd_or_even(int *pipe_count, int *cmd_count)
 		printf("Error: Not enough cmds or pipes\n");
 	}
 	return (0);
-}
-
-//fucntion that forks process when cmd is found, then sends to execve
-//Only works if only ONE CMD
-void	only_one_cmd(t_commande *cmd_lst, t_environment *env_copy)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("Woopsie, fork did not work...\n");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		execute_basic_cmd(cmd_lst, env_copy);
-	}
-	else
-	{
-		wait(&g_status);
-		printf("Waiting succesful, command has been executed\n");
-	}
 }

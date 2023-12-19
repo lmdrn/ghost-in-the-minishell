@@ -6,11 +6,40 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:28:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:01:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_fds(t_commande *curr_cmd, t_commande *cmd)
+{
+	if (curr_cmd->fdin != STDIN_FILENO)
+		close(cmd->fdin);
+	if (curr_cmd->fdout != STDOUT_FILENO)
+		close(curr_cmd->fdout);
+	wait_for_children(curr_cmd);
+}
+
+void	dup_and_close_fdin(t_commande *curr_cmd)
+{
+	if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
+	{
+		perror("fdin dup did not work\n");
+		exit(EXIT_FAILURE);
+	}
+	close(curr_cmd->fdin);
+}
+
+void	dup_and_close_fdout(t_commande *curr_cmd)
+{
+	if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
+	{
+		perror("fdout dup did not work\n");
+		exit(EXIT_FAILURE);
+	}
+	close(curr_cmd->fdout);
+}
 
 void	send_to_execution(t_commande *cmd, t_environment *env_copy)
 {
@@ -25,54 +54,16 @@ void	send_to_execution(t_commande *cmd, t_environment *env_copy)
 	}
 	if (curr_cmd->pid == 0)
 	{
-		printf("curr fdin is %d\n", curr_cmd->fdin);
 		if (curr_cmd->fdin != STDIN_FILENO)
-		{
-			if (dup2(curr_cmd->fdin, STDIN_FILENO) == -1)
-			{
-				perror("fdin dup did not work\n");
-				exit(EXIT_FAILURE);
-			}
-			close(curr_cmd->fdin);
-		}
-		printf("before curr fdout is %d\n", curr_cmd->fdout);
+			dup_and_close_fdin(curr_cmd);
 		if (curr_cmd->fdout != STDOUT_FILENO)
-		{
-			if (dup2(curr_cmd->fdout, STDOUT_FILENO) == -1)
-			{
-				perror("fdout dup did not work\n");
-				exit(EXIT_FAILURE);
-			}
-			close(curr_cmd->fdout);
-		}
-		printf("after curr fdout is %d\n", curr_cmd->fdout);
+			dup_and_close_fdout(curr_cmd);
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
 		exit(EXIT_SUCCESS);
 	}
 	else
-	{
-		if (curr_cmd->fdin != STDIN_FILENO)
-			close(cmd->fdin);
-		if (curr_cmd->fdout != STDOUT_FILENO)
-			close(curr_cmd->fdout);
-		wait_for_children(curr_cmd);
-	}
-}
-
-void	close_fds(t_commande *cmd)
-{
-	t_commande	*curr_cmd;
-
-	curr_cmd = cmd;
-	while (curr_cmd != NULL)
-	{
-		if (curr_cmd->fdin > 2)
-			close(curr_cmd->fdin);
-		if (curr_cmd->fdout > 2)
-			close(curr_cmd->fdout);
-		curr_cmd = curr_cmd->next;
-	}
+		close_fds(curr_cmd, cmd);
 }
 
 void	wait_for_children(t_commande *cmd)
