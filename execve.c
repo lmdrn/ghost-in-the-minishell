@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 18:13:06 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:06:22 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	if (!argv)
 		return (NULL);
 	argv[0] = find_executable_path(cmd->cmd, env_copy);
-	printf("argv0 is %s\n", argv[0]);
+	/* printf("argv0 is %s\n", argv[0]); */
 	if (!argv[0])
 		return (NULL);
 	i = 1;
@@ -131,7 +131,7 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 			break ;
 		else
 		{
-			printf("Arg: %s\n", arg->arg);
+			/* printf("Arg: %s\n", arg->arg); */
 			argv[i] = ft_strdup(arg->arg);
 			if (!argv[i])
 			{

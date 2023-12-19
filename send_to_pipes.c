@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 15:01:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:07:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	wait_for_children(t_commande *cmd)
 	t_commande	*curr_cmd;
 
 	curr_cmd = cmd;
-	printf("g status is %d\n", g_status);
+	/* printf("g status is %d\n", g_status); */
 	while (curr_cmd != NULL)
 	{
 		if (curr_cmd->pid > 0)
@@ -86,7 +86,7 @@ void	wait_for_children(t_commande *cmd)
 			if (WIFEXITED(curr_cmd->wait_status))
 			{
 				g_status = WEXITSTATUS(curr_cmd->wait_status);
-				printf("Child proccess exited with status %d\n", g_status);
+				/* printf("Child proccess exited with status %d\n", g_status); */
 			}
 		}
 		curr_cmd = curr_cmd->next;

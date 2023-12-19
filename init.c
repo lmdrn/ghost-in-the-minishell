@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:29:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/19 15:07:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	}
 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
 	/* 	pipe_count, cmd_count); */
-	if (cmd_lst != NULL)
-	{
-		/* printf("Command list:\n"); */
-		print_commande_list(cmd_lst);
-	}
+	/* if (cmd_lst != NULL) */
+	/* { */
+	/* 	/1* printf("Command list:\n"); *1/ */
+	/* 	print_commande_list(cmd_lst); */
+	/* } */
 	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
 	/* { */
 	/* 	if (tokens->type == 1) */
