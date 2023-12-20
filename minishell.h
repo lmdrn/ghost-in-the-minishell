@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 21:53:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:58:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,13 @@ int				check_path(char *path);
 t_environment	*copy_env(char **envp);
 void			free_env_struct(t_environment *env_struct);
 
+/* ooo - clean_cmd - ooo */
+
+int				count_word_node(t_type *node);
+
 /* ooo - create_cmd - ooo */
 
 t_commande		*command_list(t_type *tokens, t_environment *env_copy);
-
-/* ooo - create_cmd - ooo */
-
 int				is_args_or_redir(t_type *current);
 
 /* ooo - create_lst - ooo */
@@ -180,6 +181,15 @@ t_type			*init_lst(char **blocks, t_type *node, t_environment *env_copy);
 int				block_count(char const *str, char c);
 char			**ft_parsing_split(const char *input, char c, int *wc);
 void			ft_free_parsing_split(char **blocks);
+void			ft_last_block(const char *str, char **blocks,
+					int bi, int start);
+
+/* ooo - custom_parsing_split_utils - ooo */
+
+int				block_malloc(int i, int start, char **blocks, int block_index);
+void			add_last_block(const char *str, char **blocks,
+					int block_index, int start);
+void			quote_check(int in_dq, int in_sq);
 
 /* ooo - error - ooo */
 

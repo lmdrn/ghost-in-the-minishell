@@ -6,31 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 14:19:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 22:37:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	block_count(char const *str, char c)
-{
-	int	count;
-	int	i;
-	int	in_q;
-
-	i = 0;
-	count = 0;
-	in_q = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			in_q = 1 - in_q;
-		if (str[i] == c && !in_q)
-			count++;
-		i++;
-	}
-	return (count + 1);
-}
 
 void	ft_last_block(const char *str, char **blocks, int bi, int start)
 {
@@ -49,14 +29,12 @@ void	ft_last_block(const char *str, char **blocks, int bi, int start)
 
 void	ft_block(const char *str, char **blocks, int start, int block_index)
 {
-	int		block_len;
 	int		i;
-	char	c;
+	int		block_len;
 	int		in_sq;
 	int		in_dq;
 
 	i = 0;
-	c = ' ';
 	in_sq = 0;
 	in_dq = 0;
 	while (str[i])
@@ -65,15 +43,9 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 			in_sq = !in_sq;
 		else if (str[i] == '\"')
 			in_dq = !in_dq;
-		else if (str[i] == c && !in_sq && !in_dq)
+		else if (str[i] == ' ' && !in_sq && !in_dq)
 		{
-			block_len = i - start;
-			blocks[block_index] = malloc(sizeof(char) * (block_len + 1));
-			if (blocks[block_index] == NULL)
-			{
-				printf("2nd mem alloc failed\n");
-				exit(1);
-			}
+			block_len = block_malloc(i, start, blocks, block_index);
 			ft_strncpy(blocks[block_index], str + start, block_len);
 			blocks[block_index][block_len] = '\0';
 			start = i + 1;
@@ -81,24 +53,8 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 		}
 		i++;
 	}
-	/* printf("single: %d\n", in_sq); */
-	/* printf("double: %d\n", in_dq); */
-	ft_last_block(str, blocks, block_index, start);
-	blocks[block_index + 1] = NULL;
-	if (in_dq % 2 == 0 && in_sq % 2 != 0)
-		printf("\033[1;31mUnclosed single quote in a double quote\e[0m\n");
-	else if (in_dq % 2 != 0 && in_sq % 2 == 0)
-		printf("\033[1;31mUnclosed double quote in a single quote\e[0m\n");
-	else if (in_sq % 2 != 0 && in_dq == 0)
-	{
-		printf("\033[1;31mError! Odd number of single quotes\e[0m\n");
-		exit(1);
-	}
-	else if (in_dq % 2 != 0 && in_sq == 0)
-	{
-		printf("\033[1;31mError! Odd number of double quotes\e[0m\n");
-		exit(1);
-	}
+	add_last_block(str, blocks, block_index, start);
+	quote_check(in_dq, in_sq);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)
@@ -120,17 +76,4 @@ char	**ft_parsing_split(const char *str, char c, int *wc)
 	ft_block(str, blocks, start, block_index);
 	*wc = count + 1;
 	return (blocks);
-}
-
-void	ft_free_parsing_split(char **blocks)
-{
-	int	i;
-
-	i = 0;
-	while (blocks[i] != NULL)
-	{
-		free(blocks[i]);
-		i++;
-	}
-	free(blocks);
 }
