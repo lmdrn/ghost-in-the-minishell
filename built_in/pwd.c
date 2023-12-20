@@ -5,7 +5,7 @@
 // Déclarations des prototypes de fonction
 void free_env_list(t_environment *head);
 void free_cmd_list(t_commande *head);
-int check_args(t_commande *cmd_lst);
+int check_args_pwd(t_commande *cmd_lst);
 int builtin_pwd( t_commande *cmd_lst);
 void free_cmd_list(t_commande *head)
 {
@@ -44,7 +44,7 @@ void free_env_list(t_environment *head)
 }
 
 
-int check_args(t_commande *cmd_lst)
+int check_args_pwd(t_commande *cmd_lst)
 {
 	t_commande *current = cmd_lst;
 
@@ -81,7 +81,7 @@ int	builtin_pwd( t_commande *cmd_lst)
 	actual_pwd = getcwd(NULL, 0);
 	if (actual_pwd != NULL)
 	{
-		if (check_args(cmd_lst) == SUCCESS)
+		if (check_args_pwd(cmd_lst) == SUCCESS)
 		{
 			printf("vous êtes ici : %s\n", actual_pwd);
 			return(SUCCESS);

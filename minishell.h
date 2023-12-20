@@ -159,21 +159,21 @@ char			*find_cmd_path(t_commande *cmd_lst, t_environment *env_copy);
 char			**find_cmd_args(t_commande *cmd_lst, t_environment *env_copy);
 char			**env_list_to_array(t_environment *env_copy);
 void			close_fds(t_commande *cmd);
-/*-------------cd-----------------------------*/
+/*-------------- builtin cd --------------*/
+int				check_args(t_commande *cmd_lst, t_environment *env_copy);
 int				ft_cd(t_environment *env_copy, char *path);
 void			add_node_at_end(t_environment *head, char *key, char *value);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
+char			*get_env_value(t_environment *env_copy, char *key);
 t_environment	*last_node(t_environment *head);
+int				go_last_directories(t_environment *env_copy, int hyphen);
 int				check_is_in_env(t_environment *env_copy, char *var);
 int				check_path(char *path);
-//int static		check_args_cd(t_commande *cmd_lst);
-void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
-int				go_home(t_environment *env_copy, char *home);
+void			update_pwd_oldpwd(t_environment *head, char *change_pwd);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
-char			*print_value(t_environment    *env_copy, char *key);
 /* -------------------pwd-----------------------------*/
-int check_args(t_commande *cmd_lst);
+int check_args_pwd(t_commande *cmd_lst);
 int builtin_pwd(t_commande *cmd_lst);
 /* -------------------env-----------------------------*/
 void print_env_builtin(t_environment  *env_copy);

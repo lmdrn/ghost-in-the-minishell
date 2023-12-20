@@ -1,20 +1,20 @@
 # ninja log v5
 2324	2728	1701888842477947702	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_memset.c.o	149d665accec968a
-1314	1500	1701888841253465373	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isascii.c.o	b494cdbf80c42aa2
-4547	4877	1701888844617138715	CMakeFiles/miiiiiiiii_cd.dir/send_to_pipes.c.o	e500b5364b10ac27
-4	1322	1701888841057762554	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_bzero.c.o	b6c8b6c9676106a
 3243	3545	1701888843302637119	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_strrchr.c.o	3d22aa9316be5809
 1317	1496	1701888841247393475	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isdigit.c.o	afc47d12184740f9
-1500	1931	1701888841687529627	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstadd_front_bonus.c.o	dfff600dd9798fc7
-1602	1934	1701888841690932888	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstdelone_bonus.c.o	d9f398b051cdd2ea
+4547	4877	1701888844617138715	CMakeFiles/miiiiiiiii_cd.dir/send_to_pipes.c.o	e500b5364b10ac27
+4	1322	1701888841057762554	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_bzero.c.o	b6c8b6c9676106a
+1314	1500	1701888841253465373	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isascii.c.o	b494cdbf80c42aa2
+1322	1757	1701888841473499103	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isprint.c.o	68c762c84e8b8be1
 3685	4082	1701888843835862133	CMakeFiles/miiiiiiiii_cd.dir/copy_env.c.o	6bbc11ff9ddf6a0a
 1496	1954	1701888841707455740	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstadd_back_bonus.c.o	db1d414d0dd48b77
-1322	1757	1701888841473499103	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isprint.c.o	68c762c84e8b8be1
 1757	2159	1701888841903950894	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstiter_bonus.c.o	b6ddc8a97bf0e124
+1500	1931	1701888841687529627	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstadd_front_bonus.c.o	dfff600dd9798fc7
 2150	2557	1701888842290089955	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_memcpy.c.o	df659016eaf23dc6
 5	1311	1701888841057632619	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_calloc.c.o	64f935478638ce04
 3071	3508	1701888843265837995	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_strncmp.c.o	80565583ac12784d
 9	1524	1701888841281616012	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isalpha.c.o	6e65cf2f819ebba2
+1602	1934	1701888841690932888	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstdelone_bonus.c.o	d9f398b051cdd2ea
 1524	1762	1701888841517480728	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstclear_bonus.c.o	b021235ac5c6b19b
 4082	4402	1701888844159679956	CMakeFiles/miiiiiiiii_cd.dir/free_lst.c.o	280809cae2531ab4
 1479	1759	1701888841516065808	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_itoa.c.o	d1ffcf83ee3cfb4c
