@@ -1,3 +1,11 @@
 ToolSet: 1.0 (local)Options: 
 
+<<<<<<< HEAD
 Options:-DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja
+=======
+<<<<<<< HEAD
+Options:
+=======
+Options:-DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja
+>>>>>>> master
+>>>>>>> master
