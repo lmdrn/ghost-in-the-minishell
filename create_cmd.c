@@ -6,13 +6,14 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/16 15:19:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:40:20 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_commande	*create_cmd_node(char *name, t_environment *env_copy, t_type *tokens)
+t_commande	*create_cmd_node(char *name, t_environment *env_copy,
+		t_type *tokens)
 {
 	t_commande	*node;
 
@@ -37,10 +38,9 @@ t_commande	*create_cmd_node(char *name, t_environment *env_copy, t_type *tokens)
 	return (node);
 }
 
-void	append_args(t_commande *command, char *arg, int type)
+t_args	*create_new_arg(char *arg, int type)
 {
 	t_args	*new_arg;
-	t_args	*current;
 
 	new_arg = malloc(sizeof(t_args));
 	if (new_arg == NULL)
@@ -56,6 +56,15 @@ void	append_args(t_commande *command, char *arg, int type)
 		exit(1);
 	}
 	new_arg->next = NULL;
+	return (new_arg);
+}
+
+void	append_args(t_commande *command, char *arg, int type)
+{
+	t_args	*new_arg;
+	t_args	*current;
+
+	new_arg = create_new_arg(arg, type);
 	if (command->args == NULL)
 		command->args = new_arg;
 	else

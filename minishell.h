@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 18:13:38 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:10:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,12 @@ void			assign_ch_droit(t_type *node, t_type *lst, t_type *next_node);
 /* ooo - blocks_to_list - ooo */
 
 int				is_executable_command(char *node);
+char			*get_full_path(char *dir, char *node);
+
+/* ooo - blocks_to_list_utils - ooo */
+
+void			free_string_array(char **array);
+char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - BUILTINS - ooo */
 

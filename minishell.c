@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/06 15:14:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:31:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,27 @@
 
 int	g_status = 0;
 
-void print_environment_list(t_environment *head)
-{
-	int node_number = 1;
-	t_environment *current = head;
-	while (current != NULL)
-	{
-		if (current->key != NULL && current->value != NULL)
-		{
-			printf("Node %d: key -> %s, value -> %s\n", node_number, current->key, current->value);
-		}
-		else
-		{
-			printf("Node %d: Incomplete or corrupted data\n", node_number);
-			break;
-		}
+/* void print_environment_list(t_environment *head) */
+/* { */
+/* 	int node_number = 1; */
+/* 	t_environment *current = head; */
+/* 	while (current != NULL) */
+/* 	{ */
+/* 		if (current->key != NULL && current->value != NULL) */
+/* 		{ */
+/* 			printf("Node %d: key -> %s, value -> %s\n", node_number, current->key, current->value); */
+/* 		} */
+/* 		else */
+/* 		{ */
+/* 			printf("Node %d: Incomplete or corrupted data\n", node_number); */
+/* 			break; */
+/* 		} */
 
-		current = current->next;
-		node_number++;
-	}
-}
+/* 		current = current->next; */
+/* 		node_number++; */
+/* 	} */
+/* } */
+
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
@@ -53,17 +54,27 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_prompt(input);
 	env_copy = init_env(envp);
-//	if (env_copy != NULL)
-//		print_environment_list(env_copy);
-	printf("\n--------------------------\n");
-	if (env_copy != NULL)
+	while (1)
 	{
-		while (1)
+		input = ft_prompt();
+		if (input == NULL)
 		{
-			input = ft_prompt();
-			if (input == NULL) {
+			free(input);
+			break ;
+		}
+		if (input && *input)
+			add_history (input);
+		if (ft_strncmp(input, "exit", 4) == 0)
+		{
+			free(input);
+			break ;
+		}
+		else
+		{
+			if (ft_strncmp(input, "exit", 4) == 0)
+			{
 				free(input);
-				break;
+				break ;
 			}
 			if (between_quotes(input) == 0)
 				input = remove_xtra_spaces(input);
@@ -76,6 +87,5 @@ int	main(int ac, char **av, char **envp)
 			}
 		}
 	}
-	printf ("moouarf\n");
 	return (0);
 }

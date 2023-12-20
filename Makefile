@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/20 10:14:59 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/12/20 19:11:58 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  send_to_pipes.c output_redir.c heredoc.c \
 			  redir_utils.c setup_redir.c input_redir.c \
 			  append.c built_in/cd.c built_in/echo.c \
-			  built_in/pwd.c built_in/env.c
+			  built_in/pwd.c built_in/env.c built_in_utils.c \
+			  blocks_to_list_utils.c
 
 OBJS 		= ${SRCS:.c=.o}
 
