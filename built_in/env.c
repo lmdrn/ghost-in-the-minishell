@@ -6,17 +6,18 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:55 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 09:53:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:19:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void print_env_builtin(t_environment  *env_copy)
+void	print_env_builtin(t_environment *env_copy)
 {
-	int                i;
+	int	i;
+
 	i = 0;
-	if (env_copy!= NULL)
+	if (env_copy != NULL)
 	{
 		while (env_copy[i].key != NULL)
 		{
@@ -25,7 +26,7 @@ void print_env_builtin(t_environment  *env_copy)
 				printf("\n");
 			i++;
 		}
-	} else
-		return;
-
+	}
+	else
+		return ;
 }

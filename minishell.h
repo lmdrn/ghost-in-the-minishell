@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 10:08:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:13:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,6 @@ int				is_executable_command(char *node);
 int				ft_cd(t_environment *env_copy, char *path);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
-int				check_is_in_env(t_environment *env_copy, char *var);
-int				check_path(char *path);
-void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
 int				go_home(t_environment *env_copy, char *home);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
 
@@ -146,6 +143,14 @@ void			print_env_builtin(t_environment *env_copy);
 
 int				check_args_pwd(t_commande *cmd_lst);
 int				builtin_pwd( t_commande *cmd_lst);
+void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
+
+/* ooo - built_in_utils  - ooo */
+
+int				check_is_in_env(t_environment *env_copy, char *var);
+void			print_value(t_environment *env_copy, char *key);
+char			*get_env_value(t_environment *env_copy, char *env_key);
+int				check_path(char *path);
 
 /* ooo - copy_env - ooo */
 
