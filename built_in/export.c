@@ -59,6 +59,64 @@ void print_env_builtin_export(t_environment  *env_copy)//fprint tout
 
 }
 
+void print_env_alphabet_analysis(t_environment *env_copy, int size_filled)
+{
+	// Chaîne de caractères représentant l'alphabet
+	char alphabet[26] = "abcdefghijklmnopqrstuvwxyz";
+	char alpha_big[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	// Indice pour chaque lettre de l'alphabet
+	int i ;
+	i = 0;
+	// Boucle pour chaque lettre de l'alphabet
+	int total_elements = 0;
+	int j;
+	while (i < 26 && total_elements <= size_filled)
+	{
+		char minus = alphabet[i];
+		char maj = alpha_big[i];
+
+		j = 0;
+
+		while (j <=size_filled )
+		{
+			if (env_copy[j].key != NULL && (env_copy[j].key[0] == minus || env_copy[j].key[0] == maj))
+			{
+				// Ajoutez votre logique d'impression ici, par exemple, imprimez les éléments qui commencent par la lettre courante
+				printf("%s=%s\n", env_copy[j].key, env_copy[j].value);
+				total_elements++;
+			}
+
+			j++;
+		}
+
+		i++;
+	}
+	i = 0;
+	while (i < 26 && total_elements < size_filled)
+	{
+		char minus = alphabet[i];
+		char maj = alpha_big[i];
+		j = 0;
+
+		while (j < size_filled)
+		{
+			if ((env_copy[j].key != NULL && (env_copy[j].key[0] == '_')) && strlen(env_copy[j].key) >= 4)
+			{
+				if (env_copy[j].key[3] == minus || env_copy[j].key[3] == maj)
+				{
+					// Ajoutez votre logique d'impression ici, par exemple, imprimez les éléments qui commencent par la lettre courante après '_'
+					printf("%s=%s\n", env_copy[j].key, env_copy[j].value);
+					total_elements++;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+
 void print_env_export(t_environment *env_copy, int size_filled)
 {
 	if (env_copy == NULL) {
@@ -185,7 +243,8 @@ int count_args_export(t_commande *cmd_lst) {
 void no_arg_so_print_env_exports(t_environment *env_copy, int nb_args, int size_filled)
 {
 	if (nb_args == 0)
-		print_env_export(env_copy, size_filled);
+		//print_env_export(env_copy, size_filled);
+		print_env_alphabet_analysis(env_copy, size_filled);
 }
 
 void double_env(t_environment **env_copy, int size_total, int factor)
@@ -403,23 +462,22 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 	nb_args = count_args_export(cmd_lst);
 	if (nb_args == -1)
 		return (ERROR);
-
+	printf("========================\n");
+	printf("apres size_total avant no _arg filled = %d\n", size_total);
+	printf("apres size_filled_env avant no _arg = %d\n", size_filled_env);
 	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
 	fill_env(cmd_lst, env_copy, nb_args, size_filled_env, size_total);
-
+	return (SUCCESS);
 	size_total = calculate_size_env(*env_copy);
 	size_filled_env = calculate_sizes_filled(*env_copy); // manque de 1...
-	printf("========================\n");
-	printf("apres size_total apres filled = %d\n", size_total);
-	printf("apres size_filled_env = %d\n", size_filled_env);
+
 	//printf("Après l'allocation : key = %s, value = %s\n", (env_copy)[size_filled_env]->key, (env_copy)[size_filled_env]->value);
 	//print_env_builtin_export(*env_copy);
 
 	return (SUCCESS);
 
 }
-//pas bien agrandi...parce que j;arrive pas a print
-/*------- tools--------*/
+
 
 
 
