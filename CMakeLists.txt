@@ -13,6 +13,8 @@ include_directories(libft)
 
 <<<<<<< HEAD
 add_executable(miiiiiiiii_cd
+<<<<<<< HEAD
+=======
         built_in/cd.c
 =======
 
@@ -30,6 +32,7 @@ add_executable(MINISHELL
         built_in/cd/cd.c
         built_in/cd/check_cd.c
         built_in/echo.c
+>>>>>>> master
 >>>>>>> master
         libft/ft_atoi.c
         libft/ft_bzero.c
@@ -99,10 +102,14 @@ add_executable(MINISHELL
         test_chdir.c
         tokenization.c
         utils.c
+<<<<<<< HEAD
+        utils_2.c)
+=======
         utils_2.c built_in/export.c)
 =======
         signals.c
         tokenization.c
         utils.c
         utils_2.c)
+>>>>>>> master
 >>>>>>> master

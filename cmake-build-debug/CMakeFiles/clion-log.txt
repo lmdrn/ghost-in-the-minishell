@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja /Users/angela/42/miiiiiiiii_cd
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/angela/42/miiiiiiiii_cd/cmake-build-debug
+=======
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S /Users/angnguye/projet_42/MINISHELL -B /Users/angnguye/projet_42/MINISHELL/cmake-build-debug
 -- The C compiler identification is AppleClang 12.0.0.12000032
 -- Detecting C compiler ABI info
@@ -8,3 +14,4 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/angnguye/projet_42/MINISHELL/cmake-build-debug
+>>>>>>> master
