@@ -52,8 +52,6 @@ int echo(t_commande *cmd_lst, t_environment *env_copy) // recoil le node apres "
 	return (0);
 }
 
-//int g_errno = 0;
-
 void ft_echo(char *str, t_environment *env_copy)//ajouter env_copy
 {
 	int i = 0;
@@ -101,47 +99,3 @@ int check_option_n(char *str) // verifie si le node apres echo est une option
 	return (0);
 
 }
-// Assurez-vous que vos structures et prototypes de fonctions sont déclarés ici.
-// ...
-
-
-//int main() {
-//	// Initialisation des structures
-//	t_commande command1;
-//	t_args arg1, arg2, arg3;
-//
-//	// Assignation des valeurs
-//	command1.cmd = strdup("echo"); // Utilisez votre propre fonction de duplication si nécessaire
-//	command1.next = NULL; // Pas d'autres commandes
-//
-//	arg1.arg = strdup("-nnnnnnn");
-//	arg1.next = &arg2; // Pointe vers le prochain argument
-//
-//	arg2.arg = strdup("hello");
-//	arg2.next = &arg3; // Pointe vers le prochain argument
-//
-//	arg3.arg = strdup("-n");
-//	arg3.next = NULL; // Dernier argument
-//
-//	// Lier la liste d'arguments à la commande
-//	command1.args = &arg1;
-//
-//	// Utilisation des structures
-//	t_args *current_arg = command1.args;
-//	int i = 0;
-//	while (current_arg != NULL)
-//	{
-//
-//		printf("node %d %s\n",i++, current_arg->arg);
-//		current_arg = current_arg->next;
-//	}
-//	echo(&command1);
-//	// Libération de la mémoire si nécessaire
-//	// Assurez-vous de libérer la mémoire pour chaque strdup utilisé précédemment
-//	free(command1.cmd);
-//	free(arg1.arg);
-//	free(arg2.arg);
-//	free(arg3.arg);
-//
-//	return 0;
-//}

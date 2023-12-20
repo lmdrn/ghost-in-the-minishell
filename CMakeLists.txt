@@ -7,7 +7,6 @@ include_directories(.)
 include_directories(libft)
 
 add_executable(miiiiiiiii_cd
-        built_in/cd.c
         libft/ft_atoi.c
         libft/ft_bzero.c
         libft/ft_calloc.c
