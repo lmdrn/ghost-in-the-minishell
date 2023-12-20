@@ -53,10 +53,10 @@ void which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 	{
-
 		export_main(cmd_lst, &env_copy);
-		printf("\n++++++++++++++++++++++++++++++++\n tableau apres le passage de export_main\n");
-		print_env_builtin_export(env_copy);
+		printf("++pointeur apres export main %p\n", &env_copy);
+//		printf("\n++++++++++++++++++++++++++++++++\n tableau apres le passage de export_main\n");
+//		print_env_builtin_export(env_copy);
 	}
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
 		printf("UNSET function should happen here\n");
@@ -66,4 +66,10 @@ void which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		printf("EXIT function should happen here\n");
 	else
 		printf("error happened\n");
+}
+
+int bloup(int i)
+{
+	i = 3;
+	return i;
 }

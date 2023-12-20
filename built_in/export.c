@@ -43,20 +43,14 @@ void print_env_builtin_export(t_environment  *env_copy)//fprint tout
 {
 	int                i;
 	i = 0;
-	if (env_copy!= NULL)
+	if (env_copy != NULL)
 	{
-		while ( env_copy[i].key != NULL)
+		while (env_copy[i].key != NULL)
 		{
-			printf("%s=%s", env_copy[i].key, env_copy[i].value);
-//			if (env_copy[i + 1].key != NULL)
-				printf("\n");
+			printf("%s=%s\n", env_copy[i].key, env_copy[i].value);
 			i++;
 		}
 	}
-	else
-		return;
-	printf("\n");
-
 }
 
 void print_env_alphabet_analysis(t_environment *env_copy, int size_filled)
@@ -240,11 +234,11 @@ int count_args_export(t_commande *cmd_lst) {
 	}
 }
 
-void no_arg_so_print_env_exports(t_environment *env_copy, int nb_args, int size_filled)
+void no_arg_so_print_env_exports(t_environment **env_copy, int nb_args, int size_filled)
 {
 	if (nb_args == 0)
 		//print_env_export(env_copy, size_filled);
-		print_env_alphabet_analysis(env_copy, size_filled);
+		print_env_alphabet_analysis(*env_copy, size_filled);
 }
 
 void double_env(t_environment **env_copy, int size_total, int factor)
@@ -351,18 +345,18 @@ int fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args, int siz
 	char *key;
 	char *value;
 	int index;
-	printf("\n\n------------\nnombre d'arguments %d\n",nb_args);
+//	printf("\n\n------------\nnombre d'arguments %d\n",nb_args);
 	while (nb_args != 0)
 	{
 		value = get_value_export(current->args->arg);
 		key = get_key_export(current->args->arg);
 		index = if_exist_in_env(key, *env_copy, size_filled_env);
-		printf("index = %d\n", index);
-		printf("value = %s\n", value);
-		printf("key = %s\n", key);
-		printf("size_total = %d\n", size_total);
-		printf("size_filled_env = %d\n", size_filled_env);
-		printf("\n------------------------");
+//		printf("index = %d\n", index);
+//		printf("value = %s\n", value);
+//		printf("key = %s\n", key);
+//		printf("size_total = %d\n", size_total);
+//		printf("size_filled_env = %d\n", size_filled_env);
+//		printf("\n------------------------");
 		if (index == -1) // need space
 		{
 //			if (size_filled_env < size_total)// encore place
@@ -377,9 +371,9 @@ int fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args, int siz
 			}
 
 			size_filled_env = fill_slot(key, value, *env_copy, index, size_filled_env); // a check 18.12
-			printf("size_total selon variable = %d\n", size_total);
-			printf("real size total : %d \n", calculate_size_env(*env_copy));
-			printf("size_filled_env = %d\n", size_filled_env);
+//			printf("size_total selon variable = %d\n", size_total);
+//			printf("real size total : %d \n", calculate_size_env(*env_copy));
+//			printf("size_filled_env = %d\n", size_filled_env);
 		}
 		else
 		{
@@ -457,22 +451,23 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 
 	size_filled_env = calculate_sizes_filled(*env_copy); // comme si calcule une copy en env
 	size_total = calculate_size_env(*env_copy);
-	printf("---------\n\nsize_total debut %d\n", size_total);
-	printf("size_filled debut %d\n\n-----------", size_filled_env);
 	nb_args = count_args_export(cmd_lst);
 	if (nb_args == -1)
 		return (ERROR);
 	printf("========================\n");
-	printf("apres size_total avant no _arg filled = %d\n", size_total);
-	printf("apres size_filled_env avant no _arg = %d\n", size_filled_env);
-	no_arg_so_print_env_exports(*env_copy, nb_args, size_filled_env);
+//	printf("apres size_total avant no _arg filled = %d\n", size_total);
+//	printf("apres size_filled_env avant no _arg = %d\n", size_filled_env);
+	printf("++pointeur avant, no_args %p\n", &env_copy);
+	no_arg_so_print_env_exports(env_copy, nb_args, size_filled_env);
+	printf("++pointeur apres no_args, avant fille_env %p\n", &env_copy);
 	fill_env(cmd_lst, env_copy, nb_args, size_filled_env, size_total);
-	return (SUCCESS);
+	printf("++pointeur apres fill_env %p\n", &env_copy);
+//	return (SUCCESS);
 	size_total = calculate_size_env(*env_copy);
 	size_filled_env = calculate_sizes_filled(*env_copy); // manque de 1...
 
 	//printf("Après l'allocation : key = %s, value = %s\n", (env_copy)[size_filled_env]->key, (env_copy)[size_filled_env]->value);
-	//print_env_builtin_export(*env_copy);
+//	print_env_builtin_export(*env_copy);
 
 	return (SUCCESS);
 
