@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/20 09:57:37 by lmedrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+
+static int	check_args_cd(t_commande *cmd_lst);
 
 void print_value(t_environment    *env_copy, char *key)
 {
@@ -12,17 +26,6 @@ void print_value(t_environment    *env_copy, char *key)
 	}
 }
 
-/* -------------------prototype-----------------------------*/
-int	ft_cd(t_environment *env_copy, char *path);
-int go_home(t_environment *env_copy, char *home);
-char *get_home(t_environment *head);
-int check_is_in_env(t_environment *env_copy, char *var);
-int check_path(char *path);
-int static	check_args_cd(t_commande *cmd_lst);
-void update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
-int go_home(t_environment *env_copy, char *home);
-int builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
-/*------ utils liste------*/
 char *get_env_value(t_environment *env_copy, char *env_key)
 {
 	t_environment *current;
@@ -35,9 +38,6 @@ char *get_env_value(t_environment *env_copy, char *env_key)
 	}
 	return (current->value);
 }
-
-
-
 
 int go_home(t_environment *env_copy, char *home)
 {
@@ -116,9 +116,7 @@ int check_path(char *path)
 	}
 }
 
-
-
-int static check_args_cd(t_commande *cmd_lst)
+static int check_args_cd(t_commande *cmd_lst)
 {
 	t_commande *current = cmd_lst;
 	t_commande *temp = cmd_lst;

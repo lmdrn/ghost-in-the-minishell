@@ -6,7 +6,7 @@
 #    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/19 15:04:30 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/12/20 10:14:59 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,10 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  copy_env.c send_to_builtin_exec.c quotes.c \
 			  utils_2.c expand_variable.c minishell.c \
 			  signals.c init.c send_to_execution.c \
-			  send_to_pipes.c \
-			 	./built_in/cd.c ./built_in/pwd.c ./built_in/env.c \
-			 	./built_in/export.c
-			  ./built_in/cd/cd.c \
-			  ./built_in/echo.c \
 			  send_to_pipes.c output_redir.c heredoc.c \
 			  redir_utils.c setup_redir.c input_redir.c \
-			  append.c
+			  append.c built_in/cd.c built_in/echo.c \
+			  built_in/pwd.c built_in/env.c
 
 OBJS 		= ${SRCS:.c=.o}
 
@@ -42,11 +38,11 @@ CC 		= gcc
 
 CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 
-CFLAGS		+= -fsanitize=address -g3
+CFLAGS		+= -fsanitize=address -g3 
 
 LIBFT =		-L./libft -lft
 
-READLINE =	-I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
+READLINE =	-I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline 
 
 RM		= rm -rf
 
@@ -58,10 +54,10 @@ ${NAME}:	${OBJS}
 			@$(BS_N_TXT)
 			@echo "$(RESET)$(ORANGE)ASSEMBLING $(NAME)$(RESET)"
 			@$(MAKE) -C libft --silent
-			@${CC} ${CFLAGS} ${READLINE} ${LIBFT} ${OBJS} -o ${NAME}
+			${CC} ${CFLAGS} ${OBJS} $(LIBFT) -o ${NAME} ${READLINE}
 			@echo "$(RESET)$(GREEN)$(NAME) HAS ASSEMBLED ✓$(RESET)"
 
-clean:
+clean:		
 			@echo "$(RESET)$(ORANGE)I'M CLEANING OUT MY CLOSET...$(RESET)"
 			@$(MAKE) -C libft clean
 			@echo "$(RESET)$(GREEN)CLEANED ✓$(RESET)"
@@ -69,7 +65,7 @@ clean:
 fclean:		clean
 			@echo "$(RESET)$(ORANGE)ONE MORE TIME...$(RESET)"
 			rm -f libft/libft.a
-			@${RM} ${OBJS} ${NAME}
+			${RM} ${OBJS} ${NAME}
 			@echo "$(RESET)$(GREEN)ALL CLEANED ✓✓$(RESET)"
 
 re:			fclean all

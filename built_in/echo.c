@@ -1,10 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/20 09:54:28 by lmedrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-void	ft_echo(char *str, t_environment *env_copy);
-int 	check_option_n(char *str);
-int		echo(t_commande *cmd_lst, t_environment *env_copy);
-
-
 
 int echo(t_commande *cmd_lst, t_environment *env_copy) // recoil le node apres "echo", navigue dans la liste entiere qui touche echo
 {

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 15:01:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:08:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 /* ooo - GLOBAL VARS - ooo */
 
@@ -118,6 +118,35 @@ void			assign_ch_droit(t_type *node, t_type *lst, t_type *next_node);
 
 int				is_executable_command(char *node);
 
+/* ooo - BUILTINS - ooo */
+
+/* ooo - cd - ooo */
+
+int				ft_cd(t_environment *env_copy, char *path);
+int				go_home(t_environment *env_copy, char *home);
+char			*get_home(t_environment *head);
+int				check_is_in_env(t_environment *env_copy, char *var);
+int				check_path(char *path);
+void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
+int				go_home(t_environment *env_copy, char *home);
+int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+
+/* ooo - echo - ooo */
+
+void			ft_echo(char *str, t_environment *env_copy);
+int				check_option_n(char *str);
+int				echo(t_commande *cmd_lst, t_environment *env_copy);
+char			*get_env_value(t_environment *env_copy, char *env_key);
+
+/* ooo - env - ooo */
+
+void			print_env_builtin(t_environment *env_copy);
+
+/* ooo - pwd - ooo */
+
+int				check_args_pwd(t_commande *cmd_lst);
+int				builtin_pwd( t_commande *cmd_lst);
+
 /* ooo - copy_env - ooo */
 
 t_environment	*copy_env(char **envp);
@@ -185,14 +214,6 @@ void			init_input(t_commande *curr_cmd, t_commande *cmd);
 int				create_output_redir(char *filename, t_commande *cmd);
 void			init_output(t_commande *curr_cmd, t_commande *cmd);
 
-/* ooo - output_utils - ooo */
-char			*find_filename(t_commande *cmd);
-int				create_output_file(t_commande *cmd);
-void			close_fds_output(int output_file, int *pipe_fd);
-void			pipe_fd_output(int *pipe_fd, int output_file);
-char			*create_filename(t_commande *cmd);
-int				create_output_file2(char *filename);
-
 /* ooo - prompt - ooo */
 
 void			ft_welcome(void);
@@ -205,9 +226,12 @@ t_type			*clean_cmd_type(t_type *node);
 char			*remove_xtra_spaces(char *input);
 int				between_quotes(char *str);
 
+/* ooo - redir_utils - ooo */
+char			*find_filename(t_commande *cmd);
+
 /* ooo - send_to_builtin_exec - ooo */
 
-void			which_builtin(t_commande *cmd_lst);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - send_to_execution - ooo*/
 
@@ -218,7 +242,13 @@ int				is_odd_or_even(int *pipe_count, int *cmd_count);
 void			close_fds(t_commande *current_cmd, t_commande *cmd);
 void			wait_for_children(t_commande *cmd);
 void			send_to_execution(t_commande *cmd, t_environment *env_copy);
-void			dup_and_close(int fd);
+void			dup_and_close_fdin(t_commande *curr_cmd);
+void			dup_and_close_fdout(t_commande *curr_cmd);
+
+/* ooo - setup_redir - ooo*/
+void			assign_fds(t_commande *cmd);
+void			assign_redir(t_commande *cmd);
+int				which_token(t_commande *cmd, int token);
 
 /* ooo - signals - ooo */
 
@@ -242,56 +272,4 @@ char			*concat_str(char *s1, char *s2);
 int				ft_isspace(char c);
 int				ft_strcmp(const char *s1, const char *s2);
 
-/* ooo - TEST EXEC - ooo */
-
-void			assign_fds(t_commande *cmd);
-t_commande		*is_last_cmd(t_commande *cmd);
-int				create_output_redir(char *filename, t_commande *cmd);
-int				create_input_redir(char *filename, t_commande *cmd);
-int				create_append(char *filename, t_commande *cmd);
-int				heredoc_fd(char *del);
-int				create_heredoc(char *filename, t_commande *cmd);
-void			assign_redir(t_commande *cmd);
-int				has_redir(t_commande *cmd);
-
-/*-------------- builtin cd --------------*/
-int				check_args(t_commande *cmd_lst, t_environment *env_copy);
-int				ft_cd(t_environment *env_copy, char *path);
-void			add_node_at_end(t_environment *head, char *key, char *value);
-int				go_home(t_environment *env_copy, char *home);
-char			*get_home(t_environment *head);
-char			*get_env_value(t_environment *env_copy, char *key);
-t_environment	*last_node(t_environment *head);
-int				go_last_directories(t_environment *env_copy, int hyphen);
-int				check_is_in_env(t_environment *env_copy, char *var);
-int				check_path(char *path);
-void			update_pwd_oldpwd(t_environment *head, char *change_pwd);
-int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
-/* --------------builtin echo --------------*/
-void ft_echo(char *str, t_environment *env_copy);
-int check_option_n(char *str);
-int echo(t_commande *cmd_lst, t_environment *env_copy);
-
-
-/*-------------cd-----------------------------*/
-int				ft_cd(t_environment *env_copy, char *path);
-void			add_node_at_end(t_environment *head, char *key, char *value);
-int				go_home(t_environment *env_copy, char *home);
-char			*get_home(t_environment *head);
-char			*get_env_value(t_environment *env_copy, char *key);
-t_environment	*last_node(t_environment *head);
-int				go_last_directories(t_environment *env_copy, int hyphen);
-int				check_is_in_env(t_environment *env_copy, char *var);
-int				check_path(char *path);
-void			update_pwd_oldpwd(t_environment *head, char *change_pwd);
-int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
-/* -------------------pwd-----------------------------*/
-int check_args_pwd(t_commande *cmd_lst);
-int builtin_pwd(t_commande *cmd_lst);
-/* -------------------env-----------------------------*/
-void print_env_builtin(t_environment  *env_copy);
-/* -------------------echo-----------------------------*/
-void	ft_echo(char *str, t_environment *env_copy);
-int 	check_option_n(char *str);
-int		echo(t_commande *cmd_lst, t_environment *env_copy);
 #endif

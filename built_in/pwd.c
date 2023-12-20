@@ -1,9 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/20 09:54:16 by lmedrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-
-int check_args_pwd(t_commande *cmd_lst);
-int builtin_pwd( t_commande *cmd_lst);
-
-
 
 int check_args_pwd(t_commande *cmd_lst)
 {
@@ -30,7 +37,6 @@ int check_args_pwd(t_commande *cmd_lst)
 	}
 	printf("Erreur : La commande 'pwd' ne doit pas être suivie d'autres commandes.\n");
 	return ERROR;
-
 }
 
 /* print direct depuis getcwd ou lire la liste..?*/

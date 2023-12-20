@@ -6,27 +6,29 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:38:58 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:51:10 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:12:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_env(t_environment    *env_copy)
+void	print_env(t_environment *env_copy)
 {
-	int                i;
+	int	i;
+
 	i = 0;
-	if (env_copy!= NULL)
+	if (env_copy != NULL)
 	{
 		while (env_copy[i].key != NULL)
 		{
 			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
 			i++;
 		}
-	} else
-		return;
-
+	}
+	else
+		return ;
 }
+
 void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
@@ -35,7 +37,6 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		builtin_pwd(cmd_lst);
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
 		builtin_cd(cmd_lst, env_copy);
-
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 		printf("EXPORT function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
