@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 19:10:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 21:53:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,11 @@ void			free_env_struct(t_environment *env_struct);
 
 /* ooo - create_cmd - ooo */
 
-t_commande		*command_list(t_type *tokens, int *pipe_count, int *cmd_count,
-					t_environment *env_copy);
+t_commande		*command_list(t_type *tokens, t_environment *env_copy);
+
+/* ooo - create_cmd - ooo */
+
+int				is_args_or_redir(t_type *current);
 
 /* ooo - create_lst - ooo */
 

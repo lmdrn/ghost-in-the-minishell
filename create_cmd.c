@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 19:40:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/20 21:52:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,38 +81,42 @@ void	append_args(t_commande *command, char *arg, int type)
 	}
 }
 
-t_commande	*command_list(t_type *tokens, int *pipe_count,
-			int *cmd_count, t_environment *env_copy)
+t_type	*process_command_args(t_commande *new_cmd, t_type *tokens)
+{
+	t_type	*current;
+	t_type	*remaining;
+
+	current = tokens;
+	remaining = NULL;
+	if (current != NULL && (current->type == cmd || current->type == builtin))
+		current = current->next;
+	while (current != NULL && is_args_or_redir(current) == 0
+		&& current->type != is_pipe)
+	{
+		append_args(new_cmd, current->text, current->type);
+		remaining = current->next;
+		current = remaining;
+	}
+	if (current != NULL && current->type == is_pipe && current->text[0] == '|')
+		remaining = current->next;
+	new_cmd->tokens = remaining;
+	return (remaining);
+}
+
+t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 {
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
 	t_commande	*new_cmd;
-	t_type		*current;
-	char		del;
 
-	del = '|';
 	cmd_head = NULL;
 	cmd_current = NULL;
-	current = tokens;
-	*pipe_count = 0;
-	*cmd_count = 0;
-	while (current != NULL)
+	while (tokens != NULL)
 	{
-		if (current->type == cmd || current->type == builtin)
+		if (tokens->type == cmd || tokens->type == builtin)
 		{
-			(*cmd_count)++;
-			new_cmd = create_cmd_node(current->text, env_copy, tokens);
-			current = current->next;
-			while (current != NULL
-				&& (current->type == args
-					|| current->type == ch_d
-					|| current->type == ch_g
-					|| current->type == dbl_ch_g
-					|| current->type == dbl_ch_d))
-			{
-				append_args(new_cmd, current->text, current->type);
-				current = current->next;
-			}
+			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
+			tokens = process_command_args(new_cmd, tokens);
 			if (cmd_head == NULL)
 			{
 				cmd_head = new_cmd;
@@ -123,15 +127,6 @@ t_commande	*command_list(t_type *tokens, int *pipe_count,
 				cmd_current->next = new_cmd;
 				cmd_current = new_cmd;
 			}
-		}
-		else if (current->type == is_pipe && current->text[0] == del)
-		{
-			(*pipe_count)++;
-			current = current->next;
-		}
-		else
-		{
-			return (NULL);
 		}
 	}
 	return (cmd_head);
