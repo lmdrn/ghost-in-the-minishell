@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 12:22:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/21 14:50:41 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,9 +222,16 @@ int				count_args(t_args *args);
 
 /* ooo - expand_variable - ooo */
 
-char			*find_env_variable(t_type *node);
+char			*find_env_variable(t_type *node, char *end_position);
 char			*retrieve_env_variable(char *env_var, t_environment *env);
 char			*replace_env_value(t_type *node, char *env_value);
+
+/* ooo - expand_variable utils - ooo */
+
+char			*get_env_position(char *dollar);
+char			*malloc_variable(int var_len);
+void			get_current_pos(char *current_pos,
+					int var_len, char *end_position);
 
 /* ooo - free_lst - ooo */
 
