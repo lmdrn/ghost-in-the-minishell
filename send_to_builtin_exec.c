@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_to_builtin_exec.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: angela <angela@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:38:58 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/02 17:51:10 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/21 11:28:27 by angela           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		export_main(cmd_lst, &env_copy);
 		printf("++pointeur apres export main %p\n", &env_copy);
 //		printf("\n++++++++++++++++++++++++++++++++\n tableau apres le passage de export_main\n");
-//		print_env_builtin_export(env_copy);
+		print_env_builtin_export(env_copy);
 	}
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
 		printf("UNSET function should happen here\n");

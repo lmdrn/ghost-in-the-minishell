@@ -457,11 +457,11 @@ int export_main(t_commande *cmd_lst, t_environment **env_copy)
 	printf("========================\n");
 //	printf("apres size_total avant no _arg filled = %d\n", size_total);
 //	printf("apres size_filled_env avant no _arg = %d\n", size_filled_env);
-	printf("++pointeur avant, no_args %p\n", &env_copy);
+	//printf("++pointeur avant, no_args %p\n", &env_copy);
 	no_arg_so_print_env_exports(env_copy, nb_args, size_filled_env);
-	printf("++pointeur apres no_args, avant fille_env %p\n", &env_copy);
+	//printf("++pointeur apres no_args, avant fille_env %p\n", &env_copy);
 	fill_env(cmd_lst, env_copy, nb_args, size_filled_env, size_total);
-	printf("++pointeur apres fill_env %p\n", &env_copy);
+	//printf("++pointeur apres fill_env %p\n", &env_copy);
 //	return (SUCCESS);
 	size_total = calculate_size_env(*env_copy);
 	size_filled_env = calculate_sizes_filled(*env_copy); // manque de 1...
