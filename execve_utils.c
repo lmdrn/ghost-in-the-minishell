@@ -50,12 +50,12 @@ char	*segment_malloc_copy(char *segment, char *token_start, char *token_end)
 
 void	copy_the_path(t_environment *env_copy, t_epi *epi)
 {
-	int		i;
+	t_environment	*curr;
 
-	i = 0;
-	while (env_copy[i].key != NULL && strcmp(env_copy[i].key, "PATH") != 0)
-		i++;
-	epi->path = ft_strdup(env_copy[i].value);
+	curr = env_copy;
+	while (curr->key != NULL && strcmp(curr->key, "PATH") != 0)
+		curr = curr->next;
+	epi->path = ft_strdup(curr->value);
 	epi->tok_s = epi->path;
 }
 

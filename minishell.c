@@ -22,38 +22,24 @@
 
 int	g_status = 0;
 
-/* void print_environment_list(t_environment *head) */
-/* { */
-/* 	int node_number = 1; */
-/* 	t_environment *current = head; */
-/* 	while (current != NULL) */
-/* 	{ */
-/* 		if (current->key != NULL && current->value != NULL) */
-/* 		{ */
-/* 			printf("Node %d: key -> %s, value -> %s\n", node_number, current->key, current->value); */
-/* 		} */
-/* 		else */
-/* 		{ */
-/* 			printf("Node %d: Incomplete or corrupted data\n", node_number); */
-/* 			break; */
-/* 		} */
-
-/* 		current = current->next; */
-/* 		node_number++; */
-/* 	} */
-/* } */
-
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
 	char			*input;
-	t_environment	*env_copy;
+	t_environment	*head;
 
 	input = NULL;
 	(void)ac;
 	(void)av;
 	init_prompt(input);
-	env_copy = init_env(envp);
+	head = init_env(envp);
+//	t_environment *iter;
+//	iter = head;
+//	while (iter)
+//	{
+//		printf("%s = %s\n", iter->key, iter->value);
+//		iter = iter->next;
+//	}
 	while (1)
 	{
 		input = ft_prompt();
@@ -80,7 +66,7 @@ int	main(int ac, char **av, char **envp)
 				input = remove_xtra_spaces(input);
 			/* printf("Cleaned input is : %s\n", input); */
 			blocks = init_parse(input);
-			if (init_tokenizer(blocks, env_copy) == -1)
+			if (init_tokenizer(blocks, head) == -1)
 			{
 				printf("Error: %s: command not found\n", input);
 				handling_signals(input);
