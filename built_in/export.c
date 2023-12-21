@@ -52,60 +52,72 @@ void print_env_builtin_export(t_environment  *env_copy)//fprint tout
 		}
 	}
 }
+#include <stdio.h>
+#include <string.h>
 
-void print_env_alphabet_analysis(t_environment *env_copy, int size_filled)
+typedef struct s_environment
+{
+	char *key;
+	char *value;
+	struct s_environment *next;
+} t_environment;
+
+void print_env_order_alpha(t_environment *env_copy, int size_filled)
 {
 	// Chaîne de caractères représentant l'alphabet
 	char alphabet[26] = "abcdefghijklmnopqrstuvwxyz";
 	char alpha_big[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	// Indice pour chaque lettre de l'alphabet
-	int i ;
-	i = 0;
-	// Boucle pour chaque lettre de l'alphabet
+	int i = 0;
 	int total_elements = 0;
-	int j;
-	while (i < 26 && total_elements <= size_filled)
+
+	while (i < 26 && total_elements < size_filled && env_copy != NULL)
 	{
 		char minus = alphabet[i];
 		char maj = alpha_big[i];
 
-		j = 0;
+		t_environment *current = env_copy;
 
-		while (j <=size_filled )
+		while (current != NULL)
 		{
-			if (env_copy[j].key != NULL && (env_copy[j].key[0] == minus || env_copy[j].key[0] == maj))
+			if (current->key != NULL && (current->key[0] == minus || current->key[0] == maj))
 			{
-				// Ajoutez votre logique d'impression ici, par exemple, imprimez les éléments qui commencent par la lettre courante
-				printf("%s=%s\n", env_copy[j].key, env_copy[j].value);
+				// Ajoutez votre logique d'impression ici
+				printf("%s=%s\n", current->key, current->value);
 				total_elements++;
 			}
 
-			j++;
+			current = current->next;
 		}
 
 		i++;
 	}
+
 	i = 0;
-	while (i < 26 && total_elements < size_filled)
+
+	while (i < 26 && total_elements < size_filled && env_copy != NULL)
 	{
 		char minus = alphabet[i];
 		char maj = alpha_big[i];
-		j = 0;
 
-		while (j < size_filled)
+		t_environment *current = env_copy;
+
+		while (current != NULL)
 		{
-			if ((env_copy[j].key != NULL && (env_copy[j].key[0] == '_')) && strlen(env_copy[j].key) >= 4)
+			if (current->key != NULL && (current->key[0] == '_') && strlen(current->key) >= 4)
 			{
-				if (env_copy[j].key[3] == minus || env_copy[j].key[3] == maj)
+				if (current->key[3] == minus || current->key[3] == maj)
 				{
-					// Ajoutez votre logique d'impression ici, par exemple, imprimez les éléments qui commencent par la lettre courante après '_'
-					printf("%s=%s\n", env_copy[j].key, env_copy[j].value);
+					// Ajoutez votre logique d'impression ici
+					printf("%s=%s\n", current->key, current->value);
 					total_elements++;
 				}
 			}
-			j++;
+
+			current = current->next;
 		}
+
 		i++;
 	}
 }
@@ -238,7 +250,7 @@ void no_arg_so_print_env_exports(t_environment *env_copy, int nb_args, int size_
 {
 	if (nb_args == 0)
 		//print_env_export(env_copy, size_filled);
-		print_env_alphabet_analysis(env_copy, size_filled);
+		print_env_order_alpha(env_copy, size_filled);
 }
 
 void double_env(t_environment *env_copy, int size_total, int factor)
@@ -298,29 +310,76 @@ int 	fill_slot(char *key, char *value, t_environment *env_copy, int index, int s
 	return(ERROR);
 }
 
+
+//int find_index(t_node *head, int target_index)
+//{
+//	int i = 0;
+//	t_node *current = head;
+//
+//	while (current != NULL)
+//	{
+//		if (current->index == target_index)
+//			return i;  // Index trouvé, renvoie le nombre de nœuds parcourus
+//		current = current->next;
+//		i++;
+//	}
+//
+//	return -1; // Index non trouvé dans la liste
+//}
+
 int if_exist_in_env(char *key, t_environment *env_origin, int size)
 {
 	int i;
-	t_environment *env_copy;
+	t_environment *current;
 
 	if(key == NULL)
-		return (-1);
-	env_copy = env_origin;
+		return (ERROR);
+	current = env_origin;
 	i = 0;
-	while (size > 0)
+
+	while (current != NULL)
 	{
-		if (strcmp(env_copy[i].key, key) == 0)
-			return (i);
-		i++;
-		size--;
+		if (strcmp(current->key, key) == 0)
+			return (SUCCESS);
+		current= current->next;
 	}
 	return (-1);
 }
 
-void remplace_old_value(char *value, int index, t_environment *env_copy)
+//int find_index(t_node *head, int target_index)
+//{
+//	int i = 0;
+//	t_node *current = head;
+//
+//	while (current != NULL)
+//	{
+//		if (current->index == target_index)
+//			return i;  // Index trouvé, renvoie le nombre de nœuds parcourus
+//		current = current->next;
+//		i++;
+//	}
+//
+//	return -1; // Index non trouvé dans la liste
+//}
+void remplace_old_value(char *value, char *key, t_environment *env_copy)
 {
-	printf("USER key = %s\n", (env_copy)[index].key);
-	if ((env_copy)[index].key != NULL || ft_strcmp((env_copy)[index].value, "\"\"") == 0)
+	int i = 0;
+	t_environment *current = env_copy;
+
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+		{
+			current->value = strdup(value);
+			if (current->value == NULL )
+			{
+				fprintf(stderr, "Erreur d'allocation mémoire pour les champs key ou value\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		current = current->next;
+
+	}
 		free((env_copy)[index].value);
 	(env_copy)[index].value = strdup(value);
 	printf("USER value = %s\n", (env_copy)[index].value);
@@ -337,7 +396,7 @@ int	create_more_space (t_environment *env_copy, int size_total)
 
 int check_env_is_full();
 
-int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size_filled_env, int size_total) // *env_copy
+int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size_total) // *env_copy
 {
 	t_commande *current = cmd_lst;
 	char *key;
@@ -351,23 +410,12 @@ int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args, int size
 
 		if (index == -1) // need space
 		{
-			if (size_filled_env == size_total)
-			{
-				create_more_space(env_copy, size_total); // is okaaaay
-				size_total *= 2;
-			}
-			printf("\n==================================\n");
-			printf("size total apres agrandissement %d\n", size_total);
-			printf("size_total = %d\n", size_total);
-			printf("size_filled_env = %d\n", size_filled_env);
-			print_env_builtin_export(env_copy);
-			size_filled_env = fill_slot(key, value, env_copy, index, size_filled_env);
-
+				add_node(env_copy, key, value); // is okaaaay
+				size_total++;
 		}
 		else
 		{
 			remplace_old_value(value, index, env_copy);
-			printf("on a juste remplacer la valeur \n");
 		}
 		if (key != NULL)
 		{
@@ -401,15 +449,7 @@ int calculate_sizes_filled(t_environment *env_copy)
 	return count;
 }
 
-int calculate_size_env(t_environment *env_copy)//size total
-{
-	int count;
 
-	count = 0;
-	while (env_copy[count].key != NULL && env_copy[count].value != NULL)
-		count++;
-	return (count);
-}
 void printCommandList(t_commande *cmdList)
 {
 	t_commande *current = cmdList;
@@ -439,23 +479,12 @@ int export_main(t_commande *cmd_lst, t_environment *env_copy)
 	int size_filled_env;
 	int size_total;
 
-	size_filled_env = calculate_sizes_filled(env_copy); // comme si calcule une copy en env
-	size_total = calculate_size_env(env_copy);
+	size_total = list_size(env_copy);
 	nb_args = count_args_export(cmd_lst);
 	if (nb_args == -1)
 		return (ERROR);
-//	printf("apres size_total avant no _arg filled = %d\n", size_total);
-//	printf("apres size_filled_env avant no _arg = %d\n", size_filled_env);
-	//printf("++pointeur avant, no_args %p\n", &env_copy);
-	no_arg_so_print_env_exports(env_copy, nb_args, size_filled_env);
-	//printf("++pointeur apres no_args, avant fille_env %p\n", &env_copy);
-	printf("SIZE %lu\n", sizeof(*env_copy));
-	fill_env(cmd_lst, env_copy, nb_args, size_filled_env, size_total);
-	printf("SIZE %lu\n", sizeof(*env_copy));
-	//printf("++pointeur apres fill_env %p\n", &env_copy);
-
-
-//	print_env_builtin_export(*env_copy);
+	no_arg_so_print_env_exports(env_copy, nb_args, size_total);
+	fill_env(cmd_lst, env_copy, nb_args, size_total);
 
 	return (SUCCESS);
 

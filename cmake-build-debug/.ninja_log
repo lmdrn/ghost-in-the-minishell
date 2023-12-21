@@ -5,13 +5,13 @@
 4093	4356	1703164268511981686	CMakeFiles/miiiiiiiii_cd.dir/test_chdir.c.o	2939cdb16617be3d
 4357	4681	1703164268862925941	CMakeFiles/miiiiiiiii_cd.dir/built_in/export.c.o	7917a736bc05ba64
 920	1274	1703164265447432460	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_memchr.c.o	4799e5f4f3cba94a
-4370	4635	1703164268816716230	CMakeFiles/miiiiiiiii_cd.dir/built_in/pwd.c.o	c3c4ce41941f4c5e
-1611	2231	1703164266398549864	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_split.c.o	35449e40ef9958db
-3727	4093	1703164268273165719	CMakeFiles/miiiiiiiii_cd.dir/minishell.c.o	305077ac253a2468
 2941	3203	1703164267379264369	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_tolower.c.o	95c545878af9d3e4
 704	1128	1703164265251032076	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_lstlast_bonus.c.o	5bbf5f990c01bd53
 1099	1501	1703164265671652328	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_memcmp.c.o	d884e921c65de37c
 1215	1611	1703164265792786536	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_memmove.c.o	629bdee0433877f5
+4370	4635	1703164268816716230	CMakeFiles/miiiiiiiii_cd.dir/built_in/pwd.c.o	c3c4ce41941f4c5e
+1611	2231	1703164266398549864	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_split.c.o	35449e40ef9958db
+3727	4093	1703164268273165719	CMakeFiles/miiiiiiiii_cd.dir/minishell.c.o	305077ac253a2468
 4253	4603	1703164268784746704	CMakeFiles/miiiiiiiii_cd.dir/utils_2.c.o	bf3c9a8f58a83094
 4156	4575	1703164268749360796	CMakeFiles/miiiiiiiii_cd.dir/tokenization.c.o	47f1b22b6151e45d
 2059	2632	1703164266705936548	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_strlcat.c.o	41ddc78ca6ec5935
@@ -68,6 +68,5 @@
 246	549	1703164264731113019	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isdigit.c.o	22283adbd9e81395
 240	554	1703164264736308048	CMakeFiles/miiiiiiiii_cd.dir/libft/ft_isascii.c.o	78018350b42a7b1a
 3827	4179	1703164268354774832	CMakeFiles/miiiiiiiii_cd.dir/quotes.c.o	91acfbc5a7bb9b8e
-2	374	1703164422788023269	build.ninja	7b048cd742bcf8be
+1	270	1703171627699707479	build.ninja	7b048cd742bcf8be
 3521	3826	1703164268001869642	CMakeFiles/miiiiiiiii_cd.dir/expand_variable.c.o	d2fc25457e5fb3b9
-1	270	1703164422788023269	build.ninja	7b048cd742bcf8be

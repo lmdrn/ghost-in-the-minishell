@@ -86,6 +86,6 @@ add_executable(miiiiiiiii_cd
         built_in/pwd.c
         built_in/env.c
         built_in/cd.c
-        )
+        built_in/list_utils.c)
 
 #TARGET_LINK_LIBRARIES(miiiiiiiii_cd ${LIBS})

@@ -74,6 +74,7 @@ typedef struct s_environment
 {
 	char					*key;
 	char					*value;
+	struct s_environment	*next;
 }	t_environment;
 
 typedef struct s_commande
@@ -184,7 +185,7 @@ int builtin_pwd(t_commande *cmd_lst);
 void print_env_builtin(t_environment  *env_copy);
 /* -------------------export-----------------------------*/
 int export_main(t_commande *cmd_lst, t_environment *env_copy);
-void print_env_alphabet_analysis(t_environment *env_copy, int size_filled);
+void print_env_order_alpha(t_environment *env_copy, int size_filled);
 		char *get_value_export(char *str);
 char *get_key_export(char *str);
 int	check_good_variable(char * str);
@@ -194,8 +195,10 @@ t_environment *make_bigger(t_environment *env_copy, int factor, t_var *count_env
 void search_empty_fill(t_environment *env_copy, char *key, char *value, t_var *count_env);
 void bigger_env_copy(t_environment **env_copy, t_var *count_env);
 t_var *create_t_var();
-int calculate_size_env(t_environment *env_copy);
+int size_list(t_environment *env_copy);
 void print_env_builtin_export(t_environment  *env_copy);
 /* -------------------outils-----------------------------*/
 void	print_env(t_environment    *env_copy, int count);
+int    list_size(t_environment *node);
+void add_node(t_environment **env_copy, const char *key, const char *value)
 #endif
