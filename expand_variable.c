@@ -48,19 +48,16 @@ char	*find_env_variable(t_type *node, char *end_position)
 //then copies back the value of this variable
 char	*retrieve_env_variable(char *env_var, t_environment *env)
 {
-	int	i;
-
 	if (env_var == NULL || env == NULL)
 		return (NULL);
-	i = 0;
-	while (env[i].key != NULL)
+
+	t_environment *cur = env;
+	while (cur)
 	{
-		if (env[i].key != NULL && env[i].value != NULL)
-		{
-			if (ft_strcmp(env_var, env[i].key) == 0)
-				return (ft_strdup(env[i].value));
-		}
-		i++;
+		if (cur->key != NULL && cur->value != NULL)
+			if (!ft_strcmp(env_var, cur->key))
+				return (ft_strdup(cur->value));
+		cur = cur->next;
 	}
 	return (NULL);
 }

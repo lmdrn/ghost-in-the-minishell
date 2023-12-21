@@ -124,6 +124,7 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 		printf("Malloc error\n");
 		return (1);
 	}
+	// TODO create a list_to_array
 	if (execve(full_path, argv, NULL) == -1)
 		ft_error(cmd->cmd);
 	free_argv(argv);

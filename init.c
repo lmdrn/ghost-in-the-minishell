@@ -18,19 +18,63 @@ void	init_prompt(char *input)
 	ft_welcome();
 }
 
+t_environment *new_env_node(char *env)
+{
+	t_environment	*ptr;
+	char 			*del;
+	int				key;
+	int 			val;
+
+	ptr = NULL;
+	del = ft_strchr(env, '=');
+	if (del != NULL)
+	{
+		key = del - env;
+		val = ft_strlen(del + 1);
+		ptr = (t_environment*)malloc(sizeof(t_environment));
+		ptr->key = (char*) malloc(key + 1);
+		ptr->value = (char *) malloc(val + 1);
+		if(!ptr || !ptr->key || !ptr->value)
+			perror("Failed to allocate a new node");
+		ft_strncpy(ptr->key, env, key);
+		ptr->key[key] = '\0';
+		// TODO CHANGE ME
+		ft_strcpy(ptr->value, del + 1);
+		ptr->value[val] = '\0';
+	}
+	return (ptr);
+}
+
 t_environment	*init_env(char **envp)
 {
-	t_environment	*env_copy;
-	int				i;
+	t_environment	*head;
+	t_environment	*curr;
+	t_environment	*new_ptr;
+	int				count;
+	int 			i;
 
-	env_copy = copy_env(envp);
 	i = 0;
-	while (env_copy[i].key != NULL)
+	head = NULL;
+	count = env_count(envp);
+	head = NULL;
+	curr = NULL;
+	while (i < count)
 	{
-		/* printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value); */
+		new_ptr = new_env_node(envp[i]);
+		if (head == NULL)
+		{
+			head = new_ptr;
+			curr = new_ptr;
+		}
+		else
+		{
+			curr->next = new_ptr;
+			curr = new_ptr;
+		}
 		i++;
 	}
-	return (env_copy);
+	curr->next = NULL;
+	return (head);
 }
 
 // Function to initiate parsing to transform input into blocks
