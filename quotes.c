@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 14:46:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:16:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	/* printf("First letter is %c\n", first); */
 	/* printf("Last letter is %c\n", last); */
 	/* printf("%s type is: %d\n", node->text, node->type); */
-	/* printf("Env var is %s\n", env_var); */
-	/* printf("Env var value is %s\n", env_value); */
+	printf("Env var is %s\n", env_var);
+	printf("Env var value is %s\n", env_value);
 	/* printf("\n"); */
 }
