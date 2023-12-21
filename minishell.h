@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:58:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/21 12:22:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ enum e_types {
 };
 
 /* ooo - STRUCTURES - ooo */
+
+typedef struct s_epi {
+	char	*path;
+	char	*tok_s;
+	char	*tok_e;
+	char	*cmd_path;
+	char	*seg;
+}	t_epi;
 
 typedef struct s_type
 {
@@ -201,6 +209,16 @@ int				ft_error(char *str);
 char			*find_executable_path(char *command, t_environment *env_copy);
 char			**build_arg(t_commande *cmd, t_environment *env_copy);
 int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
+char			*concat_path_cmd(char *path, char *cmd);
+
+/* ooo - execve_utils - oo */
+
+char			*concat_cmd(char *cmd_path, char *path,
+					char *token_start, char *command);
+char			*segment_malloc_copy(char *segment, char *token_start,
+					char *token_end);
+void			copy_the_path(t_environment *env_copy, t_epi *epi);
+int				count_args(t_args *args);
 
 /* ooo - expand_variable - ooo */
 
@@ -284,6 +302,7 @@ void			handling_signals(char *input);
 int				is_builtin(char *input);
 void			assign_types(t_type *node, t_type *lst,
 					t_environment *env_copy);
+
 /* ooo - utils - ooo */
 
 char			*ft_strcat(char *dest, char *src);

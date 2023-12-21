@@ -6,121 +6,62 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 11:17:35 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/21 12:21:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct {
-	char	*path;
-	char	*token_start;
-	char	*token_end;
-	char	*cmd_path;
-	char	*segment;
-} exec_path_info;
-
-char *concat_path_cmd(char *path, char *cmd) {
-    int path_len = strlen(path), cmd_len = strlen(cmd);
-    char *res = malloc(path_len + cmd_len + 2);
-    return (res == NULL) ? (printf("Malloc failed\n"), exit(EXIT_FAILURE), NULL) : (strcpy(res, path), strcat(res, "/"), strcat(res, cmd), res);
-}
-
-char *concat_cmd(char *cmd_path, char *path, char *token_start, char *command) {
-    cmd_path = concat_path_cmd(token_start, command);
-    return (cmd_path != NULL && access(cmd_path, F_OK) == 0) ? (free(path), cmd_path) : (free(cmd_path), NULL);
-}
-
-char *segment_malloc_copy(char *segment, char *token_start, char *token_end) {
-    int segment_len = token_end - token_start;
-    segment = malloc(segment_len + 1);
-    return (segment == NULL) ? (printf("Malloc failed\n"), exit(EXIT_FAILURE), NULL) : (strncpy(segment, token_start, segment_len), segment[segment_len] = '\0', segment);
-}
-
-char *find_executable_path(char *command, t_environment *env_copy) {
-    int i = 0;
-    exec_path_info epi = {0};
-
-    while (env_copy[i].key != NULL && strcmp(env_copy[i].key, "PATH") != 0) i++;
-
-    epi.path = ft_strdup(env_copy[i].value);
-    epi.token_start = epi.path;
-
-    while (epi.token_start != NULL) {
-        epi.token_end = ft_strchr(epi.token_start, ':');
-
-        if (epi.token_end != NULL) {
-            epi.segment = segment_malloc_copy(epi.segment, epi.token_start, epi.token_end);
-            epi.cmd_path = concat_path_cmd(epi.segment, command);
-            free(epi.segment);
-
-            if (access(epi.cmd_path, F_OK) == 0) return free(epi.path), epi.cmd_path;
-
-            free(epi.cmd_path);
-            epi.token_start = epi.token_end + 1;
-        } else epi.cmd_path = concat_cmd(epi.cmd_path, epi.path, epi.token_start, command);
-    }
-
-    return free(epi.path), NULL;
-}
-
-
-/* char	*find_executable_path(char *command, t_environment *env_copy) */
-/* { */
-/* 	char	*path; */
-/* 	char	*token_start; */
-/* 	char	*token_end; */
-/* 	char	*cmd_path; */
-/* 	char	*segment; */
-/* 	int		i; */
-
-/* 	i = 0; */
-/* 	cmd_path = NULL; */
-/* 	while (env_copy[i].key != NULL) */
-/* 	{ */
-/* 		if (strcmp(env_copy[i].key, "PATH") == 0) */
-/* 		{ */
-/* 			path = ft_strdup(env_copy[i].value); */
-/* 			token_start = path; */
-/* 			token_end = ft_strchr(path, ':'); */
-/* 			while (token_start != NULL) */
-/* 			{ */
-/* 				if (token_end != NULL) */
-/* 				{ */
-/* 					segment = segment_malloc_copy(segment, token_start, token_end); */
-/* 					cmd_path = concat_path_cmd(segment, command); */
-/* 					free(segment); */
-/* 					if (access(cmd_path, F_OK) == 0) */
-/* 					{ */
-/* 						free(path); */
-/* 						return (cmd_path); */
-/* 					} */
-/* 					free(cmd_path); */
-/* 					token_start = token_end + 1; */
-/* 					token_end = ft_strchr(token_start, ':'); */
-/* 				} */
-/* 				else */
-/* 					cmd_path = concat_cmd(cmd_path, path, token_start, command); */
-/* 			} */
-/* 			free(path); */
-/* 			break ; */
-/* 		} */
-/* 		i++; */
-/* 	} */
-/* 	return (NULL); */
-/* } */
-
-int	count_args(t_args *args)
+char	*concat_path_cmd(char *path, char *cmd)
 {
-	int	count;
+	int		path_len;
+	int		cmd_len;
+	char	*res;
 
-	count = 0;
-	while (args != NULL)
+	path_len = strlen(path);
+	cmd_len = strlen(cmd);
+	res = malloc(path_len + cmd_len + 2);
+	if (res == NULL)
 	{
-		count++;
-		args = args->next;
+		printf("Malloc failed\n");
+		exit(EXIT_FAILURE);
+		return (NULL);
 	}
-	return (count);
+	else
+	{
+		ft_strcpy(res, path);
+		ft_strcat(res, "/");
+		ft_strcat(res, cmd);
+		return (res);
+	}
+}
+
+char	*find_executable_path(char *cmd, t_environment *env_copy)
+{
+	t_epi	epi;
+
+	copy_the_path(env_copy, &epi);
+	while (epi.tok_s != NULL)
+	{
+		epi.tok_e = ft_strchr(epi.tok_s, ':');
+		if (epi.tok_e != NULL)
+		{
+			epi.seg = segment_malloc_copy(epi.seg, epi.tok_s, epi.tok_e);
+			epi.cmd_path = concat_path_cmd(epi.seg, cmd);
+			free(epi.seg);
+			if (access(epi.cmd_path, F_OK) == 0)
+			{
+				free(epi.path);
+				return (epi.cmd_path);
+			}
+			free(epi.cmd_path);
+			epi.tok_s = epi.tok_e + 1;
+		}
+		else
+			epi.cmd_path = concat_cmd(epi.cmd_path, epi.path, epi.tok_s, cmd);
+	}
+	free(epi.path);
+	return (NULL);
 }
 
 void	create_args(char **argv, t_commande *cmd)
