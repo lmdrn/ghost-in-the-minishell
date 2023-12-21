@@ -24,7 +24,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "libft.h"
+# include "./libft/libft.h"
 
 /*----- Macro -----*/
 extern int	g_status;
@@ -74,7 +74,6 @@ typedef struct s_environment
 {
 	char					*key;
 	char					*value;
-	//struct s_environment	*next;
 }	t_environment;
 
 typedef struct s_commande
@@ -184,7 +183,7 @@ int builtin_pwd(t_commande *cmd_lst);
 /* -------------------env-----------------------------*/
 void print_env_builtin(t_environment  *env_copy);
 /* -------------------export-----------------------------*/
-int export_main(t_commande *cmd_lst, t_environment **env_copy);
+int export_main(t_commande *cmd_lst, t_environment *env_copy);
 void print_env_alphabet_analysis(t_environment *env_copy, int size_filled);
 		char *get_value_export(char *str);
 char *get_key_export(char *str);

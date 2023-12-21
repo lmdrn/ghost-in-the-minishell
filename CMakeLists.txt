@@ -4,8 +4,14 @@ project(miiiiiiiii_cd C)
 set(CMAKE_C_STANDARD 11)
 
 include_directories(.)
-include_directories(libft)
+#include_directories(./libft/ /Users/angela/.brew/opt/readline/include /Users/angela/.brew/opt/readline/lib)
+#include_directories(libft readline)
 
+add_compile_options(-I/Users/angela/.brew/opt/readline/include -L/Users/angela/.brew/opt/readline/lib -lreadline)
+add_compile_options(-Wall -Werror -Wextra -I/Users/angela/.brew/opt/readline/include -Ilibf)
+
+SET(LIBS readline)
+SET(LIBS ${LIBS})
 add_executable(miiiiiiiii_cd
         built_in/cd.c
         libft/ft_atoi.c
@@ -75,4 +81,11 @@ add_executable(miiiiiiiii_cd
         test_chdir.c
         tokenization.c
         utils.c
-        utils_2.c built_in/export.c)
+        utils_2.c
+        built_in/export.c
+        built_in/pwd.c
+        built_in/env.c
+        built_in/cd.c
+        )
+
+#TARGET_LINK_LIBRARIES(miiiiiiiii_cd ${LIBS})
