@@ -1,0 +1,49 @@
+***************
+*** 76,115 ****
+  	{
+  		return (-1);
+  	}
+- 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
+- 	/* 	pipe_count, cmd_count); */
+- 	/* if (cmd_lst != NULL) */
+- 	/* { */
+- 	/* 	/1* printf("Command list:\n"); *1/ */
+- 	/* 	print_commande_list(cmd_lst); */
+- 	/* } */
+- 	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
+- 	/* { */
+- 	/* 	if (tokens->type == 1) */
+- 	/* 		which_builtin(cmd_lst); */
+- 	/* 	else if (tokens->type == 0) */
+- 	/* 	{ */
+- 	/* 		while (tokens != NULL) */
+- 	/* 		{ */
+- 	/* 			if (tokens->type == 9) */
+- 	/* 			{ */
+- 	/* 				/1* printf("je suis execute_redir\n"); *1/ */
+- 	/* 				execute_redir(cmd_lst, env_copy); */
+- 	/* 				flag = 1; */
+- 	/* 				break ; */
+- 	/* 			} */
+- 	/* 			tokens = tokens->next; */
+- 	/* 		} */
+- 	/* 		if (flag == 0) */
+- 	/* 		{ */
+- 	/* 			/1* printf("je suis only_one_cmd\n"); *1/ */
+- 	/* 			only_one_cmd(cmd_lst, env_copy); */
+- 	/* 		} */
+- 	/* 	} */
+- 	/* } */
+- 	/* else if (is_odd_or_even(&pipe_count, &cmd_count) == 1 */
+- 	/* 	|| is_odd_or_even(&pipe_count, &cmd_count) == 2) */
+- 	/* 	execute_pipeline(cmd_lst, env_copy); */
+  	assign_fds(cmd_lst);
+  	while (cmd_lst != NULL)
+  	{
+--- 120,125 ----
+  	{
+  		return (-1);
+  	}
+  	assign_fds(cmd_lst);
+  	while (cmd_lst != NULL)
+  	{

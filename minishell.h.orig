@@ -170,7 +170,6 @@ int				check_path(char *path);
 
 t_environment	*copy_env(char **envp);
 void			free_env_struct(t_environment *env_struct);
-int				env_count(char **envp);
 
 /* ooo - clean_cmd - ooo */
 
