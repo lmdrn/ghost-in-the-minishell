@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 13:26:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 13:48:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,30 @@
 
 // function that looks for a $ in the string
 // and copies the word associated with the $
-char	*find_env_variable(t_type *node)
+
+char	*find_env_variable(t_type *node, char *end_position, char *variable)
 {
 	char	*dollar;
-	char	*end_position;
-	char	*variable;
 	char	*current_pos;
 	int		var_len;
 	int		i;
 
 	var_len = 0;
-	variable = NULL;
 	dollar = ft_strnstr(node->text, "$", ft_strlen(node->text));
 	current_pos = dollar;
 	if (dollar != NULL)
 	{
-		end_position = dollar;
-		while (*end_position != '\0' && !ft_isspace(*end_position)
-			&& *end_position != '\"' && *end_position != '\'')
-			end_position++;
+		end_position = get_end_pos(end_position, dollar);
 		while (current_pos < end_position)
 		{
 			if (*current_pos != '$')
 				var_len++;
 			current_pos++;
 		}
-		variable = malloc(sizeof(char *) * (var_len + 1));
-		if (variable == NULL)
-			return (NULL);
+		variable = malloc_variable(var_len);
 		i = 0;
 		current_pos = dollar + 1;
-		while (current_pos < end_position)
-		{
-			if (*current_pos != '$')
-				variable[i++] = *current_pos++;
-		}
+		get_current_pos(current_pos, end_position, variable, i);
 		variable[var_len] = '\0';
 	}
 	return (variable);
@@ -77,6 +66,21 @@ char	*retrieve_env_variable(char *env_var, t_environment *env)
 	return (NULL);
 }
 
+char	*create_new_value(int prefix, int suffix, t_type *node, int env_len)
+{
+	char	*new_text;
+
+	new_text = malloc(prefix + env_len + suffix + 1);
+	if (new_text == NULL)
+	{
+		printf("Error: malloc failed\n");
+		exit(1);
+	}
+	ft_strncpy(new_text, node->text, prefix);
+	new_text[prefix] = '\0';
+	return (new_text);
+}
+
 //function that takes expanded variable and for example:
 //replaces $PATH by the current path from copied enn in current node
 char	*replace_env_value(t_type *node, char *env_value)
@@ -96,14 +100,7 @@ char	*replace_env_value(t_type *node, char *env_value)
 			env_len = ft_strlen(env_value);
 		else
 			env_len = 0;
-		new_text = malloc(prefix + env_len + suffix + 1);
-		if (new_text == NULL)
-		{
-			printf("Error: malloc failed\n");
-			exit(1);
-		}
-		ft_strncpy(new_text, node->text, prefix);
-		new_text[prefix] = '\0';
+		new_text = create_new_value(prefix, suffix, node, env_len);
 		if (env_value != NULL)
 			ft_strcat(new_text, env_value);
 	}

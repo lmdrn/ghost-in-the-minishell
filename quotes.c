@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 13:26:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 13:44:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	char	*env_value;
 	char	*new_node;
 	char	*end_position;
+	char	*variable;
 
+	variable = NULL;
 	env_var = NULL;
 	env_value = NULL;
 	new_node = NULL;
@@ -41,7 +43,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 		node->type = args;
 		new_node = clean_cmd_type(node);
 		/* printf("cleaned variable is %s\n", new_node); */
-		env_var = find_env_variable(node);
+		env_var = find_env_variable(node, end_position, variable);
 		/* printf("Env var is %s\n", env_var); */
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
@@ -74,7 +76,9 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	char	*env_value;
 	char	*new_node;
 	char	*end_position;
+	char	*variable;
 
+	variable = NULL;
 	env_var = NULL;
 	env_value = NULL;
 	new_node = NULL;
@@ -82,7 +86,7 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	node->type = args;
 	clean_cmd_type(node);
 	/* printf("cleaned variable is %s\n", new_node); */
-	env_var = find_env_variable(node);
+	env_var = find_env_variable(node, end_position, variable);
 	if (env_var != NULL)
 		env_value = retrieve_env_variable(env_var, env_cpy);
 	new_node = replace_env_value(node, env_value);
