@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 15:07:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 16:33:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	send_to_execution(t_commande *cmd, t_environment *env_copy)
 			dup_and_close_fdin(curr_cmd);
 		if (curr_cmd->fdout != STDOUT_FILENO)
 			dup_and_close_fdout(curr_cmd);
+		printf("par ici\n");
 		execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
 		exit(EXIT_SUCCESS);

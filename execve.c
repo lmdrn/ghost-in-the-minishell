@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 12:21:23 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 16:44:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,19 +115,26 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 	char		*full_path;
 	char		**argv;
 
-	full_path = find_executable_path(cmd->cmd, env_copy);
-	if (!full_path)
-		ft_error(cmd->cmd);
-	argv = build_arg(cmd, env_copy);
-	if (!argv)
+	argv = NULL;
+	/* printf("cmd is %s\n", cmd->cmd); */
+	if (is_absolute_path(cmd->cmd) == '/')
+		execute_absolute_cmd(argv, cmd);
+	else
 	{
-		printf("Malloc error\n");
-		return (1);
+		full_path = find_executable_path(cmd->cmd, env_copy);
+		if (!full_path)
+			ft_error(cmd->cmd);
+		argv = build_arg(cmd, env_copy);
+		if (!argv)
+		{
+			printf("Malloc error\n");
+			return (1);
+		}
+		// TODO create a list_to_array
+		if (execve(full_path, argv, NULL) == -1)
+			ft_error(cmd->cmd);
+		free_argv(argv);
+		free(full_path);
 	}
-	// TODO create a list_to_array
-	if (execve(full_path, argv, NULL) == -1)
-		ft_error(cmd->cmd);
-	free_argv(argv);
-	free(full_path);
 	return (0);
 }

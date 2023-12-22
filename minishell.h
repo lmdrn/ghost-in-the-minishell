@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 14:00:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:57:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,14 @@ typedef struct s_commande
 
 /* ooo - PROTOTYPES DE FONCTIONS - ooo */
 
+/* ooo - absolute_cmd - ooo */
+
+char			**build_absolute_arg(t_commande *cmd);
+int				is_absolute_path(char *cmd);
+void			execute_absolute_cmd(char **argv, t_commande *cmd);
+
 /* ooo - append - ooo */
+
 int				create_append(char *filename, t_commande *cmd);
 void			init_append(t_commande *curr_cmd, t_commande *cmd);
 
@@ -132,7 +139,9 @@ void			assign_ch_droit(t_type *node, t_type *lst, t_type *next_node);
 /* ooo - blocks_to_list - ooo */
 
 int				is_executable_command(char *node);
+int				is_absolute_path(char *cmd);
 char			*get_full_path(char *dir, char *node);
+int				is_abs_path_executable(char *cmd);
 
 /* ooo - blocks_to_list_utils - ooo */
 
@@ -205,7 +214,7 @@ void			ft_last_block(const char *str, char **blocks,
 int				block_malloc(int i, int start, char **blocks, int block_index);
 void			add_last_block(const char *str, char **blocks,
 					int block_index, int start);
-void			quote_check(int in_dq, int in_sq);
+int				quote_check(int in_dq, int in_sq);
 
 /* ooo - error - ooo */
 
@@ -218,6 +227,7 @@ char			*find_executable_path(char *command, t_environment *env_copy);
 char			**build_arg(t_commande *cmd, t_environment *env_copy);
 int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
 char			*concat_path_cmd(char *path, char *cmd);
+void			create_args(char **argv, t_commande *cmd);
 
 /* ooo - execve_utils - oo */
 
@@ -230,7 +240,8 @@ int				count_args(t_args *args);
 
 /* ooo - expand_variable - ooo */
 
-char			*find_env_variable(t_type *node, char *end_position, char *variable);
+char			*find_env_variable(t_type *node, char *end_position,
+					char *variable);
 char			*retrieve_env_variable(char *env_var, t_environment *env);
 char			*replace_env_value(t_type *node, char *env_value);
 
@@ -238,7 +249,8 @@ char			*replace_env_value(t_type *node, char *env_value);
 
 char			*get_end_pos(char *end_position, char *dollar);
 char			*malloc_variable(int var_len);
-void			get_current_pos(char *current_pos, char *end_position, char *variable, int i);
+void			get_current_pos(char *current_pos, char *end_position,
+					char *variable, int i);
 
 /* ooo - free_lst - ooo */
 
@@ -315,7 +327,7 @@ void			handling_signals(char *input);
 
 int				is_builtin(char *input);
 void			assign_types(t_type *node, t_type *lst,
-					t_environment *env_copy);
+					t_environment *env_copy, int command_assigned);
 
 /* ooo - utils - ooo */
 

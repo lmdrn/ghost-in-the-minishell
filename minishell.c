@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 18:31:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:51:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ int	main(int ac, char **av, char **envp)
 				input = remove_xtra_spaces(input);
 			/* printf("Cleaned input is : %s\n", input); */
 			blocks = init_parse(input);
-			if (init_tokenizer(blocks, head) == -1)
+			if (blocks == NULL)
+			{
+				printf("I have been there\n");
+				handling_signals(input);
+			}
+			else if (init_tokenizer(blocks, head) == -1)
 			{
 				printf("Error: %s: command not found\n", input);
 				handling_signals(input);
