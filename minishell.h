@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 13:47:25 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:00:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ enum e_types {
 };
 
 /* ooo - STRUCTURES - ooo */
+
+typedef struct s_bparam {
+	int		i;
+	int		block_len;
+	int		in_sq;
+	int		in_dq;
+}	t_bparam;
 
 typedef struct s_epi {
 	char	*path;
