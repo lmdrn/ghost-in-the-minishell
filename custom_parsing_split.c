@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:37:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:00:16 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,30 @@ void	ft_last_block(const char *str, char **blocks, int bi, int start)
 
 void	ft_block(const char *str, char **blocks, int start, int block_index)
 {
-	int		i;
-	int		block_len;
-	int		in_sq;
-	int		in_dq;
+	t_bparam	bparams;
 
-	i = 0;
-	in_sq = 0;
-	in_dq = 0;
-	while (str[i])
+	bparams.i = 0;
+	bparams.in_sq = 0;
+	bparams.in_dq = 0;
+	while (str[bparams.i])
 	{
-		if (str[i] == '\'')
-			in_sq = !in_sq;
-		else if (str[i] == '\"')
-			in_dq = !in_dq;
-		else if (str[i] == ' ' && !in_sq && !in_dq)
+		if (str[bparams.i] == '\'')
+			bparams.in_sq = !bparams.in_sq;
+		else if (str[bparams.i] == '\"')
+			bparams.in_dq = !bparams.in_dq;
+		else if (str[bparams.i] == ' ' && !bparams.in_sq && !bparams.in_dq)
 		{
-			block_len = block_malloc(i, start, blocks, block_index);
-			ft_strncpy(blocks[block_index], str + start, block_len);
-			blocks[block_index][block_len] = '\0';
-			start = i + 1;
+			bparams.block_len = block_malloc(bparams.i,
+					start, blocks, block_index);
+			ft_strncpy(blocks[block_index], str + start, bparams.block_len);
+			blocks[block_index][bparams.block_len] = '\0';
+			start = bparams.i + 1;
 			block_index++;
 		}
-		i++;
+		bparams.i++;
 	}
 	add_last_block(str, blocks, block_index, start);
-	quote_check(in_dq, in_sq);
+	quote_check(bparams.in_dq, bparams.in_sq);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)
