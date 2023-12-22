@@ -12,21 +12,23 @@
 
 #include "minishell.h"
 
-void	print_env(t_environment *env_copy)
-{
-	int	i;
 
-	i = 0;
-	if (env_copy != NULL)
+void    print_nodes(t_environment *node)// print la liste, t_pushswap *ps
+{
+	t_environment *current_node;
+
+	current_node = node;
+	printf("Liste \n");
+	if (current_node == NULL)
+		printf("c'est vide\n");
+	while (current_node!= NULL)//ici changer , avant current_node ->next
 	{
-		while (env_copy[i].key != NULL)
-		{
-			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
-			i++;
-		}
+
+		printf("key (%s)->value = %s\n",current_node->key , current_node->value);
+		//printf ("adresse du node %p\n", current_node->next);
+		current_node = current_node->next;
+		//i++;
 	}
-	else
-		return ;
 }
 
 void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
@@ -36,7 +38,11 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
 		builtin_pwd(cmd_lst);
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
+	{
+		print_command_list(cmd_lst);
+		printf("\n");
 		builtin_cd(cmd_lst, env_copy);
+	}
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 		printf("EXPORT function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)

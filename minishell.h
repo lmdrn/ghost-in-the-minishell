@@ -152,11 +152,12 @@ char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - cd - ooo */
 
-int				ft_cd(t_environment *env_copy, char *path);
+int				ft_cd(t_environment *env_copy, char *path, int path_back);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
 int				go_home(t_environment *env_copy, char *home);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+char			*go_back_directories(char *path);
 
 /* ooo - echo - ooo */
 
@@ -181,6 +182,7 @@ int				check_is_in_env(t_environment *env_copy, char *var);
 void			print_value(t_environment *env_copy, char *key);
 char			*get_env_value(t_environment *env_copy, char *env_key);
 int				check_path(char *path);
+void			print_command_list(t_commande *cmd_list);
 
 /* ooo - copy_env - ooo */
 

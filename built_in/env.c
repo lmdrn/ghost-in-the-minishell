@@ -15,16 +15,18 @@
 void	print_env_builtin(t_environment *env_copy)
 {
 	int	i;
+	t_environment *current;
 
 	i = 0;
-	if (env_copy != NULL)
+	current = env_copy;
+	if (current != NULL)
 	{
-		while (env_copy[i].key != NULL)
+		while (current->key != NULL)
 		{
-			printf("%s=%s", env_copy[i].key, env_copy[i].value);
-			if (env_copy[i + 1].key != NULL)
+			printf("%s=%s", current->key, current->value);
+			if (current->key->next != NULL)
 				printf("\n");
-			i++;
+			current = current->next;
 		}
 	}
 	else

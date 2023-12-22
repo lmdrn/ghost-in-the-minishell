@@ -164,7 +164,7 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		else
 		{
 			assign_redir(cmd_lst);
-			printf("coucou\n");
+
 			send_to_execution(cmd_lst, env_copy);
 		}
 		cmd_lst = cmd_lst->next;

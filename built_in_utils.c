@@ -14,36 +14,62 @@
 
 int	check_is_in_env(t_environment *env_copy, char *var)
 {
-	int	i;
+	t_environment *current;
 
-	i = 0;
-	if (env_copy != NULL)
+	current = env_copy;
+	if (current != NULL)
 	{
-		while (env_copy[i].key != NULL)
+		while (current->key != NULL)
 		{
-			if (strcmp(env_copy[i].key, var) == 0)
+			if (strcmp(current->key, var) == 0)
 			{
-				printf("key found \n");
+//				printf("key found \n");
 				return (SUCCESS);
 			}
-			i++;
+			current = current->next;
 		}
 		return (ERROR);
 	}
 	else
 		return (ERROR);
 }
+void print_command_list(t_commande *cmd_list)
+{
+	t_commande *current_cmd = cmd_list;
+	t_args *current_arg;
 
+	while (current_cmd != NULL)
+	{
+		printf("Command: %s\n", current_cmd->cmd);
+		printf("  fdin: %d, fdout: %d\n", current_cmd->fdin, current_cmd->fdout);
+		printf("  pid: %d, wait_status: %d\n", current_cmd->pid, current_cmd->wait_status);
+		// Ajoutez ici les impressions pour env_copy et tokens si nécessaire
+
+		current_arg = current_cmd->args;
+		if (current_arg == NULL)
+		{
+			printf("  Arg: est NUll\n");
+		}
+		while (current_arg != NULL)
+		{
+			printf("  Arg: %s, Type: %d\n", current_arg->arg, current_arg->type);
+			current_arg = current_arg->next;
+		}
+
+
+		current_cmd = current_cmd->next;
+	}
+}
 void	print_value(t_environment *env_copy, char *key)
 {
-	int	i;
+	t_environment *current;
 
-	i = 0;
-	while (env_copy[i].key != NULL)
+	current = env_copy;
+	while (current->key != NULL)
 	{
-		if (strcmp(env_copy[i].key, key) == 0)
-			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
-		i++;
+		if (strcmp(current->key, key) == 0)
+			printf("Key: %s, Value: %s\n", current->key, current->value);
+		current = current->next;
 	}
 }
 

@@ -33,16 +33,20 @@ int	go_home(t_environment *env_copy, char *home)
 
 char	*get_home(t_environment *env_copy)
 {
-	int	i;
 
-	i = 0;
+	t_environment *current;
+
+	current = env_copy;
 	if (env_copy == NULL)
-		return (NULL);
-	while (env_copy[i].key != NULL)
 	{
-		if (ft_strcmp(env_copy[i].key, "HOME") == 0)
-			return (env_copy[i].value);
-		i++;
+		printf("Home est nulle\n");
+		return (NULL);
+	}
+	while (current!= NULL)
+	{
+		if (ft_strcmp(current->key, "HOME") == 0)
+			return (current->value);
+		current = current->next;
 	}
 	return (NULL); // HOME n'est pas défini
 }
@@ -65,6 +69,7 @@ static int	check_args_cd(t_commande *cmd_lst)
 			i++;
 			args = args->next;
 		}
+		printf("nombre d'argument %d\n", i);
 		if (i > 1)
 		{
 			printf("\ntrop d'argumetns\n");
@@ -72,6 +77,11 @@ static int	check_args_cd(t_commande *cmd_lst)
 		}
 		else if (i == 1)
 		{
+			if (ft_strcmp(cmd_lst->args->arg, "..") == 0)
+			{
+				printf("on recule de 1 dossier \n");
+				return(2);
+			}
 			printf("\n bien un seul argument\n");
 			return (10);
 		}
@@ -112,11 +122,18 @@ static int	check_args_cd(t_commande *cmd_lst)
 	}
 }
 
-int	ft_cd(t_environment *env_copy, char *path)
+int	ft_cd(t_environment *env_copy, char *path, int path_back)
 {
 	//gerer les ..
 	if (check_path(path) == ERROR)
+	{
+		printf("error path\n");
 		return (ERROR);
+	}
+	if (path_back == 1)
+	{
+		path = go_back_directories(path);
+	}
 	update_pwd_oldpwd(env_copy, path);
 	if (check_is_in_env(env_copy, "PWD") == ERROR)
 		printf("Adding PWD to env_copy\n");
@@ -132,32 +149,52 @@ int	ft_cd(t_environment *env_copy, char *path)
 	return (SUCCESS);
 }
 
+char *go_back_directories(char *path)
+{
+	char *last_slash;
+	char *result;
+	int len;
+
+	last_slash = ft_strrchr(path, '/');
+	if (last_slash != NULL)
+	{
+		len = last_slash - path;
+		result = ft_substr(path, 0, len);
+		return (result);
+	}
+	else
+	{
+		return ft_strdup(path);
+	}
+}
+
 int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 {
 	char	*home;
 	int		arg;
+	int path_back;
 
 	arg = 0;
 	home = NULL;
+	path_back = 0;
 	//t_environment *current = env_copy;
-	//trop d'arguments
+
 	arg = check_args_cd(cmd_lst);
-	printf("\n voici la valeur de arg avabt traitment %d\n", arg);
-	//plus de 1 arguments
 	if (arg == -1)
 	{
 		printf("cd: too many arguments\n");
 		return (ERROR);
 	}
-	//pas acces à home
-	home = get_home(env_copy);
+	home = get_home(env_copy); // 2x utikl
 	if (home == NULL)
 	{
 		printf("cd: Home not set\n");
-//		free(home);
 		return (ERROR);
 	}
-	//doit retourner a la racine
+	if (arg == 2 )
+	{
+		path_back= 1;
+	}
 	if (arg == 0)
 	{
 		//leaks peut pas aller vers go home
@@ -178,7 +215,7 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	}
 	if (arg == 1)
 	{
-		if (ft_cd(env_copy, cmd_lst->args->arg) == ERROR)
+		if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
 		{
 			printf("path to file doesn't exist");
 			free(home);
@@ -192,6 +229,6 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		free(home);
 		return (ERROR);
 	}
-	ft_cd(env_copy, cmd_lst->args->arg);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
+	ft_cd(env_copy, cmd_lst->args->arg, path_back);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
 	return (SUCCESS);
 }
