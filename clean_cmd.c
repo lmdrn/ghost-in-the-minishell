@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:59:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 11:56:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	count_word_node(t_type *node)
 	return (wc);
 }
 
-t_type	*clean_cmd_type(t_type *node)
+char	*clean_cmd_type(t_type *node)
 {
 	char	*new_str;
 	int		i;
@@ -63,8 +63,8 @@ t_type	*clean_cmd_type(t_type *node)
 	}
 	new_str[j] = '\0';
 	node->text = new_str;
-	/* printf("without quotes is %s\n", new_str); */
-	return (node);
+	printf("without quotes is %s\n", new_str);
+	return (new_str);
 }
 
 char	*remove_xtra_spaces(char *input)

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 17:16:06 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 13:26:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,21 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	env_value = NULL;
 	new_node = NULL;
 	end_position = NULL;
-	if (count_word_node(node) == 1)
+	if (count_word_node(node) == 1 && (node->type == 0 || node->type == 1))
 		quote_builtin_or_cmd(node);
 	else
 	{
 		node->type = args;
-		env_var = find_env_variable(node, end_position);
+		new_node = clean_cmd_type(node);
+		/* printf("cleaned variable is %s\n", new_node); */
+		env_var = find_env_variable(node);
+		/* printf("Env var is %s\n", env_var); */
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
+		/* printf("Env value is %s\n", env_value); */
 		new_node = replace_env_value(node, env_value);
-		printf("New str with environment_value is %s\n", new_node);
+		/* printf("New str with environment_value is %s\n", new_node); */
+		node->text = new_node;
 	}
 }
 
@@ -76,11 +81,13 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	end_position = NULL;
 	node->type = args;
 	clean_cmd_type(node);
-	env_var = find_env_variable(node, end_position);
+	/* printf("cleaned variable is %s\n", new_node); */
+	env_var = find_env_variable(node);
 	if (env_var != NULL)
 		env_value = retrieve_env_variable(env_var, env_cpy);
 	new_node = replace_env_value(node, env_value);
-	printf("New str with environment_value is %s\n", new_node);
+	/* printf("New str with environment_value is %s\n", new_node); */
+	node->text = new_node;
 }
 
 void	assign_quotes(t_type *node, t_environment *env_cpy)
@@ -107,7 +114,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	/* printf("First letter is %c\n", first); */
 	/* printf("Last letter is %c\n", last); */
 	/* printf("%s type is: %d\n", node->text, node->type); */
-	printf("Env var is %s\n", env_var);
-	printf("Env var value is %s\n", env_value);
+	/* printf("Env var is %s\n", env_var); */
+	/* printf("Env value is %s\n", env_value); */
 	/* printf("\n"); */
 }

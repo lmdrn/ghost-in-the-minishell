@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:34:31 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 12:29:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,15 @@ int	block_count(char const *str, char c)
 	return (count + 1);
 }
 
+char *ft_strncat(char *dest, const char *src, size_t n) {
+    size_t dest_len = ft_strlen(dest);
+    size_t i;
+
+    for (i = 0; i < n && src[i] != '\0'; i++) {
+        dest[dest_len + i] = src[i];
+    }
+
+    dest[dest_len + i] = '\0';  // Null-terminate the result
+
+    return dest;
+}
