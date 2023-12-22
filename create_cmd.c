@@ -90,12 +90,12 @@ t_type	*process_command_args(t_commande *new_cmd, t_type *tokens)
 	remaining = NULL;
 	if (current != NULL && (current->type == cmd || current->type == builtin))
 		current = current->next;
-	printf("current is %s\n", current->text);
+//	printf("current is %s\n", current->text);
 	while (current != NULL && is_args_or_redir(current) == 0
 		&& current->type != is_pipe)
 	{
-		printf("current->text is %s\n", current->text);
-		printf("current->type is %d\n", current->type);
+//		printf("current->text is %s\n", current->text);
+//		printf("current->type is %d\n", current->type);
 		append_args(new_cmd, current->text, current->type);
 		remaining = current->next;
 		current = remaining;
@@ -120,7 +120,7 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 	{
 		if (tokens->type == cmd || tokens->type == builtin)
 		{
-			printf("token is %s\n", tokens->next->text);
+			//printf("token is %s\n", tokens->next->text);
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
 			tokens = process_command_args(new_cmd, tokens);
 			if (cmd_head == NULL)

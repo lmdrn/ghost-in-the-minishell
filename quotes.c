@@ -130,10 +130,10 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 		block_has_no_quotes(node, env_cpy);
 	}
 	//TESTS VARIABLES//
-	printf("First letter is %c\n", first);
-	printf("Last letter is %c\n", last);
-	printf("%s type is: %d\n", node->text, node->type);
-	printf("Env var is %s\n", env_var);
-	printf("Env value is %s\n", env_value);
-	printf("\n");
+//	printf("First letter is %c\n", first);
+//	printf("Last letter is %c\n", last);
+//	printf("%s type is: %d\n", node->text, node->type);
+//	printf("Env var is %s\n", env_var);
+//	printf("Env value is %s\n", env_value);
+//	printf("\n");
 }

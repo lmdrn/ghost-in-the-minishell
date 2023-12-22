@@ -180,22 +180,26 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 	//t_environment *current = env_copy;
 
 	arg = check_args_cd(cmd_lst);
+
+	printf("nombre d;argument %d\n", arg);
 	if (arg == -1)
 	{
 		printf("cd: too many arguments\n");
+		//free home?
 		return (ERROR);
 	}
-	home = get_home(env_copy); // 2x utikl
-	if (home == NULL)
+	else if (arg == 2 )
+	{
+		path_back= 1;
+	}
+	//home = get_home(env_copy); // 2x utikl
+	else if (home == NULL)
 	{
 		printf("cd: Home not set\n");
 		return (ERROR);
 	}
-	if (arg == 2 )
-	{
-		path_back= 1;
-	}
-	if (arg == 0)
+
+	else if (arg == 0)
 	{
 		//leaks peut pas aller vers go home
 		home = get_home(env_copy);//check ici
@@ -213,7 +217,7 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		//free(home);
 		return (SUCCESS);
 	}
-	if (arg == 1)
+	else if (arg == 1)
 	{
 		if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
 		{
@@ -223,12 +227,7 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 			return (ERROR);
 		}
 	}
-	if (arg == -1)
-	{
-		printf("\n trop d'arguments ca marche po\n");
-		free(home);
-		return (ERROR);
-	}
+
 	ft_cd(env_copy, cmd_lst->args->arg, path_back);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
 	return (SUCCESS);
 }
