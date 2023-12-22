@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 16:47:31 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:41:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void			ft_last_block(const char *str, char **blocks,
 int				block_malloc(int i, int start, char **blocks, int block_index);
 void			add_last_block(const char *str, char **blocks,
 					int block_index, int start);
-void			quote_check(int in_dq, int in_sq);
+int				quote_check(int in_dq, int in_sq);
 
 /* ooo - error - ooo */
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 21:52:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:58:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 				cmd_current = new_cmd;
 			}
 		}
+		else
+			return (NULL);
 	}
 	return (cmd_head);
 }

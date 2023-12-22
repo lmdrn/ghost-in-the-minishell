@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 16:32:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:59:36 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ char	**init_parse(const char *input)
 	int		block_count;
 
 	blocks = ft_parsing_split(input, ' ', &block_count);
+	if (blocks == NULL)
+	{
+		return (NULL);
+	}
 	wc = 0;
 	while (blocks[wc] != NULL)
 		wc++;

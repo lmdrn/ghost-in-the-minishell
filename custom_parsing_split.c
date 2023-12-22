@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:37:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 17:42:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_last_block(const char *str, char **blocks, int bi, int start)
 	blocks[bi][last_block_len] = '\0';
 }
 
-void	ft_block(const char *str, char **blocks, int start, int block_index)
+int	ft_block(const char *str, char **blocks, int start, int block_index)
 {
 	int		i;
 	int		block_len;
@@ -54,7 +54,9 @@ void	ft_block(const char *str, char **blocks, int start, int block_index)
 		i++;
 	}
 	add_last_block(str, blocks, block_index, start);
-	quote_check(in_dq, in_sq);
+	if (quote_check(in_dq, in_sq) == -1)
+		return (-1);
+	return (0);
 }
 
 char	**ft_parsing_split(const char *str, char c, int *wc)
@@ -73,7 +75,8 @@ char	**ft_parsing_split(const char *str, char c, int *wc)
 	}
 	start = 0;
 	block_index = 0;
-	ft_block(str, blocks, start, block_index);
+	if (ft_block(str, blocks, start, block_index) == -1)
+		return (NULL);
 	*wc = count + 1;
 	return (blocks);
 }
