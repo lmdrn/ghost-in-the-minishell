@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 14:48:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 14:49:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 11:21:20 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*get_env_position(char *dollar)
 	while (*end_position != '\0' && !ft_isspace(*end_position)
 		&& *end_position != '\"' && *end_position != '\'')
 		end_position++;
+	printf("end position is %s\n", end_position);
 	return (end_position);
 }
 
