@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 11:56:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:54:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*remove_xtra_spaces(char *input)
 	int		len;
 
 	i = 0;
+	printf("I go there\n");
 	while (ft_isspace(*input))
 		input++;
 	len = ft_strlen(input);
