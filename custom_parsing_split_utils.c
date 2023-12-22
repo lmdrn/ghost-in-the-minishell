@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:34:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 22:35:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:12:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,3 @@ void	quote_check(int in_dq, int in_sq)
 		exit(1);
 	}
 }
-

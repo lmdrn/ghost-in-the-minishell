@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 13:59:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 16:32:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,15 +122,13 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	}
 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
 	/* 	pipe_count, cmd_count); */
-	/* if (cmd_lst != NULL) */
-	/* { */
-	/* 	/1* printf("Command list:\n"); *1/ */
-	/* 	print_commande_list(cmd_lst); */
-	/* } */
+	if (cmd_lst != NULL)
+	{
+		/* printf("Command list:\n"); */
+		print_commande_list(cmd_lst);
+	}
 	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
 	/* { */
-		if (tokens->type == 1)
-			which_builtin(cmd_lst, env_copy);
 	/* 	else if (tokens->type == 0) */
 	/* 	{ */
 	/* 		while (tokens != NULL) */
@@ -157,8 +155,14 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	assign_fds(cmd_lst);
 	while (cmd_lst != NULL)
 	{
-		assign_redir(cmd_lst);
-		send_to_execution(cmd_lst, env_copy);
+		if (tokens->type == 1)
+			which_builtin(cmd_lst, env_copy);
+		else
+		{
+			assign_redir(cmd_lst);
+			printf("coucou\n");
+			send_to_execution(cmd_lst, env_copy);
+		}
 		cmd_lst = cmd_lst->next;
 	}
 	clear_commande_list(&cmd_lst);

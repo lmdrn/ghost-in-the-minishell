@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/11/14 18:30:15 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 16:31:25 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,12 @@ void	assign_types(t_type *node, t_type *lst, t_environment *env_copy)
 		assign_ch_gauche(node, lst, next_node);
 	else if (is_builtin(node->text) == 0)
 		assign_builtin(node);
-	else if (is_executable_command(node->text) == 0)
+	else if (is_abs_path_executable(node->text) == 1)
 		assign_exec_cmd(node);
+	else if (is_executable_command(node->text) == 0)
+	{
+		assign_exec_cmd(node);
+	}
 	else
 		assign_quotes(node, env_copy);
 }
