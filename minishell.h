@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 17:41:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:42:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void			handling_signals(char *input);
 
 int				is_builtin(char *input);
 void			assign_types(t_type *node, t_type *lst,
-					t_environment *env_copy);
+					t_environment *env_copy, int command_assigned);
 
 /* ooo - utils - ooo */
 

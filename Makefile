@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
+#    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/22 16:52:04 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/12/22 18:38:57 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ CC 		= gcc
 
 CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 
-CFLAGS		+= -fsanitize=address -g3 
+CFLAGS		+= -fsanitize=address -g
 
 LIBFT =		-L./libft -lft
 

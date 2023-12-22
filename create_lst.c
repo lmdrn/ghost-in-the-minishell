@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 17:59:38 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/22 19:49:31 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct	s_type	*create_node(const char *block)
 		return (NULL);
 	}
 	node->text = ft_strdup(block);
+	printf("node->text 1 is %s\n", node->text);
 	if (node->text == NULL)
 	{
 		ft_putendl_fd("dup failed\n", 1);
@@ -34,12 +35,12 @@ struct	s_type	*create_node(const char *block)
 }
 
 t_type	*create_node_and_assign_types(char *text, t_type *head,
-		t_environment *env_copy)
+		t_environment *env_copy, int cmd_assigned)
 {
 	t_type	*node;
 
 	node = create_node(text);
-	assign_types(node, head, env_copy);
+	assign_types(node, head, env_copy, cmd_assigned);
 	return (node);
 }
 
@@ -50,6 +51,7 @@ t_type	*create_node_and_assign_types(char *text, t_type *head,
 
 t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
+	int cmd_assigned = 0 ;
 	t_type	*head;
 	t_type	*current;
 	int		i;
@@ -59,7 +61,14 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 	i = 0;
 	while (blocks[i])
 	{
-		node = create_node_and_assign_types(blocks[i], head, env_copy);
+		node = create_node_and_assign_types(blocks[i], head, env_copy, cmd_assigned);
+		if (node->type == cmd) {
+			cmd_assigned = 1;
+		}
+		else if (node->type == 7) {
+			cmd_assigned = 0;
+		}
+		printf("node->text 2 is %s\n", node->text);
 		if (!head)
 		{
 			head = node;
@@ -72,5 +81,6 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 		}
 		i++;
 	}
+
 	return (head);
 }
