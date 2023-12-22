@@ -6,7 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/12/22 19:58:22 by lmedrano         ###   ########.fr       */
+=======
+/*   Updated: 2023/12/22 17:42:32 by lmedrano         ###   ########.fr       */
+>>>>>>> 30cdf87fef70b48e742d2b64a6089211086e16c0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +56,11 @@ int	ft_block(const char *str, char **blocks, int start, int block_index)
 		bparams.i++;
 	}
 	add_last_block(str, blocks, block_index, start);
+<<<<<<< HEAD
 	if (quote_check(bparams.in_dq, bparams.in_sq) == -1)
+=======
+	if (quote_check(in_dq, in_sq) == -1)
+>>>>>>> 30cdf87fef70b48e742d2b64a6089211086e16c0
 		return (-1);
 	return (0);
 }
