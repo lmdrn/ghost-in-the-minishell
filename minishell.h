@@ -158,6 +158,9 @@ char			*get_home(t_environment *head);
 int				go_home(t_environment *env_copy, char *home);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
 char			*go_back_directories(char *path);
+int				is_one_arg(int nb_args, t_commande *cmd_lst);
+int				ticket_going_home(t_commande *cmd_lst);
+int				count_args_cd(t_commande *cmd_lst);
 
 /* ooo - echo - ooo */
 

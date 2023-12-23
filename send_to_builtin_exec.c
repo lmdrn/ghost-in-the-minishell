@@ -39,8 +39,8 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		builtin_pwd(cmd_lst);
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
 	{
-//		print_command_list(cmd_lst);
-//		printf("\n");
+		print_command_list(cmd_lst);
+		printf("\n");
 		builtin_cd(cmd_lst, env_copy);
 	}
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)

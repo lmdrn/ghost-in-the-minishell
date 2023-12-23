@@ -51,16 +51,12 @@ char	*get_home(t_environment *env_copy)
 	return (NULL); // HOME n'est pas défini
 }
 
-static int	check_args_cd(t_commande *cmd_lst)
+int count_args_cd(t_commande *cmd_lst)
 {
-	t_commande	*current;
-	t_commande	*temp;
-	t_args		*args;
-	int			i;
-
+	t_commande *current;
 	current = cmd_lst;
-	temp = cmd_lst;
-	i = 0;
+	t_args  *args;
+	int i = 0;
 	if (current != NULL)
 	{
 		args = current->args;
@@ -69,57 +65,70 @@ static int	check_args_cd(t_commande *cmd_lst)
 			i++;
 			args = args->next;
 		}
-		printf("nombre d'argument %d\n", i);
+		return (i);
+	}
+	return (ERROR);
+}
+static int	check_args_cd(t_commande *cmd_lst)
+{
+	t_commande	*current;
+	int			i;
+
+	current = cmd_lst;
+	i = 0;
+	if (current != NULL)// avant if
+	{
+		i = count_args_cd(cmd_lst);
+		printf("\n\nvaleur de nombre d'arguments %i\n", i);
 		if (i > 1)
 		{
+			g_status= 1;
+			//exit? ou pourrait arreter depuis ici
 			printf("\ntrop d'argumetns\n");
-			return (-1);
+			return (ERROR); // ou -1
 		}
-		else if (i == 1)
-		{
-			if (ft_strcmp(cmd_lst->args->arg, "..") == 0)
-			{
-				printf("on recule de 1 dossier \n");
-				return(2);
-			}
-			printf("\n bien un seul argument\n");
-			return (10);
-		}
-		current = temp;
-		if (current->args == NULL )// a voir si on place plus haut avant la boucle de current..pas nesoin temp
-		{
-			printf("il n'y a aucuuuun arguments, ok");
-			return (0);
-		}
-		if (ft_strcmp(current->args->arg, "~") == 0)//&& current->args->arg[1] == '\0')
-		{
-			printf("il y a le tild, ok");
-			return (0);
-		}
-		if (ft_strcmp(current->args->arg, "..") == 0)
-		{
-			// remonter d'un répertoire
-			//ft-cd? faut que ca upDATE
-			printf("\n je suis bien chez ..\n");
-			if (chdir("..") != 0)
-			{
-				printf("cd: Failed to change directory");
-				return (ERROR);
-			}
-			else
-			{
-				printf("\n je suis recul´´d'un cran normalement, reste a upload la nouvel position\n");
-				return (6);
-			}
-		}
-		else
-			return (9);
+		if (i == 1)
+			is_one_arg(i, cmd_lst);
+		//		else if (i == 1)
+		//		{
+		//			if (ft_strcmp(cmd_lst->args->arg, "..") == 0)
+		//			{
+		//				printf("on recule de 1 dossier \n");
+		//				return(2);
+		//			}
+		//			printf("\n bien un seul argument\n");
+		//			return (10);
+		//		}
+		//		current = temp;
+		ticket_going_home(cmd_lst);
+	//		if (current->args == NULL )// a voir si on place plus haut avant la boucle de current..pas nesoin temp
+	//		{
+	//			printf("il n'y a aucuuuun arguments, ok");
+	//			return (0);
+	//		}
+	//		if (ft_strcmp(current->args->arg, "~") == 0)//&& current->args->arg[1] == '\0')
+	//		{
+	//			printf("il y a le tild, ok");
+	//			return (0);
+	//		}
+		// .. a voir si celui au dessus suffit
+//		if (ft_strcmp(current->args->arg, "..") == 0)
+//		{
+//			// remonter d'un répertoire
+//			//ft-cd? faut que ca upDATE
+//			printf("\n je suis bien chez ..\n");
+//			if (chdir("..") != 0)
+//			{
+//				printf("cd: Failed to change directory");
+//				return (ERROR);
+//			}
+//			else
+//			{
+//				printf("\n je suis recul´´d'un cran normalement, reste a upload la nouvel position\n");
+//				return (6);
+//			}
 	}
-	else
-	{
-		printf("current est NULL, ok");
-		return (-1); // Ajout du return ici pour le cas où current est NULL
-	}
+	return (ERROR);
 }
 
 int	ft_cd(t_environment *env_copy, char *path, int path_back)
@@ -149,6 +158,24 @@ int	ft_cd(t_environment *env_copy, char *path, int path_back)
 	return (SUCCESS);
 }
 
+int is_one_arg(int nb_args, t_commande *cmd_lst)
+{
+	if (nb_args == 1)
+	{
+		if (ft_strcmp(cmd_lst->args->arg, "..") == 0)
+		{
+			printf("on recule de 1 dossier \n");
+			return(2);
+		}
+		printf("\n bien un seul argument\n");
+		return (3);
+
+	}
+	else
+		return(ERROR);//sure?
+}
+
+
 char *go_back_directories(char *path)
 {
 	char *last_slash;
@@ -168,66 +195,82 @@ char *go_back_directories(char *path)
 	}
 }
 
+int	ticket_going_home(t_commande *cmd_lst)
+{
+	t_commande *current;
+	current = cmd_lst;
+
+	if (current->args == NULL )
+	{
+		printf("il n'y a aucuuuun arguments, ok\n");
+		return (1);
+	}
+	else if (ft_strcmp(current->args->arg, "~") == 0)//&& current->args->arg[1] == '\0')
+	{
+		printf("il y a le tild, ok");
+		return (1);
+	}
+	else
+		return (ERROR);
+}
+ /*
+  * == 0 ERROR
+  * > 1 erreurs trop d'arguments. -> sortie
+  * == 1 , aucun argument ou tild, retour a Home
+  * == 2 , ".." on recule de 1 repertoire
+  * == 3, bien un seul argument ->execute
+  */
+
+
+
 int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 {
 	char	*home;
-	int		arg;
+	int		arg_check;
 	int path_back;
 
-	arg = 0;
+	arg_check = 0;
 	home = NULL;
 	path_back = 0;
 	//t_environment *current = env_copy;
 
-	arg = check_args_cd(cmd_lst);
+	arg_check = check_args_cd(cmd_lst);// check les arguments
 
-	printf("nombre d;argument %d\n", arg);
-	if (arg == -1)
+	printf("\n nombre d;argument %d\n", arg_check);
+	// a voir si dans check_arg pas sortir de suite ou pas
+	if (arg_check == ERROR)
 	{
 		printf("cd: too many arguments\n");
 		//free home?
 		return (ERROR);
 	}
-	else if (arg == 2 )
-	{
-		path_back= 1;
-	}
-	//home = get_home(env_copy); // 2x utikl
-	else if (home == NULL)
+
+		//leaks peut pas aller vers go home
+	home = get_home(env_copy);//check ici
+	if (home == NULL)
 	{
 		printf("cd: Home not set\n");
 		return (ERROR);
 	}
-
-	else if (arg == 0)
-	{
-		//leaks peut pas aller vers go home
-		home = get_home(env_copy);//check ici
-		if (home == NULL)
-		{
-			printf(" la maison c'est null \n");
-			return (ERROR);
-		}
+	if (arg_check == 1)
 		if (go_home(env_copy, home) == ERROR) // ici probleme 2e cd
 		{
 			printf("\n can't go home\n");
 			//free(home);
-			return (ERROR);
+			return (ERROR);//g_status
 		}
-		//free(home);
-		return (SUCCESS);
-	}
-	else if (arg == 1)
+	if (arg_check == 2 )
 	{
-		if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
+		path_back= 1;
+	}
+	 if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
 		{
 			printf("path to file doesn't exist");
 			free(home);
 			home = NULL;
 			return (ERROR);
 		}
-	}
 
-	ft_cd(env_copy, cmd_lst->args->arg, path_back);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
+	//ft_cd(env_copy, cmd_lst->args->arg, path_back);// iciiii prend pas en compte si cd sans argument...va pas au bonne nedroit
 	return (SUCCESS);
 }
