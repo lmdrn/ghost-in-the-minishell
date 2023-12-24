@@ -14,13 +14,12 @@
 
 void	print_env_builtin(t_environment *env_copy)
 {
-
 	t_environment *current;
 
 	current = env_copy;
 	if (current != NULL)
 	{
-		while (current->key != NULL)
+		while(current != NULL)
 		{
 			printf("%s=%s", current->key, current->value);
 			if (current->next != NULL)
