@@ -33,6 +33,34 @@ int	check_is_in_env(t_environment *env_copy, char *var)
 	else
 		return (ERROR);
 }
+//void print_command_list(t_commande *cmd_list)
+//{
+//	t_commande *current_cmd = cmd_list;
+//	t_args *current_arg;
+//
+//	while (current_cmd != NULL)
+//	{
+//		printf("Command: %s\n", current_cmd->cmd);
+//		printf("  fdin: %d, fdout: %d\n", current_cmd->fdin, current_cmd->fdout);
+//		printf("  pid: %d, wait_status: %d\n", current_cmd->pid, current_cmd->wait_status);
+//		// Ajoutez ici les impressions pour env_copy et tokens si nécessaire
+//
+//		current_arg = current_cmd->args;
+//		if (current_arg == NULL)
+//		{
+//			printf("  Arg: est NUll\n");
+//		}
+//		while (current_arg != NULL)
+//		{
+//			printf("  Arg: %s, Type: %d\n", current_arg->arg, current_arg->type);
+//			current_arg = current_arg->next;
+//		}
+//
+//
+//		current_cmd = current_cmd->next;
+//	}
+//}
+
 void print_command_list(t_commande *cmd_list)
 {
 	t_commande *current_cmd = cmd_list;
@@ -40,26 +68,35 @@ void print_command_list(t_commande *cmd_list)
 
 	while (current_cmd != NULL)
 	{
+		if (current_cmd == NULL || current_cmd->cmd == NULL)  {
+			printf("skip la cmd\n");
+			current_cmd = current_cmd->next;
+			continue; // Passez à la commande suivante si cmd est nul
+		}
+
 		printf("Command: %s\n", current_cmd->cmd);
-		printf("  fdin: %d, fdout: %d\n", current_cmd->fdin, current_cmd->fdout);
-		printf("  pid: %d, wait_status: %d\n", current_cmd->pid, current_cmd->wait_status);
+		//printf("  fdin: %d, fdout: %d\n", current_cmd->fdin, current_cmd->fdout);
+		//printf("  pid: %d, wait_status: %d\n", current_cmd->pid, current_cmd->wait_status);
 		// Ajoutez ici les impressions pour env_copy et tokens si nécessaire
 
 		current_arg = current_cmd->args;
-		if (current_arg == NULL)
-		{
-			printf("  Arg: est NUll\n");
+		if (current_arg == NULL) {
+			printf("  Args: None\n");
 		}
 		while (current_arg != NULL)
 		{
-			printf("  Arg: %s, Type: %d\n", current_arg->arg, current_arg->type);
+			if (current_arg->arg != NULL) {
+				printf("  Arg: %s, Type: %d\n", current_arg->arg, current_arg->type);
+			} else {
+				printf("  Arg: NULL\n");
+			}
 			current_arg = current_arg->next;
 		}
-
 
 		current_cmd = current_cmd->next;
 	}
 }
+
 void	print_value(t_environment *env_copy, char *key)
 {
 	t_environment *current;
