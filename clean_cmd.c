@@ -63,7 +63,7 @@ char	*clean_cmd_type(t_type *node)
 	}
 	new_str[j] = '\0';
 	node->text = new_str;
-	printf("without quotes is %s\n", new_str);
+	//printf("without quotes is %s\n", new_str);
 	return (new_str);
 }
 
@@ -74,7 +74,7 @@ char	*remove_xtra_spaces(char *input)
 	int		len;
 
 	i = 0;
-	printf("I go there\n");
+	//printf("I go there\n");
 	while (ft_isspace(*input))
 		input++;
 	len = ft_strlen(input);

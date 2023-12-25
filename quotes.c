@@ -15,7 +15,7 @@
 void	quote_builtin_or_cmd(t_type *node)
 {
 	clean_cmd_type(node);
-	printf("Im here\n");
+	//printf("Im here\n");
 	if (is_builtin(node->text) == 0)
 		node->type = builtin;
 	else if (is_executable_command(node->text) == 0)
@@ -43,7 +43,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	{
 		node->type = args;
 		new_node = clean_cmd_type(node);
-		printf("Im here1\n");
+		//printf("Im here1\n");
 		/* printf("cleaned variable is %s\n", new_node); */
 		env_var = find_env_variable(node, end_position, variable);
 		/* printf("Env var is %s\n", env_var); */
@@ -63,7 +63,7 @@ void	block_has_s_quotes(t_type *node)
 	if (count_word_node(node) == 1)
 	{
 		clean_cmd_type(node);
-		printf("Im here2\n");
+		//printf("Im here2\n");
 		if (is_builtin(node->text) == 0)
 			node->type = builtin;
 		else if (is_executable_command(node->text) == 0)
@@ -90,7 +90,7 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	end_position = NULL;
 	node->type = args;
 	new_node = clean_cmd_type(node);
-	printf("Im here3\n");
+	//printf("Im here3\n");
 	/* printf("cleaned variable is %s\n", new_node); */
 	env_var = find_env_variable(node, end_position, variable);
 	/* printf("Env var is %s\n", env_var); */
@@ -126,7 +126,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	}
 	else
 	{
-		printf("ici\n");
+		//printf("ici\n");
 		block_has_no_quotes(node, env_cpy);
 	}
 	//TESTS VARIABLES//

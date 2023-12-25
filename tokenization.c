@@ -72,12 +72,12 @@ void	assign_types(t_type *node, t_type *lst, t_environment *env_copy, int cmd_as
 		assign_exec_cmd(node);
 	else if (is_executable_command(node->text) == 0 && cmd_assigned == 0)
 	{
-		printf("2222222\n");
+		//printf("2222222\n");
 		assign_exec_cmd(node);
 	}
 	else
 	{
-		printf("11111111\n");
+		//printf("11111111\n");
 		assign_quotes(node, env_copy);
 	}
 }

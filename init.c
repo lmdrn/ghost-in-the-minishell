@@ -129,7 +129,7 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	if (cmd_lst != NULL)
 	{
 		/* printf("Command list:\n"); */
-		print_commande_list(cmd_lst);
+		//print_commande_list(cmd_lst);
 	}
 	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
 	/* { */

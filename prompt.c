@@ -22,6 +22,6 @@ char	*ft_prompt(void)
 {
 	char	*input;
 
-	input = readline("\n\U0001F63B \U0001F449 ");
+	input = readline("\U0001F63B \U0001F449 ");
 	return (input);
 }

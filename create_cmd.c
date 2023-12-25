@@ -114,8 +114,8 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 
 	cmd_head = NULL;
 	cmd_current = NULL;
-	printf("token is %d\n", tokens->type);
-	printf("token is %s\n", tokens->text);
+//	printf("token is %d\n", tokens->type);
+//	printf("token is %s\n", tokens->text);
 	while (tokens != NULL)
 	{
 		if (tokens->type == cmd || tokens->type == builtin)
