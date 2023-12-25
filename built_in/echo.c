@@ -13,76 +13,127 @@
 #include "../minishell.h"
 
 //Recoit le node apres "echo", navigue dans la liste entiere qui touche echo
-int	echo(t_commande *cmd_lst, t_environment *env_copy)
+int handle_option_n_and_advance_args(t_commande **cmd_lst)
 {
-	int 		option;
-	t_commande	*current;
+	int option = 0;
 
-	option = 0;
-	if (cmd_lst->args == NULL && !option)
-	{
-		printf("\n");
-		return (0);
-	}
-	if (cmd_lst != NULL && cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
-		option = check_option_n(cmd_lst->args->arg);
-	while (cmd_lst->args != NULL && check_option_n(cmd_lst->args->arg) == 1)
-			cmd_lst->args = cmd_lst->args->next;
-	if (cmd_lst->args == NULL)
-		return (0);
-	current = cmd_lst; // temp pour paroucrir, on a un new head. on a checker option c'est bon
+	if (*cmd_lst != NULL && (*cmd_lst)->args != NULL && (*cmd_lst)->args->arg != NULL)
+		option = check_option_n((*cmd_lst)->args->arg);
 
-	//peut etre pas necessaire
-	while (current != NULL && current->args != NULL && current->args->arg != NULL)// check si delimiter qui bloque comme pipe
-	{
-		//si le node aectuel est un delimieur '|'...mais que le suivant n'est pas une commande valide. stop
-		// '' '>' et le suivant pas une commande. cree le file
-		if (ft_strncmp(current->args->arg, "|", 1) == 0
-			|| (ft_strncmp(current->args->arg, ">", 1) == 0)) //(current->type != delimiter)
-		{
-			printf("bash: erreur de syntaxe, utilisation de delimiteur: `%s'\n", current->args->arg);
+	while ((*cmd_lst)->args != NULL && check_option_n((*cmd_lst)->args->arg) == 1)
+		(*cmd_lst)->args = (*cmd_lst)->args->next;
+
+	return option;
+}
+
+int print_args_and_check_syntax(t_commande *cmd_lst, t_environment *env_copy, int option)
+{
+	t_commande *current = cmd_lst;
+	while (current != NULL && current->args != NULL && current->args->arg != NULL) {
+		if (ft_strncmp(current->args->arg, "|", 1) == 0 ||
+			ft_strncmp(current->args->arg, ">", 1) == 0) {
+			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
 			return (1);
 		}
 		else
-			current = current->next;//va aunprochain node
+			current = current->next;
 	}
-	current = cmd_lst;
-	while (current->args != NULL && current->args != NULL && current->args->arg != NULL)// on print
+
+	return print_echo_arguments(cmd_lst, env_copy, option);
+}
+
+int print_echo_arguments(t_commande *cmd_lst, t_environment *env_copy, int option)
+{
+	while (cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
 	{
-		ft_echo(current->args->arg, env_copy);
-		if (current->args->next != NULL)
-			printf(" ");// si nbre de node non final
-		cmd_lst->args = cmd_lst->args->next;//bouge
+		ft_echo(cmd_lst->args->arg, env_copy);
+		if (cmd_lst->args->next != NULL)
+			printf(" ");
+		cmd_lst->args = cmd_lst->args->next;
 	}
-	if (!option)
-	{
+
+	if (!option) {
 		printf("\n");
 	}
 	return (0);
 }
 
-void	ft_echo(char *str, t_environment *env_copy)//ajouter env_copy
+int echo(t_commande *cmd_lst, t_environment *env_copy) {
+	int option = handle_option_n_and_advance_args(&cmd_lst);
+
+	if (cmd_lst->args == NULL && !option) {
+		printf("\n");
+		return (0);
+	}
+
+	return (print_args_and_check_syntax(cmd_lst, env_copy, option));
+}
+
+
+
+//int	echo(t_commande *cmd_lst, t_environment *env_copy)
+//{
+//	int			option;
+//	t_commande	*current;
+//
+//	option = 0;
+//	if (cmd_lst->args == NULL && !option)
+//	{
+//		printf("\n");
+//		return (0);
+//	}
+//	if (cmd_lst != NULL && cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
+//		option = check_option_n(cmd_lst->args->arg);
+//	while (cmd_lst->args != NULL && check_option_n(cmd_lst->args->arg) == 1)
+//		cmd_lst->args = cmd_lst->args->next;
+//	if (cmd_lst->args == NULL)
+//		return (0);
+//	current = cmd_lst;
+//	while (current != NULL && current->args != NULL \
+//	&& current->args->arg != NULL)
+//	{
+//		if (ft_strncmp(current->args->arg, "|", 1) == 0
+//			|| (ft_strncmp(current->args->arg, ">", 1) == 0))
+//		{
+//			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
+//			return (1);
+//		}
+//		else
+//			current = current->next;
+//	}
+//	current = cmd_lst;
+//	while (current->args != NULL && current->args != NULL \
+//	&& current->args->arg != NULL)
+//	{
+//		ft_echo(current->args->arg, env_copy);
+//		if (current->args->next != NULL)
+//			printf(" ");
+//		cmd_lst->args = cmd_lst->args->next;
+//	}
+//	if (!option)
+//	{
+//		printf("\n");
+//	}
+//	return (0);
+//}
+
+void	ft_echo(char *str, t_environment *env_copy)
 {
-	int	i;
+	int		i;
 	char	*value_env;
 
 	i = 0;
 	while (str[i])
 	{
-		/* Valeur de retour de l'action précédente "$?"
-		 Check - imprime le retour - continue d'imprimer */
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			printf("print derrniere error"); // , g_status
+			printf("print derrniere error");
 			i++;
 		}
-		/* Interprète une variable d'environnement, par exemple, "$USER" */
 		else if (str[i] == '$' && isalnum(str[i + 1]) && str[i + 1] != '\0')
 		{
-			//char *str_env = &str[i+1];
 			if (check_is_in_env(env_copy, str) == ERROR)
 				exit(1);
-				// de toute facon retour NULL si existe pas
 			else
 			{
 				value_env = get_env_value(env_copy, &str[i + 1]);
@@ -90,10 +141,7 @@ void	ft_echo(char *str, t_environment *env_copy)//ajouter env_copy
 			}
 		}
 		else
-		{
-			// Afficher le caractère tel quel
 			printf("%c", str[i]);
-		}
 		i++;
 	}
 }
