@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
+/*   Updated: 2023/12/20 18:20:41 by lmedrano         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
 int	go_home(t_environment *env_copy, char *home)
 {
-	update_pwd_oldpwd(env_copy, home);// on tente car tojour suodate a home
+	update_pwd_oldpwd(env_copy, home);
 	if (chdir(home) != 0)
 	{
 		printf ("cd: Home non accessible");
@@ -12,14 +23,15 @@ int	go_home(t_environment *env_copy, char *home)
 	else
 		return (SUCCESS);
 }
+
 char	*get_home(t_environment *env_copy)
 {
-	t_environment *current;
+	t_environment	*current;
 
 	current = env_copy;
 	if (env_copy == NULL)
 		return (NULL);
-	while (current!= NULL)
+	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, "HOME") == 0)
 			return (current->value);
@@ -28,12 +40,14 @@ char	*get_home(t_environment *env_copy)
 	return (NULL);
 }
 
-int count_args_cd(t_commande *cmd_lst)
+int	count_args_cd(t_commande *cmd_lst)
 {
-	t_commande *current;
+	t_commande	*current;
+	t_args		*args;
+	int			i;
+
 	current = cmd_lst;
-	t_args  *args;
-	int i = 0;
+	i = 0;
 	if (current != NULL)
 	{
 		args = current->args;
@@ -46,11 +60,12 @@ int count_args_cd(t_commande *cmd_lst)
 	}
 	return (ERROR);
 }
-char *go_back_directories(char *path)
+
+char	*go_back_directories(char *path)
 {
-	char *last_slash;
-	char *result;
-	int len;
+	char	*last_slash;
+	char	*result;
+	int		len;
 
 	last_slash = ft_strrchr(path, '/');
 	if (last_slash != NULL)
@@ -61,21 +76,21 @@ char *go_back_directories(char *path)
 	}
 	else
 	{
-		return ft_strdup(path);
+		return (ft_strdup(path));
 	}
 }
-int is_one_arg(int nb_args, t_commande *cmd_lst)
+
+int	is_one_arg(int nb_args, t_commande *cmd_lst)
 {
 	if (nb_args == 1)
 	{
-		if (ft_strcmp(cmd_lst->args->arg, "~") == 0) // ne lit pas le tild
+		if (ft_strcmp(cmd_lst->args->arg, "~") == 0)
 			return (1);
 		else if (ft_strcmp(cmd_lst->args->arg, "..") == 0)
-			return(2);
+			return (2);
 		else
 			return (3);
 	}
 	else
-		return(ERROR);
+		return (ERROR);
 }
-

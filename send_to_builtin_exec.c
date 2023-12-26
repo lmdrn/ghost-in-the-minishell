@@ -86,7 +86,6 @@ t_commande *create_cmd_lst_node(const char *command, const char *argument) {
 		free(node);
 		return NULL;
 	}
-
 	node->args->type = 0;  // Définir le type si nécessaire
 	node->args->next = NULL;
 

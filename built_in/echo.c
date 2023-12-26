@@ -12,66 +12,11 @@
 
 #include "../minishell.h"
 
-//Recoit le node apres "echo", navigue dans la liste entiere qui touche echo
-int	handle_option_n_and_advance_args(t_commande **cmd_lst)
-{
-	int	option;
-
-	option = 0;
-	if (*cmd_lst != NULL && (*cmd_lst)->args != NULL \
-	&& (*cmd_lst)->args->arg != NULL)
-		option = check_option_n((*cmd_lst)->args->arg);
-	while ((*cmd_lst)->args != NULL && \
-	check_option_n((*cmd_lst)->args->arg) == 1)
-		(*cmd_lst)->args = (*cmd_lst)->args->next;
-	return (option);
-}
-
-int	print_args_and_check_syntax(t_commande *cmd_lst, t_environment *env_copy, \
-int option)
-{
-	t_commande	*current;
-
-	current = cmd_lst;
-	while (current != NULL && current->args != NULL \
-	&& current->args->arg != NULL)
-	{
-		if (ft_strncmp(current->args->arg, "|", 1) == 0 \
-		||ft_strncmp(current->args->arg, ">", 1) == 0)
-		{
-			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
-			return (1);
-		}
-		else
-			current = current->next;
-	}
-	if (print_echo_arguments(cmd_lst, env_copy, option))
-		return (2);
-	return (SUCCESS);
-}
-
-int	print_echo_arguments(t_commande *cmd_lst, \
-t_environment *env_copy, int option)
-{
-	while (cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
-	{
-		ft_echo(cmd_lst->args->arg, env_copy);
-		if (cmd_lst->args->next != NULL)
-			printf(" ");
-		cmd_lst->args = cmd_lst->args->next;
-	}
-	if (!option)
-	{
-		printf("\n");
-	}
-	return (0);
-}
-
 int	echo(t_commande *cmd_lst, t_environment *env_copy)
 {
 	int	option;
 
-	option = handle_option_n_and_advance_args(&cmd_lst);
+	option = handle_option_all_n(&cmd_lst);
 	if (cmd_lst->args == NULL && !option)
 	{
 		printf("\n");
@@ -81,56 +26,12 @@ int	echo(t_commande *cmd_lst, t_environment *env_copy)
 	{
 		return (0);
 	}
-	if (print_args_and_check_syntax(cmd_lst, env_copy, option) == 2)
-		return (2);
+	if (check_syntax_and_print(cmd_lst) == ERROR)
+		return (ERROR);
+	if (print_arguments(cmd_lst, env_copy, option) == 3)
+		return (0);
 	return (0);
 }
-
-//int	echo(t_commande *cmd_lst, t_environment *env_copy)
-//{
-//	int			option;
-//	t_commande	*current;
-//
-//	option = 0;
-//	if (cmd_lst->args == NULL && !option)
-//	{
-//		printf("\n");
-//		return (0);
-//	}
-//	if (cmd_lst != NULL && cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
-//		option = check_option_n(cmd_lst->args->arg);
-//	while (cmd_lst->args != NULL && check_option_n(cmd_lst->args->arg) == 1)
-//		cmd_lst->args = cmd_lst->args->next;
-//	if (cmd_lst->args == NULL)
-//		return (0);
-//	current = cmd_lst;
-//	while (current != NULL && current->args != NULL \
-//	&& current->args->arg != NULL)
-//	{
-//		if (ft_strncmp(current->args->arg, "|", 1) == 0
-//			|| (ft_strncmp(current->args->arg, ">", 1) == 0))
-//		{
-//			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
-//			return (1);
-//		}
-//		else
-//			current = current->next;
-//	}
-//	current = cmd_lst;
-//	while (current->args != NULL && current->args != NULL \
-//	&& current->args->arg != NULL)
-//	{
-//		ft_echo(current->args->arg, env_copy);
-//		if (current->args->next != NULL)
-//			printf(" ");
-//		cmd_lst->args = cmd_lst->args->next;
-//	}
-//	if (!option)
-//	{
-//		printf("\n");
-//	}
-//	return (0);
-//}
 
 void	ft_echo(char *str, t_environment *env_copy)
 {
@@ -161,7 +62,7 @@ void	ft_echo(char *str, t_environment *env_copy)
 	}
 }
 
-int	check_option_n(char *str) // verifie si le node apres echo est une option
+int	check_option_n(char *str)
 {
 	int	i;
 

@@ -168,9 +168,9 @@ void			ft_echo(char *str, t_environment *env_copy);
 int				check_option_n(char *str);
 //int				echo(t_commande *cmd_lst,t_environment *env_copy);
 char			*get_env_value(t_environment *env_copy, char *env_key);
-int handle_option_n_and_advance_args(t_commande **cmd_lst);
-int print_args_and_check_syntax(t_commande *cmd_lst, t_environment *env_copy, int option);
-int print_echo_arguments(t_commande *cmd_lst, t_environment *env_copy, int option);
+int handle_option_all_n(t_commande **cmd_lst);
+int	check_syntax_and_print(t_commande *cmd_lst);
+int print_arguments(t_commande *cmd_lst, t_environment *env_copy, int option);
 int echo(t_commande *cmd_lst, t_environment *env_copy);
 
 
