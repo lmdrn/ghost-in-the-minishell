@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
+
 int	handle_option_all_n(t_commande **cmd_lst)
 {
 	int	option;

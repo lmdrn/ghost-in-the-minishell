@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 
-void    print_nodes(t_environment *node)// print la liste, t_pushswap *ps
+void    print_nodes_a(t_environment *node)// print la liste, t_pushswap *ps
 {
 	t_environment *current_node;
 
@@ -110,7 +110,7 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		builtin_cd(cmd_lst_factice, env_copy);
 	}
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
-		printf("EXPORT function should happen here\n");
+		export_main(cmd_lst, env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
 		printf("UNSET function should happen here\n");
 	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)
