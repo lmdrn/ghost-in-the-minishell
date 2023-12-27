@@ -23,7 +23,7 @@ void add_node(t_environment **env_copy, char *key, char *value)
 	}
 
 	new_node->key = strdup(key);
-	new_node->key = NULL;//init
+	new_node->value = NULL;//init
 	int value_switch = 0;
 	if (value != NULL)
 	{
@@ -33,7 +33,7 @@ void add_node(t_environment **env_copy, char *key, char *value)
 
 
 	// Gestion d'erreur si l'une des allocations échoue
-	if (value_switch == 1)
+	if (value_switch == 0)
 		free(new_node->value); // Libérer value si elle a été allouée
 	if (new_node->key == NULL && new_node->value == NULL)
 	{

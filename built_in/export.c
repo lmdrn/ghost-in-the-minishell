@@ -68,20 +68,40 @@ void	bubble_sort_env(t_environment **head)
 	}
 }
 
+//void print_sorted_env(t_environment *env_copy)
+//{
+//	t_environment *current = env_copy;
+//
+//	while (current->next != NULL)
+//	{
+//
+//		if (current->key != NULL && current->value == NULL )
+//			printf("%s\n", current->key);
+//		else if (current->key != NULL && current->value != NULL )
+//			printf("%s=%s\n", current->key, current->value);
+//		current = current->next;
+//	}
+//}
 void print_sorted_env(t_environment *env_copy)
 {
 	t_environment *current = env_copy;
 
-	while (current->next != NULL)
+	while (current != NULL)  // Modifié pour inclure le dernier nœud
 	{
-
-		if (current->key != NULL && current->value == NULL )
-			printf("%s\n", current->key);
-		else if (current->key != NULL && current->value != NULL )
-			printf("%s=%s\n", current->key, current->value);
+		if (current->key != NULL)
+		{
+			if (current->value == NULL)
+			{
+				printf("%s\n", current->key);
+			} else
+			{
+				printf("%s=%s\n", current->key, current->value);
+			}
+		}
 		current = current->next;
 	}
 }
+
 
 int print_normal_variable(t_environment *env_copy, int size_env, char *minus, char *maj)
 {
@@ -222,7 +242,8 @@ void remplace_old_value(char *value, char *key, t_environment *env_copy)
 	{
 		if (strcmp(current->key, key) == 0)
 		{
-			free(current->value);
+			if (current->value != NULL)
+				free(current->value);
 			current->value = strdup(value);
 			if (current->value == NULL )
 			{
