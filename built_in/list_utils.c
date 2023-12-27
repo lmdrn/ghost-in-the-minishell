@@ -23,13 +23,24 @@ void add_node(t_environment **env_copy, char *key, char *value)
 	}
 
 	new_node->key = strdup(key);
-	new_node->value = strdup(value);
+	new_node->key = NULL;//init
+	int value_switch = 0;
+	if (value != NULL)
+	{
+		new_node->value = strdup(value);
+		value_switch = 1;
+	}
+
 
 	// Gestion d'erreur si l'une des allocations échoue
-	if (new_node->key == NULL || new_node->value == NULL) {
+	if (value_switch == 1)
+		free(new_node->value); // Libérer value si elle a été allouée
+	if (new_node->key == NULL && new_node->value == NULL)
+	{
 		fprintf(stderr, "Erreur d'allocation mémoire pour les champs key ou value\n");
 		free(new_node->key); // Libérer key si elle a été allouée
-		free(new_node->value); // Libérer value si elle a été allouée
+//		if (value_switch == 1)
+//			free(new_node->value); // Libérer value si elle a été allouée
 		free(new_node); // Libérer le nœud lui-même
 		exit(EXIT_FAILURE);
 	}

@@ -14,11 +14,28 @@ void no_arg_so_print_env_exports(t_environment *env_copy, int nb_args)
 	}
 }
 
-int need_swap(t_environment *a, t_environment *b)
-{
+int need_swap(t_environment *a, t_environment *b) {
+	// Vérifie si l'une des clés est NULL et gère ce cas
+	if (a->key == NULL || b->key == NULL) {
+		if (a->key == NULL && b->key != NULL) {
+			return 1; // Considérer NULL comme inférieur à toute chaîne non-NULL
+		}
+		if (a->key != NULL && b->key == NULL) {
+			return 0; // Considérer toute chaîne non-NULL comme supérieure à NULL
+		}
+		return 0; // Si les deux clés sont NULL, ne pas échanger
+	}
+
+	// Votre logique existante
 	int swap = strcmp(a->key, b->key) > 0;
 	return swap;
 }
+
+//int need_swap(t_environment *a, t_environment *b)
+//{
+//	int swap = strcmp(a->key, b->key) > 0;
+//	return swap;
+//}
 
 void swap_nodes(t_environment **prevNodeNext, t_environment *current, t_environment *next)
 {
@@ -55,9 +72,13 @@ void print_sorted_env(t_environment *env_copy)
 {
 	t_environment *current = env_copy;
 
-	while (current != NULL)
+	while (current->next != NULL)
 	{
-		printf("%s=%s\n", current->key, current->value);
+
+		if (current->key != NULL && current->value == NULL )
+			printf("%s\n", current->key);
+		else if (current->key != NULL && current->value != NULL )
+			printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 }
