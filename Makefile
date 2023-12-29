@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/29 15:48:40 by lmedrano         ###   ########.fr        #
+#    Updated: 2023/12/29 19:42:40 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  blocks_to_list_utils.c create_cmd_utils.c \
 			  custom_parsing_split_utils.c clean_cmd.c \
 			  execve_utils.c expand_variable_utils.c \
-			  absolute_cmd.c built_in/exit.c
+			  absolute_cmd.c built_in/exit.c dollar.c
 
 OBJS 		= ${SRCS:.c=.o}
 

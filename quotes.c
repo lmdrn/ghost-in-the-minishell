@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 12:55:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 19:29:28 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 		env_var = find_env_variable(node, end_position, variable);
 		/* printf("Env var is %s\n", env_var); */
 		if (env_var != NULL)
-		{
 			env_value = retrieve_env_variable(env_var, env_cpy);
-		}
-		new_node = replace_env_value(node, env_value);
+		if (ft_strncmp(node->text, "$?", 2) == 0)
+			new_node = replace_exit_status(node->text);
+		else
+			new_node = replace_env_value(node, env_value);
 		node->text = new_node;
 		/* printf("Env value is %s\n", env_value); */
 		/* printf("New str with environment_value is %s\n", new_node); */
@@ -61,6 +62,8 @@ void	block_has_s_quotes(t_type *node)
 	if (count_word_node(node) == 1)
 	{
 		clean_cmd_type(node);
+		if (ft_strncmp(node->text, "$?", 2) == 0)
+			replace_exit_status(node->text);
 		if (is_builtin(node->text) == 0)
 			node->type = builtin;
 		else if (is_executable_command(node->text) == 0)
@@ -92,7 +95,10 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	/* printf("Env var is %s\n", env_var); */
 	if (env_var != NULL)
 		env_value = retrieve_env_variable(env_var, env_cpy);
-	new_node = replace_env_value(node, env_value);
+	if (ft_strncmp(node->text, "$?", 2) == 0)
+		new_node = replace_exit_status(node->text);
+	else
+		new_node = replace_env_value(node, env_value);
 	node->text = new_node;
 	/* printf("Env value is %s\n", env_value); */
 	/* printf("New str with environment_value is %s\n", new_node); */

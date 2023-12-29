@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 16:03:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 19:10:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	main(int ac, char **av, char **envp)
 			else if (init_tokenizer(blocks, head) == -1)
 			{
 				printf("Error: %s: command not found\n", input);
+				g_status = 127;
+				printf("Error is %d\n", g_status);
 				handling_signals(input);
 			}
 		}
