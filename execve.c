@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 12:50:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:05:20 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 			printf("Malloc error\n");
 			return (1);
 		}
-		if (execve(full_path, argv, envp) == -1)
-			ft_error(cmd->cmd);
+		execve(full_path, argv, envp);
+		g_status = errno;
 		free_argv(argv);
 		free(full_path);
 	}

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:35:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:10:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	create_input_redir(char *filename, t_commande *cmd)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
+		g_status = 1;
+		error_without_exit(1, "Permission denied\n", 0);
 		close(fd);
-		printf("something's wrong\n");
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	if (curr_cmd->fdin != 0)
 		close(curr_cmd->fdin);

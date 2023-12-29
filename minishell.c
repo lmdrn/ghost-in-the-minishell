@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 19:51:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:03:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	init_prompt(input);
 	head = init_env(envp);
-//	t_environment *iter;
-//	iter = head;
-//	while (iter)
-//	{
-//		printf("%s = %s\n", iter->key, iter->value);
-//		iter = iter->next;
-//	}
 	while (1)
 	{
 		input = ft_prompt();
@@ -50,15 +43,17 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (input && *input)
 			add_history (input);
-		if (ft_strncmp(input, "exit", 4) == 0)
+		if (ft_strncmp(input, "exit", 4) == 0
+			|| ft_strncmp(input, "exit ", 5) == 0)
 		{
-			free(input);
-			break ;
+			builtin_exit(input);
 		}
 		else
 		{
-			if (ft_strncmp(input, "exit", 4) == 0)
+			if (ft_strncmp(input, "exit", 4) == 0
+				|| ft_strncmp(input, "exit ", 5) == 0)
 			{
+				builtin_exit(input);
 				free(input);
 				break ;
 			}
@@ -78,5 +73,5 @@ int	main(int ac, char **av, char **envp)
 			}
 		}
 	}
-	return (0);
+	return (g_status % 256);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:25:15 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:43:22 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:10:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int	create_append(char *filename, t_commande *cmd)
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
+		g_status = 1;
+		error_without_exit(1, "Permisssiond denied\n", 0);
 		close(fd);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	if (curr_cmd->fdout > 2)
 		close(curr_cmd->fdout);

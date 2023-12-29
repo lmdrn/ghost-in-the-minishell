@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 12:48:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:09:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <limits.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -222,6 +223,7 @@ int				quote_check(int in_dq, int in_sq);
 
 void			free_argv(char **argv);
 int				ft_error(char *str);
+void			error_without_exit(int error, char *message, int malloced);
 
 /* ooo - execve - oo */
 
@@ -278,6 +280,10 @@ char			**init_parse(const char *input);
 
 int				create_input_redir(char *filename, t_commande *cmd);
 void			init_input(t_commande *curr_cmd, t_commande *cmd);
+
+/* ooo - minishell - ooo */
+
+void			builtin_exit(char *input);
 
 /* ooo - output_redir - ooo */
 
@@ -340,7 +346,7 @@ char			*concat_str(char *s1, char *s2);
 
 /* ooo - utils_2 - ooo */
 
-int				ft_isspace(char c);
+int				ft_is_it_space(char c);
 int				ft_strcmp(const char *s1, const char *s2);
 
 #endif

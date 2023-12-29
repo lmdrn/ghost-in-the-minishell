@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 12:29:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:12:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 int	is_valid_char(char c)
 {
 	return (ft_isalpha(c) || c == '\'' || c == '\"');
-}
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
-		return (1);
-	return (0);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -67,15 +60,18 @@ int	block_count(char const *str, char c)
 	return (count + 1);
 }
 
-char *ft_strncat(char *dest, const char *src, size_t n) {
-    size_t dest_len = ft_strlen(dest);
-    size_t i;
+char	*ft_strncat(char *dest, const char *src, size_t n)
+{
+	size_t	dest_len;
+	size_t	i;
 
-    for (i = 0; i < n && src[i] != '\0'; i++) {
-        dest[dest_len + i] = src[i];
-    }
-
-    dest[dest_len + i] = '\0';  // Null-terminate the result
-
-    return dest;
+	i = 0;
+	dest_len = ft_strlen(dest);
+	while (i < n && src[i] != '\0')
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+	dest[dest_len + i] = '\0';
+	return (dest);
 }

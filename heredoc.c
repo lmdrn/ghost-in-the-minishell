@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:47:08 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 14:38:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:09:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ int	create_heredoc(char *filename, t_commande *cmd)
 	fd = heredoc_fd(filename);
 	if (fd == -1)
 	{
+		g_status = 1;
+		error_without_exit(1, "Permission denied\n", 0);
 		close(fd);
-		printf("Error with fd\n");
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	if (curr_cmd->fdin != 0)
 		close(curr_cmd->fdin);
