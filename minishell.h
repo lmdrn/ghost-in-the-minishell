@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 19:41:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 20:31:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ char			*replace_exit_status(char *text);
 void			free_argv(char **argv);
 int				ft_error(char *str);
 void			error_without_exit(int error, char *message, int malloced);
+void			exit_error(char *input);
 
 /* ooo - execve - oo */
 
