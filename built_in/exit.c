@@ -6,50 +6,11 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:25:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 20:35:44 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:12:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	count_sign(const char *str, int sign)
-{
-	if (*str == '+' || *str == '-')
-	{
-		if (*str++ == '+')
-			sign = 1;
-		else
-			sign = -1;
-	}
-}
-
-int	ft_atol(const char *str, int *res)
-{
-	long	long_nbr;
-	int		sign;
-
-	long_nbr = 0;
-	sign = 1;
-	while (ft_isspace(*str))
-			str++;
-	count_sign(str, sign);
-	while (ft_isdigit(*str))
-	{
-		long_nbr = long_nbr * 10 + (*str++ - '0');
-		if (long_nbr > INT_MAX || long_nbr < INT_MIN)
-		{
-			printf("Error: Numeric value is out of range.\n");
-			return (-1);
-		}
-	}
-	*res = sign * (int)long_nbr;
-	if (*res > INT_MAX)
-		*res = INT_MAX;
-	else if (*res < INT_MIN)
-		*res = INT_MIN;
-	*res = *res % 256;
-	return (0);
-}
 
 int	check_min_max(char *arg)
 {
@@ -71,6 +32,8 @@ int	check_min_max(char *arg)
 
 void	ft_check_numeric(char *arg, int i, int *error_flag)
 {
+	if (arg[i] == '-')
+		i++;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] < '0' || arg[i] > '9')

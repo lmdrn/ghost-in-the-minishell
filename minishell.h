@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 20:31:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:09:22 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,10 @@ char			*segment_malloc_copy(char *segment, char *token_start,
 					char *token_end);
 void			copy_the_path(t_environment *env_copy, t_epi *epi);
 int				count_args(t_args *args);
+
+/* ooo - exit_utils - ooo */
+
+int				ft_atol(const char *str, int *res);
 
 /* ooo - expand_variable - ooo */
 
