@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 19:51:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:52:51 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,9 @@ t_type	*process_command_args(t_commande *new_cmd, t_type *tokens)
 	remaining = NULL;
 	if (current != NULL && (current->type == cmd || current->type == builtin))
 		current = current->next;
-	printf("current is %s\n", current->text);
 	while (current != NULL && is_args_or_redir(current) == 0
 		&& current->type != is_pipe)
 	{
-		printf("current->text is %s\n", current->text);
-		printf("current->type is %d\n", current->type);
 		append_args(new_cmd, current->text, current->type);
 		remaining = current->next;
 		current = remaining;
@@ -114,13 +111,10 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 
 	cmd_head = NULL;
 	cmd_current = NULL;
-	printf("token is %d\n", tokens->type);
-	printf("token is %s\n", tokens->text);
 	while (tokens != NULL)
 	{
 		if (tokens->type == cmd || tokens->type == builtin)
 		{
-			printf("token is %s\n", tokens->next->text);
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
 			tokens = process_command_args(new_cmd, tokens);
 			if (cmd_head == NULL)
