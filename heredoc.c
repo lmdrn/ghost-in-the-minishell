@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:47:08 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 18:42:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 23:14:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	heredoc_fd(char	*del)
 			break ;
 		}
 		tmp = ft_strjoin(line, "\n");
-		printf("tmo is %s\n", tmp);
 		write(fd[1], tmp, ft_strlen(tmp));
 		free(tmp);
 		free (line);

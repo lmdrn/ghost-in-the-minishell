@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output_utils.c                                     :+:      :+:    :+:   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/19 15:04:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 23:14:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*heredoc_special(t_args *curr_arg)
+{
+	char		*file;
+	const char	*prefix;
+
+	prefix = "<<";
+	if (curr_arg->arg != NULL
+		&& ft_strncmp(curr_arg->arg, prefix, ft_strlen(prefix)) == 0
+		&& (ft_strlen(curr_arg->arg) > ft_strlen(prefix)))
+	{
+		return (file = curr_arg->arg + 2);
+	}
+	else
+		return (file = curr_arg->next->arg);
+}
 
 char	*find_filename(t_commande *cmd)
 {
@@ -25,7 +41,10 @@ char	*find_filename(t_commande *cmd)
 		else if (curr_arg->type == 9)
 			return (file = curr_arg->next->arg);
 		else if (curr_arg->type == 10)
-			return (file = curr_arg->next->arg);
+		{
+			file = heredoc_special(curr_arg);
+			return (file);
+		}
 		else if (curr_arg->type == 11)
 			return (file = curr_arg->next->arg);
 		curr_arg = curr_arg->next;
