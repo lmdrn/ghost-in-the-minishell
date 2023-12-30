@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:25:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 22:12:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 22:01:21 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	builtin_exit(char *input)
 	i = 0;
 	out_of_range = 0;
 	error_flag = 0;
-	if (ft_strcmp(input, "exit") == 0)
+	if (ft_strncmp(input, "exit", 4) == 0
+		&& (input[4] == '\0' || input [4] == ' '))
 		exit_error(input);
 	else if (ft_strncmp(input, "exit ", 5) == 0)
 	{
@@ -64,6 +65,12 @@ void	builtin_exit(char *input)
 		ft_check_numeric(arg, i, &error_flag);
 		if (!error_flag)
 			out_of_range = check_min_max(arg);
+	}
+	else
+	{
+		printf("Error: %s: command not found\n", input);
+		g_status = 127;
+		return ;
 	}
 	if (!out_of_range && !error_flag)
 	{

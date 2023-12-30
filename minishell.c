@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 19:10:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:55:22 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **envp)
 				|| ft_strncmp(input, "exit ", 5) == 0)
 			{
 				builtin_exit(input);
+				printf("Error is %d\n", g_status);
 				free(input);
 				break ;
 			}
