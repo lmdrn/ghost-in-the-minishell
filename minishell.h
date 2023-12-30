@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 13:46:14 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:13:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ int				count_word_node(t_type *node);
 /* ooo - create_cmd - ooo */
 
 t_commande		*command_list(t_type *tokens, t_environment *env_copy);
+t_commande		*command_list_redir(t_type *tokens);
 int				is_args_or_redir(t_type *current);
 int				is_redir(t_type *current);
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 16:56:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 19:21:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	process_redir_args(t_type *tokens, t_commande **cmd_head, t_commande **cmd_
 	tmp = tokens;
 	args_lst = NULL;
 	new_cmd = NULL;
+	is_cmd = NULL;
 	while (tmp != NULL)
 	{
 		if (tmp->type == cmd || tmp->type == builtin)
@@ -143,6 +144,8 @@ void	process_redir_args(t_type *tokens, t_commande **cmd_head, t_commande **cmd_
 			append_args_redir(&args_lst, tmp->text, tmp->type);
 		tmp = tmp->next;
 	}
+	if (is_cmd == NULL)
+		return ;
 	new_cmd = create_cmd_node(is_cmd, NULL, NULL);
 	new_cmd->args = args_lst;
 	args_lst = NULL;
@@ -183,12 +186,7 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 	cmd_current = NULL;
 	while (tokens != NULL)
 	{
-		if (is_redir(tokens) == 0)
-		{
-			process_redir_args(tokens, &cmd_head, &cmd_current);
-			break ;
-		}
-		else if (tokens->type == cmd || tokens->type == builtin)
+		if (tokens->type == cmd || tokens->type == builtin)
 		{
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
 			tokens = process_command_args(new_cmd, tokens);
@@ -202,6 +200,27 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 				cmd_current->next = new_cmd;
 				cmd_current = new_cmd;
 			}
+		}
+		else
+			return (NULL);
+	}
+	return (cmd_head);
+}
+
+t_commande	*command_list_redir(t_type *tokens)
+{
+	t_commande	*cmd_head;
+	t_commande	*cmd_current;
+	t_type		*tmp;
+
+	tmp = tokens;
+	cmd_head = NULL;
+	cmd_current = NULL;
+	while (tokens != NULL)
+	{
+		if (is_redir(tokens) == 0)
+		{
+			process_redir_args(tokens, &cmd_head, &cmd_current);
 			break ;
 		}
 		else
