@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 18:53:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 16:54:46 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,22 @@ void	create_args(char **argv, t_commande *cmd)
 {
 	int		i;
 	t_args	*arg;
+	t_args	*head;
 
 	i = 1;
 	arg = cmd->args;
+	head = cmd->args;
 	while (arg)
 	{
-		if (arg->type == 8 || arg->type == 9
-			|| arg->type == 10 || arg->type == 11)
+		printf("arg->arg is %s\n", arg->arg);
+		if (arg == head && (arg->type == 8 || arg->type == 9
+				|| arg->type == 10 || arg->type == 11))
+			arg = arg->next;
+		else if (arg->next != NULL && (arg->type == 8
+				|| arg->type == 9 || arg->type == 10 || arg->type == 11))
 			break ;
 		else
 		{
-			/* printf("Arg: %s\n", arg->arg); */
 			argv[i] = ft_strdup(arg->arg);
 			if (!argv[i])
 			{
@@ -103,7 +108,7 @@ char	**build_arg(t_commande *cmd, t_environment *env_copy)
 	if (!argv)
 		return (NULL);
 	argv[0] = find_executable_path(cmd->cmd, env_copy);
-	/* printf("argv0 is %s\n", argv[0]); */
+	printf("argv0 is %s\n", argv[0]);
 	if (!argv[0])
 		return (NULL);
 	create_args(argv, cmd);
@@ -118,9 +123,9 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 
 	envp = env_list_to_array(env_copy);
 	argv = NULL;
-	/* printf("cmd is %s\n", cmd->cmd); */
+	printf("cmd is %s\n", cmd->cmd);
 	if (is_absolute_path(cmd->cmd) == '/')
-		execute_absolute_cmd(argv, cmd);
+		execute_absolute_cmd(argv, cmd, envp);
 	else
 	{
 		full_path = find_executable_path(cmd->cmd, env_copy);

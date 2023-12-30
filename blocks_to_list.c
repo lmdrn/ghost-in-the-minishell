@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:13:54 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 16:21:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:46:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,3 @@ int	is_executable_command(char *node)
 	return (1);
 }
 
-int	is_abs_path_executable(char *cmd)
-{
-	if (access(cmd, X_OK) == 0 || access(cmd, F_OK) == 0)
-		return (1);
-	return (0);
-}

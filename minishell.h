@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 22:43:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:46:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_type
 {
 	char			*text;
 	int				type;
+	int				flag;
 	struct s_type	*next;
 }	t_type;
 
@@ -113,7 +114,8 @@ typedef struct s_commande
 
 char			**build_absolute_arg(t_commande *cmd);
 int				is_absolute_path(char *cmd);
-void			execute_absolute_cmd(char **argv, t_commande *cmd);
+void			execute_absolute_cmd(char **argv, t_commande *cmd, char **envp);
+int				is_abs_path_executable(char *cmd);
 
 /* ooo - append - ooo */
 
@@ -124,7 +126,7 @@ void			init_append(t_commande *curr_cmd, t_commande *cmd);
 
 void			assign_exec_cmd(t_type *node);
 void			assign_builtin(t_type *node);
-
+void			assign_args(t_type *node);
 void			assign_else(t_type *node);
 
 /* ooo - assign_types - ooo */
@@ -142,7 +144,6 @@ void			assign_ch_droit(t_type *node, t_type *lst, t_type *next_node);
 int				is_executable_command(char *node);
 int				is_absolute_path(char *cmd);
 char			*get_full_path(char *dir, char *node);
-int				is_abs_path_executable(char *cmd);
 
 /* ooo - blocks_to_list_utils - ooo */
 
@@ -199,6 +200,7 @@ int				count_word_node(t_type *node);
 
 t_commande		*command_list(t_type *tokens, t_environment *env_copy);
 int				is_args_or_redir(t_type *current);
+int				is_redir(t_type *current);
 
 /* ooo - create_lst - ooo */
 
@@ -238,7 +240,7 @@ int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
 char			*concat_path_cmd(char *path, char *cmd);
 void			create_args(char **argv, t_commande *cmd);
 
-/* ooo - execve_utils - oo */
+/* okkoo - execve_utils - oo */
 
 char			*concat_cmd(char *cmd_path, char *path,
 					char *token_start, char *command);
@@ -343,8 +345,7 @@ void			handling_signals(char *input);
 /* ooo - tokenization - ooo */
 
 int				is_builtin(char *input);
-void			assign_types(t_type *node, t_type *lst,
-					t_environment *env_copy, int command_assigned);
+void			assign_types(t_type *node, t_type *lst, int command_assigned);
 
 /* ooo - utils - ooo */
 

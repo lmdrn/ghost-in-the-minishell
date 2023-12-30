@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:44:09 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 16:47:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:57:04 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,14 @@ int	is_absolute_path(char *cmd)
 	return (node[0]);
 }
 
-void	execute_absolute_cmd(char **argv, t_commande *cmd)
+int	is_abs_path_executable(char *cmd)
+{
+	if (access(cmd, X_OK) == 0 || access(cmd, F_OK) == 0)
+		return (1);
+	return (0);
+}
+
+void	execute_absolute_cmd(char **argv, t_commande *cmd, char **envp)
 {
 	argv = build_absolute_arg(cmd);
 	if (!argv)
@@ -49,14 +56,7 @@ void	execute_absolute_cmd(char **argv, t_commande *cmd)
 		printf("Malloc error\n");
 		exit(EXIT_FAILURE);
 	}
-	/* int	i = 0; */
-	/* while (argv[i]) */
-	/* { */
-	/* 	printf("arg is %s\n", argv[i]); */
-	/* 	i++; */	
-	/* } */
-	// TODO create a list_to_array
-	if (execve(cmd->cmd, argv, NULL) == -1)
+	if (execve(cmd->cmd, argv, envp) == -1)
 		ft_error(cmd->cmd);
 	free_argv(argv);
 }
