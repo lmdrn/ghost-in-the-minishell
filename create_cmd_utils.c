@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 21:51:57 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 19:21:39 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:14:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ int	is_args_or_redir(t_type *current)
 
 int	is_redir(t_type *current)
 {
-	/* t_type	*tmp; */
-
-	/* tmp = current; */
 	if (current->type == 8
 		|| current->type == 9 || current->type == 10
 		|| current->type == 11)

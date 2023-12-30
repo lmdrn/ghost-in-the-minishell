@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 22:50:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:21:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	which_token(t_commande *cmd, int token)
 	{
 		if (curr_cmd->type == token)
 		{
-			printf("curr arg type is %d\n", curr_cmd->type);
+			/* printf("curr arg type is %d\n", curr_cmd->type); */
 			return (curr_cmd->type);
 		}
 		curr_cmd = curr_cmd->next;

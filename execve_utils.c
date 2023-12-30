@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 12:13:10 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/21 12:21:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:01:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,16 @@ int	count_args(t_args *args)
 		args = args->next;
 	}
 	return (count);
+}
+
+void	copy_argument(char **argv, int *index, char *arg)
+{
+	argv[*index] = ft_strdup(arg);
+	if (!argv[*index])
+	{
+		perror("malloc error\n");
+		free_argv(argv);
+		exit(EXIT_FAILURE);
+	}
+	(*index)++;
 }

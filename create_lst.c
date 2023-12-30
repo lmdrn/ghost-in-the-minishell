@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 13:43:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:20:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ t_type	*create_node_and_assign_types(char *text, t_type *head,
 	return (node);
 }
 
+void	append_to_list(t_type **head, t_type **current, t_type *node)
+{
+	if (!(*head))
+	{
+		*head = node;
+		*current = node;
+	}
+	else
+	{
+		(*current)->next = node;
+		*current = node;
+	}
+}
+
 //fct that takes blocks from split and transforms
 //each block into nodes by calling create_node
 //then iterates through list again 
@@ -72,16 +86,7 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 			cmd_assigned = 1;
 		else if (node->type == 7)
 			cmd_assigned = 0;
-		if (!head)
-		{
-			head = node;
-			current = node;
-		}
-		else
-		{
-			current->next = node;
-			current = node;
-		}
+		append_to_list(&head, &current, node);
 		i++;
 	}
 	return (head);

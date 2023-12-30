@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 19:13:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:13:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,17 @@ t_commande		*command_list(t_type *tokens, t_environment *env_copy);
 t_commande		*command_list_redir(t_type *tokens);
 int				is_args_or_redir(t_type *current);
 int				is_redir(t_type *current);
+t_args			*create_new_arg(char *arg, int type);
+t_commande		*create_cmd_node(char *name, t_environment *env_copy,
+					t_type *tokens);
+
+/* ooo - create_cmd_redir - ooo */
+void			append_args_redir(t_args **args, char *arg, int type);
+void			update_command_list(t_commande **cmd_head,
+					t_commande **cmd_current, t_commande *new_cmd);
+void			process_redir_args(t_type *tokens,
+					t_commande **cmd_head, t_commande **cmd_current);
+t_commande		*command_list_redir(t_type *tokens);
 
 /* ooo - create_lst - ooo */
 
@@ -241,7 +252,7 @@ int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
 char			*concat_path_cmd(char *path, char *cmd);
 void			create_args(char **argv, t_commande *cmd);
 
-/* okkoo - execve_utils - oo */
+/* ooo - execve_utils - oo */
 
 char			*concat_cmd(char *cmd_path, char *path,
 					char *token_start, char *command);
@@ -249,6 +260,10 @@ char			*segment_malloc_copy(char *segment, char *token_start,
 					char *token_end);
 void			copy_the_path(t_environment *env_copy, t_epi *epi);
 int				count_args(t_args *args);
+void			copy_argument(char **argv, int *index, char *arg);
+
+/* ooo - execve_utils_2 - oo */
+void			execute_command(t_commande *cmd, t_environment *env_copy);
 
 /* ooo - exit_utils - ooo */
 

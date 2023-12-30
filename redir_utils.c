@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 16:28:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:22:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*find_filename(t_commande *cmd)
 		if (curr_arg->type == 8)
 		{
 			file = curr_arg->next->arg;
-			printf("file is %s\n", file);
+			/* printf("file is %s\n", file); */
 			return (file = curr_arg->next->arg);
 		}
 		else if (curr_arg->type == 9)
