@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 13:29:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:55:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,24 @@ char	*find_executable_path(char *cmd, t_environment *env_copy)
 	t_epi	epi;
 
 	copy_the_path(env_copy, &epi);
-	printf("TOKS %s\n", epi.tok_s);
 	while (epi.tok_s != NULL)
 	{
 		epi.tok_e = ft_strchr(epi.tok_s, ':');
-		printf("TOKE %s\n", epi.tok_e);
 		if (epi.tok_e != NULL)
 		{
 			epi.seg = segment_malloc_copy(epi.seg, epi.tok_s, epi.tok_e);
-			printf("SEGMENT %s\n", epi.seg);
 			epi.cmd_path = concat_path_cmd(epi.seg, cmd);
-			printf("CMDPATH %s\n", epi.cmd_path);
 			free(epi.seg);
 			if (access(epi.cmd_path, F_OK) == 0
 				|| access(epi.cmd_path, X_OK) == 0)
 			{
 				free(epi.path);
-				printf("ACCESS_OK\n");
 				return (epi.cmd_path);
 			}
-			/* free(epi.cmd_path); */
-			printf("I DID NOT GO INTO ACCESS\n");
 			epi.tok_s = epi.tok_e + 1;
 		}
 		else
 		{
-			printf("ACCESS_NOTOK\n");
 			epi.cmd_path = concat_cmd(epi.cmd_path, epi.path, epi.tok_s, cmd);
 			epi.tok_s = NULL;
 		}
@@ -110,7 +102,7 @@ char	**build_arg(t_commande *cmd, char *full_path)
 	if (!argv)
 		return (NULL);
 	argv[0] = full_path;
-	printf("argv0 is %s\n", argv[0]);
+	/* printf("argv0 is %s\n", argv[0]); */
 	if (!argv[0])
 		return (NULL);
 	create_args(argv, cmd);
@@ -120,9 +112,7 @@ char	**build_arg(t_commande *cmd, char *full_path)
 int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 {
 	if (access(cmd->cmd, F_OK | X_OK) == 0)
-	{
 		execute_absolute_cmd(cmd, env_list_to_array(env_copy));
-	}
 	else
 		execute_command(cmd, env_copy);
 	return (g_status);
