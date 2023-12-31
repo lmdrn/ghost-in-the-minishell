@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:44:09 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 13:57:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:29:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ int	is_abs_path_executable(char *cmd)
 	return (0);
 }
 
-void	execute_absolute_cmd(char **argv, t_commande *cmd, char **envp)
+void	execute_absolute_cmd(t_commande *cmd, char **envp)
 {
+	char	**argv;
+
 	argv = build_absolute_arg(cmd);
 	if (!argv)
 	{

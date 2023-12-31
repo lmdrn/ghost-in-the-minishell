@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:48:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 12:12:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:15:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 void	assign_exec_cmd(t_type *node)
 {
 	node->type = cmd;
+	/* printf("%s type is: %d\n", node->text, node->type); */
+	/* printf("\n"); */
+}
+
+void	assign_abs_cmd(t_type *node)
+{
+	node->type = abs_cmd;
 	/* printf("%s type is: %d\n", node->text, node->type); */
 	/* printf("\n"); */
 }

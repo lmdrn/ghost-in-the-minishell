@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 21:11:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:12:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 11:50:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ char	*find_and_check_executable(t_commande *cmd, t_environment *env_copy)
 	return (full_path);
 }
 
-char	**build_and_check_arguments(t_commande *cmd, t_environment *env_copy)
+char	**build_and_check_arguments(t_commande *cmd, char *full_path)
 {
 	char	**argv;
 
-	argv = build_arg(cmd, env_copy);
+	argv = build_arg(cmd, full_path);
 	if (!argv)
 	{
 		printf("Malloc error\n");
@@ -44,7 +44,7 @@ void	execute_command(t_commande *cmd, t_environment *env_copy)
 	full_path = find_and_check_executable(cmd, env_copy);
 	if (!full_path)
 		return ;
-	argv = build_and_check_arguments(cmd, env_copy);
+	argv = build_and_check_arguments(cmd, full_path);
 	if (!argv)
 	{
 		free(full_path);
@@ -54,5 +54,4 @@ void	execute_command(t_commande *cmd, t_environment *env_copy)
 	execve(full_path, argv, envp);
 	g_status = errno;
 	free_argv(argv);
-	free(full_path);
 }

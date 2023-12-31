@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 12:13:10 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:01:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:18:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ char	*concat_cmd(char *cmd_path, char *path, char *token_start,
 		char *command)
 {
 	cmd_path = concat_path_cmd(token_start, command);
-	if (cmd != NULL && access(cmd_path, F_OK) == 0)
+	printf("2ND CMD PATH is %s\n", cmd_path);
+	if (command != NULL && (access(cmd_path, F_OK) == 0
+			|| access(cmd_path, X_OK) == 0))
 	{
 		free(path);
+		printf("YES ;)\n");
 		return (cmd_path);
 	}
 	else
 	{
 		free(cmd_path);
+		printf("NO.. :(\n");
 		return (NULL);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 19:13:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:29:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,15 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	cmd_lst = NULL;
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
-	if (tokens->type == 0 || tokens->type == 1)
+	if (tokens->type == 0 || tokens->type == 1 || tokens->type == 14)
+	{
 		cmd_lst = command_list(tokens, env_copy);
+	}
 	else if (tokens->type == 8 || tokens->type == 9 || tokens->type == 10
 		|| tokens->type == 11)
+	{
 		cmd_lst = command_list_redir(tokens);
+	}
 	if (cmd_lst == NULL)
 		return (-1);
 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */

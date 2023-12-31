@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 20:55:32 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:14:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ t_type	*process_command_args(t_commande *new_cmd, t_type *tokens)
 
 	current = tokens;
 	remaining = NULL;
-	if (current != NULL && (current->type == cmd || current->type == builtin))
+	if (current != NULL && (current->type == cmd || current->type == builtin
+			|| current->type == abs_cmd))
 		current = current->next;
 	while (current != NULL && is_args_or_redir(current) == 0
 		&& current->type != is_pipe)
@@ -115,7 +116,8 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 	cmd_current = NULL;
 	while (tokens != NULL)
 	{
-		if (tokens->type == cmd || tokens->type == builtin)
+		if (tokens->type == cmd || tokens->type == builtin
+			|| tokens->type == abs_cmd)
 		{
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
 			tokens = process_command_args(new_cmd, tokens);

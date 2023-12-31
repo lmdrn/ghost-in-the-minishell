@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:15:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:27:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,13 @@ void	assign_types(t_type *node, t_type *lst, int cmd_assigned)
 		assign_builtin(node);
 	else if (is_abs_path_executable(node->text) == 1 && cmd_assigned == 0
 		&& ft_strncmp(node->text, "/", 1) == 0)
-		assign_exec_cmd(node);
+	{
+		printf("abs cmd\n");
+		assign_abs_cmd(node);
+	}
 	else if (is_executable_command(node->text) == 0 && cmd_assigned == 0)
+		assign_exec_cmd(node);
+	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_assigned == 0)
 		assign_exec_cmd(node);
 	else
 		assign_args(node);

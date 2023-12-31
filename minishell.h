@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:13:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:20:36 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ enum e_types {
 	dbl_ch_g,
 	dbl_ch_d,
 	dbl_q,
-	s_q
+	s_q,
+	abs_cmd
 };
 
 /* ooo - STRUCTURES - ooo */
@@ -114,7 +115,7 @@ typedef struct s_commande
 
 char			**build_absolute_arg(t_commande *cmd);
 int				is_absolute_path(char *cmd);
-void			execute_absolute_cmd(char **argv, t_commande *cmd, char **envp);
+void			execute_absolute_cmd(t_commande *cmd, char **envp);
 int				is_abs_path_executable(char *cmd);
 
 /* ooo - append - ooo */
@@ -125,6 +126,7 @@ void			init_append(t_commande *curr_cmd, t_commande *cmd);
 /* ooo - assign_cmd_or_builtin - ooo */
 
 void			assign_exec_cmd(t_type *node);
+void			assign_abs_cmd(t_type *node);
 void			assign_builtin(t_type *node);
 void			assign_args(t_type *node);
 void			assign_else(t_type *node);
@@ -247,7 +249,7 @@ void			exit_error(char *input);
 /* ooo - execve - oo */
 
 char			*find_executable_path(char *command, t_environment *env_copy);
-char			**build_arg(t_commande *cmd, t_environment *env_copy);
+char			**build_arg(t_commande *cmd, char *full_path);
 int				execute_basic_cmd(t_commande *cmd, t_environment *env_copy);
 char			*concat_path_cmd(char *path, char *cmd);
 void			create_args(char **argv, t_commande *cmd);
