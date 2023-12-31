@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:29:46 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:31:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	send_to_execution(t_commande *cmd, t_environment *env_copy)
 			dup_and_close_fdin(curr_cmd);
 		if (curr_cmd->fdout != STDOUT_FILENO)
 			dup_and_close_fdout(curr_cmd);
-		if (is_absolute_path(curr_cmd->cmd) == '/')
-			execute_absolute_cmd(curr_cmd, env_list_to_array(env_copy));
-		else
+		/* if (is_absolute_path(curr_cmd->cmd) == '/') */
+		/* 	execute_absolute_cmd(curr_cmd, env_list_to_array(env_copy)); */
+		/* else */
 			execute_basic_cmd(cmd, env_copy);
 		g_status = errno;
 		exit(EXIT_SUCCESS);

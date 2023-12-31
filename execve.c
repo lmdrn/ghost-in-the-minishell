@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:18:25 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:29:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,11 @@ char	**build_arg(t_commande *cmd, char *full_path)
 
 int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 {
-	execute_command(cmd, env_copy);
+	if (access(cmd->cmd, F_OK | X_OK) == 0)
+	{
+		execute_absolute_cmd(cmd, env_list_to_array(env_copy));
+	}
+	else
+		execute_command(cmd, env_copy);
 	return (g_status);
 }
