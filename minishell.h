@@ -151,10 +151,10 @@ char			*full_path_check(char **dirs, int i, char *node);
 /* ooo - BUILTINS - ooo */
 
 /* ooo - export - ooo */
-void no_arg_so_print_env_exports(t_environment *env_copy, int nb_args);
+void no_arg_so_print_env_exports(t_environment **env_copy, int nb_args);
 int need_swap(t_environment *a, t_environment *b);
-void swap_nodes(t_environment **prevNodeNext, t_environment *current, t_environment *next);
-void bubble_sort_env(t_environment **head);
+void swap_nodes(t_environment *a, t_environment *b);
+void	bubble_sort_env(t_environment **head);
 void print_sorted_env(t_environment *env_copy);
 int print_normal_variable(t_environment *env_copy, int size_env, char *minus, char *maj);
 int ft_strchrint(char *s, char c);
@@ -163,9 +163,9 @@ char *get_key_export(char *str);
 int valid_cmd(char *arg);
 int if_exist_in_env(char *key, t_environment *env_origin);
 void remplace_old_value(char *value, char *key, t_environment *env_copy);
-int fill_env(t_commande *cmd_lst, t_environment *env_copy, int nb_args);
+int fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args);
 int count_args_export(t_commande *cmd_lst);
-int export_main(t_commande *cmd_lst, t_environment *env_copy);
+int export_main(t_commande *cmd_lst, t_environment **env_copy);
 int list_size(t_environment *node);
 void add_node(t_environment **env_copy, char *key, char *value);
 void printCommandList(t_commande *cmdList);
