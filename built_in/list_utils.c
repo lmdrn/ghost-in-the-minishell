@@ -1,108 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: angela <angela@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/01 17:50:48 by angela            #+#    #+#             */
+/*   Updated: 2024/01/01 17:50:49 by angela           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int    list_size(t_environment *node) // op -push
+int	list_size(t_environment *node)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(node != NULL)
+	while (node != NULL)
 	{
 		i++;
 		node = node->next;
 	}
-	return(i);
-
+	return (i);
 }
 
-void add_node(t_environment **env_copy, char *key, char *value)
+t_environment	*create_new_node(char *key, char *value)
 {
-	t_environment *new_node = (t_environment *)malloc(sizeof(t_environment));
-	if (new_node == NULL) {
-		fprintf(stderr, "Erreur d'allocation mémoire pour le nouveau nœud\n");
-		exit(EXIT_FAILURE);
-	}
+	t_environment	*new_node;
 
+	new_node = (t_environment *)malloc(sizeof(t_environment));
+	if (new_node == NULL)
+		exit(EXIT_FAILURE);
 	new_node->key = strdup(key);
-	new_node->value = NULL;//init
-	int value_switch = 0;
 	if (value != NULL)
-	{
 		new_node->value = strdup(value);
-		value_switch = 1;
-	}
-
-
-	// Gestion d'erreur si l'une des allocations échoue
-	if (value_switch == 0)
-		free(new_node->value); // Libérer value si elle a été allouée
-	if (new_node->key == NULL && new_node->value == NULL)
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	if ((new_node->key == NULL && key != NULL) || \
+	(new_node->value == NULL && value != NULL))
 	{
-		fprintf(stderr, "Erreur d'allocation mémoire pour les champs key ou value\n");
-		free(new_node->key); // Libérer key si elle a été allouée
-//		if (value_switch == 1)
-//			free(new_node->value); // Libérer value si elle a été allouée
-		free(new_node); // Libérer le nœud lui-même
+		free(new_node->key);
+		free(new_node->value);
+		free(new_node);
 		exit(EXIT_FAILURE);
 	}
+	return (new_node);
+}
 
-	new_node->next = NULL;
+void	add_node(t_environment **env_copy, char *key, char *value)
+{
+	t_environment	*new_node;
+	t_environment	*last;
 
-	if (*env_copy == NULL) {
+	new_node = create_new_node(key, value);
+	if (*env_copy == NULL)
 		*env_copy = new_node;
-	} else {
-		t_environment *last = last_node(*env_copy);
+	else
+	{
+		last = last_node(*env_copy);
 		last->next = new_node;
 	}
 }
 
-void printCommandList(t_commande *cmdList)
+void	print_nodes(t_environment **node, char c)
 {
-	t_commande *current = cmdList;
-
-	while (current != NULL) {
-		printf("Command: %s\n", current->cmd);
-
-		// Imprimer les arguments
-		t_args *args = current->args;
-		while (args != NULL) {
-			printf("  Arg: %s\n", args->arg);
-			args = args->next;
-		}
-
-
-		printf("\n");
-
-		// Passer à la commande suivante dans la liste
-		current = current->next;
-	}
-}
-
-void    print_nodes(t_environment **node, char c)// print la liste, t_pushswap *ps
-//imprime mm les node(0)
-{
-	//int i;
-	t_environment *current_node;
+	t_environment	*current_node;
 
 	current_node = *node;
-	//i = 0;
-	printf("Liste %c\n",c);
+	printf("Liste %c\n", c);
 	if (current_node == NULL)
 		printf("c'est vide\n");
-	while (current_node!= NULL)//ici changer , avant current_node ->next
+	while (current_node != NULL)
 	{
-
-		printf("node(%s)->data = %s\n",current_node->key , current_node->value);
-		//printf ("adresse du node %p\n", current_node->next);
+		printf("node(%s)->data = %s\n", current_node->key, current_node->value);
 		current_node = current_node->next;
-		//i++;
 	}
 }
 
-t_environment 	*last_node(t_environment *head)
+t_environment	*last_node(t_environment *head)
 {
-	if (!head)//secu si existe pas
+	if (!head)
 		return (NULL);
-	while (head->next != NULL) // tant que le pointeur du prochain n'est pas null, donc pas fin
-		head = head->next; // passe au prochain
-	return (head); //retourne l'adresse du node et pas du pointeur
+	while (head->next != NULL)
+		head = head->next;
+	return (head);
 }
