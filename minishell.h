@@ -37,7 +37,8 @@ extern int	g_status;
 
 /* ooo - ENUMS - ooo */
 
-enum e_types {
+enum e_types
+{
 	cmd,
 	builtin,
 	args,
@@ -56,14 +57,16 @@ enum e_types {
 
 /* ooo - STRUCTURES - ooo */
 
-typedef struct s_bparam {
+typedef struct s_bparam
+{
 	int		i;
 	int		block_len;
 	int		in_sq;
 	int		in_dq;
 }	t_bparam;
 
-typedef struct s_epi {
+typedef struct s_epi
+{
 	char	*path;
 	char	*tok_s;
 	char	*tok_e;
@@ -151,26 +154,27 @@ char			*full_path_check(char **dirs, int i, char *node);
 /* ooo - BUILTINS - ooo */
 
 /* ooo - export - ooo */
-void no_arg_so_print_env_exports(t_environment **env_copy, int nb_args);
-int need_swap(t_environment *a, t_environment *b);
-void swap_nodes(t_environment *a, t_environment *b);
-void	bubble_sort_env(t_environment **head);
-void print_sorted_env(t_environment *env_copy);
-int print_normal_variable(t_environment *env_copy, int size_env, char *minus, char *maj);
-int ft_strchrint(char *s, char c);
-char *get_value_export(char *str);
-char *get_key_export(char *str);
-int valid_cmd(char *arg);
-int if_exist_in_env(char *key, t_environment *env_origin);
-void remplace_old_value(char *value, char *key, t_environment *env_copy);
-int fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args);
-int count_args_export(t_commande *cmd_lst);
-int export_main(t_commande *cmd_lst, t_environment **env_copy);
-int list_size(t_environment *node);
-void add_node(t_environment **env_copy, char *key, char *value);
-void printCommandList(t_commande *cmdList);
-void print_nodes(t_environment **node, char c);
-t_environment *last_node(t_environment *head);
+void			no_arg_so_print(t_environment **env_copy, int nb_args);
+int				need_swap(t_environment *a, t_environment *b);
+void			swap_nodes(t_environment *a, t_environment *b);
+void			bubble_sort_env(t_environment **head);
+void			print_sorted_env(t_environment *env_copy);
+int				ft_strchrint(char *s, char c);
+char			*get_value_export(char *str);
+char			*get_key_export(char *str);
+int				valid_cmd(char *arg);
+int				if_exist_in_env(char *key, t_environment *env_origin);
+void			remplace_old_value(char *value, \
+				char *key, t_environment *env_copy);
+int				fill_env(t_commande *cmd_lst, \
+				t_environment **env_copy, int nb_args);
+int				count_args_export(t_commande *cmd_lst);
+int				export_main(t_commande *cmd_lst, t_environment **env_copy);
+int				list_size(t_environment *node);
+void			add_node(t_environment **env_copy, char *key, char *value);
+void			printCommandList(t_commande *cmdList);
+void			print_nodes(t_environment **node, char c);
+t_environment	*last_node(t_environment *head);
 
 /* ooo - cd - ooo */
 
@@ -188,13 +192,12 @@ int				count_args_cd(t_commande *cmd_lst);
 
 void			ft_echo(char *str, t_environment *env_copy);
 int				check_option_n(char *str);
-//int				echo(t_commande *cmd_lst,t_environment *env_copy);
 char			*get_env_value(t_environment *env_copy, char *env_key);
-int handle_option_all_n(t_commande **cmd_lst);
-int	check_syntax_and_print(t_commande *cmd_lst);
-int print_arguments(t_commande *cmd_lst, t_environment *env_copy, int option);
-int echo(t_commande *cmd_lst, t_environment *env_copy);
-
+int				handle_option_all_n(t_commande **cmd_lst);
+int				check_syntax_and_print(t_commande *cmd_lst);
+int				print_arguments(t_commande *cmd_lst, \
+				t_environment *env_copy, int option);
+int				echo(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - env - ooo */
 

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../minishell.h"
 
 int	go_home(t_environment *env_copy, char *home)

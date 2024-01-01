@@ -22,8 +22,7 @@ void	print_env_builtin(t_environment *env_copy)
 		while (current != NULL)
 		{
 			printf("%s=%s", current->key, current->value);
-			if (current->next != NULL)
-				printf("\n");
+			printf("\n");
 			current = current->next;
 		}
 	}

@@ -52,7 +52,7 @@ int	builtin_pwd( t_commande *cmd_lst)
 	{
 		if (check_args_pwd(cmd_lst) == SUCCESS)
 		{
-			printf("vous êtes ici : %s\n", actual_pwd);
+			printf("%s\n", actual_pwd);
 			return (SUCCESS);
 		}
 		else

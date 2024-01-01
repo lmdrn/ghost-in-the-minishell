@@ -47,13 +47,11 @@ int	ft_cd(t_environment *env_copy, char *path, int path_back)
 	}
 	if (path_back == 1)
 		path = go_back_directories(path);
-	update_pwd_oldpwd(env_copy, path);
 	if (check_is_in_env(env_copy, "PWD") == ERROR)
-		printf("Adding PWD to env_copy\n");
-/*		add_node_at_end(env_copy, "PWD", ""); a test avec unset */
+		add_node(&env_copy, "PWD", NULL);
 	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
-		printf("Adding OLDPWD to env_copy\n");
-/*		add_node_at_end(env_copy, "OLDPWD", "");*/
+		add_node(&env_copy, "OLDPWD", NULL);
+	update_pwd_oldpwd(env_copy, path);
 	if (chdir(path) != 0)
 	{
 		printf("cd: Failed to change directory");
@@ -128,7 +126,6 @@ int	builtin_cd(t_commande *cmd_lst, t_environment *env_copy)
 		return (ERROR);
 	}
 	arg_check = check_args_cd(cmd_lst);
-	printf ("valeur de check_arg %d\n", arg_check);
 	args_treatment = action_arg(arg_check, home, env_copy, cmd_lst);
 	return (args_treatment);
 }
