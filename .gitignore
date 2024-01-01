@@ -3,4 +3,5 @@
 compile_commands.json
 .vscode/
 .cmake/
-*.o
+*.o/
+.idea/

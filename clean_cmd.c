@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 14:54:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:03:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*clean_cmd_type(t_type *node)
 	}
 	new_str[j] = '\0';
 	node->text = new_str;
-	//printf("without quotes is %s\n", new_str);
+	/* printf("without quotes is %s\n", new_str); */
 	return (new_str);
 }
 
@@ -74,7 +74,6 @@ char	*remove_xtra_spaces(char *input)
 	int		len;
 
 	i = 0;
-	//printf("I go there\n");
 	while (ft_isspace(*input))
 		input++;
 	len = ft_strlen(input);

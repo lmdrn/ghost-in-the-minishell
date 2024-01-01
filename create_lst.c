@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 19:49:31 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 13:07:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ struct	s_type	*create_node(const char *block)
 		return (NULL);
 	}
 	node->text = ft_strdup(block);
-	//printf("node->text 1 is %s\n", node->text);
 	if (node->text == NULL)
 	{
 		ft_putendl_fd("dup failed\n", 1);
@@ -68,7 +67,6 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 		else if (node->type == 7) {
 			cmd_assigned = 0;
 		}
-		//printf("node->text 2 is %s\n", node->text);
 		if (!head)
 		{
 			head = node;

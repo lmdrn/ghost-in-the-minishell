@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 19:42:21 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:51:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	is_asym(char *node)
 }
 
 //fct that assigns type to each node
-void	assign_types(t_type *node, t_type *lst, t_environment *env_copy, int cmd_assigned)
+void	assign_types(t_type *node, t_type *lst,
+			t_environment *env_copy, int cmd_assigned)
 {
 	t_type	*next_node;
 
@@ -71,13 +72,7 @@ void	assign_types(t_type *node, t_type *lst, t_environment *env_copy, int cmd_as
 	else if (is_abs_path_executable(node->text) == 1 && cmd_assigned == 0)
 		assign_exec_cmd(node);
 	else if (is_executable_command(node->text) == 0 && cmd_assigned == 0)
-	{
-		//printf("2222222\n");
 		assign_exec_cmd(node);
-	}
 	else
-	{
-		//printf("11111111\n");
 		assign_quotes(node, env_copy);
-	}
 }

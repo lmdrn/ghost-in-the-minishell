@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 17:59:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:52:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	init_prompt(char *input)
 	ft_welcome();
 }
 
-t_environment *new_env_node(char *env)
+t_environment	*new_env_node(char *env)
 {
 	t_environment	*ptr;
-	char 			*del;
+	char			*del;
 	int				key;
-	int 			val;
+	int				val;
 
 	ptr = NULL;
 	del = ft_strchr(env, '=');
@@ -31,14 +31,13 @@ t_environment *new_env_node(char *env)
 	{
 		key = del - env;
 		val = ft_strlen(del + 1);
-		ptr = (t_environment*)malloc(sizeof(t_environment));
-		ptr->key = (char*) malloc(key + 1);
+		ptr = (t_environment *)malloc(sizeof(t_environment));
+		ptr->key = (char *)malloc(key + 1);
 		ptr->value = (char *) malloc(val + 1);
-		if(!ptr || !ptr->key || !ptr->value)
-			perror("Failed to allocate a new node");
+		if (!ptr || !ptr->key || !ptr->value)
+			perror("Failed to allocate a new node\n");
 		ft_strncpy(ptr->key, env, key);
 		ptr->key[key] = '\0';
-		// TODO CHANGE ME
 		ft_strcpy(ptr->value, del + 1);
 		ptr->value[val] = '\0';
 	}
@@ -51,11 +50,11 @@ t_environment	*init_env(char **envp)
 	t_environment	*curr;
 	t_environment	*new_ptr;
 	int				count;
-	int 			i;
+	int				i;
 
 	i = 0;
 	head = NULL;
-	count = env_count(envp);
+	count = env_count_array(envp);
 	head = NULL;
 	curr = NULL;
 	while (i < count)
@@ -111,51 +110,20 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
-	/* int			pipe_count; */
-	/* int			cmd_count; */
-	/* int			flag; */
 
 	tokens = NULL;
-	/* flag = 0; */
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
 	cmd_lst = command_list(tokens, env_copy);
 	if (cmd_lst == NULL)
-	{
 		return (-1);
-	}
 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
 	/* 	pipe_count, cmd_count); */
 	if (cmd_lst != NULL)
 	{
 		/* printf("Command list:\n"); */
-		//print_commande_list(cmd_lst);
+		print_commande_list(cmd_lst);
 	}
-	/* if (is_odd_or_even(&pipe_count, &cmd_count) == 3) */
-	/* { */
-	/* 	else if (tokens->type == 0) */
-	/* 	{ */
-	/* 		while (tokens != NULL) */
-	/* 		{ */
-	/* 			if (tokens->type == 9) */
-	/* 			{ */
-	/* 				/1* printf("je suis execute_redir\n"); *1/ */
-	/* 				execute_redir(cmd_lst, env_copy); */
-	/* 				flag = 1; */
-	/* 				break ; */
-	/* 			} */
-	/* 			tokens = tokens->next; */
-	/* 		} */
-	/* 		if (flag == 0) */
-	/* 		{ */
-	/* 			/1* printf("je suis only_one_cmd\n"); *1/ */
-	/* 			only_one_cmd(cmd_lst, env_copy); */
-	/* 		} */
-	/* 	} */
-	/* } */
-	/* else if (is_odd_or_even(&pipe_count, &cmd_count) == 1 */
-	/* 	|| is_odd_or_even(&pipe_count, &cmd_count) == 2) */
-	/* 	execute_pipeline(cmd_lst, env_copy); */
 	assign_fds(cmd_lst);
 	while (cmd_lst != NULL)
 	{
@@ -164,7 +132,6 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		else
 		{
 			assign_redir(cmd_lst);
-
 			send_to_execution(cmd_lst, env_copy);
 		}
 		cmd_lst = cmd_lst->next;

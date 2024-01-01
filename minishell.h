@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 20:00:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:48:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,9 @@ void			print_command_list(t_commande *cmd_list);
 
 t_environment	*copy_env(char **envp);
 void			free_env_struct(t_environment *env_struct);
-int				env_count(char **envp);
+int				env_count_array(char **envp);
+int				env_count_lst(t_environment *env);
+char			**env_list_to_array(t_environment *env);
 
 /* ooo - clean_cmd - ooo */
 

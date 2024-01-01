@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 16:44:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:50:39 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 {
 	char		*full_path;
 	char		**argv;
+	char		**envp;
 
+	envp = env_list_to_array(env_copy);
 	argv = NULL;
 	/* printf("cmd is %s\n", cmd->cmd); */
 	if (is_absolute_path(cmd->cmd) == '/')
@@ -130,8 +132,7 @@ int	execute_basic_cmd(t_commande *cmd, t_environment *env_copy)
 			printf("Malloc error\n");
 			return (1);
 		}
-		// TODO create a list_to_array
-		if (execve(full_path, argv, NULL) == -1)
+		if (execve(full_path, argv, envp) == -1)
 			ft_error(cmd->cmd);
 		free_argv(argv);
 		free(full_path);
