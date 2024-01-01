@@ -19,7 +19,7 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
 		builtin_pwd(cmd_lst);
 	else if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
-		builtin_cd(cmd_lst_factice, env_copy);
+		builtin_cd(cmd_lst, env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 		export_main(cmd_lst, &env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)
@@ -30,5 +30,4 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 		printf("EXIT function should happen here\n");
 	else
 		printf("error happened\n");
-	free_cmd_lst(cmd_lst_factice);
 }

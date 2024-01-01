@@ -93,7 +93,7 @@ void	print_sorted_env(t_environment *env_copy)
 		if (current->key != NULL)
 		{
 			if (current->value == NULL)
-				printf("%s\n", current->key);
+				printf("%s=''\n", current->key);
 			else
 				printf("%s=%s\n", current->key, current->value);
 		}
