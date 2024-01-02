@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2024/01/02 13:55:05 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/02 14:07:59 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  assign_cmd_or_builtin.c create_lst.c \
 			  copy_env.c send_to_builtin_exec.c quotes.c \
 			  utils_2.c expand_variable.c minishell.c \
-			  signals.c init.c send_to_execution.c \
-			  send_to_pipes.c output_redir.c heredoc.c \
+			  signals.c init.c send_to_pipes.c \
+			  output_redir.c heredoc.c \
 			  redir_utils.c setup_redir.c input_redir.c \
 			  absolute_cmd.c dollar.c append.c \
 			  blocks_to_list_utils.c create_cmd_utils.c \

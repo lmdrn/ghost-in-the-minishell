@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 16:10:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:14:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ void	init_input(t_commande *curr_cmd, t_commande *cmd)
 	char	*filename;
 
 	filename = find_filename(curr_cmd);
+	printf("filename is %s\n", filename);
+	printf("curr cmd is %s\n", curr_cmd->cmd);
 	create_input_redir(filename, cmd);
 }

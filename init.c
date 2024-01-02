@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:29:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:16:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,10 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	while (cmd_lst != NULL)
 	{
 		if (tokens->type == 1)
+		{
+			assign_redir(cmd_lst);
 			which_builtin(cmd_lst, env_copy);
+		}
 		else
 		{
 			assign_redir(cmd_lst);
