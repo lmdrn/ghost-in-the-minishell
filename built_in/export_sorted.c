@@ -11,6 +11,73 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+//
+//t_environment	*copy_env_list(t_environment *head)
+//{
+//	t_environment *current;
+//	t_environment *new_list;
+//	t_environment *new_node;
+//	t_environment *tail;
+//
+//	if (head == NULL)
+//		return NULL;
+//
+//	current = head;
+//	new_list = NULL;
+//	tail = NULL;
+//
+//	while (current != NULL)
+//	{
+//		new_node = malloc(sizeof(t_environment));
+//		if (new_node == NULL)
+//			return NULL;
+//		new_node->key = strdup(current->key);
+//		if (current->value != NULL)
+//			new_node->value = strdup(current->value);
+//		new_node->next = NULL;
+//		if (new_list == NULL)
+//			new_list = new_node;
+//		else
+//			tail->next = new_node;
+//		tail = new_node;
+//		current = current->next;
+//	}
+//	return new_list;
+//}
+
+t_environment *copy_env_list(t_environment *head) {
+	if (head == NULL) {
+		return NULL;
+	}
+
+	t_environment *current = head, *new_list = NULL, *tail = NULL, *new_node;
+
+	while (current != NULL) {
+		new_node = malloc(sizeof(t_environment));
+		if (new_node == NULL) {
+			// Gérer l'erreur d'allocation ici
+			return NULL;
+		}
+
+		new_node->key = strdup(current->key);
+		if (current->value != NULL)
+			new_node->value = strdup(current->value);
+		else
+			new_node->value = NULL;
+		new_node->next = NULL;
+
+		if (new_list == NULL) {
+			new_list = new_node;
+		} else {
+			tail->next = new_node;
+		}
+		tail = new_node;
+
+		current = current->next;
+	}
+
+	return new_list;
+}
 
 int	ft_strchrint(char *s, char c)
 {
