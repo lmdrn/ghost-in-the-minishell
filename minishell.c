@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 15:20:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:17:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,53 +57,46 @@ int	main(int ac, char **av, char **envp)
 	input = NULL;
 	(void)ac;
 	(void)av;
-	init_prompt(input);
+	check_args(ac,av);
+	termios_mgmt(1);
+	set_signals();
 	head = init_env(envp);
+	ft_welcome();
 	/* update_env_variable("SHLVL", 1, head); */
 	while (1)
 	{
 		input = ft_prompt();
-		if (input == NULL)
-		{
-			free(input);
+		if (!input)
 			break ;
-		}
 		if (input && *input)
 			add_history (input);
+		unset_signals();
+		termios_mgmt(0);
+		if (between_quotes(input) == 1)
+			input = remove_xtra_spaces(input);
+		blocks = init_parse(input);
 		if (ft_strncmp(input, "exit", 4) == 0
 			|| ft_strncmp(input, "exit ", 5) == 0)
 		{
 			builtin_exit(input);
-			update_env_variable("SHELL_LVL", -1, head);
 			printf("Error is %d\n", g_status);
 			free(input);
+			break ;
 		}
-		else
+		if (blocks == NULL)
 		{
-			if (ft_strncmp(input, "exit", 4) == 0
-				|| ft_strncmp(input, "exit ", 5) == 0)
-			{
-				builtin_exit(input);
-				update_env_variable("SHELL_LVL", -1, head);
-				printf("Error is %d\n", g_status);
-				free(input);
-				break ;
-			}
-			if (between_quotes(input) == 1)
-				input = remove_xtra_spaces(input);
-			blocks = init_parse(input);
-			if (blocks == NULL)
-			{
-				handling_signals(input);
-			}
-			else if (init_tokenizer(blocks, head) == -1)
-			{
-				printf("Error: %s: command not found\n", input);
-				g_status = 127;
-				printf("Error is %d\n", g_status);
-				handling_signals(input);
-			}
+			free(input);
 		}
+		else if (init_tokenizer(blocks, head) == -1)
+		{
+			printf("Error: %s: command not found\n", input);
+			g_status = 127;
+			/* printf("Error is %d\n", g_status); */
+			free(input);
+		}
+		termios_mgmt(1);
+		set_signals();
+		termios_mgmt(0);
 	}
 	return (g_status % 256);
 }

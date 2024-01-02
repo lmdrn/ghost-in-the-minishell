@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:11:03 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 20:30:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:17:05 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,14 @@ void	exit_error(char *input)
 	printf("Exiting ghost in the minishell.....\n");
 	free(input);
 	exit(g_status);
+}
+
+void	check_args(int ac, char **av)
+{
+	(void)av;
+	if (ac > 1)
+	{
+		printf("Error: Wrong nbr of args\n");
+		exit(1);
+	}
 }

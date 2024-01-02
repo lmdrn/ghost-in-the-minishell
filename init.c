@@ -6,17 +6,11 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 14:32:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:10:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	init_prompt(char *input)
-{
-	handling_signals(input);
-	ft_welcome();
-}
 
 t_environment	*new_env_node(char *env)
 {

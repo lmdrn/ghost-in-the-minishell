@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 15:22:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:23:51 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <termios.h>
 # include "libft/libft.h"
 
 /* ooo - GLOBAL VARS - ooo */
@@ -338,7 +339,7 @@ void			init_heredoc(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - init - ooo */
 
-void			init_prompt(char *input);
+void			init_prompt(void);
 t_environment	*init_env(char **envp);
 int				init_tokenizer(char **blocks, t_environment *env_copy);
 char			**init_parse(const char *input);
@@ -351,6 +352,7 @@ void			init_input(t_commande *curr_cmd, t_commande *cmd);
 /* ooo - minishell - ooo */
 
 void			builtin_exit(char *input);
+void			check_args(int ac, char **av);
 
 /* ooo - output_redir - ooo */
 
@@ -396,7 +398,10 @@ int				which_token(t_commande *cmd, int token);
 /* ooo - signals - ooo */
 
 void			sigint_handler(int signum);
-void			handling_signals(char *input);
+void			silence(int signum);
+void			set_signals(void);
+void			unset_signals(void);
+void			termios_mgmt(int toggle);
 
 /* ooo - tokenization - ooo */
 
