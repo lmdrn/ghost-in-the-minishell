@@ -154,10 +154,12 @@ char			*full_path_check(char **dirs, int i, char *node);
 /* ooo - BUILTINS - ooo */
 
 /* ooo - unset - ooo */
-void	erase_node(char *key, t_environment **env_copy);
-int built_unset(t_environment **env_copy, t_commande *cmd_lst);
+void			erase_node(char *key, t_environment **env_copy);
+int				built_unset(t_environment **env_copy, t_commande *cmd_lst);
+
 /* ooo - export - ooo */
-t_environment *copy_env_list(t_environment *head);
+t_environment	*create_node_cpy(t_environment *current);
+t_environment	*copy_env_list(t_environment *head);
 void			no_arg_so_print(t_environment **env_copy, int nb_args);
 int				need_swap(t_environment *a, t_environment *b);
 void			swap_nodes(t_environment *a, t_environment *b);

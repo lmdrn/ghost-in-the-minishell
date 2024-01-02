@@ -14,7 +14,8 @@
 
 void	no_arg_so_print_env_exports(t_environment **env_copy, int nb_args)
 {
-	t_environment *copy;
+	t_environment	*copy;
+
 	if (nb_args == 0)
 	{
 		copy = copy_env_list(*env_copy);
