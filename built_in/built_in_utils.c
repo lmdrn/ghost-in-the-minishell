@@ -6,27 +6,24 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:58:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 18:13:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:58:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_is_in_env(t_environment *env_copy, char *var)
 {
-	int	i;
+	t_environment	*current;
 
-	i = 0;
-	if (env_copy != NULL)
+	current = env_copy;
+	if (current != NULL)
 	{
-		while (env_copy[i].key != NULL)
+		while (current->key != NULL)
 		{
-			if (strcmp(env_copy[i].key, var) == 0)
-			{
-				printf("key found \n");
+			if (strcmp(current->key, var) == 0)
 				return (SUCCESS);
-			}
-			i++;
+			current = current->next;
 		}
 		return (ERROR);
 	}
@@ -36,14 +33,14 @@ int	check_is_in_env(t_environment *env_copy, char *var)
 
 void	print_value(t_environment *env_copy, char *key)
 {
-	int	i;
+	t_environment	*current;
 
-	i = 0;
-	while (env_copy[i].key != NULL)
+	current = env_copy;
+	while (current->key != NULL)
 	{
-		if (strcmp(env_copy[i].key, key) == 0)
-			printf("Key: %s, Value: %s\n", env_copy[i].key, env_copy[i].value);
-		i++;
+		if (strcmp(current->key, key) == 0)
+			printf("Key: %s, Value: %s\n", current->key, current->value);
+		current = current->next;
 	}
 }
 
@@ -71,4 +68,3 @@ int	check_path(char *path)
 		return (ERROR);
 	}
 }
-

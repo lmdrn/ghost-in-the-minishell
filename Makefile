@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2023/12/30 21:14:06 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/02 13:55:05 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,19 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  signals.c init.c send_to_execution.c \
 			  send_to_pipes.c output_redir.c heredoc.c \
 			  redir_utils.c setup_redir.c input_redir.c \
-			  append.c built_in/cd.c built_in/echo.c \
-			  built_in/pwd.c built_in/env.c built_in_utils.c \
+			  absolute_cmd.c dollar.c append.c \
 			  blocks_to_list_utils.c create_cmd_utils.c \
 			  custom_parsing_split_utils.c clean_cmd.c \
 			  execve_utils.c expand_variable_utils.c \
-			  absolute_cmd.c built_in/exit.c dollar.c \
-			  built_in/exit_utils.c create_cmd_redir.c \
-			  execve_utils_2.c
+			  create_cmd_redir.c execve_utils_2.c \
+			  built_in/built_in_utils.c built_in/cd_utils.c \
+			  built_in/cd.c built_in/copy_lst.c \
+			  built_in/echo_utils.c built_in/echo.c \
+			  built_in/env.c built_in/exit_utils.c \
+			  built_in/exit.c built_in/export_sorted.c \
+			  built_in/export_utils.c built_in/export.c \
+			  built_in/list_utils.c built_in/pwd.c \
+			  built_in/unset.c
 
 OBJS 		= ${SRCS:.c=.o}
 

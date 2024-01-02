@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:20:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:56:44 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,20 +154,57 @@ char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - BUILTINS - ooo */
 
+/* ooo - unset - ooo */
+void			erase_node(char *key, t_environment **env_copy);
+int				built_unset(t_environment **env_copy, t_commande *cmd_lst);
+
+/* ooo - export - ooo */
+t_environment	*create_node_cpy(t_environment *current);
+t_environment	*copy_env_list(t_environment *head);
+void			no_arg_so_print(t_environment **env_copy, int nb_args);
+int				need_swap(t_environment *a, t_environment *b);
+void			swap_nodes(t_environment *a, t_environment *b);
+void			bubble_sort_env(t_environment **head);
+void			print_sorted_env(t_environment *env_copy);
+int				ft_strchrint(char *s, char c);
+char			*get_value_export(char *str);
+char			*get_key_export(char *str);
+int				valid_cmd(char *arg);
+int				if_exist_in_env(char *key, t_environment *env_origin);
+void			remplace_old_value(char *value, \
+				char *key, t_environment *env_copy);
+int				fill_env(t_commande *cmd_lst, \
+				t_environment **env_copy, int nb_args);
+int				count_args_export(t_commande *cmd_lst);
+int				export_main(t_commande *cmd_lst, t_environment **env_copy);
+int				list_size(t_environment *node);
+void			add_node(t_environment **env_copy, char *key, char *value);
+void			printCommandList(t_commande *cmdList);
+void			print_nodes(t_environment **node, char c);
+t_environment	*last_node(t_environment *head);
+
 /* ooo - cd - ooo */
 
-int				ft_cd(t_environment *env_copy, char *path);
+int				ft_cd(t_environment *env_copy, char *path, int path_back);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
 int				go_home(t_environment *env_copy, char *home);
 int				builtin_cd(t_commande *cmd_lst, t_environment *env_copy);
+char			*go_back_directories(char *path);
+int				is_one_arg(int nb_args, t_commande *cmd_lst);
+int				ticket_going_home(t_commande *cmd_lst);
+int				count_args_cd(t_commande *cmd_lst);
 
 /* ooo - echo - ooo */
 
 void			ft_echo(char *str, t_environment *env_copy);
 int				check_option_n(char *str);
-int				echo(t_commande *cmd_lst, t_environment *env_copy);
 char			*get_env_value(t_environment *env_copy, char *env_key);
+int				handle_option_all_n(t_commande **cmd_lst);
+int				check_syntax_and_print(t_commande *cmd_lst);
+int				print_arguments(t_commande *cmd_lst, \
+				t_environment *env_copy, int option);
+int				echo(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - env - ooo */
 
@@ -185,6 +222,7 @@ int				check_is_in_env(t_environment *env_copy, char *var);
 void			print_value(t_environment *env_copy, char *key);
 char			*get_env_value(t_environment *env_copy, char *env_key);
 int				check_path(char *path);
+void			print_command_list(t_commande *cmd_list);
 
 /* ooo - copy_env - ooo */
 

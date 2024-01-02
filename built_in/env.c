@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:55 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/20 18:19:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:48:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 void	print_env_builtin(t_environment *env_copy)
 {
-	int	i;
+	t_environment	*current;
 
-	i = 0;
-	if (env_copy != NULL)
+	current = env_copy;
+	if (current != NULL)
 	{
-		while (env_copy[i].key != NULL)
+		while (current != NULL)
 		{
-			printf("%s=%s", env_copy[i].key, env_copy[i].value);
-			if (env_copy[i + 1].key != NULL)
-				printf("\n");
-			i++;
+			printf("%s=%s", current->key, current->value);
+			printf("\n");
+			current = current->next;
 		}
 	}
 	else
