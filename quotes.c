@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:22:01 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:22:18 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	else
 	{
 		node->type = args;
-		new_node = clean_cmd_type(node);
-		/* printf("cleaned variable is %s\n", new_node); */
+		clean_cmd_type(node);
 		env_var = find_env_variable(node, end_position, variable);
 		/* printf("Env var is %s\n", env_var); */
 		if (env_var != NULL)

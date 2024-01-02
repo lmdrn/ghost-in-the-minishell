@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:22:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:22:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ char	*clean_cmd_type(t_type *node)
 		return (NULL);
 	while (node->text[i] != '\0')
 	{
-		if (node->text[i] != '\'' && node->text[i] != '\"'
-			&& !ft_isspace(node->text[i]))
+		if (node->text[i] != '\'' && node->text[i] != '\"')
 		{
 			new_str[j] = node->text[i];
 			j++;
@@ -63,7 +62,6 @@ char	*clean_cmd_type(t_type *node)
 	}
 	new_str[j] = '\0';
 	node->text = new_str;
-	/* printf("without quotes is %s\n", new_str); */
 	return (new_str);
 }
 

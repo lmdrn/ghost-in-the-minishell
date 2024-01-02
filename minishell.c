@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 14:00:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:20:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,11 @@ int	main(int ac, char **av, char **envp)
 				free(input);
 				break ;
 			}
-			if (between_quotes(input) == 0)
+			if (between_quotes(input) == 1)
 				input = remove_xtra_spaces(input);
-			/* printf("Cleaned input is : %s\n", input); */
 			blocks = init_parse(input);
 			if (blocks == NULL)
 			{
-				printf("I have been there\n");
 				handling_signals(input);
 			}
 			else if (init_tokenizer(blocks, head) == -1)
