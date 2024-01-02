@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angela <angela@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/01 17:50:27 by angela           ###   ########.fr       */
+/*   Updated: 2024/01/02 14:53:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,13 @@ t_environment *env_copy, int option)
 	while (cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
 	{
 		ft_echo(cmd_lst->args->arg, env_copy);
-		if (cmd_lst->args->next != NULL)
+		if (cmd_lst->args->next != NULL
+			&& cmd_lst->args->next->arg != NULL)
 			printf(" ");
-		cmd_lst->args = cmd_lst->args->next;
+		if (cmd_lst->args->next != NULL)
+			cmd_lst->args = cmd_lst->args->next;
+		else
+			break ;
 	}
 	if (option)
 		return (3);
