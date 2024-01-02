@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 22:13:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 20:59:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 	{
 		node = create_node_and_assign_types(blocks[i], head,
 				env_copy, cmd_assigned);
-		if (node->type == cmd)
+		if (node->type == cmd || node->type == abs_cmd || node->type == builtin)
 			cmd_assigned = 1;
 		else if (node->type == 7)
 			cmd_assigned = 0;
