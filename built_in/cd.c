@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:13:22 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:16:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	check_args_cd(t_commande *cmd_lst)
 			result = is_one_arg(i, cmd_lst);
 		else
 			result = (ticket_going_home(cmd_lst));
-		printf("res is %d\n", result);
 		return (result);
 	}
 	else

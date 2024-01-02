@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:31:29 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:10:04 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,6 +377,8 @@ char			*find_filename(t_commande *cmd);
 /* ooo - send_to_builtin_exec - ooo */
 
 void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
+void			which_builtin_exec(t_commande *cmd_lst,
+					t_environment *env_copy);
 
 /* ooo - send_to_execution - ooo*/
 
