@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:44:09 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:29:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:31:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ int	is_absolute_path(char *cmd)
 	return (node[0]);
 }
 
-int	is_abs_path_executable(char *cmd)
+int	is_abs_exec(char *cmd)
 {
-	if (access(cmd, X_OK) == 0 || access(cmd, F_OK) == 0)
+	if ((access(cmd, X_OK) == 0 || access(cmd, F_OK) == 0)
+		&& ft_strncmp(&cmd[0], "/", 1) == 0)
 		return (1);
 	return (0);
 }

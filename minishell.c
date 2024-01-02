@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 17:17:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:48:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int ac, char **av, char **envp)
 			add_history (input);
 		unset_signals();
 		termios_mgmt(0);
-		if (between_quotes(input) == 1)
+		if (between_quotes(input) == 0)
 			input = remove_xtra_spaces(input);
 		blocks = init_parse(input);
 		if (ft_strncmp(input, "exit", 4) == 0

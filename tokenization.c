@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:27:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:32:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_asym(char *node)
 }
 
 //fct that assigns type to each node
-void	assign_types(t_type *node, t_type *lst, int cmd_assigned)
+void	assign_types(t_type *node, t_type *lst, int cmd_ok)
 {
 	t_type	*next_node;
 	t_type	*head;
@@ -68,17 +68,13 @@ void	assign_types(t_type *node, t_type *lst, int cmd_assigned)
 		assign_ch_droit(node, lst, next_node);
 	else if (ft_strncmp(node->text, "<", 1) == 0)
 		assign_ch_gauche(node, lst, next_node);
-	else if (is_builtin(node->text) == 0 && cmd_assigned == 0)
+	else if (is_builtin(node->text) == 0 && cmd_ok == 0)
 		assign_builtin(node);
-	else if (is_abs_path_executable(node->text) == 1 && cmd_assigned == 0
-		&& ft_strncmp(node->text, "/", 1) == 0)
-	{
-		printf("abs cmd\n");
+	else if (is_abs_exec(node->text) == 1 && cmd_ok == 0)
 		assign_abs_cmd(node);
-	}
-	else if (is_executable_command(node->text) == 0 && cmd_assigned == 0)
+	else if (is_executable_command(node->text) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
-	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_assigned == 0)
+	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
 	else
 		assign_args(node);

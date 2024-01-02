@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 15:22:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:40:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	end_position = NULL;
 	node->type = args;
 	new_node = clean_cmd_type(node);
-	/* printf("cleaned variable is %s\n", new_node); */
+	new_node = remove_xtra_spaces(new_node);
 	env_var = find_env_variable(node, end_position, variable);
 	/* printf("Env var is %s\n", env_var); */
 	if (env_var != NULL)
@@ -113,21 +113,20 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 
 	env_var = NULL;
 	env_value = NULL;
+	last = 0;
 	first = node->text[0];
 	len = ft_strlen(node->text);
-	last = node->text[len - 1];
+	if (first > 0)
+		last = node->text[len - 1];
 	/* printf("Node has %d words\n", count_word_node(node)); */
 	if (first == '\"' && last == '\"')
-	{
 		block_has_dbl_quotes(node, env_cpy);
-	}
 	else if (first == '\'' && last == '\'')
-	{
 		block_has_s_quotes(node);
-	}
 	else
 	{
 		block_has_no_quotes(node, env_cpy);
+		node->flag = 1;
 	}
 	//TESTS VARIABLES//
 	/* printf("First letter is %c\n", first); */

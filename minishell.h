@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 17:23:51 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:31:29 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_commande
 char			**build_absolute_arg(t_commande *cmd);
 int				is_absolute_path(char *cmd);
 void			execute_absolute_cmd(t_commande *cmd, char **envp);
-int				is_abs_path_executable(char *cmd);
+int				is_abs_exec(char *cmd);
 
 /* ooo - append - ooo */
 

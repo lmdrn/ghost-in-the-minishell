@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 20:59:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:42:10 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_type	*create_node_and_assign_types(char *text, t_type *head,
 
 	node = create_node(text);
 	assign_types(node, head, cmd_assigned);
-	printf("text is %s, type is %d\n", node->text, node->type);
+	/* printf("text is %s, type is %d\n", node->text, node->type); */
 	if (node->type == args)
 		assign_quotes(node, env_copy);
 	return (node);
@@ -68,7 +68,7 @@ void	append_to_list(t_type **head, t_type **current, t_type *node)
 
 t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
-	int		cmd_assigned;
+	int		cmd_ok;
 	t_type	*head;
 	t_type	*redir;
 	t_type	*current;
@@ -77,16 +77,16 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 	head = NULL;
 	redir = NULL;
 	current = NULL;
-	cmd_assigned = 0;
+	cmd_ok = 0;
 	i = 0;
 	while (blocks[i])
 	{
 		node = create_node_and_assign_types(blocks[i], head,
-				env_copy, cmd_assigned);
+				env_copy, cmd_ok);
 		if (node->type == cmd || node->type == abs_cmd || node->type == builtin)
-			cmd_assigned = 1;
+			cmd_ok = 1;
 		else if (node->type == 7)
-			cmd_assigned = 0;
+			cmd_ok = 0;
 		append_to_list(&head, &current, node);
 		i++;
 	}

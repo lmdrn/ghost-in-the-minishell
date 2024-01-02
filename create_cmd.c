@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:14:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/02 21:40:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,10 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 			|| tokens->type == abs_cmd)
 		{
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
+			if (tokens->flag == 1)
+			{
+				printf("couocu\n");
+			}
 			tokens = process_command_args(new_cmd, tokens);
 			update_command_list(&cmd_head, &cmd_current, new_cmd);
 		}
