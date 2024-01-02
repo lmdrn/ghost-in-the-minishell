@@ -30,6 +30,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  append.c built_in/cd.c built_in/echo.c \
 			  built_in/cd_utils.c built_in/echo_utils.c\
 			  built_in/export_utils.c built_in/export_sorted.c\
+			  built_in/unset.c\
 			  built_in/pwd.c built_in/env.c built_in_utils.c \
 			  built_in/export.c built_in/list_utils.c\
 			  blocks_to_list_utils.c create_cmd_utils.c \

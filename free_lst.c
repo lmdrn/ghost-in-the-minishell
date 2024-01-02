@@ -71,6 +71,8 @@ void	print_commande_list(t_commande *head)
 		printf("Command: %s ", current->cmd);
 		printf("has arguments: ");
 		args_current = current->args;
+		if (args_current == NULL)
+			printf("!!pas d'arguments\n");
 		while (args_current != NULL)
 		{
 			printf("%s ", args_current->arg);
