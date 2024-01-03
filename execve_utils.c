@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 12:13:10 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 12:18:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:56:20 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	copy_the_path(t_environment *env_copy, t_epi *epi)
 	t_environment	*curr;
 
 	curr = env_copy;
-	while (curr->key != NULL && strcmp(curr->key, "PATH") != 0)
+	while (curr->key != NULL && ft_strcmp(curr->key, "PATH") != 0)
 		curr = curr->next;
 	epi->path = ft_strdup(curr->value);
 	epi->tok_s = epi->path;

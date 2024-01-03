@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 13:18:24 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 19:58:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,7 @@ void			free_args(t_args *args);
 void			free_commande_list(t_commande *head);
 void			clear_commande_list(t_commande **lst);
 void			print_commande_list(t_commande *head);
+int				count_list(t_commande *cmd);
 
 /* ooo - heredoc - ooo */
 int				heredoc_fd(char	*del);

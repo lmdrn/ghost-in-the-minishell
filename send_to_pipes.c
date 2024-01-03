@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 18:34:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 19:04:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	send_to_execution(t_commande *cmd, t_commande *head,
 			execute_basic_cmd(cmd, env_copy);
 			g_status = errno;
 		}
+		exit(1);
 	}
 }
 
