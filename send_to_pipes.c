@@ -6,19 +6,25 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 23:06:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:05:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_fds(t_commande *curr_cmd, t_commande *cmd)
+void	close_fds(t_commande *curr_cmd)
 {
-	if (curr_cmd->fdin != STDIN_FILENO)
-		close(cmd->fdin);
-	if (curr_cmd->fdout != STDOUT_FILENO)
-		close(curr_cmd->fdout);
-	wait_for_children(curr_cmd);
+	t_commande	*cmd;
+
+	cmd = curr_cmd;
+	while (cmd)
+	{
+		if (cmd->fdin > 2)
+			close(cmd->fdin);
+		if (cmd->fdout > 2)
+			close(cmd->fdout);
+		cmd = cmd->next;
+	}
 }
 
 void	dup_and_close_fdin(t_commande *curr_cmd)
@@ -41,35 +47,29 @@ void	dup_and_close_fdout(t_commande *curr_cmd)
 	close(curr_cmd->fdout);
 }
 
-void	send_to_execution(t_commande *cmd, t_environment *env_copy)
+void	send_to_execution(t_commande *cmd, t_commande *head, t_environment *env_copy)
 {
-	t_commande	*curr_cmd;
-
-	curr_cmd = cmd;
-	curr_cmd->pid = fork();
-	if (curr_cmd->pid == -1)
+	cmd->pid = fork();
+	if (cmd->pid == -1)
 	{
 		perror("did not fork\n");
 		exit(EXIT_FAILURE);
 	}
-	if (curr_cmd->pid == 0)
+	if (cmd->pid == 0)
 	{
-		if (curr_cmd->fdin != STDIN_FILENO)
-			dup_and_close_fdin(curr_cmd);
-		if (curr_cmd->fdout != STDOUT_FILENO)
-			dup_and_close_fdout(curr_cmd);
-		/* if (is_absolute_path(curr_cmd->cmd) == '/') */
-		/* 	execute_absolute_cmd(curr_cmd, env_list_to_array(env_copy)); */
-		/* else */
+		if (cmd->fdin > 2)
+			dup2(cmd->fdin, STDIN_FILENO);
+		if (cmd->fdout > 2)
+			dup2(cmd->fdout, STDOUT_FILENO);
+		close_fds(head);
 		if (is_builtin(cmd->cmd) == 0)
 			which_builtin_exec(cmd, env_copy);
 		else
+		{
 			execute_basic_cmd(cmd, env_copy);
-		g_status = errno;
-		exit(EXIT_SUCCESS);
+			g_status = errno;
+		}
 	}
-	else
-		close_fds(curr_cmd, cmd);
 }
 
 void	wait_for_children(t_commande *cmd)
@@ -77,23 +77,16 @@ void	wait_for_children(t_commande *cmd)
 	t_commande	*curr_cmd;
 
 	curr_cmd = cmd;
-	/* printf("g status is %d\n", g_status); */
 	while (curr_cmd != NULL)
 	{
 		if (curr_cmd->pid > 0)
 		{
 			if (waitpid(curr_cmd->pid, &curr_cmd->wait_status, 0) == -1)
-			{
-				perror("waitpid\n");
 				exit(EXIT_FAILURE);
-			}
 			if (WIFSIGNALED(curr_cmd->wait_status))
 				g_status = 128 + WTERMSIG(curr_cmd->wait_status);
 			if (WIFEXITED(curr_cmd->wait_status))
-			{
 				g_status = WEXITSTATUS(curr_cmd->wait_status);
-				/* printf("Child proccess exited with status %d\n", g_status); */
-			}
 		}
 		curr_cmd = curr_cmd->next;
 	}

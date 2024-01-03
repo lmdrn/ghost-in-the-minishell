@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 23:10:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:18:24 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,7 @@ char			**init_parse(const char *input);
 /* ooo - input_redir - ooo */
 
 int				create_input_redir(char *filename, t_commande *cmd);
-void			init_input(t_commande *curr_cmd, t_commande *cmd);
+int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - minishell - ooo */
 
@@ -386,15 +386,16 @@ int				is_odd_or_even(int *pipe_count, int *cmd_count);
 
 /* ooo - send_to_pipes - ooo*/
 
-void			close_fds(t_commande *current_cmd, t_commande *cmd);
+void			close_fds(t_commande *current_cmd);
 void			wait_for_children(t_commande *cmd);
-void			send_to_execution(t_commande *cmd, t_environment *env_copy);
+void			send_to_execution(t_commande *cmd, t_commande *head,
+					t_environment *env_copy);
 void			dup_and_close_fdin(t_commande *curr_cmd);
 void			dup_and_close_fdout(t_commande *curr_cmd);
 
 /* ooo - setup_redir - ooo*/
 void			assign_fds(t_commande *cmd);
-void			assign_redir(t_commande *cmd);
+int				assign_redir(t_commande *cmd);
 int				which_token(t_commande *cmd, int token);
 
 /* ooo - signals - ooo */

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 23:08:56 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:05:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 {
 	t_type		*tokens;
 	t_commande	*cmd_lst;
+	t_commande	*new_cmd_lst;
 
 	tokens = NULL;
 	cmd_lst = NULL;
@@ -119,7 +120,10 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		cmd_lst = command_list_redir(tokens);
 	}
 	if (cmd_lst == NULL)
+	{
+		g_status = 127;
 		return (-1);
+	}
 	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
 	/* 	pipe_count, cmd_count); */
 	if (cmd_lst != NULL)
@@ -128,14 +132,18 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		print_commande_list(cmd_lst);
 	}
 	assign_fds(cmd_lst);
-	while (cmd_lst != NULL)
+	new_cmd_lst = cmd_lst;
+	while (new_cmd_lst != NULL)
 	{
 		if (tokens->type == 1)
-			which_builtin(cmd_lst, env_copy);
-		assign_redir(cmd_lst);
-		send_to_execution(cmd_lst, env_copy);
-		cmd_lst = cmd_lst->next;
+			which_builtin(new_cmd_lst, env_copy);
+		if (assign_redir(new_cmd_lst) == -1)
+			return (-1);
+		send_to_execution(new_cmd_lst, cmd_lst, env_copy);
+		new_cmd_lst = new_cmd_lst->next;
 	}
+	close_fds(cmd_lst);
+	wait_for_children(cmd_lst);
 	clear_commande_list(&cmd_lst);
 	return (0);
 }

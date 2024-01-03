@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:48:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:05:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,6 @@
 
 int	g_status = 0;
 
-// Function to find the node with a specific key in the linked list
-t_environment *find_node(char *key, t_environment	*head) {
-    t_environment *current = head;
-    while (current != NULL) {
-        if (strcmp(current->key, key) == 0) 
-		{
-			printf("ENV VAR IS %s\n", current->key);
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL; // Node not found
-}
-
-// Function to update the value of a specific key in the linked list
-void update_env_variable(char *key, int increment, t_environment *head) {
-    t_environment *node = find_node(key, head);
-    if (node != NULL) {
-        int value = atoi(node->value);
-        value += increment;
-        free(node->value);
-        node->value = malloc(sizeof(char) * (strlen(key) + 1));
-        printf("shll level is %d\n", value);
-    }
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
@@ -57,12 +31,11 @@ int	main(int ac, char **av, char **envp)
 	input = NULL;
 	(void)ac;
 	(void)av;
-	check_args(ac,av);
+	check_args(ac, av);
 	termios_mgmt(1);
 	set_signals();
 	head = init_env(envp);
 	ft_welcome();
-	/* update_env_variable("SHLVL", 1, head); */
 	while (1)
 	{
 		input = ft_prompt();
@@ -89,11 +62,13 @@ int	main(int ac, char **av, char **envp)
 		}
 		else if (init_tokenizer(blocks, head) == -1)
 		{
-			printf("Error: %s: command not found\n", input);
-			g_status = 127;
-			/* printf("Error is %d\n", g_status); */
+			/* g_status = 127; */
 			free(input);
 		}
+		/* else if (init_tokenizer(blocks, head) == -2) */
+		/* { */
+		/* 	g_status = 1; */
+		/* } */
 		termios_mgmt(1);
 		set_signals();
 		termios_mgmt(0);

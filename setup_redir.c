@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 14:12:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:27:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	which_token(t_commande *cmd, int token)
 	return (-1);
 }
 
-void	assign_redir(t_commande *cmd)
+int	assign_redir(t_commande *cmd)
 {
 	t_commande	*curr_cmd;
 
@@ -54,7 +54,7 @@ void	assign_redir(t_commande *cmd)
 	while (curr_cmd != NULL)
 	{
 		if (which_token(curr_cmd, 8) == 8)
-			init_input(curr_cmd, cmd);
+			return (init_input(curr_cmd, cmd));
 		if (which_token(curr_cmd, 9) == 9)
 			init_output(curr_cmd, cmd);
 		if (which_token(curr_cmd, 10) == 10)
@@ -63,4 +63,5 @@ void	assign_redir(t_commande *cmd)
 			init_append(curr_cmd, cmd);
 		curr_cmd = curr_cmd->next;
 	}
+	return (0);
 }
