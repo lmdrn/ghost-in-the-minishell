@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:38:58 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 23:12:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:07:10 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 {
 	if (ft_strncmp(cmd_lst->cmd, "cd", 2) == 0)
-	{
 		builtin_cd(cmd_lst, env_copy);
-	}
 	else if (ft_strncmp(cmd_lst->cmd, "export", 6) == 0)
 		export_main(cmd_lst, &env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "unset", 5) == 0)

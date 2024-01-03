@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:40:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:19:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 void	quote_builtin_or_cmd(t_type *node)
 {
 	clean_cmd_type(node);
+	printf("hello\n");
 	if (is_builtin(node->text) == 0)
 		node->type = builtin;
 	else if (is_executable_command(node->text) == 0)
 		node->type = cmd;
+	else if (is_abs_exec(node->text) == 1)
+	{
+		printf("hello\n");
+		node->type = abs_cmd;
+	}
 	else
 		node->type = args;
 }
@@ -36,8 +42,12 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	env_value = NULL;
 	new_node = NULL;
 	end_position = NULL;
-	if (count_word_node(node) == 1 && (node->type == 0 || node->type == 1))
+	if (count_word_node(node) == 1 && (node->type == 0 || node->type == 1
+			|| node->type == 14))
+	{
+		printf("la\n");
 		quote_builtin_or_cmd(node);
+	}
 	else
 	{
 		node->type = args;
@@ -61,17 +71,13 @@ void	block_has_s_quotes(t_type *node)
 	if (count_word_node(node) == 1)
 	{
 		clean_cmd_type(node);
-		if (ft_strncmp(node->text, "$?", 2) == 0)
-			replace_exit_status(node->text);
 		if (is_builtin(node->text) == 0)
 			node->type = builtin;
 		else if (is_executable_command(node->text) == 0)
 			node->type = cmd;
 	}
 	else
-	{
 		node->type = args;
-	}
 }
 
 void	block_has_no_quotes(t_type *node, t_environment *env_cpy)

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:32:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:20:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,8 @@ void	assign_types(t_type *node, t_type *lst, int cmd_ok)
 	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
 	else
+	{
+		printf("ta mere\n");
 		assign_args(node);
+	}
 }

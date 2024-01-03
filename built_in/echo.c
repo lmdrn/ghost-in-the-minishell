@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 13:49:48 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:04:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	ft_echo(char *str, t_environment *env_copy)
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			printf("print derrniere error");
+			/* printf("%d", g_status); */
 			i++;
 		}
 		else if (str[i] == '$' && isalnum(str[i + 1]) && str[i + 1] != '\0')
 		{
-			if (check_is_in_env(env_copy, str) == ERROR)
+			if (check_is_in_env(env_copy, &str[i + 1]) == ERROR)
 				exit(1);
 			else
 			{
