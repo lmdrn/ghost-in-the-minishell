@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   custom_parsing_split_utils.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:34:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/22 17:38:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 17:16:35 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	block_malloc(int i, int start, char **blocks, int block_index)
 	{
 		printf("2nd mem alloc failed\n");
 		return (-1);
-		exit(1);
 	}
 	return (block_len);
 }
@@ -36,26 +35,21 @@ void	add_last_block(const char *str, char **blocks,
 
 int	quote_check(int in_dq, int in_sq)
 {
-	if (in_dq % 2 == 0 && in_sq % 2 != 0)
-	{
-		printf("\033[1;31mUnclosed single quote in a double quote\e[0m\n");
-		return (-1);
-	}
-	else if (in_dq % 2 != 0 && in_sq % 2 == 0)
-	{
-		printf("\033[1;31mUnclosed double quote in a single quote\e[0m\n");
-		return (-1);
-	}
-	else if (in_sq % 2 != 0 && in_dq == 0)
-	{
-		printf("\033[1;31mError! Odd number of single quotes\e[0m\n");
-		exit(1);
-	}
-	else if (in_dq % 2 != 0 && in_sq == 0)
+	if (in_dq % 2 == 0 && in_sq % 2 == 0)
+		return (0);
+	if (in_dq % 2 != 0)
 	{
 		printf("\033[1;31mError! Odd number of double quotes\e[0m\n");
-		exit(1);
+		return (-1);
 	}
+	if (in_sq % 2 != 0)
+	{
+		printf("\033[1;31mError! Odd number of single quotes\e[0m\n");
+		return (-1);
+	}
+	if (in_dq % 2 != 0)
+		printf("\033[1;31mEven single quotes\e[0m\n");
 	else
-		return (0);
+		printf("\033[1;31mEven double quotes\e[0m\n");
+	return (0);
 }

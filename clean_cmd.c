@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 15:22:06 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:21:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,16 @@ int	between_quotes(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\"')
-			double_quotes = !double_quotes;
+		{
+			double_quotes++;
+		}
 		else if (str[i] == '\'')
-			single_quotes = !single_quotes;
-		if (single_quotes || double_quotes)
-			return (1);
+			single_quotes++;
 		i++;
 	}
+	if (double_quotes == 0 && single_quotes == 0)
+		return (1);
+	else if (double_quotes % 2 == 0 && single_quotes % 2 == 0)
+		return (2);
 	return (0);
 }
