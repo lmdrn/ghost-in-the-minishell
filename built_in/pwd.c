@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 13:47:44 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 00:21:36 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_args_pwd(t_commande *cmd_lst)
 		}
 		else
 		{
-			printf("Erreur :no options and no arguments.\n");
+			/* printf("Erreur :no options and no arguments.\n"); */
 			return (ERROR);
 		}
 	}
@@ -57,13 +57,14 @@ int	builtin_pwd( t_commande *cmd_lst)
 		}
 		else
 		{
-			printf("error ici de pwd, trop de arg");
+			printf("%s\n", actual_pwd);
+			/* printf("error ici de pwd, trop de arg\n"); */
 			return (ERROR);
 		}
 	}
 	else
 	{
-		printf("error pas acces a pwd");
+		printf("error pas acces a pwd\n");
 		return (ERROR);
 	}
 }
@@ -95,8 +96,7 @@ void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 
 	old_pwd = NULL;
 	current_pwd = NULL;
-	current_pwd = getcwd(NULL, 0);
-	change_value(env_copy, "PWD", change_pwd, &old_pwd);
+	current_pwd = getcwd(NULL, 0); change_value(env_copy, "PWD", change_pwd, &old_pwd);
 	change_value(env_copy, "OLDPWD", old_pwd, NULL);
 	free(current_pwd);
 }
