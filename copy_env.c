@@ -106,11 +106,9 @@ void	copy_key_value_pair(t_environment *env, int count, char **envp)
 
 char	**env_list_to_array(t_environment *env)
 {
-	t_environment	*env_lst;
 	int				count;
 	char			**envp;	
 
-	env_lst = env;
 	count = env_count_lst(env);
 	envp = allocate_mem_x_env_array(count);
 	copy_key_value_pair(env, count, envp);

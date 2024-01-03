@@ -109,9 +109,7 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
 	t_commande	*new_cmd;
-	t_type		*tmp;
 
-	tmp = tokens;
 	cmd_head = NULL;
 	cmd_current = NULL;
 	while (tokens != NULL)

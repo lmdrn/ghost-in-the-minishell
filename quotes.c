@@ -108,11 +108,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	int		len;
 	char	first;
 	char	last;
-	char	*env_var;
-	char	*env_value;
 
-	env_var = NULL;
-	env_value = NULL;
 	last = 0;
 	first = node->text[0];
 	len = ft_strlen(node->text);

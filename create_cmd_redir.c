@@ -87,9 +87,7 @@ t_commande	*command_list_redir(t_type *tokens)
 {
 	t_commande	*cmd_head;
 	t_commande	*cmd_current;
-	t_type		*tmp;
 
-	tmp = tokens;
 	cmd_head = NULL;
 	cmd_current = NULL;
 	while (tokens != NULL)

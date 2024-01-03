@@ -209,13 +209,13 @@ int				echo(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - env - ooo */
 
-void			print_env_builtin(t_environment *env_copy);
+void			print_env_builtin(t_environment *env_copy, t_commande *cmd_lst);
 
 /* ooo - pwd - ooo */
 
 int				check_args_pwd(t_commande *cmd_lst);
 int				builtin_pwd( t_commande *cmd_lst);
-void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
+void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd, int old_new);
 
 /* ooo - built_in_utils  - ooo */
 

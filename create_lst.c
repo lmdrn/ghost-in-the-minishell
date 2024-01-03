@@ -70,12 +70,10 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
 	int		cmd_ok;
 	t_type	*head;
-	t_type	*redir;
 	t_type	*current;
 	int		i;
 
 	head = NULL;
-	redir = NULL;
 	current = NULL;
 	cmd_ok = 0;
 	i = 0;

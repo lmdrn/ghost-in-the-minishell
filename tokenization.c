@@ -54,9 +54,7 @@ int	is_asym(char *node)
 void	assign_types(t_type *node, t_type *lst, int cmd_ok)
 {
 	t_type	*next_node;
-	t_type	*head;
 
-	head = node;
 	next_node = NULL;
 	if (ft_strncmp(node->text, "|", 1) == 0)
 		assign_pipe(node);
