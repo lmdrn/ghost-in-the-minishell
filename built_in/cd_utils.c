@@ -14,7 +14,7 @@
 
 int	go_home(t_environment *env_copy, char *home)
 {
-	update_pwd_oldpwd(env_copy, home);
+	update_pwd_oldpwd(env_copy, home, 3);
 	if (chdir(home) != 0)
 	{
 		printf ("cd: Home non accessible");

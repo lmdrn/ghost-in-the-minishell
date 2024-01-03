@@ -46,26 +46,14 @@ int	check_args_pwd(t_commande *cmd_lst)
 int	builtin_pwd( t_commande *cmd_lst)
 {
 	char	*actual_pwd;
-
+	(void)cmd_lst;
 	actual_pwd = getcwd(NULL, 0);
 	if (actual_pwd != NULL)
 	{
-		if (check_args_pwd(cmd_lst) == SUCCESS)
-		{
-			printf("%s\n", actual_pwd);
-			return (SUCCESS);
-		}
-		else
-		{
-			printf("error ici de pwd, trop de arg");
-			return (ERROR);
-		}
+		printf("%s\n", actual_pwd);
+		return (SUCCESS);
 	}
-	else
-	{
-		printf("error pas acces a pwd");
-		return (ERROR);
-	}
+	return (ERROR);
 }
 
 void	change_value(t_environment *env_copy, char *cmd, \
@@ -88,6 +76,11 @@ char *value, char **old_value_ptr)
 	}
 }
 
+/*
+ * ==1 change old
+ * ==2 change pwd
+ * ==3 change both
+ *
 void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 {
 	char			*current_pwd;
@@ -98,5 +91,21 @@ void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd)
 	current_pwd = getcwd(NULL, 0);
 	change_value(env_copy, "PWD", change_pwd, &old_pwd);
 	change_value(env_copy, "OLDPWD", old_pwd, NULL);
+	free(current_pwd);
+}
+ * */
+void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd, int old_new)
+{
+	char			*current_pwd;
+	char			*old_pwd;
+
+	old_pwd = NULL;
+	current_pwd = NULL;
+	current_pwd = getcwd(NULL, 0);
+	old_pwd = current_pwd;
+	if (old_new == 2 || old_new == 3)
+		change_value(env_copy, "PWD", change_pwd, &old_pwd);
+	if (old_new == 1 || old_new == 3)
+		change_value(env_copy, "OLDPWD", old_pwd, NULL);
 	free(current_pwd);
 }

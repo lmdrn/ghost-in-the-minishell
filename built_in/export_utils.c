@@ -30,7 +30,7 @@ int	valid_cmd(char *arg)
 	}
 	while (arg[i] != '\0')
 	{
-		if (!ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
+		if (!ft_isprint(arg[i]))
 			return (ERROR);
 		i++;
 	}

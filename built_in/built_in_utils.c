@@ -11,25 +11,38 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 int	check_is_in_env(t_environment *env_copy, char *var)
 {
 	t_environment	*current;
 
 	current = env_copy;
-	if (current != NULL)
+	while (current != NULL)
 	{
-		while (current->key != NULL)
-		{
-			if (strcmp(current->key, var) == 0)
-				return (SUCCESS);
-			current = current->next;
-		}
-		return (ERROR);
+		if (strcmp(current->key, var) == 0)
+			return (SUCCESS);
+		current = current->next;
 	}
-	else
-		return (ERROR);
+	return (ERROR);
 }
+
+//int	check_is_in_env(t_environment *env_copy, char *var)
+//{
+//	t_environment	*current;
+//
+//	current = env_copy;
+//	if (current != NULL)
+//	{
+//		while (current->key != NULL)
+//		{
+//			if (strcmp(current->key, var) == 0)
+//				return (SUCCESS);
+//			current = current->next;
+//		}
+//		return (ERROR);
+//	}
+//	else
+//		return (ERROR);
+//}
 
 void	print_value(t_environment *env_copy, char *key)
 {
