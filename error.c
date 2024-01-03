@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:11:03 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 17:17:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:37:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_argv(char **argv)
 {
 	if (!argv)
 		return ;
-	free(argv[0]);
+	/* free(argv[0]); */
 	free(argv);
 }
 

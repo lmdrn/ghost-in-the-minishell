@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 14:05:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:34:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	dup_and_close_fdout(t_commande *curr_cmd)
 	close(curr_cmd->fdout);
 }
 
-void	send_to_execution(t_commande *cmd, t_commande *head, t_environment *env_copy)
+void	send_to_execution(t_commande *cmd, t_commande *head,
+			t_environment *env_copy)
 {
 	cmd->pid = fork();
 	if (cmd->pid == -1)
