@@ -112,6 +112,8 @@ typedef struct s_commande
 
 /* ooo - PROTOTYPES DE FONCTIONS - ooo */
 
+void increment_shlvl(t_environment **env_copy);
+char* decrement_and_convert_to_string(const char* str);
 /* ooo - absolute_cmd - ooo */
 
 char			**build_absolute_arg(t_commande *cmd);
@@ -154,7 +156,7 @@ void			free_string_array(char **array);
 char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - BUILTINS - ooo */
-
+void update_env_variable(t_commande *cmd_lst, t_environment **env_copy);
 /* ooo - unset - ooo */
 void			erase_node(char *key, t_environment **env_copy);
 int				built_unset(t_environment **env_copy, t_commande *cmd_lst);
