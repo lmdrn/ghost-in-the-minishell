@@ -114,6 +114,7 @@ typedef struct s_commande
 
 void increment_shlvl(t_environment **env_copy);
 char* decrement_and_convert_to_string(const char* str);
+int print_shlvl(t_environment *current);
 /* ooo - absolute_cmd - ooo */
 
 char			**build_absolute_arg(t_commande *cmd);

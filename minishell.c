@@ -36,30 +36,33 @@ t_environment *find_node(char *key, t_environment	*head) {
     return NULL; // Node not found
 }
 
-
-
-
-void increment_shlvl(t_environment **env_copy)
-{
-//	if (!should_increment_shlvl) {
-//		return;
-//	}
-	char *shlvl_str = get_env_value(*env_copy, "SHLVL");
-	printf("valeur de SHVL dans la fonction incrementation :%s\n", shlvl_str);
-
-	int shlvl = shlvl_str ? atoi(shlvl_str) : 0;
-	shlvl++;
-
-	// Utiliser ft_itoa pour convertir shlvl en chaîne
-	char *shlvl_updated = ft_itoa(shlvl);
-	if (shlvl_updated == NULL) {
-		// Gestion de l'erreur d'allocation de mémoire
-		return;
+int print_shlvl(t_environment *current) {
+	if (ft_strcmp(current->key, "SHLVL") == 0) {
+		char *shlvl = decrement_and_convert_to_string(current->value);
+		if (shlvl != NULL) {
+			printf("%s=%s\n", current->key, shlvl);
+			free(shlvl); // Libérer la mémoire allouée par decrement_and_convert_to_string
+			return 1; // Indiquer que SHLVL a été traité
+		}
 	}
+	return 0; // Indiquer que SHLVL n'a pas été traité
+}
 
+
+
+void	increment_shlvl(t_environment **env_copy)
+{
+	char	*shlvl_str;
+	int		shlvl;
+	char	*shlvl_updated;
+
+	shlvl_str = get_env_value(*env_copy, "SHLVL");
+	shlvl = shlvl_str ? atoi(shlvl_str) : 0;
+	shlvl++;
+	shlvl_updated = ft_itoa(shlvl);
+	if (shlvl_updated == NULL)
+		return;
 	remplace_old_value(shlvl_updated, "SHLVL", *env_copy);
-
-	// Libérer la mémoire allouée par ft_itoa
 	free(shlvl_updated);
 }
 
@@ -82,14 +85,6 @@ int	main(int ac, char **av, char **envp)
 
 	while (1)
 	{
-//		if (strcmp(av[0], "./minishell") == 0)
-//			should_increment_shlvl = 1;
-
-		//should_increment_shlvl = 0;
-
-//		shlvl = get_env_value(head, "SHLVL");
-//		printf("valeur de SHLVL : %s\n", shlvl);
-
 		input = ft_prompt();
 		if (!input)
 			break ;

@@ -82,21 +82,42 @@ void	bubble_sort_env(t_environment **head)
 		}
 	}
 }
+void print_sorted_env(t_environment *env_copy) {
+	t_environment *current = env_copy;
 
-void	print_sorted_env(t_environment *env_copy)
-{
-	t_environment	*current;
-
-	current = env_copy;
-	while (current != NULL)
-	{
-		if (current->key != NULL)
-		{
-			if (current->value == NULL)
+	while (current != NULL) {
+		if (current->key != NULL && !print_shlvl(current)) {
+			// SHLVL n'a pas été traité, donc traiter les autres variables
+			if (current->value == NULL) {
 				printf("%s=''\n", current->key);
-			else
+			} else {
 				printf("%s=%s\n", current->key, current->value);
+			}
 		}
-		current = current->next;
+		current = current->next; // Passer au nœud suivant
 	}
 }
+
+
+//void	print_sorted_env(t_environment *env_copy)
+//{
+//	t_environment	*current;
+//
+//	current = env_copy;
+//	while (current != NULL)
+//	{
+//		if (current->key != NULL)
+//		{
+//			if (ft_strcmp(current->key, "SHLVL") == 0)
+//			{
+//				char *shlv = decrement_and_convert_to_string(current->value);
+//				printf("%s=%s\n", current->key, shlv);
+//			}
+//			else if (current->value == NULL)
+//				printf("%s=''\n", current->key);
+//			else
+//				printf("%s=%s\n", current->key, current->value);
+//		}
+//		current = current->next;
+//	}
+//}

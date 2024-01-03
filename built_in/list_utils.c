@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+char* decrement_and_convert_to_string(const char* str) {
+	if (str == NULL) {
+		return NULL;
+	}
+
+	int value = atoi(str);  // Convertit la chaîne en entier
+	if (value > 0)
+		value--;                // Décrémente la valeur
+
+	// Convertit la valeur décrémentée en chaîne
+	char* result = ft_itoa(value);
+	return result;
+}
+
+
 int	list_size(t_environment *node)
 {
 	int	i;

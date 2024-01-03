@@ -36,7 +36,7 @@ int	ft_cd(t_environment *env_copy, char *path, int path_back)
 {
 	if (check_path(path) == ERROR)
 	{
-		printf("error path\n");
+		printf("cd: %s No such file or directory\n", path);
 		return (ERROR);
 	}
 	if (path_back == 1)
@@ -83,7 +83,6 @@ t_environment *env_copy, t_commande *cmd_lst)
 	{
 		if (go_home(env_copy, home) == ERROR)
 		{
-			printf("\n can't go home\n");
 			return (ERROR);
 		}
 		return (SUCCESS);
@@ -91,10 +90,7 @@ t_environment *env_copy, t_commande *cmd_lst)
 	else if (arg_check == 2)
 		path_back = 1;
 	if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
-	{
-		printf("path to file doesn't exist");
 		return (ERROR);
-	}
 	return (SUCCESS);
 }
 
