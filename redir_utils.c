@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 21:22:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:00:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ char	*find_filename(t_commande *cmd)
 			return (file = curr_arg->next->arg);
 		}
 		else if (curr_arg->type == 9)
+		{
+			file = curr_arg->next->arg;
+			printf("file is %s\n", file);
 			return (file = curr_arg->next->arg);
+		}
 		else if (curr_arg->type == 10)
 		{
 			file = heredoc_special(curr_arg);

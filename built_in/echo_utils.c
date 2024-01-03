@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 14:53:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 23:51:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,17 @@ t_environment *env_copy, int option)
 {
 	while (cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
 	{
-		ft_echo(cmd_lst->args->arg, env_copy);
+		if (cmd_lst->args->type == 8 || cmd_lst->args->type == 9
+			|| cmd_lst->args->type == 10 || cmd_lst->args->type == 11)
+		{
+			printf("type is %d\n", cmd_lst->args->type);
+			break ;
+		}
+		else
+			ft_echo(cmd_lst->args->arg, cmd_lst, env_copy);
 		if (cmd_lst->args->next != NULL
 			&& cmd_lst->args->next->arg != NULL)
-			printf(" ");
+			write(cmd_lst->fdout, " ", 1);
 		if (cmd_lst->args->next != NULL)
 			cmd_lst->args = cmd_lst->args->next;
 		else

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 19:58:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 23:20:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int				count_args_cd(t_commande *cmd_lst);
 
 /* ooo - echo - ooo */
 
-void			ft_echo(char *str, t_environment *env_copy);
+void			ft_echo(char *str, t_commande *cmd, t_environment *env_copy);
 int				check_option_n(char *str);
 char			*get_env_value(t_environment *env_copy, char *env_key);
 int				handle_option_all_n(t_commande **cmd_lst);

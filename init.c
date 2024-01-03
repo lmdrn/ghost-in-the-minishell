@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 20:02:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:27:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,39 +111,37 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	tokens = init_lst(blocks, tokens, env_copy);
 	ft_free_parsing_split(blocks);
 	if (tokens->type == 0 || tokens->type == 1 || tokens->type == 14)
-	{
 		cmd_lst = command_list(tokens, env_copy);
-	}
 	else if (tokens->type == 8 || tokens->type == 9 || tokens->type == 10
 		|| tokens->type == 11)
-	{
 		cmd_lst = command_list_redir(tokens);
-	}
 	if (cmd_lst == NULL)
 	{
 		g_status = 127;
 		return (-1);
 	}
-	/* printf("\nPipe nbr is %d and Cmd nbr is %d\n\n", */
-	/* 	pipe_count, cmd_count); */
 	if (cmd_lst != NULL)
-	{
-		/* printf("Command list:\n"); */
 		print_commande_list(cmd_lst);
-	}
 	assign_fds(cmd_lst);
 	new_cmd_lst = cmd_lst;
-	while (new_cmd_lst != NULL)
+	if (new_cmd_lst->next == NULL && tokens->type == 1)
 	{
-		if (tokens->type == 1 && count_list(new_cmd_lst) == 1)
-			which_builtin(new_cmd_lst, env_copy);
 		if (assign_redir(new_cmd_lst) == -1)
 			return (-1);
-		send_to_execution(new_cmd_lst, cmd_lst, env_copy);
-		new_cmd_lst = new_cmd_lst->next;
+		which_builtin(new_cmd_lst, env_copy);
 	}
-	close_fds(cmd_lst);
-	wait_for_children(cmd_lst);
-	clear_commande_list(&cmd_lst);
+	else
+	{
+		while (new_cmd_lst != NULL)
+		{
+			if (assign_redir(new_cmd_lst) == -1)
+				return (-1);
+			send_to_execution(new_cmd_lst, cmd_lst, env_copy);
+			new_cmd_lst = new_cmd_lst->next;
+		}
+		close_fds(cmd_lst);
+		wait_for_children(cmd_lst);
+		clear_commande_list(&cmd_lst);
+	}
 	return (0);
 }

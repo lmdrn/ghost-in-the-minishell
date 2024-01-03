@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:31:24 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 19:58:22 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/03 21:31:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	free_commande_list(t_commande *head)
 		current = current->next;
 		free(tmp->cmd);
 		free_args(tmp->args);
-		/* free(tmp->fdin); */
-		/* free(tmp->fdout); */
 		free(tmp);
 	}
 }
@@ -95,6 +93,5 @@ int	count_list(t_commande *cmd)
 		i++;
 		curr = curr->next;
 	}
-	printf("count i %d\n", i);
 	return (i);
 }
