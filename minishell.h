@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 15:42:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:47:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,6 +379,8 @@ void			assign_quotes(t_type *node, t_environment *env_copy);
 char			*clean_cmd_type(t_type *node);
 char			*remove_xtra_spaces(char *input);
 int				between_quotes(char *str);
+int				dbl_inside_single(const char *block);
+int				single_inside_single(const char *block);
 
 /* ooo - redir_utils - ooo */
 char			*find_filename(t_commande *cmd);

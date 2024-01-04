@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 18:21:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:06:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,34 @@ int	count_word_node(t_type *node)
 	return (wc);
 }
 
+char	*malloc_clean_cmd(char *new_str, t_type *node)
+{
+	new_str = malloc(sizeof(char *) * ft_strlen(node->text) + 1);
+	if (new_str == NULL)
+		return (NULL);
+	return (new_str);
+}
+
 char	*clean_cmd_type(t_type *node)
 {
 	char	*new_str;
 	int		i;
 	int		j;
+	char	outer_quote;
 
+	outer_quote = '\0';
+	new_str = NULL;
 	i = 0;
 	j = 0;
-	new_str = malloc(sizeof(char *) * ft_strlen(node->text) + 1);
-	if (new_str == NULL)
-		return (NULL);
-	while (node->text[i] != '\0')
-	{
-		if (node->text[i] != '\'' && node->text[i] != '\"')
-		{
-			new_str[j] = node->text[i];
-			j++;
-		}
-		i++;
-	}
+	new_str = malloc_clean_cmd(new_str, node);
+	if ((node->text[i] == '\'' || node->text[i] == '\"')
+		&& node->text[i + 1] != '\0')
+		outer_quote = node->text[i++];
+	while (node->text[i] != '\0'
+		&& !(node->text[i] == '\'' && node->text[i + 1] == '\0'
+			&& node->text[i] == outer_quote) && !(node->text[i] == '\"'
+			&& node->text[i + 1] == '\0' && node->text[i] == outer_quote))
+		new_str[j++] = node->text[i++];
 	new_str[j] = '\0';
 	node->text = new_str;
 	return (new_str);

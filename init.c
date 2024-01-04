@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 16:45:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:53:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		g_status = 127;
 		return (-1);
 	}
-	if (cmd_lst != NULL)
-		print_commande_list(cmd_lst);
+	/* if (cmd_lst != NULL) */
+	/* 	print_commande_list(cmd_lst); */
 	assign_fds(cmd_lst);
 	new_cmd_lst = cmd_lst;
 	if (new_cmd_lst->next == NULL && tokens->type == 1)
