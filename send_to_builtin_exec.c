@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:38:58 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 21:44:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 12:04:35 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,9 @@ void	which_builtin(t_commande *cmd_lst, t_environment *env_copy)
 	else if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
 		echo(cmd_lst, env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
-		builtin_pwd(cmd_lst);
+		builtin_pwd();
 	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)
-		print_env_builtin(env_copy);
-	else
-		return ;
-}
-
-void	which_builtin_exec(t_commande *cmd_lst, t_environment *env_copy)
-{
-	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
-		echo(cmd_lst, env_copy);
-	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
-		builtin_pwd(cmd_lst);
-	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)
-		print_env_builtin(env_copy);
+		print_env_builtin(env_copy, cmd_lst);
 	else
 		return ;
 }
