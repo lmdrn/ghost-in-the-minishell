@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:25:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 19:30:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:07:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_check_numeric(char *arg, int i, int *error_flag)
 	}
 }
 
-void	builtin_exit(char *input)
+void	builtin_exit(char *input, int in_exec)
 {
 	char	*arg;
 	int		i;
@@ -56,8 +56,13 @@ void	builtin_exit(char *input)
 	i = 0;
 	out_of_range = 0;
 	error_flag = 0;
-	if (ft_strncmp(input, "exit", 4) == 0
-		&& (input[4] == '\0' || input [4] == ' '))
+	if (in_exec == 1)
+	{
+		out_of_range = 1;
+		error_flag = 1;
+	}
+	else if (ft_strncmp(input, "exit", 4) == 0
+		&& (input[4] == '\0' || input [4] == ' ') && in_exec == 0)
 		exit_error(input);
 	else if (ft_strncmp(input, "exit ", 5) == 0)
 	{

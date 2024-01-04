@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:21:41 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 21:56:22 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:02:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	send_to_execution(t_commande *cmd, t_commande *head,
 			dup2(cmd->fdout, STDOUT_FILENO);
 		close_fds(head);
 		if (is_builtin(cmd->cmd) == 0)
-			which_builtin(cmd, env_copy);
+			which_builtin(cmd, env_copy, 1);
 		else
 		{
 			execute_basic_cmd(cmd, env_copy);

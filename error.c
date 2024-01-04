@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:11:03 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 18:37:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:55:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	free_argv(char **argv)
 {
 	if (!argv)
 		return ;
-	/* free(argv[0]); */
 	free(argv);
 }
 
@@ -37,7 +36,7 @@ void	error_without_exit(int error, char *message, int malloced)
 
 void	exit_error(char *input)
 {
-	printf("Exiting ghost in the minishell.....\n");
+	printf("exit\n");
 	free(input);
 	exit(g_status);
 }

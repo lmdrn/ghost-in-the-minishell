@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 11:38:14 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:07:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - shlvl - ooo */
 void			increment_shlvl(t_environment **env_copy);
-char			*decrement_and_convert_to_string(const char* str);
+char			*decrement_and_convert_to_string(const char *str);
 int				print_shlvl(t_environment *current);
 void			update_env_variable(t_commande *cmd_lst,
 					t_environment **env_copy);
@@ -360,7 +360,7 @@ int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - minishell - ooo */
 
-void			builtin_exit(char *input);
+void			builtin_exit(char *input, int in_exec);
 void			check_args(int ac, char **av);
 
 /* ooo - output_redir - ooo */
@@ -385,9 +385,8 @@ char			*find_filename(t_commande *cmd);
 
 /* ooo - send_to_builtin_exec - ooo */
 
-void			which_builtin(t_commande *cmd_lst, t_environment *env_copy);
-void			which_builtin_exec(t_commande *cmd_lst,
-					t_environment *env_copy);
+void			which_builtin(t_commande *cmd_lst, t_environment *env_copy,
+					int in_exec);
 
 /* ooo - send_to_execution - ooo*/
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 22:27:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:04:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,9 @@ char	**init_parse(const char *input)
 	wc = 0;
 	while (blocks[wc] != NULL)
 		wc++;
-	/* printf("Word count is %d\n", wc); */
 	i = 0;
 	while (i < block_count)
-	{
-		/* printf("Block %d: %s\n", i, blocks[i]); */
 		i++;
-	}
 	return (blocks);
 }
 
@@ -128,7 +124,7 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	{
 		if (assign_redir(new_cmd_lst) == -1)
 			return (-1);
-		which_builtin(new_cmd_lst, env_copy);
+		which_builtin(new_cmd_lst, env_copy, 0);
 	}
 	else
 	{

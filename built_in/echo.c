@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 12:00:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:30:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ int	check_option_n(char *str)
 	i = 0;
 	if (!str)
 		return (ERROR);
-	while (str[i] == '\t' || str[i] == ' ')
-		i++;
-	if (str[i] == '-' && str[i + 1] == 'n')
+	if (str[i] == '-' && str[i + 1] == 'n' && \
+		(str[i + 2] == ' ' || str[i + 2] == '\0'))
 		return (1);
 	return (0);
 }

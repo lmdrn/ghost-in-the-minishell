@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 11:32:22 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:37:31 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	main(int ac, char **av, char **envp)
 			add_history (input);
 		unset_signals();
 		termios_mgmt(0);
-		/* printf("block ocunt is %d\n", block_count(input, ' ')); */
-		/* printf("quotes is %d\n", between_quotes(input)); */
 		if (between_quotes(input) == 1)
 			input = remove_xtra_spaces(input);
 		else if (between_quotes(input) == 2 && block_count(input, ' ') == 1)
@@ -86,23 +84,12 @@ int	main(int ac, char **av, char **envp)
 		else if (between_quotes(input) == 0)
 			printf("yo\n");
 		blocks = init_parse(input);
-		if (ft_strncmp(input, "exit", 4) == 0
-			|| ft_strncmp(input, "exit ", 5) == 0)
-		{
-			builtin_exit(input);
-			/* printf("Error is %d\n", g_status); */
-			free(input);
-			break ;
-		}
 		if (blocks == NULL)
-		{
 			free(input);
-		}
 		else if (init_tokenizer(blocks, head) == -1)
 		{
 			printf("Error: %s: command not found\n", input);
 			g_status = 127;
-			/* free(input); */
 		}
 		termios_mgmt(1);
 		set_signals();
