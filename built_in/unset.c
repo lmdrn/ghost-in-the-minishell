@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 13:46:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:23:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	erase_node(char *key, t_environment **env_copy)
 	prev = NULL;
 	while (tmp != NULL)
 	{
-		if (strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			if (prev == NULL)
 				*env_copy = tmp->next;

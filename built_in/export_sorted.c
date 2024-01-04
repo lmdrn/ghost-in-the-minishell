@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:03 by angela            #+#    #+#             */
-/*   Updated: 2024/01/02 13:46:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:22:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	need_swap(t_environment *a, t_environment *b)
 		}
 		return (0);
 	}
-	swap = strcmp(a->key, b->key) > 0;
+	swap = ft_strcmp(a->key, b->key) > 0;
 	return (swap);
 }
 
@@ -90,7 +90,7 @@ void	print_sorted_env(t_environment *env_copy)
 	current = env_copy;
 	while (current != NULL)
 	{
-		if (current->key != NULL)
+		if (current->key != NULL && !print_shlvl(current))
 		{
 			if (current->value == NULL)
 				printf("%s=''\n", current->key);

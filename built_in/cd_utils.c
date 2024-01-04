@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:12 by angela            #+#    #+#             */
-/*   Updated: 2024/01/02 21:13:24 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:14:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	go_home(t_environment *env_copy, char *home)
 {
-	update_pwd_oldpwd(env_copy, home);
+	update_pwd_oldpwd(env_copy, home, 3);
 	if (chdir(home) != 0)
 	{
-		printf ("cd: Home non accessible");
+		printf ("cd: Home no access ");
 		return (ERROR);
 	}
 	else

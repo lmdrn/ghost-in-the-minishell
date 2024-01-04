@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 23:20:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:38:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,13 @@ char			*full_path_check(char **dirs, int i, char *node);
 
 /* ooo - BUILTINS - ooo */
 
+/* ooo - shlvl - ooo */
+void			increment_shlvl(t_environment **env_copy);
+char			*decrement_and_convert_to_string(const char* str);
+int				print_shlvl(t_environment *current);
+void			update_env_variable(t_commande *cmd_lst,
+					t_environment **env_copy);
+
 /* ooo - unset - ooo */
 void			erase_node(char *key, t_environment **env_copy);
 int				built_unset(t_environment **env_copy, t_commande *cmd_lst);
@@ -198,7 +205,7 @@ int				count_args_cd(t_commande *cmd_lst);
 
 /* ooo - echo - ooo */
 
-void			ft_echo(char *str, t_commande *cmd, t_environment *env_copy);
+void			ft_echo(char *str, t_commande *cmd,	t_environment *env_copy);
 int				check_option_n(char *str);
 char			*get_env_value(t_environment *env_copy, char *env_key);
 int				handle_option_all_n(t_commande **cmd_lst);
@@ -209,13 +216,14 @@ int				echo(t_commande *cmd_lst, t_environment *env_copy);
 
 /* ooo - env - ooo */
 
-void			print_env_builtin(t_environment *env_copy);
+void			print_env_builtin(t_environment *env_copy, t_commande *cmd_lst);
+void			print_environment_variables(t_environment *env_copy);
 
 /* ooo - pwd - ooo */
 
-int				check_args_pwd(t_commande *cmd_lst);
-int				builtin_pwd( t_commande *cmd_lst);
-void			update_pwd_oldpwd(t_environment *env_copy, char *change_pwd);
+int				builtin_pwd(void);
+void			update_pwd_oldpwd(t_environment *env_copy,
+					char *change_pwd, int old_new);
 
 /* ooo - built_in_utils  - ooo */
 

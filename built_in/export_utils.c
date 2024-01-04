@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:40 by angela            #+#    #+#             */
-/*   Updated: 2024/01/02 13:48:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:22:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	valid_cmd(char *arg)
 	}
 	while (arg[i] != '\0')
 	{
-		if (!ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
+		if (!ft_isprint(arg[i]))
 			return (ERROR);
 		i++;
 	}
@@ -87,10 +87,7 @@ int	count_args_export(t_commande *cmd_lst)
 	{
 		count++;
 		if (valid_cmd(current->arg) == ERROR)
-		{
-			printf("mauvais arguments\n");
 			return (-1);
-		}
 		current = current->next;
 	}
 	return (count);
@@ -103,7 +100,7 @@ void	remplace_old_value(char *value, char *key, t_environment *env_copy)
 	current = env_copy;
 	while (current != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (current->value != NULL)
 				free(current->value);

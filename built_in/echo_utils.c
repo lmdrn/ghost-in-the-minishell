@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 23:51:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 12:00:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ int	check_syntax_and_print(t_commande *cmd_lst)
 	{
 		if (ft_strncmp(current->args->arg, "|", 1) == 0 \
 		||ft_strncmp(current->args->arg, ">", 1) == 0)
-		{
-			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
 			return (ERROR);
-		}
 		else
 			current = current->next;
 	}
@@ -53,10 +50,7 @@ t_environment *env_copy, int option)
 	{
 		if (cmd_lst->args->type == 8 || cmd_lst->args->type == 9
 			|| cmd_lst->args->type == 10 || cmd_lst->args->type == 11)
-		{
-			printf("type is %d\n", cmd_lst->args->type);
 			break ;
-		}
 		else
 			ft_echo(cmd_lst->args->arg, cmd_lst, env_copy);
 		if (cmd_lst->args->next != NULL
@@ -70,8 +64,6 @@ t_environment *env_copy, int option)
 	if (option)
 		return (3);
 	if (!option)
-	{
-		printf("\n");
-	}
+		write(cmd_lst->fdout, "\n", 1);
 	return (0);
 }

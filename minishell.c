@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 19:32:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:32:22 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	main(int ac, char **av, char **envp)
 	termios_mgmt(1);
 	set_signals();
 	head = init_env(envp);
+	increment_shlvl(&head);
 	ft_welcome();
 	while (1)
 	{

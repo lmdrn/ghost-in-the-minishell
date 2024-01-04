@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 22:07:39 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 22:08:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:34:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_atol(const char *str, int *res)
 	while (ft_isspace(*str))
 			str++;
 	sign = count_sign(str, sign);
-	while (isdigit(*str) || *str == '-')
+	while (ft_isdigit(*str) || *str == '-')
 	{
 		if (*str == '-')
 		{

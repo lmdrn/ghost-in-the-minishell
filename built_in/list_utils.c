@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:48 by angela            #+#    #+#             */
-/*   Updated: 2024/01/02 13:48:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:33:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_environment	*create_new_node(char *key, char *value)
 	new_node = (t_environment *)malloc(sizeof(t_environment));
 	if (new_node == NULL)
 		exit(EXIT_FAILURE);
-	new_node->key = strdup(key);
+	new_node->key = ft_strdup(key);
 	if (value != NULL)
-		new_node->value = strdup(value);
+		new_node->value = ft_strdup(value);
 	else
 		new_node->value = NULL;
 	new_node->next = NULL;

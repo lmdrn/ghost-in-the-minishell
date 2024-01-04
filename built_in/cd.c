@@ -6,12 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 23:16:14 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:13:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 static int	check_args_cd(t_commande *cmd_lst)
 {
 	int	i;
@@ -22,12 +21,6 @@ static int	check_args_cd(t_commande *cmd_lst)
 	if (cmd_lst != NULL)
 	{
 		i = count_args_cd(cmd_lst);
-		if (i > 1)
-		{
-			g_status = 1;
-			printf("\ntrop d'argumetns\n");
-			return (ERROR);
-		}
 		if (i == 1)
 			result = is_one_arg(i, cmd_lst);
 		else
@@ -42,16 +35,15 @@ int	ft_cd(t_environment *env_copy, char *path, int path_back)
 {
 	if (check_path(path) == ERROR)
 	{
-		printf("error path\n");
+		printf("cd: %s No such file or directory\n", path);
 		return (ERROR);
 	}
 	if (path_back == 1)
 		path = go_back_directories(path);
-	if (check_is_in_env(env_copy, "PWD") == ERROR)
-		add_node(&env_copy, "PWD", NULL);
-	if (check_is_in_env(env_copy, "OLDPWD") == ERROR)
-		add_node(&env_copy, "OLDPWD", NULL);
-	update_pwd_oldpwd(env_copy, path);
+	if (check_is_in_env(env_copy, "PWD") != ERROR)
+		update_pwd_oldpwd(env_copy, path, 2);
+	if (check_is_in_env(env_copy, "OLDPWD") != ERROR)
+		update_pwd_oldpwd(env_copy, path, 1);
 	if (chdir(path) != 0)
 	{
 		printf("cd: Failed to change directory");
@@ -72,30 +64,16 @@ int	ticket_going_home(t_commande *cmd_lst)
 		return (ERROR);
 }
 
-/*
-  * == 0 ERROR
-  * > 1 erreurs trop d'arguments. -> sortie
-  * == 1 , aucun argument ou tild, retour a Home
-  * == 2 , ".." on recule de 1 repertoire
-  * == 3, bien un seul argument ->execute
-  */
-
 int	action_arg(int arg_check, char *home, \
 t_environment *env_copy, t_commande *cmd_lst)
 {
 	int	path_back;
 
 	path_back = 0;
-	if (arg_check <= 0)
-	{
-		printf("cd: too many arguments\n");
-		return (ERROR);
-	}
-	else if (arg_check == 1)
+	if (arg_check == 1)
 	{
 		if (go_home(env_copy, home) == ERROR)
 		{
-			printf("\n can't go home\n");
 			return (ERROR);
 		}
 		return (SUCCESS);
@@ -103,10 +81,7 @@ t_environment *env_copy, t_commande *cmd_lst)
 	else if (arg_check == 2)
 		path_back = 1;
 	if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
-	{
-		printf("path to file doesn't exist");
 		return (ERROR);
-	}
 	return (SUCCESS);
 }
 

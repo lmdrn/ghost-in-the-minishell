@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:58:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 13:58:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 11:24:56 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_is_in_env(t_environment *env_copy, char *var)
 	{
 		while (current->key != NULL)
 		{
-			if (strcmp(current->key, var) == 0)
+			if (ft_strcmp(current->key, var) == 0)
 				return (SUCCESS);
 			current = current->next;
 		}
@@ -38,7 +38,7 @@ void	print_value(t_environment *env_copy, char *key)
 	current = env_copy;
 	while (current->key != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			printf("Key: %s, Value: %s\n", current->key, current->value);
 		current = current->next;
 	}
