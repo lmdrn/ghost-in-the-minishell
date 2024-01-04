@@ -65,14 +65,6 @@ int	ticket_going_home(t_commande *cmd_lst)
 		return (ERROR);
 }
 
-/*
-  * == 0 ERROR
-  * > 1 erreurs trop d'arguments. -> sortie
-  * == 1 , aucun argument ou tild, retour a Home
-  * == 2 , ".." on recule de 1 repertoire
-  * == 3, bien un seul argument ->execute
-  */
-
 int	action_arg(int arg_check, char *home, \
 t_environment *env_copy, t_commande *cmd_lst)
 {

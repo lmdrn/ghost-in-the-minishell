@@ -33,7 +33,7 @@ int	if_exist_in_env(char *key, t_environment *env_origin)
 		return (ERROR);
 	while (current != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			return (SUCCESS);
 		current = current->next;
 	}
@@ -78,6 +78,8 @@ int	export_main(t_commande *cmd_lst, t_environment **env_copy)
 		printf("erreur nb_args\n");
 		return (ERROR);
 	}
+	if (ft_strncmp(cmd_lst->cmd, "export=", 7) == 0)
+		return (ERROR);
 	no_arg_so_print_env_exports(env_copy, nb_args);
 	fill_env(cmd_lst, env_copy, nb_args);
 	return (SUCCESS);

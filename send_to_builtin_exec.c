@@ -31,7 +31,7 @@ void	which_builtin_exec(t_commande *cmd_lst, t_environment *env_copy)
 	if (ft_strncmp(cmd_lst->cmd, "echo", 4) == 0)
 		echo(cmd_lst, env_copy);
 	else if (ft_strncmp(cmd_lst->cmd, "pwd", 3) == 0)
-		builtin_pwd(cmd_lst);
+		builtin_pwd();
 	else if (ft_strncmp(cmd_lst->cmd, "env", 3) == 0)
 		print_env_builtin(env_copy, cmd_lst);
 	else

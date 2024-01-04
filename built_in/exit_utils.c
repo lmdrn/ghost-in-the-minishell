@@ -42,7 +42,7 @@ int	ft_atol(const char *str, int *res)
 	while (ft_isspace(*str))
 			str++;
 	sign = count_sign(str, sign);
-	while (isdigit(*str) || *str == '-')
+	while (ft_isdigit(*str) || *str == '-')
 	{
 		if (*str == '-')
 		{

@@ -112,9 +112,11 @@ typedef struct s_commande
 
 /* ooo - PROTOTYPES DE FONCTIONS - ooo */
 
-void increment_shlvl(t_environment **env_copy);
-char* decrement_and_convert_to_string(const char* str);
-int print_shlvl(t_environment *current);
+/* ooo - shlvl - ooo */
+void			increment_shlvl(t_environment **env_copy);
+char			*decrement_and_convert_to_string(const char* str);
+int				print_shlvl(t_environment *current);
+
 /* ooo - absolute_cmd - ooo */
 
 char			**build_absolute_arg(t_commande *cmd);
@@ -213,11 +215,11 @@ int				echo(t_commande *cmd_lst, t_environment *env_copy);
 /* ooo - env - ooo */
 
 void			print_env_builtin(t_environment *env_copy, t_commande *cmd_lst);
+void			print_environment_variables(t_environment *env_copy);
 
 /* ooo - pwd - ooo */
 
-int				check_args_pwd(t_commande *cmd_lst);
-int				builtin_pwd( t_commande *cmd_lst);
+int				builtin_pwd(void);
 void	update_pwd_oldpwd(t_environment *env_copy, char *change_pwd, int old_new);
 
 /* ooo - built_in_utils  - ooo */

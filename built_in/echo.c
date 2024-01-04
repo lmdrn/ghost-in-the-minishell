@@ -43,7 +43,6 @@ void	ft_echo(char *str, t_environment *env_copy)
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			printf("print derrniere error");
 			i++;
 		}
 		else if (str[i] == '$' && isalnum(str[i + 1]) && str[i + 1] != '\0')

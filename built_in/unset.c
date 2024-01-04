@@ -21,7 +21,7 @@ void	erase_node(char *key, t_environment **env_copy)
 	prev = NULL;
 	while (tmp != NULL)
 	{
-		if (strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			if (prev == NULL)
 				*env_copy = tmp->next;

@@ -19,9 +19,9 @@ t_environment	*create_node_cpy(t_environment *current)
 	new_node = malloc(sizeof(t_environment));
 	if (new_node == NULL)
 		return (NULL);
-	new_node->key = strdup(current->key);
+	new_node->key = ft_strdup(current->key);
 	if (current->value != NULL)
-		new_node->value = strdup(current->value);
+		new_node->value = ft_strdup(current->value);
 	else
 		new_node->value = NULL;
 	new_node->next = NULL;

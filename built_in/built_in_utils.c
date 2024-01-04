@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 int	check_is_in_env(t_environment *env_copy, char *var)
 {
 	t_environment	*current;
@@ -18,31 +19,12 @@ int	check_is_in_env(t_environment *env_copy, char *var)
 	current = env_copy;
 	while (current != NULL)
 	{
-		if (strcmp(current->key, var) == 0)
+		if (ft_strcmp(current->key, var) == 0)
 			return (SUCCESS);
 		current = current->next;
 	}
 	return (ERROR);
 }
-
-//int	check_is_in_env(t_environment *env_copy, char *var)
-//{
-//	t_environment	*current;
-//
-//	current = env_copy;
-//	if (current != NULL)
-//	{
-//		while (current->key != NULL)
-//		{
-//			if (strcmp(current->key, var) == 0)
-//				return (SUCCESS);
-//			current = current->next;
-//		}
-//		return (ERROR);
-//	}
-//	else
-//		return (ERROR);
-//}
 
 void	print_value(t_environment *env_copy, char *key)
 {
@@ -51,7 +33,7 @@ void	print_value(t_environment *env_copy, char *key)
 	current = env_copy;
 	while (current->key != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			printf("Key: %s, Value: %s\n", current->key, current->value);
 		current = current->next;
 	}

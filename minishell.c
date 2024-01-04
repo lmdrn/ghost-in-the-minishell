@@ -26,7 +26,7 @@ int	g_status = 0;
 t_environment *find_node(char *key, t_environment	*head) {
     t_environment *current = head;
     while (current != NULL) {
-        if (strcmp(current->key, key) == 0) 
+        if (ft_strcmp(current->key, key) == 0)
 		{
 			printf("ENV VAR IS %s\n", current->key);
             return current;
@@ -36,35 +36,7 @@ t_environment *find_node(char *key, t_environment	*head) {
     return NULL; // Node not found
 }
 
-int print_shlvl(t_environment *current) {
-	if (ft_strcmp(current->key, "SHLVL") == 0) {
-		char *shlvl = decrement_and_convert_to_string(current->value);
-		if (shlvl != NULL) {
-			printf("%s=%s\n", current->key, shlvl);
-			free(shlvl); // Libérer la mémoire allouée par decrement_and_convert_to_string
-			return 1; // Indiquer que SHLVL a été traité
-		}
-	}
-	return 0; // Indiquer que SHLVL n'a pas été traité
-}
 
-
-
-void	increment_shlvl(t_environment **env_copy)
-{
-	char	*shlvl_str;
-	int		shlvl;
-	char	*shlvl_updated;
-
-	shlvl_str = get_env_value(*env_copy, "SHLVL");
-	shlvl = shlvl_str ? atoi(shlvl_str) : 0;
-	shlvl++;
-	shlvl_updated = ft_itoa(shlvl);
-	if (shlvl_updated == NULL)
-		return;
-	remplace_old_value(shlvl_updated, "SHLVL", *env_copy);
-	free(shlvl_updated);
-}
 
 int	main(int ac, char **av, char **envp)
 {

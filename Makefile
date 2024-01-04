@@ -39,7 +39,7 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  built_in/exit.c built_in/export_sorted.c \
 			  built_in/export_utils.c built_in/export.c \
 			  built_in/list_utils.c built_in/pwd.c \
-			  built_in/unset.c
+			  built_in/unset.c built_in/print_shlvl.c
 
 OBJS 		= ${SRCS:.c=.o}
 

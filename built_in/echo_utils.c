@@ -36,10 +36,7 @@ int	check_syntax_and_print(t_commande *cmd_lst)
 	{
 		if (ft_strncmp(current->args->arg, "|", 1) == 0 \
 		||ft_strncmp(current->args->arg, ">", 1) == 0)
-		{
-			printf("bash: erreur de syntaxe `%s'\n", current->args->arg);
 			return (ERROR);
-		}
 		else
 			current = current->next;
 	}
