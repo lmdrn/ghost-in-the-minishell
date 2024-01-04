@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 15:07:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:42:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void			assign_ch_droit(t_type *node, t_type *lst, t_type *next_node);
 
 /* ooo - blocks_to_list - ooo */
 
-int				is_executable_command(char *node);
+int				is_executable_command(char *node, t_environment *env);
 int				is_absolute_path(char *cmd);
 char			*get_full_path(char *dir, char *node);
 
@@ -417,7 +417,8 @@ void			termios_mgmt(int toggle);
 /* ooo - tokenization - ooo */
 
 int				is_builtin(char *input);
-void			assign_types(t_type *node, t_type *lst, int command_assigned);
+void			assign_types(t_type *node, t_type *lst,
+					int command_assigned, t_environment *env);
 
 /* ooo - utils - ooo */
 

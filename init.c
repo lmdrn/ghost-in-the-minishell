@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 15:04:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:45:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ t_environment	*init_env(char **envp)
 	i = 0;
 	head = NULL;
 	count = env_count_array(envp);
+	if (count == 0 || !envp)
+		return (NULL);
 	head = NULL;
 	curr = NULL;
 	while (i < count)

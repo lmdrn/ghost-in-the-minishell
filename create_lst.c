@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:42:10 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:45:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_type	*create_node_and_assign_types(char *text, t_type *head,
 	t_type	*node;
 
 	node = create_node(text);
-	assign_types(node, head, cmd_assigned);
+	assign_types(node, head, cmd_assigned, env_copy);
 	/* printf("text is %s, type is %d\n", node->text, node->type); */
 	if (node->type == args)
 		assign_quotes(node, env_copy);

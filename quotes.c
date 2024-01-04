@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 15:19:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:45:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	quote_builtin_or_cmd(t_type *node)
+void	quote_builtin_or_cmd(t_type *node, t_environment *env)
 {
 	clean_cmd_type(node);
 	printf("hello\n");
 	if (is_builtin(node->text) == 0)
 		node->type = builtin;
-	else if (is_executable_command(node->text) == 0)
+	else if (is_executable_command(node->text, env) == 0)
 		node->type = cmd;
 	else if (is_abs_exec(node->text) == 1)
 	{
@@ -46,7 +46,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 			|| node->type == 14))
 	{
 		printf("la\n");
-		quote_builtin_or_cmd(node);
+		quote_builtin_or_cmd(node, env_cpy);
 	}
 	else
 	{
@@ -66,14 +66,14 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	}
 }
 
-void	block_has_s_quotes(t_type *node)
+void	block_has_s_quotes(t_type *node, t_environment *env)
 {
 	if (count_word_node(node) == 1)
 	{
 		clean_cmd_type(node);
 		if (is_builtin(node->text) == 0)
 			node->type = builtin;
-		else if (is_executable_command(node->text) == 0)
+		else if (is_executable_command(node->text, env) == 0)
 			node->type = cmd;
 	}
 	else
@@ -128,7 +128,7 @@ void	assign_quotes(t_type *node, t_environment *env_cpy)
 	if (first == '\"' && last == '\"')
 		block_has_dbl_quotes(node, env_cpy);
 	else if (first == '\'' && last == '\'')
-		block_has_s_quotes(node);
+		block_has_s_quotes(node, env_cpy);
 	else
 	{
 		block_has_no_quotes(node, env_cpy);

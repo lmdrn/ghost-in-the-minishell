@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 16:45:28 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:40:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	is_asym(char *node)
 }
 
 //fct that assigns type to each node
-void	assign_types(t_type *node, t_type *lst, int cmd_ok)
+void	assign_types(t_type *node, t_type *lst, int cmd_ok, t_environment *env)
 {
 	t_type	*next_node;
 	t_type	*head;
@@ -72,7 +72,7 @@ void	assign_types(t_type *node, t_type *lst, int cmd_ok)
 		assign_builtin(node);
 	else if (is_abs_exec(node->text) == 1 && cmd_ok == 0)
 		assign_abs_cmd(node);
-	else if (is_executable_command(node->text) == 0 && cmd_ok == 0)
+	else if (is_executable_command(node->text, env) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
 	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:55 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 11:20:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:42:40 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,13 @@ void	print_environment_variables(t_environment *env_copy)
 	current = env_copy;
 	while (current != NULL)
 	{
-		if (ft_strcmp(current->key, "SHLVL") == 0)
+		if (check_is_in_env(env_copy, "PATH") == ERROR)
+		{
+			printf("env: No such file or directory\n");
+			g_status = 127;
+			break ;
+		}
+		else if (ft_strcmp(current->key, "SHLVL") == 0)
 		{
 			shlvl_str = decrement_and_convert_to_string(current->value);
 			printf("%s=%s", current->key, shlvl_str);

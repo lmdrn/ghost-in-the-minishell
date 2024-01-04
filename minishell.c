@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 14:37:31 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:41:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,17 @@ int	main(int ac, char **av, char **envp)
 			input = remove_xtra_spaces(input);
 		else if (between_quotes(input) == 2 && block_count(input, ' ') == 1)
 		{
-			input = one_word_with_quotes(input);
+			printf("input is %s\n", input);
+			//if is in enclosed quotes
+			if (input[0] == '\"' || input[0] == '\'')
+				input = one_word_with_quotes(input);
 			if (!input)
 				break ;
 		}
 		else if (between_quotes(input) == 0)
-			printf("yo\n");
+		{
+			//heredoc should happen
+		}
 		blocks = init_parse(input);
 		if (blocks == NULL)
 			free(input);
