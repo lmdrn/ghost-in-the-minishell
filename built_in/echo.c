@@ -43,9 +43,18 @@ int	check_option_n(char *str)
 	i = 0;
 	if (!str)
 		return (ERROR);
-	while (str[i] == '\t' || str[i] == ' ')
-		i++;
 	if (str[i] == '-' && str[i + 1] == 'n')
+	{
+		i++;
+		while (str[i])
+		{
+			if (str[i] != 'n')
+				return (0);
+			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+				return (1);
+			i++;
+		}
 		return (1);
+	}
 	return (0);
 }

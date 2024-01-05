@@ -104,9 +104,9 @@ void	remplace_old_value(char *value, char *key, t_environment *env_copy)
 		{
 			if (current->value != NULL)
 				free(current->value);
+			else if (current->value == NULL )
+				return ;
 			current->value = strdup(value);
-			if (current->value == NULL )
-				exit(EXIT_FAILURE);
 		}
 		current = current->next;
 	}

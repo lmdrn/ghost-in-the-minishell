@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 static int	check_args_cd(t_commande *cmd_lst)
 {
 	int	i;
