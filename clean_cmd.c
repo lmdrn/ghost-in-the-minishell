@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 12:08:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:32:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ char	*clean_cmd_type(t_type *node)
 		return (NULL);
 	while (node->text[i] != '\0')
 	{
-		if (node->text[i] != '\'' && node->text[i] != '\"'
-			&& !ft_isspace(node->text[i]))
+		if (node->text[i] != '\'' && node->text[i] != '\"')
 		{
 			new_str[j] = node->text[i];
 			j++;
@@ -70,7 +69,7 @@ char	*clean_cmd_type(t_type *node)
 		i++;
 	}
 	new_str[j] = '\0';
-	node->text = new_str;
+	/* node->text = new_str; */
 	return (new_str);
 }
 

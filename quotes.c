@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 14:19:48 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:32:43 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	{
 		node->type = args;
 		new_node = clean_cmd_type(node);
+		ft_strlcpy(node->text, new_node, ft_strlen(new_node) + 1);
 		env_var = find_env_variable(node, end_position, variable);
 		/* printf("Env var is %s\n", env_var); */
 		if (env_var != NULL)
@@ -96,19 +97,26 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 
 void	block_has_s_quotes(t_type *node, t_environment *env)
 {
-	int	quotes;
+	int		quotes;
+	char	*new_node;
 
 	quotes = 0;
 	if (count_word_node(node) == 1)
 	{
-		clean_cmd_type(node);
+		new_node = clean_cmd_type(node);
 		if (is_builtin(node->text) == 0)
 			node->type = builtin;
 		else if (is_executable_command(node->text, env) == 0)
 			node->type = cmd;
 	}
 	else
+	{
+		new_node = clean_cmd_type(node);
 		node->type = args;
+	}
+	ft_strlcpy(node->text, new_node, ft_strlen(new_node) + 1);
+	free(new_node);
+	new_node = NULL;
 }
 
 void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
