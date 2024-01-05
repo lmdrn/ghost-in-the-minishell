@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2024/01/05 22:40:45 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/05 23:39:57 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  built_in/export_utils.c built_in/export.c \
 			  built_in/list_utils.c built_in/pwd.c \
 			  built_in/unset.c built_in/print_shlvl.c \
-			  main_utils.c init_utils.c copy_env_utils.c
+			  main_utils.c init_utils.c copy_env_utils.c \
+			  quotes_utils.c
 
 OBJS 		= ${SRCS:.c=.o}
 

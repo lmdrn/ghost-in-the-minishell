@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 22:22:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:39:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +315,7 @@ void			copy_argument(char **argv, int *index, char *arg);
 
 /* ooo - execve_utils_2 - oo */
 void			execute_command(t_commande *cmd, t_environment *env_copy);
+char			*find_exec_access(t_epi *epi, char *cmd);
 
 /* ooo - exit - ooo */
 
@@ -397,6 +398,13 @@ char			*remove_xtra_spaces(char *input);
 int				between_quotes(char *str);
 int				dbl_inside_single(const char *block);
 int				single_inside_single(const char *block);
+
+/* ooo - quotes_utils - ooo */
+
+void			reassign_new_node(t_type *node, char *new_node);
+
+char			*replace_with_expand_var(char *env_var, char *env_value,
+					t_type *node, t_environment *env_cpy);
 
 /* ooo - redir_utils - ooo */
 char			*find_filename(t_args *args);

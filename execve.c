@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/31 13:55:38 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:03:12 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*concat_path_cmd(char *path, char *cmd)
 char	*find_executable_path(char *cmd, t_environment *env_copy)
 {
 	t_epi	epi;
+	char	*ret;
 
 	copy_the_path(env_copy, &epi);
 	while (epi.tok_s != NULL)
@@ -46,16 +47,9 @@ char	*find_executable_path(char *cmd, t_environment *env_copy)
 		epi.tok_e = ft_strchr(epi.tok_s, ':');
 		if (epi.tok_e != NULL)
 		{
-			epi.seg = segment_malloc_copy(epi.seg, epi.tok_s, epi.tok_e);
-			epi.cmd_path = concat_path_cmd(epi.seg, cmd);
-			free(epi.seg);
-			if (access(epi.cmd_path, F_OK) == 0
-				|| access(epi.cmd_path, X_OK) == 0)
-			{
-				free(epi.path);
-				return (epi.cmd_path);
-			}
-			epi.tok_s = epi.tok_e + 1;
+			ret = find_exec_access(&epi, cmd);
+			if (ret)
+				return (ret);
 		}
 		else
 		{
@@ -78,7 +72,6 @@ void	create_args(char **argv, t_commande *cmd)
 	head = cmd->args;
 	while (arg)
 	{
-		/* printf("arg->arg is %s\n", arg->arg); */
 		if (arg == head && (arg->type == 8 || arg->type == 9
 				|| arg->type == 10 || arg->type == 11))
 			arg = arg->next;
@@ -102,7 +95,6 @@ char	**build_arg(t_commande *cmd, char *full_path)
 	if (!argv)
 		return (NULL);
 	argv[0] = full_path;
-	/* printf("argv0 is %s\n", argv[0]); */
 	if (!argv[0])
 		return (NULL);
 	create_args(argv, cmd);

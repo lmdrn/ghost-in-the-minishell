@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 12:13:10 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 18:56:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:39:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,15 @@ char	*concat_cmd(char *cmd_path, char *path, char *token_start,
 		char *command)
 {
 	cmd_path = concat_path_cmd(token_start, command);
-	printf("2ND CMD PATH is %s\n", cmd_path);
 	if (command != NULL && (access(cmd_path, F_OK) == 0
 			|| access(cmd_path, X_OK) == 0))
 	{
 		free(path);
-		printf("YES ;)\n");
 		return (cmd_path);
 	}
 	else
 	{
 		free(cmd_path);
-		printf("NO.. :(\n");
 		return (NULL);
 	}
 }

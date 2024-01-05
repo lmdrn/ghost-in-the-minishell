@@ -6,19 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 21:15:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:05:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//MAIN FUNCTION:
-//display prompt
-//copies env
-//in infinite loop, takes input, adds it to history
-//checks if exit was typed (TO BE REPLACED BY BUILTIN)
-//else check quotes qand remove extra spaces in input
-//parses that shit and tokenize it
 
 int	g_status = 0;
 

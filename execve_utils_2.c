@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 21:11:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 23:58:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:03:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,19 @@ void	execute_command(t_commande *cmd, t_environment *env_copy)
 	execve(full_path, argv, envp);
 	g_status = errno;
 	free_argv(argv);
+}
+
+char	*find_exec_access(t_epi *epi, char *cmd)
+{
+	epi->seg = segment_malloc_copy(epi->seg, epi->tok_s, epi->tok_e);
+	epi->cmd_path = concat_path_cmd(epi->seg, cmd);
+	free(epi->seg);
+	if (access(epi->cmd_path, F_OK) == 0
+		|| access(epi->cmd_path, X_OK) == 0)
+	{
+		free(epi->path);
+		return (epi->cmd_path);
+	}
+	epi->tok_s = epi->tok_e + 1;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 10:04:16 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 21:48:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 22:52:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	ft_block(const char *str, char **blocks, int start, int block_index)
 {
 	t_bparam	bparams;
 
-	bparams.i = 0;
-	bparams.in_sq = 0;
-	bparams.in_dq = 0;
+	ft_memset(&bparams, 0, sizeof(bparams));
 	while (str[bparams.i])
 	{
 		if (str[bparams.i] == '\'')
