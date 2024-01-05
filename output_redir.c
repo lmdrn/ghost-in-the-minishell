@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:36:47 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:22:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:18:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,20 @@ int	create_output_redir(char *filename, t_commande *cmd)
 void	init_output(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
+	t_args	*args;
 
-	filename = find_filename(curr_cmd);
-	create_output_redir(filename, cmd);
+	args = curr_cmd->args;
+	while (args != NULL)
+	{
+		if (args->type == 9)
+		{
+			filename = find_filename(args);
+			if (filename != NULL)
+			{
+				if (create_output_redir(filename, cmd) == -1)
+					g_status = 258;
+			}
+		}
+		args = args->next;
+	}
 }

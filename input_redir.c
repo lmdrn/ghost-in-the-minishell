@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:16:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:22:41 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,20 @@ int	create_input_redir(char *filename, t_commande *cmd)
 void	init_input(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
+	t_args	*args;
 
-	filename = find_filename(curr_cmd);
-	printf("filename is %s\n", filename);
-	printf("curr cmd is %s\n", curr_cmd->cmd);
-	if (create_input_redir(filename, cmd) == -1)
+	args = curr_cmd->args;
+	while (args != NULL)
 	{
-		printf("%s: %s: No such file or directory\n", curr_cmd->cmd, filename);
-		g_status = 258;
+		if (args->type == 8)
+		{
+			filename = find_filename(args);
+			if (filename != NULL)
+			{
+				if (create_input_redir(filename, cmd) == -1)
+					g_status = 258;
+			}
+		}
+		args = args->next;
 	}
 }

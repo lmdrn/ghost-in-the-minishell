@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:15:48 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:00:30 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ void	assign_fds(t_commande *cmd)
 int	which_token(t_commande *cmd, int token)
 {
 	t_args	*curr_cmd;
+	int		i;
 
 	curr_cmd = cmd->args;
 	while (curr_cmd != NULL)
 	{
 		if (curr_cmd->type == token)
 		{
+			i++;
+			printf("i is %d\n", i);
 			return (curr_cmd->type);
 		}
 		curr_cmd = curr_cmd->next;

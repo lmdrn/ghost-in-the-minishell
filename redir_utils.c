@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 13:19:27 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 22:00:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:12:57 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,19 @@ char	*heredoc_special(t_args *curr_arg)
 		return (file = curr_arg->next->arg);
 }
 
-char	*find_filename(t_commande *cmd)
+char	*find_filename(t_args *args)
 {
 	t_args		*curr_arg;
 	char		*file;
 
-	curr_arg = cmd->args;
-	while (curr_arg != NULL)
-	{
-		if (curr_arg->type == 8)
-		{
-			file = curr_arg->next->arg;
-			/* printf("file is %s\n", file); */
-			return (file = curr_arg->next->arg);
-		}
-		else if (curr_arg->type == 9)
-		{
-			file = curr_arg->next->arg;
-			printf("file is %s\n", file);
-			return (file = curr_arg->next->arg);
-		}
-		else if (curr_arg->type == 10)
-		{
-			file = heredoc_special(curr_arg);
-			return (file);
-		}
-		else if (curr_arg->type == 11)
-			return (file = curr_arg->next->arg);
-		curr_arg = curr_arg->next;
-	}
-	return (NULL);
+	curr_arg = args;
+	if (curr_arg->type == 8)
+		file = curr_arg->next->arg;
+	else if (curr_arg->type == 9)
+		file = curr_arg->next->arg;
+	else if (curr_arg->type == 10)
+		file = heredoc_special(curr_arg);
+	else if (curr_arg->type == 11)
+		file = curr_arg->next->arg;
+	return (file);
 }

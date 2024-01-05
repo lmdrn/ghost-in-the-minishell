@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 23:13:27 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 12:08:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ char	*clean_cmd_type(t_type *node)
 	char	*new_str;
 	int		i;
 	int		j;
-	char	outer_quote;
 
-	outer_quote = '\0';
-	new_str = NULL;
 	i = 0;
 	j = 0;
-	new_str = malloc_clean_cmd(new_str, node);
-	if ((node->text[i] == '\'' || node->text[i] == '\"')
-		&& node->text[i + 1] != '\0')
-		outer_quote = node->text[i++];
-	while (node->text[i] != '\0'
-		&& !(node->text[i] == '\'' && node->text[i + 1] == '\0'
-			&& node->text[i] == outer_quote) && !(node->text[i] == '\"'
-			&& node->text[i + 1] == '\0' && node->text[i] == outer_quote))
-		new_str[j++] = node->text[i++];
+	new_str = malloc(sizeof(char *) * ft_strlen(node->text) + 1);
+	if (new_str == NULL)
+		return (NULL);
+	while (node->text[i] != '\0')
+	{
+		if (node->text[i] != '\'' && node->text[i] != '\"'
+			&& !ft_isspace(node->text[i]))
+		{
+			new_str[j] = node->text[i];
+			j++;
+		}
+		i++;
+	}
 	new_str[j] = '\0';
-	// TODO change me
-	strcpy(node->text, new_str);
+	node->text = new_str;
 	return (new_str);
 }
 

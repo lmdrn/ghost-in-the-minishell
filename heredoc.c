@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:47:08 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:15:04 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:18:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,19 @@ int	create_heredoc(char *filename, t_commande *cmd)
 void	init_heredoc(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
+	t_args	*args;
 
-	filename = find_filename(curr_cmd);
-	if (create_heredoc(filename, cmd) == -1)
-		g_status = 258;
+	while (args != NULL)
+	{
+		if (args->type == 10)
+		{
+			filename = find_filename(args);
+			if (filename != NULL)
+			{
+				if (create_heredoc(filename, cmd) == -1)
+					g_status = 258;
+			}
+		}
+		args = args->next;
+	}
 }

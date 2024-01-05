@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:25:15 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:17:26 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:22:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,20 @@ int	create_append(char *filename, t_commande *cmd)
 void	init_append(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
+	t_args	*args;
 
-	filename = find_filename(curr_cmd);
-	if (create_append(filename, cmd) == -1)
-		g_status = 258;
+	args = curr_cmd->args;
+	while (args != NULL)
+	{
+		if (args->type == 11)
+		{
+			filename = find_filename(args);
+			if (filename != NULL)
+			{
+				if (create_append(filename, cmd) == -1)
+					g_status = 258;
+			}
+		}	
+		args = args->next;
+	}
 }

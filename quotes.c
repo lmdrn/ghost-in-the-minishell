@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 23:26:54 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:19:48 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,19 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 		if (env_var != NULL)
 			env_value = retrieve_env_variable(env_var, env_cpy);
 		if (ft_strncmp(node->text, "$?", 2) == 0)
+		{
+			free(new_node);
 			new_node = replace_exit_status(node->text);
+		}
 		else
 		{
 			new_node = replace_env_value(node, env_value);
-			new_node = trick_quote(new_node);
+			/* new_node = trick_quote(new_node); */
 		}
-		//free(node->text);
-		//node->text = new_node;
-		strcpy(node->text, new_node);
+		ft_strlcpy(node->text, new_node, ft_strlen(new_node) + 1);
 		free(new_node);
-		/* printf("Env value is %s\n", env_value); */
+		new_node = NULL;
+		/*printf("Env value is %s\n", env_value); */
 		/* printf("New str with environment_value is %s\n", new_node); */
 	}
 }
@@ -133,16 +135,11 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 		new_node = replace_exit_status(node->text);
 	else
 	{
-		free(new_node);
 		new_node = replace_env_value(node, env_value);
 	}
-	
-	// TODO change me
-	
-	node->text = new_node;
-	/* strcpy(node->text, new_node); */
-	/* free(new_node); */
-	/* new_node = NULL; */
+	ft_strlcpy(node->text, new_node, ft_strlen(new_node) + 1);
+	free(new_node);
+	new_node = NULL;
 	/* printf("Env value is %s\n", env_value); */
 	/* printf("New str with environment_value is %s\n", new_node); */
 }

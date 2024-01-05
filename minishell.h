@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 21:16:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:11:09 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,7 +387,7 @@ int				dbl_inside_single(const char *block);
 int				single_inside_single(const char *block);
 
 /* ooo - redir_utils - ooo */
-char			*find_filename(t_commande *cmd);
+char			*find_filename(t_args *args);
 
 /* ooo - send_to_builtin_exec - ooo */
 
