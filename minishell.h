@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:56:23 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:05:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,7 @@ int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - minishell - ooo */
 
-void			builtin_exit(char *input, int in_exec);
+void			builtin_exit(t_commande *lst, int in_exec);
 void			check_args(int ac, char **av);
 
 /* ooo - output_redir - ooo */

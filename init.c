@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 23:59:19 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:44:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,13 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	t_type		*tokens;
 	t_commande	*cmd_lst;
 	t_commande	*new_cmd_lst;
+	int			fd;
 
 	tokens = NULL;
 	cmd_lst = NULL;
 	tokens = init_lst(blocks, tokens, env_copy);
+	if (tokens == NULL)
+		return (1);
 	ft_free_parsing_split(blocks);
 	if (tokens->type == 0 || tokens->type == 1 || tokens->type == 14)
 		cmd_lst = command_list(tokens, env_copy);
@@ -131,6 +134,17 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		cmd_lst = command_list_redir(tokens);
 	if (cmd_lst == NULL)
 	{
+		if (tokens->type == 8 && tokens->next)
+		{
+			fd = open(tokens->next->text, O_RDONLY);
+			if (fd < 0)
+			{
+				printf("Error: %s: No such file or directory\n",
+					tokens->next->text);
+				return (1);
+			}
+			return (1);
+		}
 		g_status = 127;
 		free_tokens(tokens);
 		return (-1);

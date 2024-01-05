@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 16:01:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:56:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ char	*one_word_with_quotes(const char *str)
 	return (new_input);
 }
 
+void	error_status(char *msg, int error)
+{
+	printf("Error: %s: command not found\n", msg);
+	g_status = error;
+}
+
+void	init_minishell(int ac, char **av)
+{
+	check_args(ac, av);
+	termios_mgmt(1);
+	set_signals();
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
@@ -56,11 +69,7 @@ int	main(int ac, char **av, char **envp)
 	t_environment	*head;
 
 	input = NULL;
-	(void)ac;
-	(void)av;
-	check_args(ac, av);
-	termios_mgmt(1);
-	set_signals();
+	init_minishell(ac, av);
 	head = init_env(envp);
 	increment_shlvl(&head);
 	ft_welcome();
@@ -78,10 +87,7 @@ int	main(int ac, char **av, char **envp)
 		else if (between_quotes(input) == 2 && block_count(input, ' ') == 1)
 		{
 			if (ft_strlen(input) == 2 && (input[0] == '\'' || input[0] == '\"'))
-			{
-				printf("Error: %s: command not found\n", input);
-				g_status = 127;
-			}
+				error_status(input, 127);
 			if (input[0] == '\"' || input[0] == '\'')
 				input = one_word_with_quotes(input);
 			if (!input)
@@ -96,19 +102,12 @@ int	main(int ac, char **av, char **envp)
 			g_status = 2;
 		}
 		else if (ft_strncmp(input, "..", 3) == 0)
-		{
-			printf("Error: %s: command not found\n", input);
-			g_status = 127;
-		}
+			error_status(input, 127);
 		else if (init_tokenizer(blocks, head) == -1)
-		{
-			printf("Error: %s: command not found\n", input);
-			g_status = 127;
-		}
+			error_status(input, 127);
 		termios_mgmt(1);
 		set_signals();
 		termios_mgmt(0);
 	}
-	g_status = 0;
 	return (g_status);
 }

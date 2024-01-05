@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:25:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 00:21:50 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:29:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_check_numeric(char *arg, int i, int *error_flag)
 	}
 }
 
-void	builtin_exit(char *input, int in_exec)
+void	builtin_exit(t_commande *lst, int in_exec)
 {
 	char	*arg;
 	int		i;
@@ -61,24 +61,14 @@ void	builtin_exit(char *input, int in_exec)
 		out_of_range = 1;
 		error_flag = 1;
 	}
-	else if (ft_strncmp(input, "exit", 4) == 0
-		&& (input[4] == '\0' || input [4] == ' ') && in_exec == 0)
+	if (lst->args == NULL && in_exec == 0)
+		exit_error(lst->cmd);
+	else if (lst->args)
 	{
-		g_status = 2;
-		exit_error(input);
-	}
-	else if (ft_strncmp(input, "exit ", 5) == 0)
-	{
-		arg = input + 5;
+		arg = lst->args->arg;
 		ft_check_numeric(arg, i, &error_flag);
 		if (!error_flag)
 			out_of_range = check_min_max(arg);
-	}
-	else
-	{
-		printf("Error: %s: command not found\n", input);
-		g_status = 127;
-		return ;
 	}
 	if (!out_of_range && !error_flag)
 	{

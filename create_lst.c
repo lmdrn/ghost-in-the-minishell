@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 00:03:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 19:32:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
 	int		cmd_ok;
 	t_type	*head;
-	t_type	*redir;
 	t_type	*current;
 	int		i;
+	int		pipe;
 
 	head = NULL;
-	redir = NULL;
 	current = NULL;
 	cmd_ok = 0;
 	i = 0;
+	pipe = 0;
 	while (blocks[i])
 	{
 		node = create_node_and_assign_types(blocks[i], head,
@@ -85,9 +85,17 @@ t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 		if (node->type == cmd || node->type == abs_cmd || node->type == builtin)
 			cmd_ok = 1;
 		else if (node->type == 7)
+		{
 			cmd_ok = 0;
+			pipe = 1;
+		}
 		append_to_list(&head, &current, node);
 		i++;
+	}
+	if (cmd_ok == 0 && pipe)
+	{
+		printf("Error: syntax error: unexpected end of file\n");
+		return (NULL);
 	}
 	return (head);
 }
