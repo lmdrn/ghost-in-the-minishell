@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:11:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:56:23 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int				is_abs_exec(char *cmd);
 /* ooo - append - ooo */
 
 int				create_append(char *filename, t_commande *cmd);
-void			init_append(t_commande *curr_cmd, t_commande *cmd);
+int				init_append(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - assign_cmd_or_builtin - ooo */
 
@@ -348,7 +348,7 @@ int				count_list(t_commande *cmd);
 int				heredoc_fd(char	*del);
 t_commande		*is_last_cmd(t_commande *cmd);
 int				create_heredoc(char *filename, t_commande *cmd);
-void			init_heredoc(t_commande *curr_cmd, t_commande *cmd);
+int				init_heredoc(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - init - ooo */
 
@@ -360,7 +360,7 @@ char			**init_parse(const char *input);
 /* ooo - input_redir - ooo */
 
 int				create_input_redir(char *filename, t_commande *cmd);
-void			init_input(t_commande *curr_cmd, t_commande *cmd);
+int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - minishell - ooo */
 
@@ -370,7 +370,7 @@ void			check_args(int ac, char **av);
 /* ooo - output_redir - ooo */
 
 int				create_output_redir(char *filename, t_commande *cmd);
-void			init_output(t_commande *curr_cmd, t_commande *cmd);
+int				init_output(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - prompt - ooo */
 

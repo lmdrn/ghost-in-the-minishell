@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:00:30 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:57:03 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,12 @@ void	assign_fds(t_commande *cmd)
 int	which_token(t_commande *cmd, int token)
 {
 	t_args	*curr_cmd;
-	int		i;
 
 	curr_cmd = cmd->args;
 	while (curr_cmd != NULL)
 	{
 		if (curr_cmd->type == token)
-		{
-			i++;
-			printf("i is %d\n", i);
 			return (curr_cmd->type);
-		}
 		curr_cmd = curr_cmd->next;
 	}
 	return (-1);
@@ -56,13 +51,13 @@ int	assign_redir(t_commande *cmd)
 	while (curr_cmd != NULL)
 	{
 		if (which_token(curr_cmd, 8) == 8)
-			init_input(curr_cmd, cmd);
+			return (init_input(curr_cmd, cmd));
 		if (which_token(curr_cmd, 9) == 9)
-			init_output(curr_cmd, cmd);
+			return (init_output(curr_cmd, cmd));
 		if (which_token(curr_cmd, 10) == 10)
-			init_heredoc(curr_cmd, cmd);
+			return (init_heredoc(curr_cmd, cmd));
 		if (which_token(curr_cmd, 11) == 11)
-			init_append(curr_cmd, cmd);
+			return (init_append(curr_cmd, cmd));
 		curr_cmd = curr_cmd->next;
 	}
 	return (0);

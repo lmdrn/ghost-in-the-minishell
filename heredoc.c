@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:47:08 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:18:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:01:42 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	create_heredoc(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		g_status = 1;
-		error_without_exit(1, "Permission denied\n", 0);
+		error_without_exit(1, "File not found\n", 0);
 		close(fd);
 		return (-1);
 	}
@@ -69,11 +69,12 @@ int	create_heredoc(char *filename, t_commande *cmd)
 	return (fd);
 }
 
-void	init_heredoc(t_commande *curr_cmd, t_commande *cmd)
+int	init_heredoc(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
 	t_args	*args;
 
+	args = curr_cmd->args;
 	while (args != NULL)
 	{
 		if (args->type == 10)
@@ -82,9 +83,13 @@ void	init_heredoc(t_commande *curr_cmd, t_commande *cmd)
 			if (filename != NULL)
 			{
 				if (create_heredoc(filename, cmd) == -1)
+				{
 					g_status = 258;
+					return (-1);
+				}
 			}
 		}
 		args = args->next;
 	}
+	return (0);
 }

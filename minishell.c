@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 00:14:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:01:41 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,6 @@ int	main(int ac, char **av, char **envp)
 				input = one_word_with_quotes(input);
 			if (!input)
 				break ;
-		}
-		else if (between_quotes(input) == 0)
-		{
-			//heredoc should happen
 		}
 		blocks = init_parse(input);
 		if (blocks == NULL)
