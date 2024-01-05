@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 19:05:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 20:24:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,6 +366,9 @@ int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 void			builtin_exit(t_commande *lst, int in_exec);
 void			check_args(int ac, char **av);
+char			*one_word_with_quotes(const char *str);
+void			error_status(char *msg, int error);
+int				quote_manager(char **input);
 
 /* ooo - output_redir - ooo */
 

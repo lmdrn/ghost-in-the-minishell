@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 18:44:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 20:54:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,16 @@ t_environment	*new_env_node(char *env)
 	return (ptr);
 }
 
-t_environment	*init_env(char **envp)
+t_environment	*while_logic(int count, char **envp)
 {
+	t_environment	*new_ptr;
 	t_environment	*head;
 	t_environment	*curr;
-	t_environment	*new_ptr;
-	int				count;
 	int				i;
 
 	i = 0;
-	head = NULL;
-	count = env_count_array(envp);
-	if (count == 0 || !envp)
-		return (NULL);
-	head = NULL;
 	curr = NULL;
+	head = NULL;
 	while (i < count)
 	{
 		new_ptr = new_env_node(envp[i]);
@@ -69,6 +64,20 @@ t_environment	*init_env(char **envp)
 		i++;
 	}
 	curr->next = NULL;
+	return (head);
+}
+
+t_environment	*init_env(char **envp)
+{
+	t_environment	*head;
+	t_environment	*curr;
+	int				count;
+
+	count = env_count_array(envp);
+	if (count == 0 || !envp)
+		return (NULL);
+	head = NULL;
+	head = while_logic(count, envp);
 	return (head);
 }
 
@@ -149,8 +158,8 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		free_tokens(tokens);
 		return (-1);
 	}
-	if (cmd_lst != NULL)
-		print_commande_list(cmd_lst);
+	// if (cmd_lst != NULL)
+	// 	print_commande_list(cmd_lst);
 	assign_fds(cmd_lst);
 	new_cmd_lst = cmd_lst;
 	if (new_cmd_lst->next == NULL && tokens->type == 1)
