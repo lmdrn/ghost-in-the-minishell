@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 20:24:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 21:40:06 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,6 +356,13 @@ void			init_prompt(void);
 t_environment	*init_env(char **envp);
 int				init_tokenizer(char **blocks, t_environment *env_copy);
 char			**init_parse(const char *input);
+int				if_cmd_is_null(t_type *tokens);
+void			free_tokens(t_type *tokens);
+t_commande		*create_cmd_list(t_type *tokens, t_environment *env_copy);
+int				execution_stuff(t_commande *new_cmd_lst, t_type *tokens,
+					t_commande *cmd_lst, t_environment *env_copy);
+int				execute_single_cmd(t_commande *new_cmd_lst, t_type *tokens,
+					t_environment *env_copy);
 
 /* ooo - input_redir - ooo */
 

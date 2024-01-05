@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 20:54:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 21:54:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,6 @@ char	**init_parse(const char *input)
 	return (blocks);
 }
 
-void	free_tokens(t_type *tokens)
-{
-	t_type	*tmp;
-
-	while (tokens != NULL)
-	{
-		tmp = tokens;
-		tokens = tokens->next;
-		free(tmp->text);
-		tmp->text = NULL;
-		free(tmp);
-		tmp = NULL;
-	}
-	free(tokens);
-}
-
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
@@ -128,65 +112,24 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	t_type		*tokens;
 	t_commande	*cmd_lst;
 	t_commande	*new_cmd_lst;
-	int			fd;
 
-	tokens = NULL;
-	cmd_lst = NULL;
 	tokens = init_lst(blocks, tokens, env_copy);
 	if (tokens == NULL)
 		return (1);
 	ft_free_parsing_split(blocks);
-	if (tokens->type == 0 || tokens->type == 1 || tokens->type == 14)
-		cmd_lst = command_list(tokens, env_copy);
-	else if (tokens->type == 8 || tokens->type == 9 || tokens->type == 10
-		|| tokens->type == 11)
-		cmd_lst = command_list_redir(tokens);
+	cmd_lst = create_cmd_list(tokens, env_copy);
 	if (cmd_lst == NULL)
-	{
-		if (tokens->type == 8 && tokens->next)
-		{
-			fd = open(tokens->next->text, O_RDONLY);
-			if (fd < 0)
-			{
-				printf("Error: %s: No such file or directory\n",
-					tokens->next->text);
-				return (1);
-			}
-			return (1);
-		}
-		g_status = 127;
-		free_tokens(tokens);
-		return (-1);
-	}
-	// if (cmd_lst != NULL)
-	// 	print_commande_list(cmd_lst);
+		return (if_cmd_is_null(tokens));
 	assign_fds(cmd_lst);
 	new_cmd_lst = cmd_lst;
 	if (new_cmd_lst->next == NULL && tokens->type == 1)
 	{
-		if (assign_redir(new_cmd_lst) == -1)
-		{
-			free_tokens(tokens);
+		if (execute_single_cmd(new_cmd_lst, tokens, env_copy) == -1)
 			return (-1);
-		}
-		which_builtin(new_cmd_lst, env_copy, 0);
 	}
 	else
-	{
-		while (new_cmd_lst != NULL)
-		{
-			if (assign_redir(new_cmd_lst) == -1)
-			{
-				free_tokens(tokens);
-				return (-1);
-			}
-			send_to_execution(new_cmd_lst, cmd_lst, env_copy);
-			new_cmd_lst = new_cmd_lst->next;
-		}
-		close_fds(cmd_lst);
-		wait_for_children(cmd_lst);
-		clear_commande_list(&cmd_lst);
-	}
+		if (execution_stuff(new_cmd_lst, tokens, cmd_lst, env_copy) == -1)
+			return (-1);
 	free_tokens(tokens);
 	return (0);
 }
