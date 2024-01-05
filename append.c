@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:25:15 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 16:10:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 21:17:26 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	init_append(t_commande *curr_cmd, t_commande *cmd)
 	char	*filename;
 
 	filename = find_filename(curr_cmd);
-	create_append(filename, cmd);
+	if (create_append(filename, cmd) == -1)
+		g_status = 258;
 }

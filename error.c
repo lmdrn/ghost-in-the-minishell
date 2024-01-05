@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:11:03 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 14:55:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 00:22:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	free_argv(char **argv)
 
 int	ft_error(char *str)
 {
-	printf("Error: %s is not an executable cmd\n", str);
-	return (1);
+	printf("Error: %s: command not found\n", str);
+	g_status = 127;
+	return (g_status);
 }
 
 void	error_without_exit(int error, char *message, int malloced)
@@ -38,6 +39,7 @@ void	exit_error(char *input)
 {
 	printf("exit\n");
 	free(input);
+	g_status = 2;
 	exit(g_status);
 }
 

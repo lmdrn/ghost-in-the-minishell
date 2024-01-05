@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:36:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/02 17:08:46 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 23:51:34 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	sigint_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_status = 1;
 		printf("\n");
+		g_status = 1;
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

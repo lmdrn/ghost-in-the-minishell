@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:44 by angela            #+#    #+#             */
-/*   Updated: 2024/01/04 11:52:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 09:25:17 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int	fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args)
 
 	current = cmd_lst;
 	if (nb_args == 0)
-	{
 		return (SUCCESS);
-	}
-	while (nb_args != 0)
+	while (current->args && nb_args != 0)
 	{
 		value = get_value_export(current->args->arg);
 		key = get_key_export(current->args->arg);
@@ -62,8 +60,7 @@ int	fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args)
 		else
 			remplace_old_value(value, key, *env_copy);
 		nb_args--;
-		if (nb_args != 0)
-			cmd_lst = cmd_lst->next;
+		current->args = current->args->next;
 	}
 	return (ERROR);
 }
@@ -78,9 +75,13 @@ int	export_main(t_commande *cmd_lst, t_environment **env_copy)
 		printf("erreur nb_args\n");
 		return (ERROR);
 	}
-	if (ft_strncmp(cmd_lst->cmd, "export=", 7) == 0)
-		return (ERROR);
 	no_arg_so_print_env_exports(env_copy, nb_args);
-	fill_env(cmd_lst, env_copy, nb_args);
+	while (nb_args > 0)
+	{
+		if (ft_strncmp(cmd_lst->cmd, "export=", 7) == 0)
+			return (ERROR);
+		fill_env(cmd_lst, env_copy, nb_args);
+		nb_args--;
+	}
 	return (SUCCESS);
 }

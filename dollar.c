@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 19:27:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 19:42:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 00:19:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,5 @@ char	*replace_exit_status(char *text)
 	ft_strcpy(new_text, status_str);
 	ft_strcat(new_text, text + 2);
 	free(status_str);
-	printf("new test is %s\n", new_text);
 	return (new_text);
 }

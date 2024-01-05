@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 13:27:36 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 21:16:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	create_input_redir(char *filename, t_commande *cmd)
 	return (fd);
 }
 
-int	init_input(t_commande *curr_cmd, t_commande *cmd)
+void	init_input(t_commande *curr_cmd, t_commande *cmd)
 {
 	char	*filename;
 
@@ -42,8 +42,6 @@ int	init_input(t_commande *curr_cmd, t_commande *cmd)
 	if (create_input_redir(filename, cmd) == -1)
 	{
 		printf("%s: %s: No such file or directory\n", curr_cmd->cmd, filename);
-		g_status = 1;
-		return (-1);
+		g_status = 258;
 	}
-	return (0);
 }

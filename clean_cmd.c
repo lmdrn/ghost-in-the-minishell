@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 19:06:00 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 23:13:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ char	*clean_cmd_type(t_type *node)
 			&& node->text[i + 1] == '\0' && node->text[i] == outer_quote))
 		new_str[j++] = node->text[i++];
 	new_str[j] = '\0';
-	node->text = new_str;
+	// TODO change me
+	strcpy(node->text, new_str);
 	return (new_str);
 }
 

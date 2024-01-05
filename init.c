@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 17:53:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 23:59:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,22 @@ char	**init_parse(const char *input)
 	return (blocks);
 }
 
+void	free_tokens(t_type *tokens)
+{
+	t_type	*tmp;
+
+	while (tokens != NULL)
+	{
+		tmp = tokens;
+		tokens = tokens->next;
+		free(tmp->text);
+		tmp->text = NULL;
+		free(tmp);
+		tmp = NULL;
+	}
+	free(tokens);
+}
+
 // Function to create list, assign type to each node(tokenizer)
 // Then create cmd block (cmd +  args)
 //and send to execution who will treat different types accordingly
@@ -116,16 +132,20 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	if (cmd_lst == NULL)
 	{
 		g_status = 127;
+		free_tokens(tokens);
 		return (-1);
 	}
-	/* if (cmd_lst != NULL) */
-	/* 	print_commande_list(cmd_lst); */
+	if (cmd_lst != NULL)
+		print_commande_list(cmd_lst);
 	assign_fds(cmd_lst);
 	new_cmd_lst = cmd_lst;
 	if (new_cmd_lst->next == NULL && tokens->type == 1)
 	{
 		if (assign_redir(new_cmd_lst) == -1)
+		{
+			free_tokens(tokens);
 			return (-1);
+		}
 		which_builtin(new_cmd_lst, env_copy, 0);
 	}
 	else
@@ -133,7 +153,10 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		while (new_cmd_lst != NULL)
 		{
 			if (assign_redir(new_cmd_lst) == -1)
+			{
+				free_tokens(tokens);
 				return (-1);
+			}
 			send_to_execution(new_cmd_lst, cmd_lst, env_copy);
 			new_cmd_lst = new_cmd_lst->next;
 		}
@@ -141,5 +164,6 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 		wait_for_children(cmd_lst);
 		clear_commande_list(&cmd_lst);
 	}
+	free_tokens(tokens);
 	return (0);
 }

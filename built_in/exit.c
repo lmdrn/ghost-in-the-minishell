@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:25:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 15:07:57 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 00:21:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	builtin_exit(char *input, int in_exec)
 	}
 	else if (ft_strncmp(input, "exit", 4) == 0
 		&& (input[4] == '\0' || input [4] == ' ') && in_exec == 0)
+	{
+		g_status = 2;
 		exit_error(input);
+	}
 	else if (ft_strncmp(input, "exit ", 5) == 0)
 	{
 		arg = input + 5;

@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2024/01/04 11:33:08 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/04 21:48:54 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ GREEN 		= \033[38;5;82m
 RESET 		= \033[0m
 BS_N_TXT			=		echo "\n"
                                                   
-                                       
+current_dir = $(shell pwd)                                       
 
 SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  create_cmd.c execve.c tokenization.c \
@@ -47,7 +47,8 @@ NAME		= minishell
 
 CC 		= gcc
 
-CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
+#CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
+CFLAGS		= -I$(HOME)/.brew/opt/readline/include -Ilibft
 
 CFLAGS		+= -fsanitize=address -g
 
@@ -80,5 +81,18 @@ fclean:		clean
 			@echo "$(RESET)$(GREEN)ALL CLEANED ✓✓$(RESET)"
 
 re:			fclean all
+
+docker:
+	docker build -t arch .
+	docker run -it --name archnm -v $(current_dir):/ft_nm arch
+
+docker_start:
+	docker start -i archnm
+
+docker_run:
+	docker exec -it archnm /bin/zsh
+
+prune:
+	docker system prune -a --volumes
 
 .PHONY:		all clean fclean libft re

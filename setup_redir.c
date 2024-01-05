@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 16:33:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 22:29:08 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 21:15:48 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	assign_redir(t_commande *cmd)
 	while (curr_cmd != NULL)
 	{
 		if (which_token(curr_cmd, 8) == 8)
-			return (init_input(curr_cmd, cmd));
+			init_input(curr_cmd, cmd);
 		if (which_token(curr_cmd, 9) == 9)
 			init_output(curr_cmd, cmd);
 		if (which_token(curr_cmd, 10) == 10)

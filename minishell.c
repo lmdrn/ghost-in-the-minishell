@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 19:22:34 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 00:14:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,16 @@ int	main(int ac, char **av, char **envp)
 		blocks = init_parse(input);
 		if (blocks == NULL)
 			free(input);
+		else if (ft_strncmp(input, ".", 2) == 0)
+		{
+			printf(".: filename argument required\n");
+			g_status = 2;
+		}
+		else if (ft_strncmp(input, "..", 3) == 0)
+		{
+			printf("Error: %s: command not found\n", input);
+			g_status = 127;
+		}
 		else if (init_tokenizer(blocks, head) == -1)
 		{
 			printf("Error: %s: command not found\n", input);
@@ -103,5 +113,6 @@ int	main(int ac, char **av, char **envp)
 		set_signals();
 		termios_mgmt(0);
 	}
-	return (g_status % 256);
+	g_status = 0;
+	return (g_status);
 }

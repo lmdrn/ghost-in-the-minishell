@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 18:47:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/04 21:16:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,10 @@ void			copy_argument(char **argv, int *index, char *arg);
 /* ooo - execve_utils_2 - oo */
 void			execute_command(t_commande *cmd, t_environment *env_copy);
 
+/* ooo - exit - ooo */
+
+int				exit_code_master(char *msg, int status, int print);
+
 /* ooo - exit_utils - ooo */
 
 int				ft_atol(const char *str, int *res);
@@ -356,7 +360,7 @@ char			**init_parse(const char *input);
 /* ooo - input_redir - ooo */
 
 int				create_input_redir(char *filename, t_commande *cmd);
-int				init_input(t_commande *curr_cmd, t_commande *cmd);
+void			init_input(t_commande *curr_cmd, t_commande *cmd);
 
 /* ooo - minishell - ooo */
 
