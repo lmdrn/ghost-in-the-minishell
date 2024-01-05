@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 20:35:41 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 21:15:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = ft_prompt();
 		if (!input)
-			continue ;
+			break ;
 		if (input && *input)
 			add_history (input);
 		unset_signals();
