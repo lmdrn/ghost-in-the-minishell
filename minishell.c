@@ -6,14 +6,13 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:05:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:42:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_status = 0;
-
 
 void	init_minishell(int ac, char **av, t_environment **head, char **envp)
 {

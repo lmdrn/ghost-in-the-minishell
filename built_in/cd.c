@@ -6,11 +6,12 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 11:13:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 23:41:37 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 static int	check_args_cd(t_commande *cmd_lst)
 {
 	int	i;
