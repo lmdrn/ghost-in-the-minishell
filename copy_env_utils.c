@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   assign_cmd_or_builtin.c                            :+:      :+:    :+:   */
+/*   copy_env_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/01 14:48:59 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 22:18:22 by lmedrano         ###   ########.fr       */
+/*   Created: 2024/01/05 22:20:01 by lmedrano          #+#    #+#             */
+/*   Updated: 2024/01/05 22:22:08 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	assign_exec_cmd(t_type *node)
+char	**env_list_to_array(t_environment *env)
 {
-	node->type = cmd;
-}
+	t_environment	*env_lst;
+	int				count;
+	char			**envp;	
 
-void	assign_abs_cmd(t_type *node)
-{
-	node->type = abs_cmd;
-}
-
-void	assign_builtin(t_type *node)
-{
-	node->type = builtin;
-}
-
-void	assign_args(t_type *node)
-{
-	node->type = args;
+	env_lst = env;
+	count = env_count_lst(env);
+	envp = allocate_mem_x_env_array(count);
+	copy_key_value_pair(env, count, envp);
+	envp[count] = NULL;
+	return (envp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:49:26 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/29 13:01:21 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 22:20:32 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,31 +90,4 @@ void	copy_key_value_pair(t_environment *env, int count, char **envp)
 		curr = curr->next;
 		i++;
 	}
-}
-
-/* void	print_envp(char **envp) */
-/* { */
-/* 	int	i; */
-
-/* 	i = 0; */
-/* 	while (envp[i] != NULL) */
-/* 	{ */
-/* 		printf("K/V is %s\n", envp[i]); */
-/* 		i++; */
-/* 	} */
-/* } */
-
-char	**env_list_to_array(t_environment *env)
-{
-	t_environment	*env_lst;
-	int				count;
-	char			**envp;	
-
-	env_lst = env;
-	count = env_count_lst(env);
-	envp = allocate_mem_x_env_array(count);
-	copy_key_value_pair(env, count, envp);
-	envp[count] = NULL;
-	/* print_envp(envp); */
-	return (envp);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 21:40:06 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 22:22:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,8 @@ void			free_env_struct(t_environment *env_struct);
 int				env_count_array(char **envp);
 int				env_count_lst(t_environment *env);
 char			**env_list_to_array(t_environment *env);
+char			**allocate_mem_x_env_array(int count);
+void			copy_key_value_pair(t_environment *env, int count, char **envp);
 
 /* ooo - clean_cmd - ooo */
 

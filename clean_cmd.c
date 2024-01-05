@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 22:46:07 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 16:32:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 22:19:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*clean_cmd_type(t_type *node)
 		i++;
 	}
 	new_str[j] = '\0';
-	/* node->text = new_str; */
 	return (new_str);
 }
 

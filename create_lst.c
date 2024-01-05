@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 19:32:15 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/05 22:49:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,33 @@ void	append_to_list(t_type **head, t_type **current, t_type *node)
 	}
 }
 
+int	init_while(char **blocks, t_type *node, t_type **head,
+			t_environment *env_copy)
+{
+	t_type	*current;
+	int		ints[3];
+
+	ft_memset(ints, 0, sizeof(ints));
+	current = NULL;
+	while (blocks[ints[0]])
+	{
+		node = create_node_and_assign_types(blocks[ints[0]], *head,
+				env_copy, ints[1]);
+		if (node->type == cmd || node->type == abs_cmd || node->type == builtin)
+			ints[1] = 1;
+		else if (node->type == 7)
+		{
+			ints[1] = 0;
+			ints[2] = 1;
+		}
+		append_to_list(head, &current, node);
+		ints[0]++;
+	}
+	if (ints[1] == 0 && ints[2])
+		return (1);
+	return (0);
+}
+
 //fct that takes blocks from split and transforms
 //each block into nodes by calling create_node
 //then iterates through list again 
@@ -67,32 +94,12 @@ void	append_to_list(t_type **head, t_type **current, t_type *node)
 
 t_type	*init_lst(char **blocks, t_type *node, t_environment *env_copy)
 {
-	int		cmd_ok;
 	t_type	*head;
-	t_type	*current;
-	int		i;
-	int		pipe;
+	int		ret;
 
 	head = NULL;
-	current = NULL;
-	cmd_ok = 0;
-	i = 0;
-	pipe = 0;
-	while (blocks[i])
-	{
-		node = create_node_and_assign_types(blocks[i], head,
-				env_copy, cmd_ok);
-		if (node->type == cmd || node->type == abs_cmd || node->type == builtin)
-			cmd_ok = 1;
-		else if (node->type == 7)
-		{
-			cmd_ok = 0;
-			pipe = 1;
-		}
-		append_to_list(&head, &current, node);
-		i++;
-	}
-	if (cmd_ok == 0 && pipe)
+	ret = init_while(blocks, node, &head, env_copy);
+	if (ret == 1)
 	{
 		printf("Error: syntax error: unexpected end of file\n");
 		return (NULL);
