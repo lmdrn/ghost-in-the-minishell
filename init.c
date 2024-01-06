@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:35:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 12:03:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:59:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ int	init_tokenizer(char **blocks, t_environment *env_copy)
 	if (new_cmd_lst->next == NULL && tokens->type == 1)
 	{
 		if (execute_single_cmd(new_cmd_lst, tokens, env_copy) == -1)
-			return (-1);
+			return (1);
 	}
 	else
 		if (execution_stuff(new_cmd_lst, tokens, cmd_lst, env_copy) == -1)
-			return (-1);
+			return (1);
 	free_tokens(tokens);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:31:24 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 12:19:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:47:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,7 @@ void	clear_commande_list(t_commande **lst)
 	while (current != NULL)
 	{
 		next = current->next;
-		while (current->args)
-		{
-			next_args = current->args->next;
-			free(current->args->arg);
-			current->args->arg = NULL;
-			free(current->args);
-			current->args = NULL;
-			current->args = next_args;
-		}
+		free_args(current->args);
 		free(current->cmd);
 		free(current);
 		current = next;

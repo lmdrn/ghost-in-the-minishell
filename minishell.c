@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 15:25:17 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:21:07 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,27 @@ void	parse_and_execute(char **blocks, char *input, t_environment *head)
 	termios_mgmt(0);
 }
 
+// void free_envs
+
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c <= 126)
+	{
+		return (0);
+	}
+	return (1);
+}
+
+int	is_empty_prompy(char *str)
+{
+	char	*input;
+
+	input = remove_xtra_spaces(str);
+	if (ft_strlen(input) == 0)
+		return (1);
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			**blocks;
@@ -55,7 +76,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = ft_prompt();
 		if (!input)
-			break ;
+			exit(g_status);
+		if (is_empty_prompy(input))
+			continue ;
 		if (input && *input)
 			add_history (input);
 		unset_signals();

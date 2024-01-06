@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 21:36:40 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 13:03:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:59:02 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ int	if_cmd_is_null(t_type *tokens)
 	{
 		fd = open(tokens->next->text, O_RDONLY);
 		if (fd < 0)
-		{
 			printf("Error: %s: No such file or directory\n",
 				tokens->next->text);
-			return (1);
-		}
+		free_tokens(tokens);
 		return (1);
 	}
 	g_status = 127;
@@ -68,6 +66,7 @@ int	execution_stuff(t_commande *new_cmd_lst, t_type *tokens,
 	{
 		if (assign_redir(new_cmd_lst) == -1)
 		{
+			clear_commande_list(&cmd_lst);
 			free_tokens(tokens);
 			return (-1);
 		}
@@ -86,10 +85,11 @@ int	execute_single_cmd(t_commande *new_cmd_lst, t_type *tokens,
 	if (assign_redir(new_cmd_lst) == -1)
 	{
 		free_tokens(tokens);
+		clear_commande_list(&new_cmd_lst);
 		return (-1);
 	}
 	which_builtin(new_cmd_lst, env_copy, 0);
-	// close_fds(new_cmd_lst);
 	clear_commande_list(&new_cmd_lst);
+	free_tokens(tokens);
 	return (0);
 }

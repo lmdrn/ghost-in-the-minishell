@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:36:47 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:57:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:57:10 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	create_output_redir(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		g_status = 1;
-		error_without_exit(1, "File not found\n", 0);
+		printf("Error: %s No such file or directory\n", filename);
 		close(fd);
 		return (-1);
 	}

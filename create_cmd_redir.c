@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_cmd_redir.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 20:46:55 by lmedrano          #+#    #+#             */
-/*   Updated: 2023/12/30 20:53:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:45:27 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	process_redir_args(t_type *tokens,
 		tmp = tmp->next;
 	}
 	if (is_cmd == NULL)
+	{
+		free_args(args_lst);
 		return ;
+	}
 	new_cmd = create_cmd_node(is_cmd, NULL, NULL);
 	new_cmd->args = args_lst;
 	args_lst = NULL;

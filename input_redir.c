@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 14:26:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 15:57:16 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:56:53 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	create_input_redir(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		g_status = 1;
-		error_without_exit(1, "File not found\n", 0);
+		printf("Error: %s No such file or directory\n", filename);
 		close(fd);
 		return (-1);
 	}

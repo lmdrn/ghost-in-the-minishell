@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <lmedrano@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 13:47:08 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 16:01:42 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:57:21 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	create_heredoc(char *filename, t_commande *cmd)
 	if (fd == -1)
 	{
 		g_status = 1;
-		error_without_exit(1, "File not found\n", 0);
+		printf("Error: %s No such file or directory\n", filename);
 		close(fd);
 		return (-1);
 	}

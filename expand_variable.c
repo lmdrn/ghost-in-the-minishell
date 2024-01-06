@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 15:21:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:28:49 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:27:54 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ char	*retrieve_env_variable(char *env_var, t_environment *env)
 					value = decrement_and_convert_to_string(env->value);
 				else
 					value = ft_strdup(env->value);
+				free(env_var);
 				return (value);
 			}
 		}
 		env = env->next;
 	}
+	free(env_var);
 	return (NULL);
 }
 
