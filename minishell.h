@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 17:03:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:39:13 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <termios.h>
 # include "libft/libft.h"
 
-# define PRINTF_DBG(format, ...) printf("%s : %d: " format, __FILE__, __LINE__, __VA_ARGS__)
+/* # define PRINTF_DBG(format, ...) printf("%s : %d: " format, __FILE__, __LINE__, __VA_ARGS__) */
 
 /* ooo - GLOBAL VARS - ooo */
 
@@ -195,7 +195,7 @@ t_environment	*last_node(t_environment *head);
 
 /* ooo - cd - ooo */
 
-int				ft_cd(t_environment *env_copy, char *path, int path_back);
+int				ft_cd(t_environment *env_copy, char *path);
 int				go_home(t_environment *env_copy, char *home);
 char			*get_home(t_environment *head);
 int				go_home(t_environment *env_copy, char *home);
@@ -208,7 +208,7 @@ int				count_args_cd(t_commande *cmd_lst);
 /* ooo - echo - ooo */
 
 void			ft_echo(char *str, t_commande *cmd, int fd);
-int				check_option_n(char *str);
+int				check_option_n(t_commande **cmd);
 char			*get_env_value(t_environment *env_copy, char *env_key);
 int				handle_option_all_n(t_commande **cmd_lst);
 int				check_syntax_and_print(t_commande *cmd_lst);
@@ -377,7 +377,7 @@ int				init_input(t_commande *curr_cmd, t_commande *cmd);
 
 void			builtin_exit(t_commande *lst, int in_exec);
 void			check_args(int ac, char **av);
-char			*one_word_with_quotes(const char *str);
+char			*one_word_with_quotes(char *str);
 void			error_status(char *msg, int error);
 int				quote_manager(char **input);
 

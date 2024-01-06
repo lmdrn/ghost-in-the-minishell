@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2024/01/06 11:32:42 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/06 20:33:54 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ CC 		= gcc
 #CFLAGS		= -Wall -Werror -Wextra -I$(HOME)/.brew/opt/readline/include -Ilibft
 CFLAGS		= -I$(HOME)/.brew/opt/readline/include -Ilibft
 
-CFLAGS		+= -fsanitize=address -g
+CFLAGS		+= -g
 
 LIBFT =		-L./libft -lft
 

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:44 by angela            #+#    #+#             */
-/*   Updated: 2024/01/05 09:25:17 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:52:15 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,25 @@ int	if_exist_in_env(char *key, t_environment *env_origin)
 
 int	fill_env(t_commande *cmd_lst, t_environment **env_copy, int nb_args)
 {
-	t_commande	*current;
+	t_args		*tmp;
 	char		*key;
 	char		*value;
 	int			exist;
 
-	current = cmd_lst;
+	tmp = cmd_lst->args;
 	if (nb_args == 0)
 		return (SUCCESS);
-	while (current->args && nb_args != 0)
+	while (tmp && nb_args != 0)
 	{
-		value = get_value_export(current->args->arg);
-		key = get_key_export(current->args->arg);
+		value = get_value_export(tmp->arg);
+		key = get_key_export(tmp->arg);
 		exist = if_exist_in_env(key, *env_copy);
 		if (exist == -1)
 			add_node(env_copy, key, value);
 		else
 			remplace_old_value(value, key, *env_copy);
 		nb_args--;
-		current->args = current->args->next;
+		tmp = tmp->next;
 	}
 	return (ERROR);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:21:12 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 17:21:07 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:19:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	parse_and_execute(char **blocks, char *input, t_environment *head)
 {
 	blocks = init_parse(input);
 	if (blocks == NULL)
+	{
 		free(input);
+		return ;
+	}
 	else if (ft_strncmp(input, ".", 2) == 0)
 	{
 		printf(".: filename argument required\n");
@@ -41,9 +44,9 @@ void	parse_and_execute(char **blocks, char *input, t_environment *head)
 	termios_mgmt(1);
 	set_signals();
 	termios_mgmt(0);
+	free(input);
 }
 
-// void free_envs
 
 int	ft_isprint(int c)
 {

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 21:36:40 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 16:59:02 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:06:00 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_tokens(t_type *tokens)
 		tmp = NULL;
 	}
 	free(tokens);
+	tokens = NULL;
 }
 
 int	if_cmd_is_null(t_type *tokens)
@@ -90,6 +91,5 @@ int	execute_single_cmd(t_commande *new_cmd_lst, t_type *tokens,
 	}
 	which_builtin(new_cmd_lst, env_copy, 0);
 	clear_commande_list(&new_cmd_lst);
-	free_tokens(tokens);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 16:17:03 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:52:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,3 @@ void	ft_echo(char *str, t_commande *cmd, int fd)
 	write(fd, str, ft_strlen(str));
 }
 
-int	check_option_n(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (ERROR);
-	if (str[i] == '-' && str[i + 1] == 'n')
-	{
-		i++;
-		while (str[i])
-		{
-			if (str[i] != 'n')
-				return (0);
-			if (str[i + 1] == ' ' || str[i + 1] == '\0')
-				return (1);
-			i++;
-		}
-		return (1);
-	}
-	return (0);
-}

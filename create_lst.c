@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:57:29 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 15:43:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:57:45 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void	append_to_list(t_type **head, t_type **current, t_type *node)
 		*current = node;
 	}
 }
+
+/*
+ * ints[0] == 0
+ * ints[1] == cmd_ok
+ * ints[2] == pipe
+*/
 
 int	init_while(char **blocks, t_type *node, t_type **head,
 			t_environment *env_copy)

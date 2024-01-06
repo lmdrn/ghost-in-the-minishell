@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:16:53 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 16:09:18 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:38:51 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	error_status(char *msg, int error)
 }
 
 // Function to extract a single word from a string enclosed in quotes
-char	*one_word_with_quotes(const char *str)
+char	*one_word_with_quotes(char *str)
 {
 	int		i;
 	int		j;
@@ -33,7 +33,10 @@ char	*one_word_with_quotes(const char *str)
 	while (str[i + 1] != '\0' && !ft_isspace(str[i + 1]))
 		i++;
 	if (str[i] != '\"' && str[i] != '\'')
+	{
+		error_status(str, 127);
 		return (NULL);
+	}
 	new_input = malloc(len - 2 + 1);
 	j = 0;
 	i = 1;

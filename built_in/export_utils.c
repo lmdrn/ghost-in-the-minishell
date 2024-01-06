@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:40 by angela            #+#    #+#             */
-/*   Updated: 2024/01/04 11:22:15 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:29:01 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,24 @@
 int	valid_cmd(char *arg)
 {
 	int	i;
+	int	valid;
 
 	i = 0;
+	valid = 0;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '=')
 		{
 			i++;
+			valid = 1;
 			break ;
 		}
-		if (!ft_isalpha(arg[i]))
+		if ((!ft_isalpha(arg[i]) && !ft_isalnum(arg[i])) || ft_isspace(arg[i]))
 			return (ERROR);
 		i++;
 	}
-	while (arg[i] != '\0')
-	{
-		if (!ft_isprint(arg[i]))
-			return (ERROR);
-		i++;
-	}
+	if (!valid)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -104,7 +103,7 @@ void	remplace_old_value(char *value, char *key, t_environment *env_copy)
 		{
 			if (current->value != NULL)
 				free(current->value);
-			current->value = strdup(value);
+			current->value = ft_strdup(value);
 			if (current->value == NULL )
 				exit(EXIT_FAILURE);
 		}

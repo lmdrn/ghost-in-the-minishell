@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:50:48 by angela            #+#    #+#             */
-/*   Updated: 2024/01/04 11:33:09 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:40:49 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_environment	*create_new_node(char *key, char *value)
 		free(new_node);
 		exit(EXIT_FAILURE);
 	}
+	free(key);
+	free(value);
 	return (new_node);
 }
 

@@ -6,11 +6,46 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 16:18:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:53:44 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_n_word(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	check_option_n(t_commande **cmd)
+{
+	t_args	*tmp;
+	char	*new_arg;
+
+	if (!ft_strncmp((*cmd)->args->arg, "-n", 2))
+	{
+		new_arg = (*cmd)->args->arg;
+		new_arg++;
+		if (!is_n_word(new_arg))
+		{
+			tmp = (*cmd)->args->next;
+			free((*cmd)->args->arg);
+			free((*cmd)->args);
+			(*cmd)->args = tmp;
+			return (1);
+		}
+	}
+	return (0);
+}
 
 int	handle_option_all_n(t_commande **cmd_lst)
 {
@@ -19,12 +54,11 @@ int	handle_option_all_n(t_commande **cmd_lst)
 
 	option = 0;
 	tmp = (*cmd_lst)->args;
-	if (*cmd_lst != NULL && tmp != NULL \
-	&& tmp->arg != NULL)
-		option = check_option_n(tmp->arg);
-	while (tmp != NULL && \
-	check_option_n(tmp->arg) == 1)
-		tmp = tmp->next;
+	while ((*cmd_lst)->args != NULL && check_option_n(cmd_lst) == 1)
+	{
+		option = 1;
+		tmp = (*cmd_lst)->args;
+	}
 	return (option);
 }
 
@@ -62,8 +96,8 @@ int	idk(t_commande *cmd)
 	return (fd);
 }
 
-int	print_arguments(t_commande *cmd_lst, \
-t_environment *env_copy, int option)
+int	print_arguments(t_commande *cmd_lst,
+	t_environment *env_copy, int option)
 {
 	t_args	*tmp;
 	int		fd;
