@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 20:52:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:44:55 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ void	ft_echo(char *str, t_commande *cmd, int fd)
 {
 	write(fd, str, ft_strlen(str));
 }
-

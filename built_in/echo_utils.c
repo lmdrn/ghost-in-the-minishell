@@ -6,25 +6,11 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 20:53:44 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:38:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_n_word(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != 'n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int	check_option_n(t_commande **cmd)
 {
@@ -49,7 +35,7 @@ int	check_option_n(t_commande **cmd)
 
 int	handle_option_all_n(t_commande **cmd_lst)
 {
-	t_args *tmp;
+	t_args	*tmp;
 	int		option;
 
 	option = 0;

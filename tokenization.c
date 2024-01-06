@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 18:56:05 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:36:29 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	assign_types(t_type *node, t_type *lst, int cmd_ok, t_environment *env)
 {
 	t_type	*next_node;
 	char	*new_str;
-
 
 	new_str = clean_cmd_type(node);
 	next_node = NULL;

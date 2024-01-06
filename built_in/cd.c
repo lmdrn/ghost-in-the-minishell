@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 14:59:47 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:37:38 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,6 @@ static int	check_args_cd(t_commande *cmd_lst)
 	}
 	else
 		return (ERROR);
-}
-
-int	ft_cd_error(char *input, int error)
-{
-	if (!input)	
-		printf("cd: Failed to change directory\n");
-	else
-		printf("cd: %s No such file or directory\n", input);
-	g_status = ERROR;
-	return (ERROR);
 }
 
 int	ft_cd(t_environment *env_copy, char *path)

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 17:58:36 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 20:38:20 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:41:19 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,14 @@ int	check_path(char *path)
 		printf("cd : no such file or directory :%s\n", path);
 		return (ERROR);
 	}
+}
+
+int	ft_cd_error(char *input, int error)
+{
+	if (!input)
+		printf("cd: Failed to change directory\n");
+	else
+		printf("cd: %s No such file or directory\n", input);
+	g_status = ERROR;
+	return (ERROR);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_shlvl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angela <angela@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 02:20:49 by angela            #+#    #+#             */
-/*   Updated: 2024/01/04 11:21:11 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:42:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ void	increment_shlvl(t_environment **env_copy)
 		return ;
 	remplace_old_value(shlvl_updated, "SHLVL", *env_copy);
 	free(shlvl_updated);
+}
+
+int	is_n_word(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
 }

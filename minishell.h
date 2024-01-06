@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 20:39:13 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:42:33 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # include <errno.h>
 # include <termios.h>
 # include "libft/libft.h"
-
-/* # define PRINTF_DBG(format, ...) printf("%s : %d: " format, __FILE__, __LINE__, __VA_ARGS__) */
 
 /* ooo - GLOBAL VARS - ooo */
 
@@ -204,6 +202,7 @@ char			*go_back_directories(char *path);
 int				is_one_arg(int nb_args, t_commande *cmd_lst);
 int				ticket_going_home(t_commande *cmd_lst);
 int				count_args_cd(t_commande *cmd_lst);
+int				ft_cd_error(char *input, int error);
 
 /* ooo - echo - ooo */
 
@@ -215,6 +214,7 @@ int				check_syntax_and_print(t_commande *cmd_lst);
 int				print_arguments(t_commande *cmd_lst, \
 				t_environment *env_copy, int option);
 int				echo(t_commande *cmd_lst, t_environment *env_copy);
+int				is_n_word(char *str);
 
 /* ooo - env - ooo */
 
