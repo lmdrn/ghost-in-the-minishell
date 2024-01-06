@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 12:00:45 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:06:59 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 int	handle_option_all_n(t_commande **cmd_lst)
 {
-	int	option;
+	t_args *tmp;
+	int		option;
 
 	option = 0;
-	if (*cmd_lst != NULL && (*cmd_lst)->args != NULL \
-	&& (*cmd_lst)->args->arg != NULL)
-		option = check_option_n((*cmd_lst)->args->arg);
-	while ((*cmd_lst)->args != NULL && \
-	check_option_n((*cmd_lst)->args->arg) == 1)
-		(*cmd_lst)->args = (*cmd_lst)->args->next;
+	tmp = (*cmd_lst)->args;
+	if (*cmd_lst != NULL && tmp != NULL \
+	&& tmp->arg != NULL)
+		option = check_option_n(tmp->arg);
+	while (tmp != NULL && \
+	check_option_n(tmp->arg) == 1)
+		tmp = tmp->next;
 	return (option);
 }
 
@@ -46,24 +48,27 @@ int	check_syntax_and_print(t_commande *cmd_lst)
 int	print_arguments(t_commande *cmd_lst, \
 t_environment *env_copy, int option)
 {
-	while (cmd_lst->args != NULL && cmd_lst->args->arg != NULL)
+	t_args	*tmp;
+
+	tmp = cmd_lst->args;
+	while (tmp != NULL && tmp->arg != NULL)
 	{
-		if (cmd_lst->args->type == 8 || cmd_lst->args->type == 9
-			|| cmd_lst->args->type == 10 || cmd_lst->args->type == 11)
+		if (tmp->type == 8 || tmp->type == 9
+			|| tmp->type == 10 || tmp->type == 11)
 			break ;
 		else
-			ft_echo(cmd_lst->args->arg, cmd_lst, env_copy);
-		if (cmd_lst->args->next != NULL
-			&& cmd_lst->args->next->arg != NULL)
-			write(cmd_lst->fdout, " ", 1);
-		if (cmd_lst->args->next != NULL)
-			cmd_lst->args = cmd_lst->args->next;
+			ft_echo(tmp->arg, cmd_lst, env_copy);
+		if (tmp->next != NULL
+			&& tmp->next->arg != NULL)
+			write(1, " ", 1);
+		if (tmp->next != NULL)
+			tmp = tmp->next;
 		else
 			break ;
 	}
 	if (option)
 		return (3);
 	if (!option)
-		write(cmd_lst->fdout, "\n", 1);
+		write(1, "\n", 1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 21:36:40 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 21:51:43 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:03:20 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ int	execute_single_cmd(t_commande *new_cmd_lst, t_type *tokens,
 		return (-1);
 	}
 	which_builtin(new_cmd_lst, env_copy, 0);
+	// close_fds(new_cmd_lst);
+	clear_commande_list(&new_cmd_lst);
 	return (0);
 }

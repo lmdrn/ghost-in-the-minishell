@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 10:20:21 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:39:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:44:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <errno.h>
 # include <termios.h>
 # include "libft/libft.h"
+
+# define PRINTF_DBG(format, ...) printf("%s : %d: " format, __FILE__, __LINE__, __VA_ARGS__)
 
 /* ooo - GLOBAL VARS - ooo */
 

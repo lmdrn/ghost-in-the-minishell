@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:48 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 09:21:55 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 12:59:50 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	echo(t_commande *cmd_lst, t_environment *env_copy)
 void	ft_echo(char *str, t_commande *cmd, t_environment *env_copy)
 {
 	(void)env_copy;
-	write(cmd->fdout, str, ft_strlen(str));
+	write(1, str, ft_strlen(str));
 }
 
 int	check_option_n(char *str)

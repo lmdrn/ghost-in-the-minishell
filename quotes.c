@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:39:53 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:52:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	block_has_dbl_quotes(t_type *node, t_environment *env_cpy)
 	env_value = NULL;
 	new_node = NULL;
 	end_position = NULL;
+	variable = NULL;
 	if (count_word_node(node) == 1 && (node->type == 0 || node->type == 1
 			|| node->type == 14))
 		quote_builtin_or_cmd(node, env_cpy);
@@ -88,9 +89,10 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	env_value = NULL;
 	new_node = NULL;
 	end_position = NULL;
+	variable = NULL;
 	node->type = args;
-	new_node = clean_cmd_type(node);
-	new_node = remove_xtra_spaces(new_node);
+	// new_node = clean_cmd_type(node);
+	// new_node = remove_xtra_spaces(new_node);
 	env_var = find_env_variable(node, end_position, variable);
 	if (env_var != NULL)
 		env_value = retrieve_env_variable(env_var, env_cpy);

@@ -6,7 +6,7 @@
 #    By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 10:32:07 by lmedrano          #+#    #+#              #
-#    Updated: 2024/01/05 23:39:57 by lmedrano         ###   ########.fr        #
+#    Updated: 2024/01/06 11:32:42 by lmedrano         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,6 @@ GREEN 		= \033[38;5;82m
 RESET 		= \033[0m
 BS_N_TXT			=		echo "\n"
                                                   
-current_dir = $(shell pwd)                                       
-
 SRCS 		= prompt.c custom_parsing_split.c blocks_to_list.c \
 			  create_cmd.c execve.c tokenization.c \
 			  utils.c error.c free_lst.c assign_types.c \
@@ -84,15 +82,17 @@ fclean:		clean
 
 re:			fclean all
 
+current_dir = $(shell pwd)
+
 docker:
 	docker build -t arch .
-	docker run -it --name archnm -v $(current_dir):/ft_nm arch
+	docker run -it --name minishell_docker -v $(current_dir):/minishell-docker arch
 
 docker_start:
-	docker start -i archnm
+	docker start -i minishell_docker
 
-docker_run:
-	docker exec -it archnm /bin/zsh
+docker_exec:
+	docker exec -it minishell_docker /bin/zsh
 
 prune:
 	docker system prune -a --volumes

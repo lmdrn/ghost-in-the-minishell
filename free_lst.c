@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_lst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:31:24 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/03 21:31:52 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 12:19:11 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,21 @@ void	clear_commande_list(t_commande **lst)
 {
 	t_commande	*current;
 	t_commande	*next;
+	t_args		*next_args;
 
 	current = *lst;
 	while (current != NULL)
 	{
 		next = current->next;
+		while (current->args)
+		{
+			next_args = current->args->next;
+			free(current->args->arg);
+			current->args->arg = NULL;
+			free(current->args);
+			current->args = NULL;
+			current->args = next_args;
+		}
 		free(current->cmd);
 		free(current);
 		current = next;
