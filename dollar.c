@@ -6,7 +6,7 @@
 /*   By: lmedrano <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 19:27:50 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 00:19:33 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:47:41 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*replace_exit_status(char *text)
 	char	*new_text;
 
 	status_str = int_to_string(g_status);
-	new_len = strlen(status_str) + strlen(text + 2);
+	new_len = ft_strlen(status_str) + ft_strlen(text + 2);
 	new_text = (char *)malloc(new_len + 1);
 	if (new_text == NULL)
 		ft_error("Error: mem alloc failed\n");

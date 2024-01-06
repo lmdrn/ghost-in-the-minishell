@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 15:06:44 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:03:12 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:47:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*concat_path_cmd(char *path, char *cmd)
 	int		cmd_len;
 	char	*res;
 
-	path_len = strlen(path);
-	cmd_len = strlen(cmd);
+	path_len = ft_strlen(path);
+	cmd_len = ft_strlen(cmd);
 	res = malloc(path_len + cmd_len + 2);
 	if (res == NULL)
 	{
