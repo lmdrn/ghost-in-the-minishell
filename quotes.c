@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:08:35 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 11:52:58 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:37:52 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void	block_has_no_quotes(t_type *node, t_environment *env_cpy)
 	end_position = NULL;
 	variable = NULL;
 	node->type = args;
-	// new_node = clean_cmd_type(node);
-	// new_node = remove_xtra_spaces(new_node);
 	env_var = find_env_variable(node, end_position, variable);
 	if (env_var != NULL)
 		env_value = retrieve_env_variable(env_var, env_cpy);

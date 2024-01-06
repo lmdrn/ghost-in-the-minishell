@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:54:02 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 13:06:59 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:18:58 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,30 @@ int	check_syntax_and_print(t_commande *cmd_lst)
 	return (SUCCESS);
 }
 
+int	idk(t_commande *cmd)
+{
+	t_args	*tmp;
+	int		fd;
+
+	fd = 1;
+	tmp = cmd->args;
+	while (tmp)
+	{
+		if (tmp->type == 8 || tmp->type == 9
+			|| tmp->type == 10 || tmp->type == 11)
+			fd = cmd->fdout;
+		tmp = tmp->next;
+	}
+	return (fd);
+}
+
 int	print_arguments(t_commande *cmd_lst, \
 t_environment *env_copy, int option)
 {
 	t_args	*tmp;
+	int		fd;
 
+	fd = idk(cmd_lst);
 	tmp = cmd_lst->args;
 	while (tmp != NULL && tmp->arg != NULL)
 	{
@@ -57,10 +76,10 @@ t_environment *env_copy, int option)
 			|| tmp->type == 10 || tmp->type == 11)
 			break ;
 		else
-			ft_echo(tmp->arg, cmd_lst, env_copy);
+			ft_echo(tmp->arg, cmd_lst, fd);
 		if (tmp->next != NULL
 			&& tmp->next->arg != NULL)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 		if (tmp->next != NULL)
 			tmp = tmp->next;
 		else
@@ -69,6 +88,6 @@ t_environment *env_copy, int option)
 	if (option)
 		return (3);
 	if (!option)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 	return (0);
 }

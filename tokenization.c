@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:20:23 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/04 15:40:40 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:17:17 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,42 @@ int	is_asym(char *node)
 		return (1);
 }
 
+void assign_redir_types(char *new_str, t_type *node, t_type *lst, t_type *next_node)
+{
+	if (ft_strncmp(new_str, ">>", 2) == 0)
+		assign_dbl_ch_droit(node, lst, next_node);
+	else if (ft_strncmp(new_str, "<<", 2) == 0)
+		assign_dbl_ch_gauche(node, lst, next_node);
+	else if (ft_strncmp(new_str, ">", 1) == 0)
+		assign_ch_droit(node, lst, next_node);
+	else if (ft_strncmp(new_str, "<", 1) == 0)
+		assign_ch_gauche(node, lst, next_node);
+}
+
 //fct that assigns type to each node
 void	assign_types(t_type *node, t_type *lst, int cmd_ok, t_environment *env)
 {
 	t_type	*next_node;
-	t_type	*head;
+	char	*new_str;
 
-	head = node;
+
+	new_str = clean_cmd_type(node);
 	next_node = NULL;
-	if (ft_strncmp(node->text, "|", 1) == 0)
+	if (ft_strncmp(new_str, "|", 1) == 0)
 		assign_pipe(node);
-	else if (ft_strncmp(node->text, ">>", 2) == 0)
-		assign_dbl_ch_droit(node, lst, next_node);
-	else if (ft_strncmp(node->text, "<<", 2) == 0)
-		assign_dbl_ch_gauche(node, lst, next_node);
-	else if (ft_strncmp(node->text, ">", 1) == 0)
-		assign_ch_droit(node, lst, next_node);
-	else if (ft_strncmp(node->text, "<", 1) == 0)
-		assign_ch_gauche(node, lst, next_node);
-	else if (is_builtin(node->text) == 0 && cmd_ok == 0)
+	else if (ft_strncmp(new_str, ">>", 2) == 0 || ft_strncmp(new_str, "<<", 2) == 0
+		|| ft_strncmp(new_str, ">", 1) == 0 || ft_strncmp(new_str, "<", 1) == 0)
+		assign_redir_types(new_str, node, lst, next_node);
+	else if (is_builtin(new_str) == 0 && cmd_ok == 0)
 		assign_builtin(node);
-	else if (is_abs_exec(node->text) == 1 && cmd_ok == 0)
+	else if (is_abs_exec(new_str) == 1 && cmd_ok == 0)
 		assign_abs_cmd(node);
-	else if (is_executable_command(node->text, env) == 0 && cmd_ok == 0)
+	else if (is_executable_command(new_str, env) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
-	else if (ft_strncmp(node->text, "./", 2) == 0 && cmd_ok == 0)
+	else if (ft_strncmp(new_str, "./", 2) == 0 && cmd_ok == 0)
 		assign_exec_cmd(node);
 	else
 		assign_args(node);
+	free(new_str);
+	new_str = NULL;
 }

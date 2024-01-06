@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 09:53:37 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/05 23:41:37 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:59:47 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,36 @@ static int	check_args_cd(t_commande *cmd_lst)
 		return (ERROR);
 }
 
-int	ft_cd(t_environment *env_copy, char *path, int path_back)
+int	ft_cd_error(char *input, int error)
 {
+	if (!input)	
+		printf("cd: Failed to change directory\n");
+	else
+		printf("cd: %s No such file or directory\n", input);
+	g_status = ERROR;
+	return (ERROR);
+}
+
+int	ft_cd(t_environment *env_copy, char *path)
+{
+	char	*old_dir;
+	char	*new_dir;
+
 	if (check_path(path) == ERROR)
-	{
-		printf("cd: %s No such file or directory\n", path);
-		return (ERROR);
-	}
-	if (path_back == 1)
-		path = go_back_directories(path);
-	if (check_is_in_env(env_copy, "PWD") != ERROR)
-		update_pwd_oldpwd(env_copy, path, 2);
-	if (check_is_in_env(env_copy, "OLDPWD") != ERROR)
-		update_pwd_oldpwd(env_copy, path, 1);
+		ft_cd_error(path, ERROR);
+	old_dir = getcwd(NULL, 0);
 	if (chdir(path) != 0)
-	{
-		printf("cd: Failed to change directory");
-		g_status = ERROR;
-		return (ERROR);
-	}
+		ft_cd_error(NULL, ERROR);
+	new_dir = getcwd(NULL, 0);
+	if (check_is_in_env(env_copy, "PWD") != ERROR)
+		update_pwd_oldpwd(env_copy, new_dir, 2);
+	if (check_is_in_env(env_copy, "OLDPWD") != ERROR)
+		update_pwd_oldpwd(env_copy, old_dir, 1);
+	free(old_dir);
+	free(new_dir);
+	old_dir = NULL;
+	new_dir = NULL;
+	g_status = SUCCESS;
 	return (SUCCESS);
 }
 
@@ -68,20 +79,13 @@ int	ticket_going_home(t_commande *cmd_lst)
 int	action_arg(int arg_check, char *home, \
 t_environment *env_copy, t_commande *cmd_lst)
 {
-	int	path_back;
-
-	path_back = 0;
 	if (arg_check == 1)
 	{
-		if (go_home(env_copy, home) == ERROR)
-		{
+		if (ft_cd(env_copy, home) == ERROR)
 			return (ERROR);
-		}
 		return (SUCCESS);
 	}
-	else if (arg_check == 2)
-		path_back = 1;
-	if (ft_cd(env_copy, cmd_lst->args->arg, path_back) == ERROR)
+	if (ft_cd(env_copy, cmd_lst->args->arg) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }

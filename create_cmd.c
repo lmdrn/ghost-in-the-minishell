@@ -6,7 +6,7 @@
 /*   By: lmedrano <lmedrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:17:43 by lmedrano          #+#    #+#             */
-/*   Updated: 2024/01/06 11:55:14 by lmedrano         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:12:14 by lmedrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 	t_commande	*cmd_current;
 	t_commande	*new_cmd;
 	t_type		*tmp;
+	char		*name;
 
 	tmp = tokens;
 	cmd_head = NULL;
@@ -119,10 +120,12 @@ t_commande	*command_list(t_type *tokens, t_environment *env_copy)
 		if (tokens->type == cmd || tokens->type == builtin
 			|| tokens->type == abs_cmd)
 		{
+			name = clean_cmd_type(tokens);
 			new_cmd = create_cmd_node(tokens->text, env_copy, tokens);
 			if (tokens->flag == 1)
 			{
 			}
+			free(name);
 			tokens = process_command_args(new_cmd, tokens);
 			update_command_list(&cmd_head, &cmd_current, new_cmd);
 		}
